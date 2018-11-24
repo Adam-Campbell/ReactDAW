@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "konva": "^2.5.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "react-konva": "^16.6.31",
+    "react-redux": "^5.1.1",
+    "react-rnd": "^9.0.4",
+    "react-scripts": "2.1.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "tone": "^0.12.80"
   },
   "scripts": {
     "start": "react-scripts start",

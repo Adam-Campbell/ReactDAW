@@ -1,32 +1,24 @@
-.App {
-  text-align: center;
+.canvas-container {
+  height: 600px;
+  overflow: auto;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.piano-roll-container {
+  width: 80%;
+  height: 650px;
+  margin: 16px auto;
+  border: solid slategray 2px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.piano-roll-controls-container {
+  height: 50px;
+  background-color: slategray;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.piano-roll-controls__label {
+  color: #eee;
+  margin-right: 8px;
+  margin-left: 16px;
 }

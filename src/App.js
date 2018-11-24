@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import { Stage, Layer, Text } from 'react-konva';
+//import ColoredRect from './components/ColoredRect.js';
+import PianoRoll from './components/PianoRoll.js';
 import './App.css';
+import AudioEngine from './components/AudioEngine';
+import StartStopButton from './components/StartStopButton';
+import { Rnd } from 'react-rnd';
+
+// class App extends Component {
+//   render() {
+//     return (
+//       <div className="canvas-container">
+//         <Stage width={400} height={700}>
+//           <Layer>
+//             <Text text="Try to click on the rectangle."/>
+//             <ColoredRect />
+//           </Layer>
+//         </Stage>
+//       </div>
+//     );
+//   }
+// }
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <React.Fragment>
+        <AudioEngine />
+        <StartStopButton />
+        <PianoRoll numberOfBars={4} />
+      </React.Fragment>
     );
   }
 }
