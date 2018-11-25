@@ -15,6 +15,7 @@ export default class Section {
         this._part = new Tone.Part();
         this._id = generateId();
         this._instrument = new Tone.PolySynth(12, Tone.Synth).toMaster();
+        window.i = this._instrument;
         this._start = start || "0:0:0";
         this._part.start(this._start);
         this._part.callback = this._partCallback.bind(this);

@@ -1,7 +1,9 @@
 import * as actionTypes from '../actionTypes';
 
 const defaultState = {
-    isPlaying: false
+    isPlaying: false,
+    isMuted: false,
+    volume: 0
 };
 
 const playerInfo = (state=defaultState, action) => {

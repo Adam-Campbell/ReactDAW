@@ -417,8 +417,6 @@ export default connect(
     mapStateToProps,
     {
         addNote: ActionCreators.addNote,
-        removeNote: ActionCreators.removeNote,
-        addNoteThunk: ActionCreators.addNoteThunk,
-        removeNoteThunk: ActionCreators.removeNoteThunk
+        removeNote: ActionCreators.removeNote
     }
 )(PianoRoll);
