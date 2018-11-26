@@ -7,6 +7,7 @@ import Channel from './Channel';
 import Tone from 'tone';
 import { synthTypes, effectTypes } from '../../constants';
 import SynthFactory from './SynthFactory';
+import EffectFactory from './EffectFactory';
 
 window.Tone = Tone;
 
@@ -17,13 +18,246 @@ class AudioEngine extends Component {
         this._section = new Section();
         this._bus = new Bus();
         this._synthFactory = new SynthFactory();
+        this._effectFactory = new EffectFactory();
         window.bus = this._bus;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this._updateNotes(prevProps.sectionInfo.notes, this.props.sectionInfo.notes);
-        this._updatePlayer(prevProps.playerInfo, this.props.playerInfo);
-        this._updateChannels(prevProps, this.props);
+        this._updateEngineState(prevProps, this.props);
+    }
+
+    _updateEngineState(prevState, currState) {
+        //console.log(prevState, currState);
+        const prev = this._stateToTree(prevState);
+        const curr = this._stateToTree(currState);
+        console.log(prev, curr);
+        this._updatePlayer(prev.playerInfo, curr.playerInfo);
+
+        // First we loop through prev.channels, any channel that is in prev.channels
+        // but not in curr.channels gets deleted.
+        for (let channel of prev.channels) {
+            const channelInCurrState = curr.channels.find(el => el.id === channel.id);
+            if (!channelInCurrState) {
+                this._bus.removeChannel(channel.id);
+            }
+        }
+
+        // Now we loop through curr.channels. Any channel that is also in prev.channels gets 
+        // updated, any channel that is not in prev.channels gets created
+        for (let channel of curr.channels) {
+            const channelInPrevState = prev.channels.find(el => el.id === channel.id);
+            if (channelInPrevState) {
+                this._updateChannel(channelInPrevState, channel);
+            } else {
+                const newChannel = this._createChannel(channel);
+                this._bus.addChannel(newChannel);
+            }
+        }
+    }
+
+    /**
+     * Updates the meta information for the player (isPlaying, volume, is muted etc).
+     * @param {object} prev - previous state tree 
+     * @param {object} curr - current state tree
+     */
+    _updatePlayer(prev, curr) {
+        if (prev.isPlaying !== curr.isPlaying) {
+            if (curr.isPlaying) {
+                Tone.Transport.start();
+            } else {
+                Tone.Transport.stop();
+            }
+        }
+        if (prev.isMuted !== curr.isMuted) {
+            Tone.Master.mute = curr.isMuted;
+        }
+        if (prev.volume !== curr.volume) {
+            Tone.Master.volume.value = curr.volume;
+        }
+    }
+
+    /**
+     * Updates a channel with any differences between the previous and current channel state from
+     * the state tree.
+     * @param {object} prevChannel - the previous channel state
+     * @param {object} currChannel - the curent channel state
+     */
+    _updateChannel(prevChannel, currChannel) {
+
+        // First grab reference to this particular channel from _bus.channels array.
+        const channelRef = this._bus.channels.find(channel => channel.id === currChannel.id);
+
+        // Update the instrument for this channel.
+        // Basic implementation - check if instrument type changed from prev to curr states. If yes,
+        // a new instrument needs to be created using the instrument factory, with the instrument data
+        // passed in as well. If the type is the same from prev to curr, then just use the set() method
+        // to update the instrument data with the new instrument data. For a more advanced implementation,
+        // you could check first to see if the instrument data has actually changed at all between prev
+        // and curr states, and only call the set method if it has changed. 
+        if (prevChannel.instrument.type !== currChannel.instrument.type) {
+            const newInstrument = this._synthFactory.create(
+                currChannel.instrument.type, 
+                currChannel.instrument.synthData
+            );
+            channelRef.instrument = (newInstrument);
+        } else {
+            channelRef.instrument.set(currChannel.instrument.synthData);
+        }
+
+        // Update the effects chain for this channel.
+        // First ascertain whether the order of effects has changed. Go through prev and curr and check
+        // the ids. If there is any discrepancy between prev and curr, then just disconnect the entire
+        // effect chain. Construct a new effect chain with the channels instrumet in the first position,
+        // followed by all of the effects, and then by Tone.Master in the last position. Use the effectChain
+        // setter method on the Channel class to set the new effects chain. Finally use the connectEffectChain
+        // method to reconnect everything.
+        // If there wasn't any discrepancies between the ids from prev to curr, then just go through each effect
+        // and update it with the new effect settings from current state.
+        // This methodology for updating the effects is highly inefficient, it will do for now and shouldn't 
+        // present any major problems, but should be revisited to be made more efficient. 
+
+        // determine whether the effects chain has changed beyond just settings tweaks, by first checking
+        // if the array lengths have changed, and if not then further check that all of the ids are the
+        // same.
+        let hasChanged = false;
+        if (prevChannel.effects.length !== currChannel.effects.length) {
+            hasChanged = true;
+        } else if (currChannel.effects.length) {
+            for (let i = 0; i <= currChannel.effects.length; i++) {
+                if (prevChannel.effects[i].id !== currChannel.effects[i].id) {
+                    hasChanged = true;
+                }
+            }
+        }
+        // if it has changed, disconnect the effects chain, build the new one, and connect it.
+        if (hasChanged) {
+            channelRef.disconnectEffectChain();
+            const newEffectChain = currChannel.effects.map(effect => {
+                return this._effectFactory.create(
+                    effect.type,
+                    effect.effectData
+                );
+            });
+            newEffectChain.unshift(channelRef.instrument);
+            newEffectChain.push(Tone.Master);
+            channelRef.effectChain = newEffectChain;
+            channelRef.connectEffectChain();
+            // else if the only thing that has changed is settings, loop over the effects and 
+            // supply the new settings. 
+        } else {
+            for (let i = 0; i < currChannel.effects.length; i++) {
+                channelRef.effectChain[i+1].set(currChannel.effects[i].effectData);
+            }
+        }
+
+        // Update the sections for this channel. 
+        // First check for any sections that are in prev state but not curr state. These can be deleted via
+        // the deleteSection method on the Channel class. 
+        // Now go through all of the section in curr state. For any sections in curr state that are not also 
+        // in prev state, create a new section with _createNewSection(), and add it to the channel with the
+        // addSection() method on the Channel class. For any sections that are present in both prev state and
+        // curr state, use _updateSection to update it. 
+        for (let section of prevChannel.sections) {
+            const isInCurrChannel = currChannel.sections.find(el => el.id === section.id);
+            if (!isInCurrChannel) {
+                channelRef.deleteSection(section.id);
+            }
+        }
+        for (let section of currChannel.sections) {
+            const sectionInPrevChannel = prevChannel.sections.find(el => el.id === section.id);
+            if (sectionInPrevChannel) {
+                const sectionRef = channelRef.sectionStore[section.id];
+                this._updateSection(sectionInPrevChannel, section, sectionRef);
+            } else {
+                const newSection = this._createSection(section);
+                channelRef.addSection(newSection, section.start);
+            }
+        }
+    }
+
+    _updateSection(prevSection, currSection, sectionRef) {
+        let prevNotes = prevSection.notes;
+        let currNotes = currSection.notes;
+        for (let note of prevNotes) {
+            let isInCurr = currNotes.find(el => el._id === note._id);
+            if (!isInCurr) {
+               sectionRef.removeNote(note._id); 
+            }
+        }
+
+        for (let note of currNotes) {
+            let isInPrev = prevNotes.find(el => el._id === note._id);
+            if (!isInPrev) {
+                sectionRef.addNote({
+                    note: note.pitch,
+                    time: note.time,
+                    duration: note.duration,
+                    id: note._id
+                });
+            }
+        }
+    }
+
+    /**
+     * Creates a brand new channel from scratch according to the channel state supplied as the channel
+     * argument.
+     * @param {object} channel - the channel state 
+     */
+    _createChannel(channelData) {
+        // Create the instrument for this channel.
+        const instrument = this._synthFactory.create(
+            channelData.instrument.type, 
+            channelData.instrument.synthData
+        );
+        const newChannel = new Channel(channelData.id, instrument);
+
+        // Create the effects chain for this channel.
+        channelData.effects.forEach((effect, index) => {
+            const newEffect = this._effectFactory.create(effect.type, effect.data);
+            newChannel.addToEffectChain(newEffect, index);
+        });
+        // Create the sections for this channel. 
+        for (let section of channelData.sections) {
+            const newSection = this._createSection(section);
+            newChannel.addSection(newSection, section.start);
+        }
+
+        return newChannel;
+
+    }
+
+    _createSection(sectionData) {
+        // create the new section
+        const newSection = new Section(sectionData.id);
+
+        // add the notes
+        for (let note of sectionData.notes) {
+            newSection.addNote({
+                note: note.pitch,
+                time: note.time,
+                duration: note.duration,
+                id: note.id
+            });
+        }
+
+        return newSection;
+
+    }
+
+    _stateToTree(state) {
+        let tree = {};
+        // copy playerInfo to tree
+        tree.playerInfo = { ...state.playerInfo };
+        // loop over the channels
+        tree.channels = state.channels.map(channel => {
+            return {
+                id: channel.id,
+                instrument: state.instruments[channel.instrumentId],
+                effects: channel.effectIds.map(effectId => state.effects[effectId]),
+                sections: channel.sectionIds.map(sectionId => state.sections[sectionId])
+            }
+        });
+        return tree;
     }
 
     // Still todo in this function - update the effects chain for a channel. Perhaps this should 
@@ -32,7 +266,7 @@ class AudioEngine extends Component {
     // anytime we change it we have to disconnect from master and we want to minimize that. Easiest
     // way is just to check the ids of the effects in the chain (including the order that they appear),
     // if this is the same between the previous and current states then we don't need to do anything. 
-    _updateChannels(prevState, currState) {
+    ___updateChannels(prevState, currState) {
         console.log(currState);
         let prevChannels = prevState.channels;
         let currChannels = currState.channels;
@@ -67,38 +301,24 @@ class AudioEngine extends Component {
     // prev state and current state. First add and delete sections as necessary. Then loop over  
     // every section in curr state and call a method that will update the notes in that section.
     //
-    _updateChannelsSections(prevSections, currStateSections) {
+    ___updateChannelsSections(prevSections, currStateSections) {
 
     }
 
-    _stateToTree(state) {
-        let tree = {};
-        // copy playerInfo to tree
-        tree.playerInfo = { ...state.playerInfo };
-        // loop over the channels
-        tree.channels = state.channels.map(channel => {
-            return {
-                id: channel.id,
-                instrument: state.instruments[channel.instrumentId],
-                effects: channel.effectIds.map(effectId => state.effects[effectId]),
-                sections: channel.sectionIds.map(sectionId => state.sections[sectionId])
-            }
-        });
-        return tree;
-    }
+    
 
-    _updatePlayer(prev, curr) {
-        if (prev.isPlaying === curr.isPlaying) {
-            return;
-        }
-        if (curr.isPlaying) {
-            Tone.Transport.start();
-        } else {
-            Tone.Transport.stop();
-        }
-    }
+    // _updatePlayer(prev, curr) {
+    //     if (prev.isPlaying === curr.isPlaying) {
+    //         return;
+    //     }
+    //     if (curr.isPlaying) {
+    //         Tone.Transport.start();
+    //     } else {
+    //         Tone.Transport.stop();
+    //     }
+    // }
 
-    _updateNotes(prevNotes, currNotes) {
+    ___updateNotes(prevNotes, currNotes) {
         // in prev but not curr = remove
         // in curr but not prev = add
         
@@ -134,7 +354,8 @@ const mapStateToProps = state => ({
     playerInfo: state.playerInfo,
     channels: state.channels,
     sections: state.sections,
-    instruments: state.instruments
+    instruments: state.instruments,
+    effects: state.effects
 });
 
 export default connect(

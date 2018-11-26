@@ -54,6 +54,26 @@ const instruments = (state=defaultState, action) => {
                 }
             }
 
+        case actionTypes.ADD_INSTRUMENT:
+            return {
+                ...state,
+                [action.payload.instrumentId]: {
+                    id: action.payload.instrumentId,
+                    channelId: action.payload.channelId,
+                    type: action.payload.type,
+                    synthData: action.payload.synthData
+                }
+            }
+
+        case actionTypes.UPDATE_INSTRUMENT_SETTINGS:
+            return {
+                ...state,
+                [action.payload.instrumentId]: {
+                    ...state[action.payload.instrumentId],
+                    synthData: action.payload.instrumentSettings
+                }
+            };
+
         default:
             return state;
 

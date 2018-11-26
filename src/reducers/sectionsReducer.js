@@ -20,6 +20,16 @@ function deletePropFromObject(obj, prop) {
     return newObj;
 }
 
+function removePropsWithId(obj, id) {
+    let newObj = {};
+    for (let key in obj) {
+        if (obj[key].channelId !== id) {
+            newObj[key] = { ...obj[key] };
+        }
+    }
+    return newObj;
+}
+
 const sections = (state=defaultState, action) => {
     switch (action.type) {
 
@@ -37,6 +47,10 @@ const sections = (state=defaultState, action) => {
 
         case actionTypes.REMOVE_SECTION:
             return deletePropFromObject(state, action.payload.sectionId);
+
+        case actionTypes.REMOVE_CHANNEL:
+            return removePropsWithId(state, action.payload.channelId);
+            
 
         default:
             return state;

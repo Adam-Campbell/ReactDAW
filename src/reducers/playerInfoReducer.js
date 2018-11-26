@@ -21,6 +21,24 @@ const playerInfo = (state=defaultState, action) => {
                 isPlaying: false
             };
 
+        case actionTypes.MUTE_MASTER:
+            return {
+                ...state, 
+                isMuted: true
+            };
+
+        case actionTypes.UNMUTE_MASTER:
+            return {
+                ...state,
+                isMuted: false
+            };
+
+        case actionTypes.SET_MASTER_VOLUME:
+            return {
+                ...state,
+                volume: action.payload.volume
+            };
+
         default:
             return state;
 

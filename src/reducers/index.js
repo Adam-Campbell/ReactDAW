@@ -5,6 +5,7 @@ import channels from './channelsReducer';
 import activeWindows from './activeWindowsReducer';
 import sections from './sectionsReducer';
 import instruments from './instrumentsReducer';
+import effects from './effectsReducer';
 
 export default combineReducers({
     sectionInfo,
@@ -12,6 +13,7 @@ export default combineReducers({
     activeWindows,
     channels,
     sections,
-    instruments
+    instruments,
+    effects
 });
 
