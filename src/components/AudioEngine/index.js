@@ -30,7 +30,7 @@ class AudioEngine extends Component {
         //console.log(prevState, currState);
         const prev = this._stateToTree(prevState);
         const curr = this._stateToTree(currState);
-        console.log(prev, curr);
+        //console.log(prev, curr);
         this._updatePlayer(prev.playerInfo, curr.playerInfo);
 
         // First we loop through prev.channels, any channel that is in prev.channels
@@ -228,7 +228,7 @@ class AudioEngine extends Component {
 
     _createSection(sectionData) {
         // create the new section
-        const newSection = new Section(sectionData.id);
+        const newSection = new Section(sectionData.id, sectionData.start);
 
         // add the notes
         for (let note of sectionData.notes) {

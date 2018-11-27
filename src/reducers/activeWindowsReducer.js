@@ -13,6 +13,16 @@ active window object schema:
 
 const activeWindows = (state=defaultState, action) => {
     switch (action.type) {
+
+        case actionTypes.OPEN_WINDOW:
+            return [ ...state, {
+                id: action.payload.windowId,
+                type: action.payload.windowType
+            }];
+
+        case actionTypes.CLOSE_WINDOW:
+            return state.filter(window => window.id !== action.payload.windowId);
+
         default: 
             return state;
     }

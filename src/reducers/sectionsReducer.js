@@ -50,6 +50,27 @@ const sections = (state=defaultState, action) => {
 
         case actionTypes.REMOVE_CHANNEL:
             return removePropsWithId(state, action.payload.channelId);
+
+        case actionTypes.ADD_NOTE:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: [ ...state[action.payload.sectionId].notes, action.payload.noteObject ]
+                }
+            };
+
+        case actionTypes.REMOVE_NOTE:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: state[action.payload.sectionId].notes.filter(note => {
+                        return note.pitch !== action.payload.pitch ||
+                               note.time !== action.payload.time
+                    })
+                }
+            };
             
 
         default:

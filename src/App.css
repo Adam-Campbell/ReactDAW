@@ -22,3 +22,9 @@
   margin-right: 8px;
   margin-left: 16px;
 }
+
+.composer__container {
+  background-color: slategray;
+  min-height: 350px;
+  display: flex;
+}

@@ -13,7 +13,8 @@ import { Rnd } from 'react-rnd';
 class PianoRoll extends Component {
     constructor(props) {
         super(props);
-        this.canvasWidth = this.props.numberOfBars * 384;
+        //this.section = this.props.sections[this.props.id];
+        this.canvasWidth = this.section.numberOfBars * 384;
         this._notesArray = this._createNotesArray();
         // this._timeArray = [
         //     '0:0:0', '0:0:1', '0:0:2', '0:0:3', '0:1:0', '0:1:1', '0:1:2', '0:1:3',
@@ -38,6 +39,10 @@ class PianoRoll extends Component {
             pencilActive: false,
             isDraggable: false
         };
+    }
+
+    get section() {
+        return this.props.sections[this.props.id];
     }
 
     _createNotesArray() {
@@ -149,14 +154,14 @@ class PianoRoll extends Component {
         let t = e.target;
         if (t.attrs.type && t.attrs.type === 'noteRect') {
             const { pitch, time } = t.attrs;
-            this.props.removeNote(pitch, time);
+            this.props.removeNote(this.section.id, pitch, time);
         } else {
             if (!this.state.pencilActive) {
                 let x = e.evt.layerX;
                 let y = e.evt.layerY;
                 let noteObject = this._calculateNoteInfo(x,y);
                 if (this._isValidNote(noteObject)) {
-                    this.props.addNote(noteObject);
+                    this.props.addNote(this.section.id, noteObject);
                 }
             }
         }
@@ -243,7 +248,7 @@ class PianoRoll extends Component {
                 width: noteDurationAsTicks / 2 
             };
             if (this._isValidNote(noteObject)) {
-                this.props.addNote(noteObject);
+                this.props.addNote(this.section.id, noteObject);
             }
 
         }
@@ -293,7 +298,7 @@ class PianoRoll extends Component {
     _isValidNote(noteToCheck) {
         const startOfNoteToCheck = Tone.Time(noteToCheck.time).toTicks();
         const endOfNoteToCheck = startOfNoteToCheck + Tone.Time(noteToCheck.duration).toTicks() - 1;
-        for (let currentNote of this.props.notes) {
+        for (let currentNote of this.section.notes) {
             if (noteToCheck.pitch === currentNote.pitch) {
                 const startOfCurrentNote = Tone.Time(currentNote.time).toTicks();
                 const endOfCurrentNote = startOfCurrentNote + Tone.Time(currentNote.duration).toTicks() - 1;
@@ -336,6 +341,7 @@ class PianoRoll extends Component {
 
     render() {
         const gridLinesArray = this._createGridLinesArray();
+        //const currentNotes = this.props.sections[this.props.id].notes;
         return (
             <div className="piano-roll-container">
                 <div className="piano-roll-controls-container">
@@ -381,7 +387,7 @@ class PianoRoll extends Component {
                         </Layer>
                         <Layer>
                         {
-                            this.props.notes.map((note, index) => (
+                            this.section.notes.map((note, index) => (
                                 <Rect 
                                     x={note.x}
                                     y={note.y}
@@ -410,7 +416,8 @@ class PianoRoll extends Component {
 
 
 const mapStateToProps = state => ({
-    notes: state.sectionInfo.notes
+    //notes: state.sectionInfo.notes
+    sections: state.sections
 });
 
 export default connect(

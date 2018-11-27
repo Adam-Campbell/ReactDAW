@@ -6,6 +6,7 @@ const defaultState = [];
 Channel schema:
 {
     id {string} - the id for this channel
+    name {string} - the name of the channel
     instrumentId {string} - the id for the instrument currently associated with this channel
     effectIds [ {string} ] - array of ids for the effects currently being applied to this channel (in order)
     sectionIds: [ {string} ] - array of ids for the sections currently residing on this channel

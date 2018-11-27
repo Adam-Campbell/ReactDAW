@@ -39,7 +39,6 @@ export const defaultSynthData = {
     },
     oscillator: {
         detune: 0,
-        frequency: 440,
         mute: false,
         phase: 0,
         type: 'triangle',

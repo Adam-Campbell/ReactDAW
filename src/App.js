@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 //import { Stage, Layer, Text } from 'react-konva';
 //import ColoredRect from './components/ColoredRect.js';
+import { connect } from 'react-redux';
+import * as ActionCreators from './actions';
 import PianoRoll from './components/PianoRoll.js';
 import './App.css';
 import AudioEngine from './components/AudioEngine';
 import StartStopButton from './components/StartStopButton';
 import { Rnd } from 'react-rnd';
+import Composer from './components/Composer';
 
 // class App extends Component {
 //   render() {
@@ -28,10 +31,28 @@ class App extends Component {
       <React.Fragment>
         <AudioEngine />
         <StartStopButton />
-        <PianoRoll numberOfBars={4} />
+        <Composer />
+        {
+          this.props.activeWindows.map((window) => {
+            switch (window.type) {
+              case 'section':
+                return <PianoRoll id={window.id} key={window.id} />
+
+              default:
+                return null;
+            }
+          })
+        }
+        
       </React.Fragment>
     );
   }
 }
 
-export default App;
+// <PianoRoll numberOfBars={4} />
+
+const mapStateToProps = state => ({
+  activeWindows: state.activeWindows
+});
+
+export default connect(mapStateToProps)(App);

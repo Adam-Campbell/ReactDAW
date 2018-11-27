@@ -11,9 +11,9 @@ function generateId() {
 window.t = Tone.Transport;
 
 export default class Section {
-    constructor(start) {
+    constructor(id, start) {
         this._part = new Tone.Part();
-        this._id = generateId();
+        this._id = id;
         this._instrument = new Tone.PolySynth(12, Tone.Synth).toMaster();
         window.i = this._instrument;
         this._start = start || "0:0:0";
