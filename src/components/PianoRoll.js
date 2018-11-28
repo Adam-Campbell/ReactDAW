@@ -14,6 +14,11 @@ class PianoRoll extends Component {
     constructor(props) {
         super(props);
         //this.section = this.props.sections[this.props.id];
+        this.padding = 10;
+        this.gridLayerRef = React.createRef();
+        this.noteLayerRef = React.createRef();
+        this.horizontalDragMove = this._horizontalDragMove.bind(this);
+        this.verticalDragMove = this._verticalDragMove.bind(this);
         this.canvasWidth = this.section.numberOfBars * 384;
         this._notesArray = this._createNotesArray();
         // this._timeArray = [
@@ -31,14 +36,24 @@ class PianoRoll extends Component {
         this.handleStageClick = this._handleStageClick.bind(this);
         this.handleMouseDown = this._handleMouseDown.bind(this);
         this.handleMouseUp = this._handleMouseUp.bind(this);
+        this.updateLayerPos = this._updateLayerPos.bind(this);
         this.state = {
             quantize: '16n',
             duration: '16n',
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
-            isDraggable: false
+            isDraggable: false,
+            layerPosX: 0,
+            layerPosY: 0,
+            stageWidth: 800,
+            stageHeight: 600
         };
+        // old color scheme
+        // background: #e0f7fa
+        // gridlines: #80deea
+        // notes fill: #0097a7
+        // notes stroke: #006064 
     }
 
     get section() {
@@ -92,7 +107,7 @@ class PianoRoll extends Component {
                 strokeWidth = 0.5;
             }
             linesArray.push({
-                points: [currPos, 0, currPos, 1750],
+                points: [currPos, 0, currPos, 1728],
                 strokeWidth: strokeWidth
             });
             currPos += quantizeInterval;
@@ -151,6 +166,7 @@ class PianoRoll extends Component {
     }
 
     _handleStageClick(e) {
+        console.log(e);
         let t = e.target;
         if (t.attrs.type && t.attrs.type === 'noteRect') {
             const { pitch, time } = t.attrs;
@@ -158,8 +174,12 @@ class PianoRoll extends Component {
         } else {
             if (!this.state.pencilActive) {
                 let x = e.evt.layerX;
+                let scrolledX = this.gridLayerRef.current.attrs.x || 0;
+                let xWithScroll = x - scrolledX;
                 let y = e.evt.layerY;
-                let noteObject = this._calculateNoteInfo(x,y);
+                let scrolledY = this.gridLayerRef.current.attrs.y || 0;
+                let yWithScroll = y - scrolledY;
+                let noteObject = this._calculateNoteInfo(xWithScroll, yWithScroll);
                 if (this._isValidNote(noteObject)) {
                     this.props.addNote(this.section.id, noteObject);
                 }
@@ -176,9 +196,11 @@ class PianoRoll extends Component {
             }
             // All we do here is update state with the coordinates that the mouseDown event happened
             // at, as the mouseUp event handler will later need to reference these.
+            const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+            const scrolledY = this.gridLayerRef.current.attrs.y || 0;
             this.setState({
-                mouseDownPosX: e.evt.layerX,
-                mouseDownPosY: e.evt.layerY
+                mouseDownPosX: e.evt.layerX - scrolledX,
+                mouseDownPosY: e.evt.layerY - scrolledY
             });
         }
     }
@@ -198,7 +220,7 @@ class PianoRoll extends Component {
         if (this.state.pencilActive) {
             // if a note was clicked on just return, the onClick handler already contains all of the
             // logic for that. 
-            if (e.target.attrs.type && e.target.attrs.type === 'noteRect') {
+            if (e.target.attrs.type && e.target.attrs.type === 'noteRect' || e.target.attrs.type === 'scrollRect') {
                 return;
             }
             // We have take the information about the mouseDown event from state, and combined with
@@ -209,8 +231,10 @@ class PianoRoll extends Component {
             let downX = this.state.mouseDownPosX;
             // y pos of cursor when mouseDown occurred
             let downY = this.state.mouseDownPosY;
-            // x pos of cursor when mouseUp occurred
-            let upX = e.evt.layerX;
+            // x pos of cursor when mouseUp occurred, scrolledX is to account for any potential scrolling
+            // of the canvas that has occured.
+            let scrolledX = this.gridLayerRef.current.attrs.x || 0;
+            let upX = e.evt.layerX - scrolledX;
             // current quantize value in state converted into ticks
             let currQuantizeAsTicks = Tone.Time(this.state.quantize).toTicks();
             // the row 'clicked' during mouseDown, according to the y pos
@@ -339,6 +363,65 @@ class PianoRoll extends Component {
         });
     }
 
+    _updateLayerPos(e) {
+        this.setState({
+            layerPosX: e.target.attrs.x,
+            layerPosY: e.target.attrs.y
+        });
+    }
+
+    _horizontalDragMove(e) {
+
+
+        // Strategy
+        // Work out how far along the horizontal slider is, as a percentage (or rather decimal)
+        // of the total range of space it can reside in. 
+        // Then, using the .x() method, set the x values for the canvas layers as the negative of
+        // the total canvas width multiplied by the decimal previously calculated.
+        //
+        // Working out how far along the horizontal slider is:
+        // total range is this.state.stageWidth - (this.padding * 2) - 100
+        // current position within that range is e.target.attrs.x - this.padding
+        // to decimal => current position / total range
+        //
+        // total range for overal canvas is canvasWidth - stageWidth
+        //  
+        //
+        //
+
+        // work out horizontal % delta
+        const currentSliderPos = e.target.attrs.x - this.padding;
+        const { stageWidth } = this.state; 
+        const totalSliderRange = stageWidth - (this.padding * 2) - 100;
+        const delta = currentSliderPos / totalSliderRange;
+
+        // update the layers
+
+        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 16;
+        
+        this.gridLayerRef.current.x(-(totalCanvasRange * delta));
+        this.noteLayerRef.current.x(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.batchDraw();
+        this.noteLayerRef.current.batchDraw();
+    }
+
+    _verticalDragMove(e) {
+        // make necessary calculations
+        const currentSliderPos = e.target.attrs.y - this.padding;
+        const { stageHeight } = this.state;
+        const totalSliderRange = stageHeight - (this.padding * 2) - 100;
+        const delta = currentSliderPos / totalSliderRange;
+
+        const canvasHeight = 1728;
+        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 16;
+
+        // update the layers
+        this.gridLayerRef.current.y(-(totalCanvasRange * delta));
+        this.noteLayerRef.current.y(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.batchDraw();
+        this.noteLayerRef.current.batchDraw();
+    }
+
     render() {
         const gridLinesArray = this._createGridLinesArray();
         //const currentNotes = this.props.sections[this.props.id].notes;
@@ -360,32 +443,35 @@ class PianoRoll extends Component {
                 </div>
                 <div className="canvas-container">
                     <Stage 
-                        width={this.canvasWidth} 
-                        height={1750} 
+                        width={800} 
+                        height={600} 
                         onClick={this.handleStageClick}
                         onMouseDown={this.handleMouseDown} 
                         onMouseUp={this.handleMouseUp}
                     >
-                        <Layer>
+                        <Layer ref={this.gridLayerRef} >
                             <Rect 
                                 x={0}
                                 y={0}
                                 width={this.canvasWidth}
                                 height={1750}
-                                fill={'#e0f7fa'}
+                                fill={'#222222'}
                             />
                             {
                                 gridLinesArray.map((line, index) => (
                                     <Line 
                                         points={line.points}
-                                        stroke={'#80deea'}
+                                        listening={false}
+                                        stroke={'#cccccc'}
                                         strokeWidth={line.strokeWidth}
                                         key={index}
                                     />
                                 ))
                             }
                         </Layer>
-                        <Layer>
+                        <Layer
+                            ref={this.noteLayerRef}
+                        >
                         {
                             this.section.notes.map((note, index) => (
                                 <Rect 
@@ -393,9 +479,9 @@ class PianoRoll extends Component {
                                     y={note.y}
                                     width={note.width}
                                     height={16}
-                                    stroke={'#006064'}
+                                    stroke={'#a20b28'}
                                     strokeWidth={2}
-                                    fill={'#0097a7'}
+                                    fill={'deeppink'}
                                     pitch={note.pitch}
                                     time={note.time}
                                     type={'noteRect'}
@@ -403,6 +489,43 @@ class PianoRoll extends Component {
                                 />
                             ))
                         }
+                        </Layer>
+                        <Layer>
+                            <Rect 
+                                width={100}
+                                height={16}
+                                fill={'crimson'}
+                                x={this.padding}
+                                y={this.state.stageHeight - this.padding - 16}
+                                draggable={true}
+                                type={'scrollRect'}
+                                dragBoundFunc={(pos) => {
+                                    const currX = pos.x;
+                                    const highBound = this.state.stageWidth - this.padding - 100;
+                                    pos.x = Math.min(Math.max(currX, this.padding), highBound);
+                                    pos.y = this.state.stageHeight - this.padding - 16;
+                                    return pos;
+                                }}
+                                onDragEnd={this.horizontalDragMove}
+                            />
+
+                            <Rect 
+                                width={16}
+                                height={100}
+                                fill={'crimson'}
+                                y={this.padding}
+                                x={this.state.stageWidth - this.padding - 16}
+                                draggable={true}
+                                type={'scrollRect'}
+                                dragBoundFunc={(pos) => {
+                                    const currY = pos.y;
+                                    const highBound = this.state.stageHeight - this.padding - 100;
+                                    pos.y = Math.min(Math.max(currY, this.padding), highBound);
+                                    pos.x = this.state.stageWidth - this.padding - 16;
+                                    return pos;
+                                }}
+                                onDragEnd={this.verticalDragMove}
+                            />
                         </Layer>
                     </Stage>
                 </div>

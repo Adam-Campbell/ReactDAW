@@ -28,9 +28,11 @@ import Composer from './components/Composer';
 class App extends Component {
   render() {
     return (
-      <React.Fragment>
+      <div className="main-container">
         <AudioEngine />
+        <div className="menu">
         <StartStopButton />
+        </div>
         <Composer />
         {
           this.props.activeWindows.map((window) => {
@@ -44,7 +46,7 @@ class App extends Component {
           })
         }
         
-      </React.Fragment>
+      </div>
     );
   }
 }

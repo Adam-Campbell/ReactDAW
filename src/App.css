@@ -1,30 +1,45 @@
 .canvas-container {
   height: 600px;
   overflow: auto;
+  background-color: #222;
 }
 
 .piano-roll-container {
-  width: 80%;
   height: 650px;
+  width: 800px;
   margin: 16px auto;
-  border: solid slategray 2px;
+  border: solid crimson 2px;
 }
 
 .piano-roll-controls-container {
   height: 50px;
-  background-color: slategray;
+  background-color: crimson;
   display: flex;
   align-items: center;
 }
 
 .piano-roll-controls__label {
-  color: #eee;
+  color: #fff;
   margin-right: 8px;
   margin-left: 16px;
 }
 
 .composer__container {
-  background-color: slategray;
+  background-color: #111;
   min-height: 350px;
   display: flex;
+  margin-top: 40px;
+}
+
+.main-container {
+  background-color: #111;
+}
+
+.menu {
+  background-color: deeppink;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
