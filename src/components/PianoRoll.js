@@ -9,16 +9,22 @@ import QuantizeSelect from './QuantizeSelect';
 import CursorSelect from './CursorSelect';
 import DurationSelect from './DurationSelect';
 import { Rnd } from 'react-rnd';
+import { debounce, throttle } from 'lodash';
 
 class PianoRoll extends Component {
     constructor(props) {
         super(props);
         //this.section = this.props.sections[this.props.id];
         this.padding = 10;
+        this.stageRef = React.createRef();
+        window.stageRef = this.stageRef;
         this.gridLayerRef = React.createRef();
         this.noteLayerRef = React.createRef();
-        this.horizontalDragMove = this._horizontalDragMove.bind(this);
-        this.verticalDragMove = this._verticalDragMove.bind(this);
+        //this.horizontalDragMove = this._horizontalDragMove.bind(this);
+        this.horizontalDragMove = throttle(this._horizontalDragMove, 16).bind(this);
+        //this.verticalDragMove = this._verticalDragMove.bind(this);
+        this.verticalDragMove = throttle(this._verticalDragMove, 16).bind(this);
+        this.throttledResizeCanvas = throttle(this._resizeCanvas, 16).bind(this);
         this.canvasWidth = this.section.numberOfBars * 384;
         this._notesArray = this._createNotesArray();
         // this._timeArray = [
@@ -54,6 +60,19 @@ class PianoRoll extends Component {
         // gridlines: #80deea
         // notes fill: #0097a7
         // notes stroke: #006064 
+    }
+
+    componentDidMount() {
+        //window.addEventListener('resize', this.throttledResizeCanvas);
+    }
+
+    _resizeCanvas(e) {
+        //console.log(this.stageRef);
+        const windowWidth = window.document.documentElement.clientWidth;
+        //this.stageRef.current.width(windowWidth - 80);
+        this.setState({
+            stageWidth: windowWidth - 80
+        });
     }
 
     get section() {
@@ -441,8 +460,10 @@ class PianoRoll extends Component {
                         handleChange={this.updateCursorValue.bind(this)}
                     />
                 </div>
-                <div className="canvas-container">
+                <div className="canvas-container" id="piano-roll-canvas-container">
                     <Stage 
+                        container={'piano-roll-canvas-container'}
+                        ref={this.stageRef}
                         width={800} 
                         height={600} 
                         onClick={this.handleStageClick}
@@ -455,15 +476,19 @@ class PianoRoll extends Component {
                                 y={0}
                                 width={this.canvasWidth}
                                 height={1750}
-                                fill={'#222222'}
+                                fill={'#2c2338'}
                             />
                             {
                                 gridLinesArray.map((line, index) => (
                                     <Line 
                                         points={line.points}
                                         listening={false}
-                                        stroke={'#cccccc'}
+                                        stroke={'#d86597'}
                                         strokeWidth={line.strokeWidth}
+                                        shadowColor={'#ed90b9'}
+                                        shadowBlur={4}
+                                        shadowOffsetX={0}
+                                        shadowOffsetY={0}
                                         key={index}
                                     />
                                 ))
@@ -479,9 +504,13 @@ class PianoRoll extends Component {
                                     y={note.y}
                                     width={note.width}
                                     height={16}
-                                    stroke={'#a20b28'}
+                                    stroke={'#d86597'}
                                     strokeWidth={2}
-                                    fill={'deeppink'}
+                                    fill={'#ed90b9'}
+                                    shadowColor={'#d86597'}
+                                    shadowBlur={4}
+                                    shadowOffsetX={0}
+                                    shadowOffsetY={0}
                                     pitch={note.pitch}
                                     time={note.time}
                                     type={'noteRect'}
@@ -506,7 +535,7 @@ class PianoRoll extends Component {
                                     pos.y = this.state.stageHeight - this.padding - 16;
                                     return pos;
                                 }}
-                                onDragEnd={this.horizontalDragMove}
+                                onDragMove={this.horizontalDragMove}
                             />
 
                             <Rect 
@@ -524,7 +553,7 @@ class PianoRoll extends Component {
                                     pos.x = this.state.stageWidth - this.padding - 16;
                                     return pos;
                                 }}
-                                onDragEnd={this.verticalDragMove}
+                                onDragMove={this.verticalDragMove}
                             />
                         </Layer>
                     </Stage>

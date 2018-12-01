@@ -21,6 +21,8 @@ const channels = (state=defaultState, action) => {
                 ...state,
                 {
                     id: action.payload.channelId,
+                    name: action.payload.channelName,
+                    color: action.payload.channelColor,
                     instrumentId: action.payload.instrumentId,
                     effectIds: [],
                     sectionIds: []
@@ -29,6 +31,30 @@ const channels = (state=defaultState, action) => {
 
         case actionTypes.REMOVE_CHANNEL:
             return state.filter(channel => channel.id !== action.payload.channelId);
+
+        case actionTypes.UPDATE_CHANNEL_NAME:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        name: action.payload.newChannelName
+                    }
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.UPDATE_CHANNEL_COLOR:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        color: action.payload.newChannelColor
+                    }
+                } else {
+                    return channel;
+                }
+            });
 
         case actionTypes.ADD_INSTRUMENT:
             return state.map(channel => {

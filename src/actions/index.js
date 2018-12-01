@@ -1,6 +1,5 @@
 import * as actionTypes from '../actionTypes';
 
-
 // export const addNote = noteObject => ({
 //     type: actionTypes.ADD_NOTE,
 //     payload: noteObject
@@ -54,10 +53,12 @@ export const setMasterVolume = (volume) => ({
     }
 });
 
-export const addChannel = (channelId, instrumentId) => ({
+export const addChannel = (channelId, channelName, channelColor, instrumentId) => ({
     type: actionTypes.ADD_CHANNEL,
     payload: {
         channelId,
+        channelName,
+        channelColor,
         instrumentId
     }
 });
@@ -66,6 +67,22 @@ export const removeChannel = (channelId) => ({
     type: actionTypes.REMOVE_CHANNEL,
     payload: {
         channelId
+    }
+});
+
+export const updateChannelName = (channelId, newChannelName) => ({
+    type: actionTypes.UPDATE_CHANNEL_NAME,
+    payload: {
+        channelId,
+        newChannelName
+    }
+});
+
+export const updateChannelColor = (channelId, newChannelColor) => ({
+    type: actionTypes.UPDATE_CHANNEL_COLOR,
+    payload: {
+        channelId,
+        newChannelColor
     }
 });
 
