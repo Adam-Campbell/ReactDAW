@@ -17,7 +17,7 @@ class PianoRoll extends Component {
         //this.section = this.props.sections[this.props.id];
         this.padding = 10;
         this.stageRef = React.createRef();
-        window.stageRef = this.stageRef;
+        //window.stageRef = this.stageRef;
         this.gridLayerRef = React.createRef();
         this.noteLayerRef = React.createRef();
         //this.horizontalDragMove = this._horizontalDragMove.bind(this);
@@ -53,7 +53,8 @@ class PianoRoll extends Component {
             layerPosX: 0,
             layerPosY: 0,
             stageWidth: 800,
-            stageHeight: 600
+            stageHeight: 600,
+            showStage: true
         };
         // old color scheme
         // background: #e0f7fa
@@ -64,6 +65,30 @@ class PianoRoll extends Component {
 
     componentDidMount() {
         //window.addEventListener('resize', this.throttledResizeCanvas);
+    }
+
+    componentWillUnmount() {
+        /*why does this fix the error previously being caused by destroy method on stage being 
+        called at unmount? Destroy method for reference:
+
+        destroy: function destroy() {
+            var content = this.content;
+            Konva.Container.prototype.destroy.call(this);
+
+            if (content && Konva.Util._isInDocument(content)) {
+                this.getContainer().removeChild(content);
+            }
+
+            var index = Konva.stages.indexOf(this);
+
+            if (index > -1) {
+                Konva.stages.splice(index, 1);
+            }
+
+            return this;
+        }
+        */
+        this.stageRef.current.content = null;
     }
 
     _resizeCanvas(e) {
@@ -441,9 +466,14 @@ class PianoRoll extends Component {
         this.noteLayerRef.current.batchDraw();
     }
 
+    closePianoRoll = () => {
+        this.props.closeWindow(this.props.id);
+    }
+
     render() {
         const gridLinesArray = this._createGridLinesArray();
         //const currentNotes = this.props.sections[this.props.id].notes;
+        if (this.state.showStage) {
         return (
             <div className="piano-roll-container">
                 <div className="piano-roll-controls-container">
@@ -459,6 +489,10 @@ class PianoRoll extends Component {
                         value={this.state.pencilActive ? 'pencil' : 'pointer'}
                         handleChange={this.updateCursorValue.bind(this)}
                     />
+                    <button 
+                        className="piano-roll-controls__close-button"
+                        onClick={this.closePianoRoll}
+                    >X</button>
                 </div>
                 <div className="canvas-container" id="piano-roll-canvas-container">
                     <Stage 
@@ -560,6 +594,9 @@ class PianoRoll extends Component {
                 </div>
             </div>
         );
+        } else {
+            return null;
+        }
     }
 
 }
@@ -572,10 +609,12 @@ const mapStateToProps = state => ({
     sections: state.sections
 });
 
+
 export default connect(
     mapStateToProps,
     {
         addNote: ActionCreators.addNote,
-        removeNote: ActionCreators.removeNote
+        removeNote: ActionCreators.removeNote,
+        closeWindow: ActionCreators.closeWindow
     }
 )(PianoRoll);

@@ -25,7 +25,15 @@ import Composer from './components/Composer';
 //   }
 // }
 
-
+const mockedSectionState = {
+  789: {
+    id: '789',
+    channelId: '123',
+    notes: [],
+    start: '0:0:0',
+    numberOfBars: 4
+  }
+}
 
 class App extends Component {
   render() {

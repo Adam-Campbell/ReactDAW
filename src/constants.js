@@ -60,6 +60,25 @@ export const defaultSynthData = {
 }
 
 export const synthData = {
+    synth: {
+        envelope: {
+            attack: 0.005,
+            attackCurve: 'linear',
+            decay: 0.1,
+            release: 1,
+            releaseCurve: 'exponential',
+            sustain: 0.3
+        },
+        oscillator: {
+            detune: 0,
+            mute: false,
+            phase: 0,
+            type: 'triangle',
+            volume: 0
+        },
+        portamento: 0,
+        volume: 0
+    },
     amSynth: {
         detune: 0,
         envelope: {

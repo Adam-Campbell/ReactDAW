@@ -13,6 +13,7 @@
   width: 800px;
   margin: 16px auto;
   border: solid #d86597 2px;
+  box-sizing: content-box;
   box-shadow: 
     0 0 4px #ed90b9,
     inset 0 0 2px #ed90b9;
@@ -31,7 +32,8 @@
 
 .piano-roll-controls__label {
   color: #d86597;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
   margin-right: 8px;
   margin-left: 16px;
   text-shadow: 0 0 6px #ed90b9;
@@ -59,8 +61,7 @@
 .composer__container {
   box-sizing: initial;
   background-color: #201826;
-  height: 300px;
-  display: flex;
+  height: 350px;
   width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -69,6 +70,38 @@
   box-shadow: 
     0 0 4px #d86597,
     inset 0 0 2px #d86597;
+}
+
+.composer__controls-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #201826;
+  border-bottom: solid 4px #d86597;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.composer__delete-section-button {
+  color: #d86597;
+  background-color: #201826;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin-left: 8px;
+  margin-right: 8px;
+  border: solid 2px #d86597;
+  text-shadow: 0 0 6px #ed90b9;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.composer__row {
+  display: flex;
 }
 
 .composer__track-info-container-outer {
@@ -81,7 +114,48 @@
 }
 
 .add-track-menu {
+  position: relative;
+}
 
+.add-track-menu__item-container {
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 2000;
+  background-color: #201826;
+  border: solid 2px #d86597;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.add-track-menu__item-container.show-menu {
+  display: initial;
+}
+
+.add-track-menu__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.add-track-menu__menu-item {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background-color: #201826;
+  color: #d86597;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  cursor: pointer;
+  border: solid 2px #d86597;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+   
 }
 
 .add-track-menu__button {

@@ -53,13 +53,14 @@ export const setMasterVolume = (volume) => ({
     }
 });
 
-export const addChannel = (channelId, channelName, channelColor, instrumentId) => ({
+export const addChannel = (channelId, channelName, channelColor, instrumentId, instrumentType) => ({
     type: actionTypes.ADD_CHANNEL,
     payload: {
         channelId,
         channelName,
         channelColor,
-        instrumentId
+        instrumentId,
+        instrumentType
     }
 });
 
@@ -96,10 +97,11 @@ export const addSection = (sectionId, channelId, sectionStart, sectionLength) =>
     }
 });
 
-export const removeSection = (sectionId) => ({
+export const removeSection = (sectionId, channelId) => ({
     type: actionTypes.REMOVE_SECTION,
     payload: {
-        sectionId
+        sectionId,
+        channelId
     }
 });
 

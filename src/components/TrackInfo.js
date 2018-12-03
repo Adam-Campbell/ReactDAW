@@ -62,6 +62,10 @@ class TrackInfo extends Component {
         console.log('settings button was clicked');
     }
 
+    handleDeleteButtonClick = (e) => {
+        this.props.removeChannel(this.props.trackId);
+    }
+
     handleContainerClick = (e) => {
         console.log('container was clicked!');
         if (this.state.isEditingName) {
@@ -121,6 +125,10 @@ class TrackInfo extends Component {
                         className="track-info__button"
                         onClick={this.handleSettingsButtonClick}
                     >O</button>
+                    <button 
+                        className="track-info__button"
+                        onClick={this.handleDeleteButtonClick}
+                    >X</button>
                 </div>
                 <div className="track-color-picker">
                 <span 
@@ -191,6 +199,7 @@ export default connect(
     mapStateToProps,
     {
         updateChannelName: ActionCreators.updateChannelName,
-        updateChannelColor: ActionCreators.updateChannelColor
+        updateChannelColor: ActionCreators.updateChannelColor,
+        removeChannel: ActionCreators.removeChannel
     }
 )(TrackInfo);

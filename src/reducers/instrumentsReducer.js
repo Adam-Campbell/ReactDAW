@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import { synthTypes, defaultSynthData } from '../constants';
+import { synthTypes, defaultSynthData, synthData } from '../constants';
 
 const defaultState = {};
 
@@ -47,9 +47,9 @@ const instruments = (state=defaultState, action) => {
                 [action.payload.instrumentId]: {
                     id: action.payload.instrumentId,
                     channelId: action.payload.channelId,
-                    type: synthTypes.default,
+                    type: action.payload.instrumentType,
                     synthData: {
-                        ...defaultSynthData
+                        ...synthData[action.payload.instrumentType]
                     }
                 }
             }
