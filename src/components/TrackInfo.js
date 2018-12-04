@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { UIColors } from '../constants';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../actions';
+import TrackColorSwatch from './TrackColorSwatch';
 
 class TrackInfo extends Component {
     constructor(props) {
         super(props);
         this.foo = 'bar';
         this.inputRef = React.createRef();
+        this.swatchNodeRef = React.createRef();
         const track = props.channels.find(channel => channel.id === props.trackId);
         this.state = {
             trackName: track.name,
@@ -134,6 +136,7 @@ class TrackInfo extends Component {
                 <span 
                     className="track-color-picker__color-swatch"
                     onClick={this.enterColorEditMode}
+                    ref={this.swatchNodeRef}
                     style={{
                         backgroundColor: this.state.trackColor,
                         color: this.state.trackColor
@@ -141,48 +144,11 @@ class TrackInfo extends Component {
                 ></span>
                 {
                     this.state.isEditingTrackColor && (
-                        <React.Fragment>
-                            <span 
-                                className="track-color-picker__color-swatch"
-                                onClick={() =>this.handleColorSwatchClick(UIColors.pink)}
-                                style={{
-                                    backgroundColor: UIColors.pink,
-                                    color: UIColors.pink
-                                }}
-                            ></span>
-                            <span 
-                                className="track-color-picker__color-swatch"
-                                onClick={() =>this.handleColorSwatchClick(UIColors.brightBlue)}
-                                style={{
-                                    backgroundColor: UIColors.brightBlue,
-                                    color: UIColors.brightBlue
-                                }}
-                            ></span>
-                            <span 
-                                className="track-color-picker__color-swatch"
-                                onClick={() =>this.handleColorSwatchClick(UIColors.brightYellow)}
-                                style={{
-                                    backgroundColor: UIColors.brightYellow,
-                                    color: UIColors.brightYellow
-                                }}
-                            ></span>
-                            <span 
-                                className="track-color-picker__color-swatch"
-                                onClick={() =>this.handleColorSwatchClick(UIColors.brightRed)}
-                                style={{
-                                    backgroundColor: UIColors.brightRed,
-                                    color: UIColors.brightRed
-                                }}
-                            ></span>
-                            <span 
-                                className="track-color-picker__color-swatch"
-                                onClick={() =>this.handleColorSwatchClick(UIColors.brightGreen)}
-                                style={{
-                                    backgroundColor: UIColors.brightGreen,
-                                    color: UIColors.brightGreen
-                                }}
-                            ></span>
-                        </React.Fragment>
+                        <TrackColorSwatch 
+                            handleColorSwatchClick={this.handleColorSwatchClick}
+                            nodeRef={this.swatchNodeRef.current}
+                            exitColorEditMode={this.exitColorEditMode}
+                        />
                     )
                 }
                 </div>

@@ -10,6 +10,7 @@ import { generateId } from '../helpers';
 import Tone from 'tone';
 import CursorSelect from './CursorSelect';
 import AddTrackMenu from './AddTrackMenu';
+import SectionDurationSelect from './SectionDurationSelect';
 /*
 outer dimensions - 960 x 300
 
@@ -49,17 +50,24 @@ class Composer extends Component {
 
     constructor(props) {
         super(props);
-        this.foo = 'bar';
-        this.canvasWidth = 200 * 48;
-        this.canvasHeight = 7 * 70 + 40;
+        //this.canvasWidth = 200 * 48;
+        //this.canvasHeight = 7 * 70 + 40;
+        this.stageWidth = 740;
+        this.stageHeight = 300;
+        this.scrollPadding = 10;
         this.stageRef = React.createRef();
-        window.stageRef = this.stageRef;
+        this.gridLayerRef = React.createRef();
+        this.sectionsLayerRef = React.createRef();
+        this.transportLayerRef = React.createRef();
+        this.horizontalDragMove = throttle(this._horizontalDragMove, 16);
+        this.verticalDragMove = throttle(this._verticalDragMove, 16);
         this.state = {
             sectionDuration: 4,
             currentlySelectedSection: null,
             mouseDownPosX: 0,
             mouseDownPosY: 0,
-            pencilActive: false
+            pencilActive: false,
+            trackInfoMenuTopScroll: 0
         };
     }
 
@@ -67,6 +75,13 @@ class Composer extends Component {
 
     }
 
+    get canvasHeight() {
+        return Math.max(4, this.props.channels.length) * 70 + 40;
+    }
+
+    get canvasWidth() {
+        return 200 * 48;
+    }
 
     _createGridLinesArray() {
         let linesArray = [];
@@ -75,7 +90,8 @@ class Composer extends Component {
             linesArray.push([i*48 , 40, i*48, this.canvasHeight]);
         }
         // create horizontal lines
-        for (let j = 0; j <= 7; j++) {
+        let verticalBound = Math.max(4, this.props.channels.length);
+        for (let j = 0; j <= verticalBound; j++) {
             linesArray.push([0, j*70+40, this.canvasWidth, j*70+40]);
         }
         return linesArray;
@@ -85,6 +101,41 @@ class Composer extends Component {
         let subStr = barsString.split(':')[0];
         return parseInt(subStr);
         //return parseInt(barsString.charAt(0));
+    }
+
+    _verticalDragMove = (e) => {
+        if (this.stageHeight > this.canvasHeight) {
+            return;
+        }
+        // work out horizontal % delta
+        const currentSliderPos = e.target.attrs.y - this.scrollPadding;
+        const totalSliderRange = this.stageHeight - this.scrollPadding - 24 - 100;
+        const delta = currentSliderPos / totalSliderRange;
+        // update the layers
+        const totalCanvasRange = this.canvasHeight - this.stageHeight + this.scrollPadding + 24;
+        const scrollAmount = -(totalCanvasRange * delta);
+        this.setState({
+            trackInfoMenuTopScroll: scrollAmount
+        });
+        this.gridLayerRef.current.y(-(totalCanvasRange * delta));
+        this.sectionsLayerRef.current.y(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.batchDraw();
+        this.sectionsLayerRef.current.batchDraw();
+    }
+
+    _horizontalDragMove = (e) => {
+        // work out horizontal % delta
+        const currentSliderPos = e.target.attrs.x - this.scrollPadding;
+        const totalSliderRange = this.stageWidth - this.scrollPadding - 24 - 100;
+        const delta = currentSliderPos / totalSliderRange;
+        // update the layers
+        const totalCanvasRange = this.canvasWidth - this.stageWidth + this.scrollPadding + 24;
+        this.gridLayerRef.current.x(-(totalCanvasRange * delta));
+        this.sectionsLayerRef.current.x(-(totalCanvasRange * delta));
+        this.transportLayerRef.current.x(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.batchDraw();
+        this.sectionsLayerRef.current.batchDraw();
+        this.transportLayerRef.current.batchDraw();
     }
 
     _createSectionRectsArray = () => {
@@ -162,8 +213,20 @@ class Composer extends Component {
             if (!this.state.pencilActive) {
                 // use the information from the click event to dispatch an addSection action with the
                 // necessary arguments.
-                const channelIndex = Math.floor((yPos-40)/70);
-                const startAsNumber = Math.floor(xPos/48);
+                const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+                const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+                const adjustedXPos = xPos - scrolledX;
+                const adjustedYPos = yPos - scrolledY;
+
+                // this catches clicks that occur on rows that exist on the grid but do not have
+                // channels assigned to them yet, we return early because we cannot try and add a 
+                // section here yet.
+                if (adjustedYPos > this.props.channels.length * 70 + 40) {
+                    return;
+                }
+
+                const channelIndex = Math.floor((adjustedYPos-40)/70);
+                const startAsNumber = Math.floor(adjustedXPos/48);
                 const startAsBBS = `${startAsNumber}:0:0`;
                 this.props.addSection(
                     generateId(),
@@ -179,11 +242,15 @@ class Composer extends Component {
     handleStageMouseDown = (e) => {
         const xPos = e.evt.layerX;
         const yPos = e.evt.layerY;
+        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+        const adjustedXPos = xPos - scrolledX;
+        const adjustedYPos = yPos - scrolledY;
         const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
         if (yPos >= 40 && this.state.pencilActive && !isSection) {
             this.setState({
-                mouseDownPosX: xPos,
-                mouseDownPosY: yPos
+                mouseDownPosX: adjustedXPos,
+                mouseDownPosY: adjustedYPos
             });
         }
     }
@@ -191,6 +258,18 @@ class Composer extends Component {
     handleStageMouseUp = (e) => {
         const xPos = e.evt.layerX;
         const yPos = e.evt.layerY;
+        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+        const adjustedXPos = xPos - scrolledX;
+        const adjustedYPos = yPos - scrolledY;
+
+        // this catches clicks that occur on rows that exist on the grid but do not have
+        // channels assigned to them yet, we return early because we cannot try and add a 
+        // section here yet.
+        if (adjustedYPos > this.props.channels.length * 70 + 40) {
+            return;
+        }
+
         const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
         if (yPos >= 40 && this.state.pencilActive && !isSection) {
             // logic for creating section goes here...
@@ -202,11 +281,16 @@ class Composer extends Component {
             // sectionLength - derive from diff between state.mouseDownPosX and xPos
 
             const { mouseDownPosX, mouseDownPosY } = this.state;
+            const adjustedMouseDownPosY = mouseDownPosY - scrolledY
+            if (adjustedMouseDownPosY > this.props.channels.length * 70 + 40) {
+                return;
+            }
+
             const channelIndex = Math.floor((mouseDownPosY - 40) / 70);
             const channelId = this.props.channels[channelIndex].id;
             const sectionStartAsNumber = Math.floor(mouseDownPosX / 48);
             const sectionStartAsBBS = `${sectionStartAsNumber}:0:0`;
-            const sectionEndAsNumber = Math.round(xPos / 48);
+            const sectionEndAsNumber = Math.round(adjustedXPos / 48);
             const sectionLengthInBars = sectionEndAsNumber - sectionStartAsNumber > 1 ?
                                         sectionEndAsNumber - sectionStartAsNumber : 1;
             
@@ -244,6 +328,12 @@ class Composer extends Component {
         });
     }
 
+    updateSectionDurationValue = (e) => {
+        this.setState({
+            sectionDuration: parseInt(e.target.value)
+        });
+    }
+
     removeSelectedSection = () => {
         if (this.state.currentlySelectedSection) {
             const sectionId = this.state.currentlySelectedSection;
@@ -256,6 +346,7 @@ class Composer extends Component {
     render() {
         const gridLines = this._createGridLinesArray();
         const sectionRectsArray = this._createSectionRectsArray();
+
         
         return (
             <div className="composer__container">
@@ -263,6 +354,10 @@ class Composer extends Component {
                     <CursorSelect 
                         value={this.state.pencilActive ? 'pencil' : 'pointer'}
                         handleChange={this.updateCursorValue.bind(this)}
+                    />
+                    <SectionDurationSelect 
+                        value={this.state.sectionDuration}
+                        handleChange={this.updateSectionDurationValue}
                     />
                     <button 
                         className="composer__delete-section-button"
@@ -272,15 +367,20 @@ class Composer extends Component {
                 <div className="composer__row">
                     <div className="composer__track-info-container-outer">
                         <AddTrackMenu />
-                        <div className="composer__track-info-container-inner">
-                            {
-                                this.props.channels.map((channel, index) => (
-                                    <TrackInfo 
-                                        trackId={channel.id}
-                                        key={channel.id} 
-                                    /> 
-                                ))
-                            }
+                        <div className="composer__track-info-scroll-outer">
+                            <div 
+                                className="composer__track-info-scroll-inner"
+                                style={{top: this.state.trackInfoMenuTopScroll}}
+                            >
+                                {
+                                    this.props.channels.map((channel, index) => (
+                                        <TrackInfo 
+                                            trackId={channel.id}
+                                            key={channel.id} 
+                                        /> 
+                                    ))
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className="composer__canvas-container" id="composer-canvas-container">
@@ -293,7 +393,7 @@ class Composer extends Component {
                             width={740} 
                             height={300} 
                         >
-                            <Layer>
+                            <Layer ref={this.gridLayerRef}>
                                 <Rect 
                                     x={0}
                                     y={0}
@@ -317,7 +417,7 @@ class Composer extends Component {
                                     ))
                                 }
                             </Layer>
-                            <Layer>
+                            <Layer ref={this.sectionsLayerRef}>
                                 {
                                     sectionRectsArray.map((section, index) => (
                                         <Rect 
@@ -341,7 +441,7 @@ class Composer extends Component {
                                     ))
                                 } 
                             </Layer>
-                            <Layer>
+                            <Layer ref={this.transportLayerRef}>
                                 <Rect 
                                     x={0}
                                     y={0}
@@ -383,6 +483,17 @@ class Composer extends Component {
                                     width={14}
                                     height={100}
                                     fill={'#d86597'}
+                                    draggable={true}
+                                    dragBoundFunc={(pos) => {
+                                        const currY = pos.y;
+                                        // total stage height minus height of horizontal scroll bar
+                                        // minus height of scroll slider
+                                        const highBound = this.stageHeight - 24 - 100;
+                                        pos.y = Math.min(Math.max(this.scrollPadding, currY), highBound);
+                                        pos.x = 721;
+                                        return pos;
+                                    }}
+                                    onDragMove={this.verticalDragMove}
                                 />
                                 <Rect 
                                     x={0}
@@ -401,6 +512,15 @@ class Composer extends Component {
                                     width={100}
                                     height={14}
                                     fill={'#d86597'}
+                                    draggable={true}
+                                    dragBoundFunc={(pos) => {
+                                        const currX = pos.x;
+                                        const highBound = this.stageWidth - 24 - 100;
+                                        pos.x = Math.min(Math.max(currX, this.scrollPadding), highBound);
+                                        pos.y = 281;
+                                        return pos;
+                                    }}
+                                    onDragMove={this.horizontalDragMove}
                                 />
                             </Layer>
                         </Stage>
@@ -426,57 +546,3 @@ export default connect(
         openWindow: ActionCreators.openWindow
     }
 )(Composer);
-
-
-
-
-
-
-
-
-
-/* <Rect 
-                                x={0}
-                                y={40}
-                                height={70}
-                                width={48}
-                                fill={UIColors.pink}
-                                stroke={UIColors.offWhite}
-                                strokeWidth={2}
-                            />
-                            <Rect 
-                                x={48}
-                                y={40}
-                                height={70}
-                                width={96}
-                                fill={UIColors.pink}
-                                stroke={UIColors.offWhite}
-                                strokeWidth={2}
-                            />
-                            <Rect 
-                                x={144}
-                                y={40}
-                                height={70}
-                                width={48}
-                                fill={UIColors.pink}
-                                stroke={UIColors.offWhite}
-                                strokeWidth={2}
-                            />
-                            <Rect 
-                                x={192}
-                                y={40}
-                                height={70}
-                                width={48}
-                                fill={UIColors.pink}
-                                stroke={UIColors.offWhite}
-                                strokeWidth={2}
-                            />
-                            <Rect 
-                                x={144}
-                                y={110}
-                                height={70}
-                                width={48}
-                                fill={UIColors.brightBlue}
-                                stroke={UIColors.offWhite}
-                                strokeWidth={2}
-                            /> */

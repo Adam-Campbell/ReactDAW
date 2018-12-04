@@ -109,8 +109,12 @@
   position: relative;
 }
 
-.composer__track-info-container-inner {
+.composer__track-info-scroll-outer {
+  overflow-y: hidden;
+}
 
+.composer__track-info-scroll-inner {
+  position: relative;
 }
 
 .add-track-menu {

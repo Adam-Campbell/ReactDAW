@@ -15,15 +15,15 @@ export default class Section {
         this._part = new Tone.Part();
         this._id = id;
         this._instrument = new Tone.PolySynth(12, Tone.Synth).toMaster();
-        window.i = this._instrument;
+        //window.i = this._instrument;
         this._start = start || "0:0:0";
         this._part.start(this._start);
         this._part.callback = this._partCallback.bind(this);
         this.noteStore = {};
         // only temp
-        this._part.loop = true;
-        this._part.loopStart = "0:0:0";
-        this._part.loopEnd = "4:0:0";
+        //this._part.loop = true;
+        //this._part.loopStart = "0:0:0";
+        //this._part.loopEnd = "4:0:0";
     }
 
     get start() {
