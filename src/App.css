@@ -268,3 +268,146 @@
     0 0 4px,
     inset 0 0 2px
 }
+
+
+.synth-interface__container {
+  padding: 16px;
+  background-color: #00bff3;
+  color: #e0e0e0;
+  width: 960px;
+  margin: 16px auto;
+  display: flex;
+  flex-wrap: wrap;
+  border: solid #e0e0e0 4px;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px
+}
+
+.synth-interface__module-container {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.synth-interface__module-heading {
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+}
+
+.synth-interface__header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.synth-interface__title {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+}
+
+.synth-interface__close-button {
+  margin-left: auto;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+.synth__range-input {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 150px; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.synth__range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+.synth__range-input:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+.synth__range-input::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Special styling for WebKit/Blink */
+.synth__range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background: #e0e0e0;
+  cursor: pointer;
+  margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+.synth__range-input::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background: #e0e0e0;
+  cursor: pointer;
+}
+
+.synth__range-input::-ms-thumb { 
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background: #e0e0e0;
+  cursor: pointer;
+}
+
+.synth__range-input::-webkit-slider-runnable-track { 
+  width: 100px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.synth__range-input-label {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+}
+
+
+.synth__select-input {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 4px 8px;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px #e0e0e0;
+}
+
+.synth__select-input-option {
+  background-color: #e0e0e0;
+  color: #201826;
+}
+
+.synth__select-input-label {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+}

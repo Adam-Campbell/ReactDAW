@@ -62,6 +62,7 @@ class TrackInfo extends Component {
 
     handleSettingsButtonClick = (e) => {
         console.log('settings button was clicked');
+        this.openInstrumentWindow();
     }
 
     handleDeleteButtonClick = (e) => {
@@ -93,6 +94,11 @@ class TrackInfo extends Component {
             trackColor: color
         });
         this.props.updateChannelColor(this.props.trackId, color);
+    }
+
+    openInstrumentWindow = () => {
+        const track = this.props.channels.find(channel => channel.id === this.props.trackId);
+        this.props.openWindow(track.instrumentId, 'synth');
     }
 
 
@@ -166,6 +172,11 @@ export default connect(
     {
         updateChannelName: ActionCreators.updateChannelName,
         updateChannelColor: ActionCreators.updateChannelColor,
-        removeChannel: ActionCreators.removeChannel
+        removeChannel: ActionCreators.removeChannel,
+        openWindow: ActionCreators.openWindow
     }
 )(TrackInfo);
+
+
+
+

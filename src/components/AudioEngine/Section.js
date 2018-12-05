@@ -21,9 +21,9 @@ export default class Section {
         this._part.callback = this._partCallback.bind(this);
         this.noteStore = {};
         // only temp
-        //this._part.loop = true;
-        //this._part.loopStart = "0:0:0";
-        //this._part.loopEnd = "4:0:0";
+        this._part.loop = true;
+        this._part.loopStart = "0:0:0";
+        this._part.loopEnd = "4:0:0";
     }
 
     get start() {
