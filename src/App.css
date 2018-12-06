@@ -304,6 +304,11 @@
   padding: 0 16px;
 }
 
+.synth-interface__seperator {
+  padding: 8px 16px;
+  width: 100%;
+}
+
 .synth-interface__title {
   font-family: 'VT323', monospace;
   font-size: 36px;

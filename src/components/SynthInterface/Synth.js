@@ -10,11 +10,13 @@ const Synth = props => (
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
+            additionalNesting={[]}
         />
         <OscillatorModule 
             oscillatorData={props.instrumentData.oscillator}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
+            additionalNesting={[]}
         />
     </div>
 );

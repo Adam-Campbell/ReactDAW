@@ -14,7 +14,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.attack}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'attack']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'attack']}
         />
         <SelectInput
             inputId={'envelope-attack-curve'}
@@ -22,7 +22,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.attackCurve}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'attackCurve']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'attackCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
                 {value: 'exponential', text: 'Exponential'},
@@ -42,7 +42,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.decay}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'decay']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'decay']}
         />
         <RangeInput 
             inputId={'envelope-release'}
@@ -53,7 +53,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.release}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'release']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'release']}
         />
         <SelectInput
             inputId={'envelope-release-curve'}
@@ -61,7 +61,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.releaseCurve}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'releaseCurve']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'releaseCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
                 {value: 'exponential', text: 'Exponential'},
@@ -81,7 +81,7 @@ const EnvelopeModule = props => (
             value={props.envelopeData.sustain}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['envelope', 'sustain']}
+            propertyPathArray={[...props.additionalNesting, 'envelope', 'sustain']}
         />
     </div>
 );

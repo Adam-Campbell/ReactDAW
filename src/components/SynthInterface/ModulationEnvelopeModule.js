@@ -14,7 +14,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.attack}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'attack']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attack']}
         />
         <SelectInput
             inputId={'modulation-envelope-attack-curve'}
@@ -22,7 +22,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.attackCurve}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'attackCurve']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attackCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
                 {value: 'exponential', text: 'Exponential'},
@@ -42,7 +42,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.decay}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'decay']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'decay']}
         />
         <RangeInput 
             inputId={'modulation-envelope-release'}
@@ -53,7 +53,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.release}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'release']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'release']}
         />
         <SelectInput
             inputId={'modulation-envelope-release-curve'}
@@ -61,7 +61,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.releaseCurve}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'releaseCurve']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'releaseCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
                 {value: 'exponential', text: 'Exponential'},
@@ -81,7 +81,7 @@ const ModulationEnvelopeModule = props => (
             value={props.modulationEnvelopeData.sustain}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulationEnvelope', 'sustain']}
+            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'sustain']}
         />
     </div>
 );

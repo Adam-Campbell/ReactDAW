@@ -8,10 +8,11 @@ const SelectInput = props => (
             value={props.value}
             id={props.inputId}
             onChange={(e) => {
+                let val = props.shouldConvertToFloat ? parseFloat(e.target.value) : e.target.value;
                 props.handleChange(
                     props.instrumentId,
                     props.propertyPathArray,
-                    e.target.value
+                    val
                 )
             }}
         >

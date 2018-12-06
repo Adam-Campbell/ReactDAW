@@ -14,7 +14,7 @@ const OscillatorModule = props => (
             value={props.oscillatorData.detune}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['oscillator', 'detune']}
+            propertyPathArray={[...props.additionalNesting, 'oscillator', 'detune']}
         />
         <RangeInput 
             inputId={'oscillator-phase'}
@@ -25,7 +25,7 @@ const OscillatorModule = props => (
             value={props.oscillatorData.phase}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['oscillator', 'phase']}
+            propertyPathArray={[...props.additionalNesting, 'oscillator', 'phase']}
         />
         <SelectInput
             inputId={'oscillator-type'}
@@ -33,7 +33,7 @@ const OscillatorModule = props => (
             value={props.oscillatorData.type}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['oscillator', 'type']}
+            propertyPathArray={[...props.additionalNesting, 'oscillator', 'type']}
             options={[
                 {value: 'sine', text: 'Sine'},
                 {value: 'amsine', text: 'AM Sine'},
@@ -62,7 +62,7 @@ const OscillatorModule = props => (
             value={props.oscillatorData.volume}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['oscillator', 'volume']}
+            propertyPathArray={[...props.additionalNesting, 'oscillator', 'volume']}
         />
     </div>
 );

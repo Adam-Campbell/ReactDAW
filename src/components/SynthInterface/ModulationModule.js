@@ -14,7 +14,7 @@ const ModulationModule = props => (
             value={props.modulationData.detune}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulation', 'detune']}
+            propertyPathArray={[...props.additionalNesting, 'modulation', 'detune']}
         />
         <RangeInput 
             inputId={'modulation-phase'}
@@ -25,7 +25,7 @@ const ModulationModule = props => (
             value={props.modulationData.phase}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulation', 'phase']}
+            propertyPathArray={[...props.additionalNesting, 'modulation', 'phase']}
         />
         <SelectInput
             inputId={'modulation-type'}
@@ -33,7 +33,7 @@ const ModulationModule = props => (
             value={props.modulationData.type}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulation', 'type']}
+            propertyPathArray={[...props.additionalNesting, 'modulation', 'type']}
             options={[
                 {value: 'sine', text: 'Sine'},
                 {value: 'square', text: 'Square'},
@@ -50,7 +50,7 @@ const ModulationModule = props => (
             value={props.modulationData.volume}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
-            propertyPathArray={['modulation', 'volume']}
+            propertyPathArray={[...props.additionalNesting, 'modulation', 'volume']}
         />
     </div>
 );

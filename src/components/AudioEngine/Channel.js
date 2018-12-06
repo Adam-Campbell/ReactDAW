@@ -4,8 +4,8 @@ import Section from './Section';
 class Channel {
     constructor(channelId, instrument) {
         this.id = channelId;
-        this._instrument = this.instrument || new Tone.PolySynth(6, Tone.Synth);
-        this._effectChain = [this.instrument, Tone.Master];
+        this._instrument = instrument || new Tone.PolySynth(6, Tone.Synth);
+        this._effectChain = [this._instrument, Tone.Master];
         this.sectionStore = {};
         this.connectEffectChain();
     }

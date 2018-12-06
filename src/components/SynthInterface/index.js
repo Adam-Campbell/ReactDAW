@@ -10,6 +10,8 @@ import OscillatorModule from './OscillatorModule';
 import Synth from './Synth';
 import AMSynth from './AMSynth';
 import FMSynth from './FMSynth';
+import DuoSynth from './DuoSynth';
+import MonoSynth from './MonoSynth';
 import { synthTypes } from '../../constants';
 
 class SynthInterface extends Component {
@@ -53,12 +55,28 @@ class SynthInterface extends Component {
                 />
 
             case synthTypes.fm:
-            return <FMSynth 
-                instrumentData={this.instrumentData}
-                instrumentId={this.props.instrumentId}
-                handleChange={this.handleChange}
-                handleClose={this.handleClose}
-            />
+                return <FMSynth 
+                    instrumentData={this.instrumentData}
+                    instrumentId={this.props.instrumentId}
+                    handleChange={this.handleChange}
+                    handleClose={this.handleClose}
+                />
+
+            case synthTypes.duo:
+                return <DuoSynth 
+                    instrumentData={this.instrumentData}
+                    instrumentId={this.props.instrumentId}
+                    handleChange={this.handleChange}
+                    handleClose={this.handleClose}
+                />
+
+            case synthTypes.mono:
+                return <MonoSynth 
+                    instrumentData={this.instrumentData}
+                    instrumentId={this.props.instrumentId}
+                    handleChange={this.handleChange}
+                    handleClose={this.handleClose}
+                />
 
             default:
                 return null;
