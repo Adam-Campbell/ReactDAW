@@ -20,16 +20,16 @@ class SynthFactory {
                 return this._createSynth(data);
 
             case synthTypes.am:
-                return this._createAMSynth();
+                return this._createAMSynth(data);
 
             case synthTypes.fm:
-                return this._createFMSynth();
+                return this._createFMSynth(data);
 
             case synthTypes.duo:
-                return this._createDuoSynth();
+                return this._createDuoSynth(data);
 
             case synthTypes.mono:
-                return this._createMonoSynth();
+                return this._createMonoSynth(data);
 
             default:
                 return new Tone.PolySynth(6, Tone.Synth);

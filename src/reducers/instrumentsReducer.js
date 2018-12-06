@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { synthTypes, defaultSynthData, synthData } from '../constants';
+import { deepCopy, updatePropertyAtPath, updatePropAtPath } from '../helpers';
 
 const defaultState = {};
 
@@ -71,6 +72,19 @@ const instruments = (state=defaultState, action) => {
                 [action.payload.instrumentId]: {
                     ...state[action.payload.instrumentId],
                     synthData: action.payload.instrumentSettings
+                }
+            };
+
+        case actionTypes.UPDATE_ONE_INSTRUMENT_SETTING:
+            return {
+                ...state, 
+                [action.payload.instrumentId]: {
+                    ...state[action.payload.instrumentId],
+                    synthData: updatePropAtPath(
+                        deepCopy(state[action.payload.instrumentId].synthData),
+                        action.payload.propertyPathArray,
+                        action.payload.newValue
+                    )
                 }
             };
 

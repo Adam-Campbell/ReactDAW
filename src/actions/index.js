@@ -123,6 +123,15 @@ export const updateInstrumentSettings = (instrumentId, instrumentSettings) => ({
     }
 });
 
+export const updateOneInstrumentSetting = (instrumentId, propertyPathArray, newValue) => ({
+    type: actionTypes.UPDATE_ONE_INSTRUMENT_SETTING,
+    payload: {
+        instrumentId,
+        propertyPathArray,
+        newValue
+    }
+});
+
 export const addEffect = (effectId, channelId, type, effectData, ) => ({
     type: actionTypes.ADD_EFFECT,
     payload: {

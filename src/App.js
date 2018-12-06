@@ -9,6 +9,7 @@ import AudioEngine from './components/AudioEngine';
 import StartStopButton from './components/StartStopButton';
 import { Rnd } from 'react-rnd';
 import Composer from './components/Composer';
+import SynthInterface from './components/SynthInterface';
 
 // class App extends Component {
 //   render() {
@@ -49,6 +50,9 @@ class App extends Component {
             switch (window.type) {
               case 'section':
                 return <PianoRoll id={window.id} key={window.id} />
+
+              case 'synth':
+                return <SynthInterface instrumentId={window.id} key={window.id} />
 
               default:
                 return null;
