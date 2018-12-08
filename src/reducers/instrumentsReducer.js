@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { synthTypes, defaultSynthData, synthData } from '../constants';
-import { deepCopy, updatePropertyAtPath, updatePropAtPath } from '../helpers';
+import { deepCopy, updatePropAtPath, deletePropFromObject } from '../helpers';
 
 const defaultState = {};
 
@@ -65,6 +65,9 @@ const instruments = (state=defaultState, action) => {
                     synthData: action.payload.synthData
                 }
             }
+        
+        case actionTypes.REMOVE_INSTRUMENT:
+            return deletePropFromObject(state, action.payload.instrumentId);
 
         case actionTypes.UPDATE_INSTRUMENT_SETTINGS:
             return {

@@ -1,4 +1,5 @@
 import * as actionTypes from '../actionTypes';
+import { deepCopy, updatePropAtPath } from '../helpers';
 
 const defaultState = {};
 
@@ -42,6 +43,19 @@ const effects = (state=defaultState, action) => {
                 [action.payload.effectId]: {
                     ...state[action.payload.effectId],
                     effectData: action.payload.effectData
+                }
+            };
+
+        case actionTypes.UPDATE_ONE_EFFECT_SETTING:
+            return {
+                ...state, 
+                [action.payload.effectId]: {
+                    ...state[action.payload.effectId],
+                    effectData: updatePropAtPath(
+                        deepCopy(state[action.payload.effectId].effectData),
+                        action.payload.propertyPathArray,
+                        action.payload.newValue
+                    )
                 }
             };
 

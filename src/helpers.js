@@ -48,3 +48,12 @@ export const updatePropAtPath = (obj, pathArray, value) => {
     pointer[key] = value;
     return obj;
 }
+
+
+
+
+export const deletePropFromObject = (obj, prop) => {
+    let newObj = { ...obj };
+    delete newObj[prop];
+    return newObj;
+}

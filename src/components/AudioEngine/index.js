@@ -30,7 +30,7 @@ class AudioEngine extends Component {
         //console.log(prevState, currState);
         const prev = this._stateToTree(prevState);
         const curr = this._stateToTree(currState);
-        //console.log(prev, curr);
+        console.log(prev, curr);
         this._updatePlayer(prev.playerInfo, curr.playerInfo);
 
         // First we loop through prev.channels, any channel that is in prev.channels
@@ -124,7 +124,7 @@ class AudioEngine extends Component {
             hasChanged = true;
         } else if (currChannel.effects.length) {
             for (let i = 0; i <= currChannel.effects.length; i++) {
-                if (prevChannel.effects[i].id !== currChannel.effects[i].id) {
+                if (prevChannel.effects[i] && prevChannel.effects[i].id !== currChannel.effects[i].id) {
                     hasChanged = true;
                 }
             }

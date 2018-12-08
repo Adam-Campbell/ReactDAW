@@ -53,6 +53,13 @@ export const setMasterVolume = (volume) => ({
     }
 });
 
+export const setBPM = (bpm) => ({
+    type: actionTypes.SET_BPM,
+    payload: {
+        bpm
+    }
+});
+
 export const addChannel = (channelId, channelName, channelColor, instrumentId, instrumentType) => ({
     type: actionTypes.ADD_CHANNEL,
     payload: {
@@ -115,6 +122,13 @@ export const addInstrument = (instrumentId, channelId, type, synthData) => ({
     }
 });
 
+export const removeInstrument = (instrumentId) => ({
+    type: actionTypes.REMOVE_INSTRUMENT,
+        payload: {
+            instrumentId
+        }
+});
+
 export const updateInstrumentSettings = (instrumentId, instrumentSettings) => ({
     type: actionTypes.UPDATE_INSTRUMENT_SETTINGS,
     payload: {
@@ -132,7 +146,7 @@ export const updateOneInstrumentSetting = (instrumentId, propertyPathArray, newV
     }
 });
 
-export const addEffect = (effectId, channelId, type, effectData, ) => ({
+export const addEffect = (effectId, channelId, type, effectData) => ({
     type: actionTypes.ADD_EFFECT,
     payload: {
         effectId, 
@@ -155,6 +169,15 @@ export const updateEffectSettings = (effectId, effectSettings) => ({
     payload: {
         effectId, 
         effectSettings
+    }
+});
+
+export const updateOneEffectSetting = (effectId, propertyPathArray, newValue) => ({
+    type: actionTypes.UPDATE_ONE_EFFECT_SETTING,
+    payload: {
+        effectId,
+        propertyPathArray,
+        newValue
     }
 });
 

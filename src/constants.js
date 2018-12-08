@@ -323,7 +323,7 @@ export const effectData = {
         mid: 0
     },
     feedbackDelay: {
-        delayTime: 0.25,
+        delayTime: '8n',
         feedback: 0.125,
         wet: 1
     },
