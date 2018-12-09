@@ -13,7 +13,7 @@ class TrackColorSwatch extends Component {
         this.root = document.getElementById('color-swatch-modal-root');
         this.el = document.createElement('div');
         const { top, left, width } = this.props.nodeRef.getBoundingClientRect();
-        this.topPos = top;
+        this.topPos = top + window.scrollY;
         this.leftPos = left + width;
     }
 

@@ -13,7 +13,7 @@ const RangeInput = props => (
             value={props.value}
             onChange={(e) => {
                 props.handleChange(
-                    props.instrumentId,
+                    props.effectId,
                     props.propertyPathArray,
                     parseFloat(e.target.value)
                 )

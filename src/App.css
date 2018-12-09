@@ -284,6 +284,10 @@
     inset 0 0 2px
 }
 
+.synth-interface__container--small {
+  width: 600px;
+}
+
 .synth-interface__module-container {
   padding: 8px 16px;
   display: flex;
@@ -332,7 +336,7 @@
 
 
 
-.synth__range-input {
+.range-input {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 150px; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
@@ -340,15 +344,15 @@
   margin-bottom: 8px;
 }
 
-.synth__range-input::-webkit-slider-thumb {
+.range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 
-.synth__range-input:focus {
+.range-input:focus {
   outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
 
-.synth__range-input::-ms-track {
+.range-input::-ms-track {
   width: 100%;
   cursor: pointer;
 
@@ -359,7 +363,7 @@
 }
 
 /* Special styling for WebKit/Blink */
-.synth__range-input::-webkit-slider-thumb {
+.range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 16px;
   width: 16px;
@@ -369,7 +373,7 @@
   margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
 
-.synth__range-input::-moz-range-thumb {
+.range-input::-moz-range-thumb {
   height: 16px;
   width: 16px;
   border-radius: 8px;
@@ -377,7 +381,7 @@
   cursor: pointer;
 }
 
-.synth__range-input::-ms-thumb { 
+.range-input::-ms-thumb { 
   height: 16px;
   width: 16px;
   border-radius: 8px;
@@ -385,14 +389,14 @@
   cursor: pointer;
 }
 
-.synth__range-input::-webkit-slider-runnable-track { 
+.range-input::-webkit-slider-runnable-track { 
   width: 100px;
   height: 6px;
   background: #e0e0e0;
   border-radius: 3px;
 }
 
-.synth__range-input-label {
+.range-input__label {
   font-family: 'VT323', monospace;
   font-size: 16px;
 }
@@ -415,4 +419,333 @@
 .synth__select-input-label {
   font-family: 'VT323', monospace;
   font-size: 16px;
+}
+
+
+
+.track-details__container {
+  background-color: #e23340;
+  width: 600px;
+  padding: 16px;
+  margin: 16px auto;
+}
+
+.track-details__instrument-info-container {
+
+}
+
+.track-details__heading {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: #e0e0e0;
+}
+
+.track-details__instrument-select-label {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #e0e0e0;
+  display: block;
+}
+
+.track-details__instrument-select {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 4px 8px;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px #e0e0e0;
+}
+
+.track-details__instrument-select-option {
+  background-color: #e0e0e0;
+  color: #201826;
+}
+
+.track-details__instrument-settings-button {
+  margin-left: auto;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.track_details__effects-info-container {
+
+}
+
+.track-details__effect-select {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 4px 8px;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px #e0e0e0;
+}
+
+.track-details__effect-select-option {
+  background-color: #e0e0e0;
+  color: #201826;
+}
+
+.track-details__effect-select-label {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #e0e0e0;
+  display: block;
+}
+
+.track-details__effect-button {
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.track-details__effect-text {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #e0e0e0;
+}
+
+
+.track-details__close-button {
+  margin-left: auto;
+  background: none;
+  color: #e0e0e0;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+
+.transport__container {
+  width: 960px;
+  margin: 16px auto;
+  background-color: #201826;
+  color: #d86597;
+  border: solid 4px;
+  padding: 8px 16px;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transport__button {
+  background: none;
+  color: #d86597;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin: 8px;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+    text-shadow: 0 0 6px #d86597;
+}
+
+
+
+
+
+
+
+/************************
+REUSABLE STYLES
+*************************/
+
+.select-input {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 4px 8px;
+  background: none;
+  border: solid 2px;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
+  text-shadow: 0 0 6px;
+}
+
+.select-input__label {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  display: block;
+  text-shadow: 0 0 6px;
+}
+
+.select-input__option {
+  background-color: #e0e0e0;
+  color: #201826;
+}
+
+
+.button {
+  background: none;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin: 8px;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
+  text-shadow: 0 0 6px;
+}
+
+.deep-purple {
+  color: #201826;
+}
+
+.light-purple {
+  color: #47426c;
+}
+
+.pink {
+  color: #d86597;
+}
+
+.off-white {
+  color: #e0e0e0;
+}
+
+.bright-blue {
+  color: #00bff3;
+}
+
+.bright-yellow {
+  color: #f4ab54;
+}
+
+.bright-red {
+  color: #e23340;
+}
+
+.bright-green {
+  color: #25e452;
+}
+
+
+
+
+
+
+.effect__container {
+  width: 350px;
+  background-color: #201826;
+  color: #d86597;
+  margin: 16px auto;
+  border: solid 4px #d86597;
+  padding: 16px;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px; 
+}
+
+.effect__container--large {
+  width: 500px;
+}
+
+.effect__header-container {
+  display: flex;
+  align-items: center;
+}
+
+.effect__title {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.effect__close-button {
+  background: none;
+  color: #d86597;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin-left: auto;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.effect__settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+
+
+.transport__track-position {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  background-color: #47426c;
+  border: solid 2px #47426c;
+  box-shadow: 
+    0 0 4px #47426c,
+    inset 0 0 2px #47426c;
+}
+
+.transport__bpm-container {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  background-color: #47426c;
+  border: solid 2px #47426c;
+  padding: 4px 8px;
+  box-shadow: 
+    0 0 4px #47426c,
+    inset 0 0 2px #47426c;
+}
+
+.transport__bpm-label {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.transport__bpm-input {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  width: 35px;
+  background: none;
+  margin-left: 8px;
+  border: none; 
+  border-bottom: 2px solid #d86597;
+}
+
+.transport__bpm-text {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 8px;
+  cursor: pointer;
+  width: 35px;
 }

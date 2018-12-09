@@ -3,7 +3,8 @@ import * as actionTypes from '../actionTypes';
 const defaultState = {
     isPlaying: false,
     isMuted: false,
-    volume: 0
+    volume: 0,
+    bpm: 120
 };
 
 const playerInfo = (state=defaultState, action) => {
@@ -37,6 +38,12 @@ const playerInfo = (state=defaultState, action) => {
             return {
                 ...state,
                 volume: action.payload.volume
+            };
+
+        case actionTypes.SET_BPM:
+            return {
+                ...state,
+                bpm: action.payload.bpm
             };
 
         default:

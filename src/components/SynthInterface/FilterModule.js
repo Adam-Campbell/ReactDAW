@@ -30,8 +30,8 @@ const FilterModule = props => (
         <RangeInput 
             inputId={'filter-gain'}
             label={'Gain'}
-            min={0}
-            max={2}
+            min={-40}
+            max={10}
             step={0.1}
             value={props.filterData.gain}
             handleChange={props.handleChange}

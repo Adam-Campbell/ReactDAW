@@ -98,7 +98,7 @@ class TrackInfo extends Component {
 
     openInstrumentWindow = () => {
         const track = this.props.channels.find(channel => channel.id === this.props.trackId);
-        this.props.openWindow(track.instrumentId, 'synth');
+        this.props.openWindow(track.id, 'instrumentSettings');
     }
 
 

@@ -17,7 +17,6 @@ import { synthTypes } from '../../constants';
 class SynthInterface extends Component {
     constructor(props) {
         super(props);
-        this.foo = 'bar';
         this.handleChange = debounce(this.props.updateOneInstrumentSetting, 16, {leading: true, trailing: true}).bind(this);
         const synth = this.props.instruments[this.props.instrumentId];
         this.state = {
