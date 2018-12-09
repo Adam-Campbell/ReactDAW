@@ -74,6 +74,9 @@ class AudioEngine extends Component {
         if (prev.volume !== curr.volume) {
             Tone.Master.volume.value = curr.volume;
         }
+        if (prev.bpm !== curr.bpm) {
+            Tone.Transport.bpm.value = curr.bpm;
+        }
     }
 
     /**

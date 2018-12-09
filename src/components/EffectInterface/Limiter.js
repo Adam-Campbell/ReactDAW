@@ -18,7 +18,7 @@ const Limiter = props => (
                 step={0.5}
                 value={props.effectData.threshold}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['threshold']}
             />
         </div>

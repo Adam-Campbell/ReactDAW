@@ -18,7 +18,7 @@ const JCReverb = props => (
                 step={0.005}
                 value={props.effectData.roomSize}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['roomSize']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const JCReverb = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>

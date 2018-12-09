@@ -18,7 +18,7 @@ const Phaser = props => (
                 step={0.5}
                 value={props.effectData.Q}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['Q']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const Phaser = props => (
                 step={25}
                 value={props.effectData.baseFrequency}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['baseFrequency']}
             />
             <RangeInput 
@@ -40,7 +40,7 @@ const Phaser = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['frequency']}
             />
             <RangeInput 
@@ -51,7 +51,7 @@ const Phaser = props => (
                 step={1}
                 value={props.effectData.octaves}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['octaves']}
             />
             <RangeInput 
@@ -62,7 +62,7 @@ const Phaser = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>

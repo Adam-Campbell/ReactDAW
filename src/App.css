@@ -284,6 +284,10 @@
     inset 0 0 2px
 }
 
+.synth-interface__container--small {
+  width: 600px;
+}
+
 .synth-interface__module-container {
   padding: 8px 16px;
   display: flex;
@@ -639,7 +643,7 @@ REUSABLE STYLES
 
 
 .effect__container {
-  width: 600px;
+  width: 350px;
   background-color: #201826;
   color: #d86597;
   margin: 16px auto;
@@ -647,8 +651,11 @@ REUSABLE STYLES
   padding: 16px;
   box-shadow: 
     0 0 4px,
-    inset 0 0 2px;
-  
+    inset 0 0 2px; 
+}
+
+.effect__container--large {
+  width: 500px;
 }
 
 .effect__header-container {
@@ -682,4 +689,63 @@ REUSABLE STYLES
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+
+
+
+.transport__track-position {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  background-color: #47426c;
+  border: solid 2px #47426c;
+  box-shadow: 
+    0 0 4px #47426c,
+    inset 0 0 2px #47426c;
+}
+
+.transport__bpm-container {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  background-color: #47426c;
+  border: solid 2px #47426c;
+  padding: 4px 8px;
+  box-shadow: 
+    0 0 4px #47426c,
+    inset 0 0 2px #47426c;
+}
+
+.transport__bpm-label {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.transport__bpm-input {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  width: 35px;
+  background: none;
+  margin-left: 8px;
+  border: none; 
+  border-bottom: 2px solid #d86597;
+}
+
+.transport__bpm-text {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 8px;
+  cursor: pointer;
+  width: 35px;
 }

@@ -18,7 +18,7 @@ const Tremolo = props => (
                 step={0.005}
                 value={props.effectData.depth}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['depth']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const Tremolo = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['frequency']}
             />
             <RangeInput 
@@ -40,7 +40,7 @@ const Tremolo = props => (
                 step={1}
                 value={props.effectData.spread}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['spread']}
             />
             <SelectInput 
@@ -48,7 +48,7 @@ const Tremolo = props => (
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                effectId={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'sine', text: 'Sine'},
@@ -65,7 +65,7 @@ const Tremolo = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>

@@ -18,7 +18,7 @@ const Filter = props => (
                 step={0.5}
                 value={props.effectData.Q}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['Q']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const Filter = props => (
                 step={5}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['frequency']}
             />
             <RangeInput 
@@ -40,7 +40,7 @@ const Filter = props => (
                 step={0.1}
                 value={props.effectData.gain}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['gain']}
             />
             <SelectInput 
@@ -48,7 +48,7 @@ const Filter = props => (
                 label={'Rolloff'}
                 value={props.effectData.rolloff}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                effectId={props.effectId}
                 shouldConvertToFloat={true}
                 propertyPathArray={['rolloff']}
                 options={[
@@ -63,7 +63,7 @@ const Filter = props => (
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                effectId={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'lowpass', text: 'Low Pass'},

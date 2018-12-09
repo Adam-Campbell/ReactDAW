@@ -18,7 +18,7 @@ const Freeverb = props => (
                 step={5}
                 value={props.effectData.dampening}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['dampening']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const Freeverb = props => (
                 step={0.005}
                 value={props.effectData.roomSize}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['roomSize']}
             />
             <RangeInput 
@@ -40,7 +40,7 @@ const Freeverb = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>

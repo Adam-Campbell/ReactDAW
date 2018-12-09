@@ -18,7 +18,7 @@ const LFO = props => (
                 step={0.05}
                 value={props.effectData.amplitude}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['amplitude']}
             />
             <RangeInput 
@@ -29,7 +29,7 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['frequency']}
             />
             <RangeInput 
@@ -40,7 +40,7 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.max}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['max']}
             />
             <RangeInput 
@@ -51,7 +51,7 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.min}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['min']}
             />
             <RangeInput 
@@ -62,7 +62,7 @@ const LFO = props => (
                 step={1}
                 value={props.effectData.phase}
                 handleChange={props.handleChange}
-                instrumentId={props.effectId}
+                effectId={props.effectId}
                 propertyPathArray={['phase']}
             />
             <SelectInput 
@@ -70,7 +70,7 @@ const LFO = props => (
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                effectId={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'sine', text: 'Sine'},

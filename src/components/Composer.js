@@ -11,6 +11,7 @@ import Tone from 'tone';
 import CursorSelect from './CursorSelect';
 import AddTrackMenu from './AddTrackMenu';
 import SectionDurationSelect from './SectionDurationSelect';
+
 /*
 outer dimensions - 960 x 300
 
@@ -59,6 +60,9 @@ class Composer extends Component {
         this.gridLayerRef = React.createRef();
         this.sectionsLayerRef = React.createRef();
         this.transportLayerRef = React.createRef();
+        this.seekerLayerRef = React.createRef();
+        this.seekerLineRef = React.createRef();
+        this.rAFRef = null;
         this.horizontalDragMove = throttle(this._horizontalDragMove, 16);
         this.verticalDragMove = throttle(this._verticalDragMove, 16);
         this.state = {
@@ -67,12 +71,21 @@ class Composer extends Component {
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
-            trackInfoMenuTopScroll: 0
+            trackInfoMenuTopScroll: 0,
+            transportPosition: 0
         };
     }
 
-    componentDidMount() {
-
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.isPlaying !== this.props.isPlaying) {
+            if (this.props.isPlaying) {
+                requestAnimationFrame(this.getTransportPosition);
+            } else {
+                cancelAnimationFrame(this.rAFRef);
+                this.seekerLineRef.current.x(0);
+                this.seekerLayerRef.current.batchDraw();
+            }
+        }
     }
 
     get canvasHeight() {
@@ -133,9 +146,11 @@ class Composer extends Component {
         this.gridLayerRef.current.x(-(totalCanvasRange * delta));
         this.sectionsLayerRef.current.x(-(totalCanvasRange * delta));
         this.transportLayerRef.current.x(-(totalCanvasRange * delta));
+        this.seekerLayerRef.current.x(-(totalCanvasRange * delta));
         this.gridLayerRef.current.batchDraw();
         this.sectionsLayerRef.current.batchDraw();
         this.transportLayerRef.current.batchDraw();
+        this.seekerLayerRef.current.batchDraw();
     }
 
     _createSectionRectsArray = () => {
@@ -342,6 +357,27 @@ class Composer extends Component {
         }
     }
 
+    getTransportPosition = () => {
+        const newXPos = this.convertTransportPositionToXPos(Tone.Transport.position);        
+        this.seekerLineRef.current.x(newXPos);
+        this.seekerLayerRef.current.batchDraw();
+        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
+    }
+
+    convertTransportPositionToXPos = (transportPositionString) => {
+        // Format of input string is "0:0:0", this will split it into an array of
+        // [bars, beats, sixteenths]
+        const spl= transportPositionString.split(':');
+        // Convert the bars, beats and sixteenths into one figure in terms of sixteenths.
+        const asSixteenths = parseInt(spl[0])*16 + 
+                           parseInt(spl[1])*4 +
+                           parseFloat(spl[2]);
+        // ratio of sixteenths to pixels is 1/3, so multiply by 3 to turn the sixteenths value
+        // into the appropriate x position.
+        const asXPos = asSixteenths * 3;
+        return asXPos;
+
+    }
 
     render() {
         const gridLines = this._createGridLinesArray();
@@ -465,6 +501,15 @@ class Composer extends Component {
                                     ))
                                 }
                             </Layer>
+                            <Layer ref={this.seekerLayerRef}>
+                                <Line
+                                    ref={this.seekerLineRef}
+                                    points={[0, 0, 0, this.canvasHeight]}
+                                    listening={false}
+                                    stroke={'#e0e0e0'}
+                                    strokeWidth={2}
+                                />
+                            </Layer>
                             <Layer>
                                 <Rect 
                                     x={716}
@@ -533,7 +578,8 @@ class Composer extends Component {
 
 const mapStateToProps = state => ({
     channels: state.channels,
-    sections: state.sections
+    sections: state.sections,
+    isPlaying: state.playerInfo.isPlaying
 });
 
 export default connect(
