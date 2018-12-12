@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Rect, Line } from 'react-konva';
+import { Stage, Layer, Rect, Line, Text } from 'react-konva';
 import Konva from 'konva';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../actions';
@@ -14,31 +14,22 @@ import { debounce, throttle } from 'lodash';
 class PianoRoll extends Component {
     constructor(props) {
         super(props);
-        //this.section = this.props.sections[this.props.id];
         this.padding = 10;
         this.stageRef = React.createRef();
-        //window.stageRef = this.stageRef;
         this.gridLayerRef = React.createRef();
         this.noteLayerRef = React.createRef();
-        //this.horizontalDragMove = this._horizontalDragMove.bind(this);
+        this.pianoKeyLayerRef = React.createRef();
+        this.transportLayerRef = React.createRef();
+        this.seekerLayerRef = React.createRef();
+        this.seekerLineRef = React.createRef();
+        this.rAFRef = null;
         this.horizontalDragMove = throttle(this._horizontalDragMove, 16).bind(this);
-        //this.verticalDragMove = this._verticalDragMove.bind(this);
         this.verticalDragMove = throttle(this._verticalDragMove, 16).bind(this);
         this.throttledResizeCanvas = throttle(this._resizeCanvas, 16).bind(this);
         this.canvasWidth = this.section.numberOfBars * 384;
+        this.canvasHeight = 1768;
         this._notesArray = this._createNotesArray();
-        // this._timeArray = [
-        //     '0:0:0', '0:0:1', '0:0:2', '0:0:3', '0:1:0', '0:1:1', '0:1:2', '0:1:3',
-        //     '0:2:0', '0:2:1', '0:2:2', '0:2:3', '0:3:0', '0:3:1', '0:3:2', '0:3:3',
-        //     '1:0:0', '1:0:1', '1:0:2', '1:0:3', '1:1:0', '1:1:1', '1:1:2', '1:1:3',
-        //     '1:2:0', '1:2:1', '1:2:2', '1:2:3', '1:3:0', '1:3:1', '1:3:2', '1:3:3',
-        //     '2:0:0', '2:0:1', '2:0:2', '2:0:3', '2:1:0', '2:1:1', '2:1:2', '2:1:3',
-        //     '2:2:0', '2:2:1', '2:2:2', '2:2:3', '2:3:0', '2:3:1', '2:3:2', '2:3:3',
-        //     '3:0:0', '3:0:1', '3:0:2', '3:0:3', '3:1:0', '3:1:1', '3:1:2', '3:1:3',
-        //     '3:2:0', '3:2:1', '3:2:2', '3:2:3', '3:3:0', '3:3:1', '3:3:2', '3:3:3',
-        // ];
-        // this._cellsArray = this._createCellsArray();
-        // this._linesArray = this._createLinesArray();
+        this._transportBarNumbersArray = this._createTransportBarNumbersArray();
         this.handleStageClick = this._handleStageClick.bind(this);
         this.handleMouseDown = this._handleMouseDown.bind(this);
         this.handleMouseUp = this._handleMouseUp.bind(this);
@@ -56,11 +47,6 @@ class PianoRoll extends Component {
             stageHeight: 600,
             showStage: true
         };
-        // old color scheme
-        // background: #e0f7fa
-        // gridlines: #80deea
-        // notes fill: #0097a7
-        // notes stroke: #006064 
     }
 
     componentDidMount() {
@@ -88,7 +74,69 @@ class PianoRoll extends Component {
             return this;
         }
         */
+        if (this.rAFRef) {
+            cancelAnimationFrame(this.rAFRef);
+        }
         this.stageRef.current.content = null;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.isPlaying !== this.props.isPlaying) {
+            if (this.props.isPlaying) {
+                requestAnimationFrame(this.getTransportPosition);
+            } else {
+                cancelAnimationFrame(this.rAFRef);
+                this.seekerLineRef.current.strokeWidth(0);
+                this.seekerLineRef.current.x(0);
+                this.seekerLayerRef.current.batchDraw();
+            }
+        }
+    }
+
+    getTransportPosition = () => {
+        const newLineAttrs = this.getTransportLineAttrs();        
+        this.seekerLineRef.current.x(newLineAttrs.xPos);
+        this.seekerLineRef.current.strokeWidth(newLineAttrs.strokeWidth);
+        this.seekerLayerRef.current.batchDraw();
+        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
+    }
+
+    getWholeBarsFromString = (transportPositionString) => {
+        const splitString= transportPositionString.split(':');
+        return parseInt(splitString[0]);
+    }
+
+    transportPositionStringToSixteenths = (transportPositionString) => {
+        const splitString= transportPositionString.split(':');
+        const asSixteenths = parseInt(splitString[0])*16 + 
+                           parseInt(splitString[1])*4 +
+                           parseFloat(splitString[2]);
+        return asSixteenths;
+    }
+
+    getTransportLineAttrs = () => {
+        // verify whether current transport position is within this section. If not, return some value
+        // for xPos (unimportant in this case), and return 0 for strokeWidth.
+        // If it is in this section, return 2 for strokeWidth and return a precise xPos.
+        const currentTransportPosition = Tone.Transport.position;
+        const sectionStartBar = this.getWholeBarsFromString(this.section.start);
+        const sectionEndBar = sectionStartBar + this.section.numberOfBars;
+        const currentTransportBar = this.getWholeBarsFromString(currentTransportPosition);
+        if (currentTransportBar < sectionStartBar || currentTransportBar > sectionEndBar) {
+            return {
+                xPos: 0,
+                strokeWidth: 0
+            };
+        } else {
+            const sectionStartAsSixteenths = this.transportPositionStringToSixteenths(this.section.start);
+            const currentPositionAsSixteenths = this.transportPositionStringToSixteenths(currentTransportPosition);
+            const diff = currentPositionAsSixteenths - sectionStartAsSixteenths;
+            const diffToXPos = diff * 24;
+            return {
+                xPos: diffToXPos,
+                strokeWidth: 2
+            };
+        }
     }
 
     _resizeCanvas(e) {
@@ -441,12 +489,14 @@ class PianoRoll extends Component {
 
         // update the layers
 
-        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 24;
+        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 24 + 48;
         
-        this.gridLayerRef.current.x(-(totalCanvasRange * delta));
-        this.noteLayerRef.current.x(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.gridLayerRef.current.batchDraw();
         this.noteLayerRef.current.batchDraw();
+        this.transportLayerRef.current.batchDraw();
     }
 
     _verticalDragMove(e) {
@@ -457,17 +507,36 @@ class PianoRoll extends Component {
         const delta = currentSliderPos / totalSliderRange;
 
         const canvasHeight = 1728;
-        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24;
+        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24 + 40;
 
         // update the layers
-        this.gridLayerRef.current.y(-(totalCanvasRange * delta));
-        this.noteLayerRef.current.y(-(totalCanvasRange * delta));
+        this.gridLayerRef.current.y(-(totalCanvasRange * delta) + 40);
+        this.noteLayerRef.current.y(-(totalCanvasRange * delta) + 40);
+        this.pianoKeyLayerRef.current.y(-(totalCanvasRange * delta) + 40);
         this.gridLayerRef.current.batchDraw();
         this.noteLayerRef.current.batchDraw();
+        this.pianoKeyLayerRef.current.batchDraw();
     }
 
     closePianoRoll = () => {
         this.props.closeWindow(this.props.id);
+    }
+
+    handlePianoKeyClick = (e, pitch) => {
+        e.cancelBubble = true;
+        console.log(pitch);
+    }
+
+    _createTransportBarNumbersArray = () => {
+        let arr = [];
+        const start = parseInt(this.section.start.split(':')[0]);
+        for (let i = 0; i < this.section.numberOfBars; i++) {
+            arr.push({
+                barNumber: start + i,
+                xPos: i * 384
+            });
+        }
+        return arr;
     }
 
     render() {
@@ -500,13 +569,17 @@ class PianoRoll extends Component {
                         onMouseDown={this.handleMouseDown} 
                         onMouseUp={this.handleMouseUp}
                     >
-                        <Layer ref={this.gridLayerRef} >
+                        <Layer 
+                            x={48} 
+                            y={40} 
+                            ref={this.gridLayerRef} 
+                        >
                             <Rect 
                                 x={0}
                                 y={0}
                                 width={this.canvasWidth}
-                                height={1750}
-                                fill={'#2c2338'}
+                                height={1728}
+                                fill={'#201826'}
                             />
                             {
                                 gridLinesArray.map((line, index) => (
@@ -525,6 +598,8 @@ class PianoRoll extends Component {
                             }
                         </Layer>
                         <Layer
+                            x={48}
+                            y={40}
                             ref={this.noteLayerRef}
                         >
                         {
@@ -548,6 +623,62 @@ class PianoRoll extends Component {
                                 />
                             ))
                         }
+                        </Layer>
+                        <Layer
+                            y={40}
+                            ref={this.pianoKeyLayerRef}
+                        >
+                            {this._notesArray.map((note, index) => (
+                                <Rect 
+                                    x={0}
+                                    y={index * 16}
+                                    width={48}
+                                    height={16}
+                                    stroke={'#201826'}
+                                    strokeWidth={2}
+                                    fill={note.includes('#') ? '#47426c' : '#e0e0e0'} 
+                                    key={index} 
+                                    pitch={note}
+                                    type={'pianoKeyRect'}
+                                    onClick={e => this.handlePianoKeyClick(e, note)}
+                                />
+                            ))}
+                        </Layer>
+                        <Layer
+                            x={48}
+                            ref={this.transportLayerRef}
+                        >
+                            <Rect 
+                                x={0}
+                                y={0}
+                                width={this.canvasWidth}
+                                height={40}
+                                fill={'#201826'}
+                            />
+                            {this._transportBarNumbersArray.map((barObject, index) =>(
+                                <Text 
+                                    text={barObject.barNumber}
+                                    x={barObject.xPos}
+                                    y={20}
+                                    key={index}
+                                    fill={'#e0e0e0'}
+                                    shadowColor={'#e0e0e0'}
+                                    shadowBlur={4}
+                                    shadowOffsetX={0}
+                                    shadowOffsetY={0}
+                                />
+                            ))}
+                        </Layer>
+                        <Layer
+                            ref={this.seekerLayerRef}
+                        >
+                            <Line
+                                ref={this.seekerLineRef}
+                                points={[0, 0, 0, this.canvasHeight]}
+                                listening={false}
+                                stroke={'#e0e0e0'}
+                                strokeWidth={0}
+                            />
                         </Layer>
                         <Layer>
                             <Rect 
@@ -623,7 +754,8 @@ class PianoRoll extends Component {
 
 const mapStateToProps = state => ({
     //notes: state.sectionInfo.notes
-    sections: state.sections
+    sections: state.sections,
+    isPlaying: state.playerInfo.isPlaying
 });
 
 
@@ -635,3 +767,178 @@ export default connect(
         closeWindow: ActionCreators.closeWindow
     }
 )(PianoRoll);
+
+
+
+
+/*
+
+improvements to be made to piano roll
+
+
+no particular order
+
+
+
+
+1. Bug when using pencil tool needs to be fixed. It sometimes isn't letting notes be
+added that should be valid, most likely an error in the note validation steps. 
+
+
+
+
+
+||DONE|| 2. Scrollbars need to be updated to match the looks and functionality of the composer
+scrollbars. 
+
+
+
+
+
+3. Add a piano to the left of the piano roll, such that the user can click a key
+on the piano to sample that note. In order for the piano roll component to directly
+trigger a note on the instrument rather than having to go through redux and the
+audio engine, store a global variable on the window that is a dictionary where each
+key is the id of an instrument in use, and the corresponding value is a reference
+to instrument in memory. That way the piano roll can just grab the reference and 
+set a triggerAttackRelease on demand, since the piano roll knows its instrument id. 
+On second thoughts, does it? If the piano roll only knows the channel id, maybe use
+the channel ids for the dictionary and add a getter method to the channel that lets
+the piano roll access the current instrument for that channel.
+
+
+
+drawing the piano
+
+draw a series of Rects along the left hand side 
+
+Rects will be 48px wide, 16px tall
+
+Each rect will be assigned a note from the notes array, as well  as a type attr
+of 'pianoKeyRect'
+
+If the note is a sharp note, give the piano key a dark color, otherwise it gets a
+light color. To work this out - noteString.includes('#') 
+
+For now, just add an onClick to each key that logs its notes
+
+
+
+
+
+if I just add 48 to the grid line figures...
+I also have to add 48 to the background rectangles x figure
+I also have to add 48 to the notes x values
+
+
+
+If I start the layer scrolled at 48px...
+I have to add 48px to the figure I get everytime I scroll the canvas horizontally. 
+
+
+
+making the transport area
+
+make a rectangle that is 40px tall, and the necessary width (same width as the
+note layer, grid layer etc). At the start of each bar, include a number stating
+which bar it is. You can derive this from the bar that the section starts on, 
+combined with how far into the section we are. 
+
+
+
+
+remember to add 40px onto the figure in the vertical scroll function, and to start 
+the necessary layers off scrolled 40px 
+
+
+
+
+create an array of numbers, starting at the bar number that the section begins at, 
+and continuing through the duration of the section. Return an object:
+
+{
+  barNumber - number of bar
+  xPos - x position of bar, some multiple of 384
+}
+
+
+
+
+
+
+4. Fix weird behaviours arising when the scrollbars are used whilst the pencil tool 
+is active - the mouseup event is still firing which causes a note to be drawn when
+it shouldn't be. 
+
+
+
+
+
+5. Modify the behaviour of the pencil tool - if the distance between mousedown and
+mouseup doesn't meet some minimum note duration requirement, say a 32nd note, we'll 
+just create a 32nd note automatically.
+
+
+
+
+
+6. When you click on a pre-existing note it doesn't automatically delete it, it 
+just highlights it. You can delete it with a dedicated delete button, or a keyboard
+shortcut. You can also copy it to be pasted later.
+
+
+
+
+7. When a note (or multiple notes, see next point) is/are selected, pressing the up
+arrow will move the note up be a semitone, down arrow down by a semitone. The right
+arrow will move the note along to the next step it can occupy according to the 
+current quantize/snap, the left key will move it back to the previous one.  
+
+
+
+
+
+8. Multi-select of notes - either hold down the control key while selecting, or,
+with the pointer tool, click and drag along the canvas to select all notes that 
+fall within the area that you specified. 
+
+
+
+
+
+9. Copy pasting will be linked to where you are on currently on the transport
+timeline. Will have to manually ensure that the current spot on the timeline 
+is within the current section, and if not then prevent the user from pasting, to
+avoid weirdness. 
+
+
+
+
+
+10. Add a transport section to the top of the piano roll canvas - similar in
+appearance and functionality to the one in the composer component. If performance
+permits, add a seeker line as well that shows where abouts the track is within the 
+section. 
+
+
+
+
+11. Implement note velocity - have a section at the bottom of the canvas where users 
+can pull a notes velocity up/down.
+
+
+
+
+12. Neaten up the piano roll component in general. It's probably a good idea to do
+this before moving onto the more advanced features in this list. 
+
+
+
+
+
+
+
+
+
+
+*/
