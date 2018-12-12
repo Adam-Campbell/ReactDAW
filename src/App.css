@@ -11,7 +11,7 @@
 .piano-roll-container {
   height: 650px;
   width: 800px;
-  margin: 16px auto;
+  
   border: solid #d86597 2px;
   box-sizing: content-box;
   box-shadow: 
@@ -272,13 +272,12 @@
 
 .synth-interface__container {
   padding: 16px;
-  background-color: #00bff3;
-  color: #e0e0e0;
+  background-color: #201826;
+  color: #d86597;
   width: 960px;
-  margin: 16px auto;
   display: flex;
   flex-wrap: wrap;
-  border: solid #e0e0e0 4px;
+  border: solid 4px;
   box-shadow: 
     0 0 4px,
     inset 0 0 2px
@@ -299,6 +298,8 @@
 .synth-interface__module-heading {
   font-family: 'VT323', monospace;
   font-size: 24px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
 }
 
 .synth-interface__header-container {
@@ -316,6 +317,8 @@
 .synth-interface__title {
   font-family: 'VT323', monospace;
   font-size: 36px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
 }
 
 .synth-interface__close-button {
@@ -424,10 +427,14 @@
 
 
 .track-details__container {
-  background-color: #e23340;
   width: 600px;
+  background-color: #201826;
+  color: #d86597;
+  border: solid 4px #d86597;
   padding: 16px;
-  margin: 16px auto;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px; 
 }
 
 .track-details__instrument-info-container {
@@ -437,13 +444,15 @@
 .track-details__heading {
   font-family: 'VT323', monospace;
   font-size: 36px;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
 }
 
 .track-details__instrument-select-label {
   font-family: 'VT323', monospace;
   font-size: 16px;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
   display: block;
 }
 
@@ -452,8 +461,12 @@
   font-size: 16px;
   padding: 4px 8px;
   background: none;
-  color: #e0e0e0;
-  border: solid 2px #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  border: solid 2px;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
 }
 
 .track-details__instrument-select-option {
@@ -464,12 +477,16 @@
 .track-details__instrument-settings-button {
   margin-left: auto;
   background: none;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
   border: solid 2px;
   font-family: 'VT323', monospace;
   font-size: 18px;
   padding: 4px 8px;
   cursor: pointer;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
 }
 
 .track_details__effects-info-container {
@@ -481,8 +498,12 @@
   font-size: 16px;
   padding: 4px 8px;
   background: none;
-  color: #e0e0e0;
-  border: solid 2px #e0e0e0;
+  color: #d86597;
+  border: solid 2px;
+  text-shadow: 0 0 6px #d86597;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
 }
 
 .track-details__effect-select-option {
@@ -493,24 +514,30 @@
 .track-details__effect-select-label {
   font-family: 'VT323', monospace;
   font-size: 16px;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
   display: block;
 }
 
 .track-details__effect-button {
   background: none;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
   border: solid 2px;
   font-family: 'VT323', monospace;
   font-size: 18px;
   padding: 4px 8px;
   cursor: pointer;
+  box-shadow: 
+    0 0 4px,
+    inset 0 0 2px;
 }
 
 .track-details__effect-text {
   font-family: 'VT323', monospace;
   font-size: 16px;
-  color: #e0e0e0;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
 }
 
 
@@ -646,7 +673,6 @@ REUSABLE STYLES
   width: 350px;
   background-color: #201826;
   color: #d86597;
-  margin: 16px auto;
   border: solid 4px #d86597;
   padding: 16px;
   box-shadow: 
@@ -748,4 +774,53 @@ REUSABLE STYLES
   margin-left: 8px;
   cursor: pointer;
   width: 35px;
+}
+
+
+
+.draggable-window__container {
+  background-color: #f4ab54;
+  width: 350px;
+  min-height: 200px;
+  padding: 16px;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  color: #201826;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+
+
+.draggable-wrapper {
+  position: absolute;
+  z-index: 5000;
+  top: 30px;
+  left: 30px;
+}
+
+.draggable-wrapper__header {
+  background-color: #d86597;
+  border: solid 4px #d86597;
+  border-bottom: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.draggable-wrapper__button {
+  background: #201826;
+  color: #d86597;
+  border: solid 2px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+  text-shadow: 0 0 6px #d86597;
 }

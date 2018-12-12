@@ -18,6 +18,7 @@ import Vibrato from './Vibrato';
 import { effectTypes } from '../../constants';
 import { debounce } from 'lodash';
 
+
 class EffectInterface extends Component {
     constructor(props) {
         super(props);

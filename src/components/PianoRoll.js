@@ -489,10 +489,6 @@ class PianoRoll extends Component {
                         value={this.state.pencilActive ? 'pencil' : 'pointer'}
                         handleChange={this.updateCursorValue.bind(this)}
                     />
-                    <button 
-                        className="piano-roll-controls__close-button"
-                        onClick={this.closePianoRoll}
-                    >X</button>
                 </div>
                 <div className="canvas-container" id="piano-roll-canvas-container">
                     <Stage 

@@ -117,10 +117,6 @@ class TrackDetails extends Component {
         const effectsArray = this.track.effectIds.map(effectId => this.props.effects[effectId]);
         return (
             <div className="track-details__container">
-                <button 
-                    className="track-details__close-button"
-                    onClick={this.handleClose}
-                >X</button>
                 <InstrumentDetails 
                     instrumentType={this.instrument.type}
                     handleChange={this.handleInstrumentChange}
