@@ -436,12 +436,12 @@ class PianoRoll extends Component {
         // work out horizontal % delta
         const currentSliderPos = e.target.attrs.x - this.padding;
         const { stageWidth } = this.state; 
-        const totalSliderRange = stageWidth - (this.padding * 2) - 100;
+        const totalSliderRange = stageWidth - this.padding - 24 - 100;
         const delta = currentSliderPos / totalSliderRange;
 
         // update the layers
 
-        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 16;
+        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 24;
         
         this.gridLayerRef.current.x(-(totalCanvasRange * delta));
         this.noteLayerRef.current.x(-(totalCanvasRange * delta));
@@ -453,11 +453,11 @@ class PianoRoll extends Component {
         // make necessary calculations
         const currentSliderPos = e.target.attrs.y - this.padding;
         const { stageHeight } = this.state;
-        const totalSliderRange = stageHeight - (this.padding * 2) - 100;
+        const totalSliderRange = stageHeight - this.padding - 24 - 100;
         const delta = currentSliderPos / totalSliderRange;
 
         const canvasHeight = 1728;
-        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 16;
+        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24;
 
         // update the layers
         this.gridLayerRef.current.y(-(totalCanvasRange * delta));
@@ -551,36 +551,57 @@ class PianoRoll extends Component {
                         </Layer>
                         <Layer>
                             <Rect 
+                                x={0}
+                                y={this.state.stageHeight - 24}
+                                width={this.state.stageWidth}
+                                height={24}
+                                fill={'#47426c'}
+                                shadowColor={'#47426c'}
+                                shadowBlur={4}
+                                shadowOffsetX={0}
+                                shadowOffsetY={0}
+                            />
+                            <Rect 
                                 width={100}
-                                height={16}
-                                fill={'crimson'}
+                                height={14}
+                                fill={'#d86597'}
                                 x={this.padding}
-                                y={this.state.stageHeight - this.padding - 16}
+                                y={this.state.stageHeight - 19}
                                 draggable={true}
                                 type={'scrollRect'}
                                 dragBoundFunc={(pos) => {
                                     const currX = pos.x;
-                                    const highBound = this.state.stageWidth - this.padding - 100;
+                                    const highBound = this.state.stageWidth - 24 - 100;
                                     pos.x = Math.min(Math.max(currX, this.padding), highBound);
-                                    pos.y = this.state.stageHeight - this.padding - 16;
+                                    pos.y = this.state.stageHeight - 19;
                                     return pos;
                                 }}
                                 onDragMove={this.horizontalDragMove}
                             />
-
                             <Rect 
-                                width={16}
+                                x={this.state.stageWidth - 24}
+                                y={0}
+                                width={24}
+                                height={this.state.stageHeight}
+                                fill={'#47426c'}
+                                shadowColor={'#47426c'}
+                                shadowBlur={4}
+                                shadowOffsetX={0}
+                                shadowOffsetY={0}
+                            />
+                            <Rect 
+                                width={14}
                                 height={100}
-                                fill={'crimson'}
+                                fill={'#d86597'}
                                 y={this.padding}
-                                x={this.state.stageWidth - this.padding - 16}
+                                x={this.state.stageWidth - 19}
                                 draggable={true}
                                 type={'scrollRect'}
                                 dragBoundFunc={(pos) => {
                                     const currY = pos.y;
-                                    const highBound = this.state.stageHeight - this.padding - 100;
+                                    const highBound = this.state.stageHeight - 24 - 100;
                                     pos.y = Math.min(Math.max(currY, this.padding), highBound);
-                                    pos.x = this.state.stageWidth - this.padding - 16;
+                                    pos.x = this.state.stageWidth - 19;
                                     return pos;
                                 }}
                                 onDragMove={this.verticalDragMove}
