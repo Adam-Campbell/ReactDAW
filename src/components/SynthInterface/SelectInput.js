@@ -2,9 +2,9 @@ import React from 'react';
 
 const SelectInput = props => (
     <React.Fragment>
-        <label className="synth__select-input-label" htmlFor={props.inputId}>{props.label}</label>
+        <label className="select-input__label pink" htmlFor={props.inputId}>{props.label}</label>
         <select
-            className="synth__select-input"
+            className="select-input pink"
             value={props.value}
             id={props.inputId}
             onChange={(e) => {
@@ -18,7 +18,7 @@ const SelectInput = props => (
         >
             {props.options.map((option, index) => (
                 <option 
-                    className="synth__select-input-option" 
+                    className="select-input__option" 
                     value={option.value} 
                     key={index}
                 >{option.text}</option>

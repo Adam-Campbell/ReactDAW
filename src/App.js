@@ -13,31 +13,10 @@ import SynthInterface from './components/SynthInterface';
 import TrackDetails from './components/TrackDetails';
 import Transport from './components/Transport';
 import EffectInterface from './components/EffectInterface';
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="canvas-container">
-//         <Stage width={400} height={700}>
-//           <Layer>
-//             <Text text="Try to click on the rectangle."/>
-//             <ColoredRect />
-//           </Layer>
-//         </Stage>
-//       </div>
-//     );
-//   }
-// }
-
-const mockedSectionState = {
-  789: {
-    id: '789',
-    channelId: '123',
-    notes: [],
-    start: '0:0:0',
-    numberOfBars: 4
-  }
-}
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+import CustomDragLayer from './components/CustomDragLayer';
+import DragWrapper from './components/DragWrapper';
 
 class App extends Component {
   render() {
@@ -49,36 +28,44 @@ class App extends Component {
         </div>
         <Transport />
         <Composer />
+        <CustomDragLayer /> 
         {
           this.props.activeWindows.map((window) => {
             switch (window.type) {
               case 'section':
-                return <PianoRoll id={window.id} key={window.id} />
+                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                          <PianoRoll id={window.id}/>
+                        </DragWrapper>
 
               case 'synth':
-                return <SynthInterface instrumentId={window.id} key={window.id} />
+                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                          <SynthInterface instrumentId={window.id} />
+                        </DragWrapper>
 
               case 'instrumentSettings':
-                return <TrackDetails trackId={window.id} key={window.id} />
+                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                          <TrackDetails trackId={window.id} />
+                        </DragWrapper>
 
               case 'effect':
-                return <EffectInterface effectId={window.id} key={window.id} />
+                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                          <EffectInterface effectId={window.id} />
+                        </DragWrapper>
 
               default:
                 return null;
             }
           })
-        }
-        
+        }       
       </div>
     );
   }
 }
 
-// <PianoRoll numberOfBars={4} />
-
 const mapStateToProps = state => ({
   activeWindows: state.activeWindows
 });
 
-export default connect(mapStateToProps)(App);
+const withDnD = DragDropContext(HTML5Backend)(App);
+
+export default connect(mapStateToProps)(withDnD);
