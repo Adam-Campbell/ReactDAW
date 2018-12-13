@@ -15,6 +15,7 @@ class PianoRoll extends Component {
     constructor(props) {
         super(props);
         this.padding = 10;
+        this.pianoKeysWidth = 48
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
         this.noteLayerRef = React.createRef();
@@ -25,7 +26,6 @@ class PianoRoll extends Component {
         this.rAFRef = null;
         this.horizontalDragMove = throttle(this._horizontalDragMove, 16).bind(this);
         this.verticalDragMove = throttle(this._verticalDragMove, 16).bind(this);
-        this.throttledResizeCanvas = throttle(this._resizeCanvas, 16).bind(this);
         this.canvasWidth = this.section.numberOfBars * 384;
         this.canvasHeight = 1768;
         this._notesArray = this._createNotesArray();
@@ -33,7 +33,6 @@ class PianoRoll extends Component {
         this.handleStageClick = this._handleStageClick.bind(this);
         this.handleMouseDown = this._handleMouseDown.bind(this);
         this.handleMouseUp = this._handleMouseUp.bind(this);
-        this.updateLayerPos = this._updateLayerPos.bind(this);
         this.state = {
             quantize: '16n',
             duration: '16n',
@@ -44,13 +43,15 @@ class PianoRoll extends Component {
             layerPosX: 0,
             layerPosY: 0,
             stageWidth: 800,
-            stageHeight: 600,
-            showStage: true
+            stageHeight: 600
         };
     }
 
     componentDidMount() {
-        //window.addEventListener('resize', this.throttledResizeCanvas);
+        const initialLineAttrs = this.getTransportLineAttrs();
+        this.seekerLineRef.current.x(initialLineAttrs.xPos);
+        this.seekerLineRef.current.strokeWidth(initialLineAttrs.strokeWidth);
+        this.seekerLayerRef.current.batchDraw();
     }
 
     componentWillUnmount() {
@@ -87,12 +88,16 @@ class PianoRoll extends Component {
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.seekerLineRef.current.strokeWidth(0);
-                this.seekerLineRef.current.x(0);
+                this.seekerLineRef.current.x(-96);
                 this.seekerLayerRef.current.batchDraw();
             }
         }
     }
 
+    /**
+     * The main function responsible for updating the seeker line, called in each animation frame, gets
+     * the new location for the seeker line and redraws the seeker layer of the canvas. 
+     */
     getTransportPosition = () => {
         const newLineAttrs = this.getTransportLineAttrs();        
         this.seekerLineRef.current.x(newLineAttrs.xPos);
@@ -101,11 +106,24 @@ class PianoRoll extends Component {
         this.rAFRef = requestAnimationFrame(this.getTransportPosition);
     }
 
+    /**
+     * Given a BBS string, determine the amount of whole bars present in the time described by the string
+     * and return this value as an integer.
+     * @param {string} transportPositionString - the BBS string to query
+     * @return {number} - the whole bars as an integer.
+     */
     getWholeBarsFromString = (transportPositionString) => {
         const splitString= transportPositionString.split(':');
         return parseInt(splitString[0]);
     }
 
+    /**
+     * Given a BBS string, reduce the string down on floating point number which is the total value of the 
+     * bars, beats and sixteenths, all in terms of sixteenths. 
+     * @param {string} transportPositionString - the BBS string to query.
+     * @return {number} - the amount of sixteenths as a floating point number - if it doesn't come to a
+     * discrete amount of sixteenths it will return parts of sixteenths as well.
+     */
     transportPositionStringToSixteenths = (transportPositionString) => {
         const splitString= transportPositionString.split(':');
         const asSixteenths = parseInt(splitString[0])*16 + 
@@ -114,6 +132,11 @@ class PianoRoll extends Component {
         return asSixteenths;
     }
 
+    /**
+     * Works out the next x position that the seeker line needs to be rendered to. Only used by the 
+     * getTransportPosition() function.
+     * @return {object} - an object containing the information needed for the next render. 
+     */
     getTransportLineAttrs = () => {
         // verify whether current transport position is within this section. If not, return some value
         // for xPos (unimportant in this case), and return 0 for strokeWidth.
@@ -124,14 +147,14 @@ class PianoRoll extends Component {
         const currentTransportBar = this.getWholeBarsFromString(currentTransportPosition);
         if (currentTransportBar < sectionStartBar || currentTransportBar > sectionEndBar) {
             return {
-                xPos: 0,
+                xPos: -96,
                 strokeWidth: 0
             };
         } else {
             const sectionStartAsSixteenths = this.transportPositionStringToSixteenths(this.section.start);
             const currentPositionAsSixteenths = this.transportPositionStringToSixteenths(currentTransportPosition);
             const diff = currentPositionAsSixteenths - sectionStartAsSixteenths;
-            const diffToXPos = diff * 24;
+            const diffToXPos = (diff * 24);
             return {
                 xPos: diffToXPos,
                 strokeWidth: 2
@@ -139,19 +162,67 @@ class PianoRoll extends Component {
         }
     }
 
-    _resizeCanvas(e) {
-        //console.log(this.stageRef);
-        const windowWidth = window.document.documentElement.clientWidth;
-        //this.stageRef.current.width(windowWidth - 80);
-        this.setState({
-            stageWidth: windowWidth - 80
-        });
+    /**
+     * Handles a click that occurs within the Transport section of the canvas, delegating to other
+     * functions as needed. 
+     * @param {number} xPos - the x position of the click event that occurred. 
+     */
+    handleTransportClick = (xPos) => {
+        // We get the raw xPos as an argument. 
+        //
+        // Eventual goals - we want to produce an x position for the seekerLine to be rendered at,
+        // and we want to produce a corresponding time on the timeline for the track to move to. This 
+        // timeline could either be in BBS or in Ticks.
+        //
+        // First we establish a single source of truth for how far into the section the user has clicked. 
+        // Take the raw xPos and subtract this.pianoKeysWidth from it to account for the piano keys offsetting 
+        // the layers. 
+        // Now we adjust for any potential scrolling. get the current x for an applicable layer and subtract 48
+        // from it - because this layer starts off with an x of 48. This means if no scrolling has occurred we
+        // get 0, or if any scrolling has occurred we will get some negative value corresponding to the amount
+        // scrolled. We take the value we get, and subtract it from our xPos (effectively adding it since we
+        // know the number is non-positive).
+        //
+        // Now we adjust for quantization to get a nice figure. Grab the current quantize level from state and
+        // convert it into Ticks, then divide by 2 (because 2 ticks correspond to 1 pixel in the UI). 
+        // Now we use modulo to adjust our xPos into the last whole interval according to our quantize level. 
+        //
+        // The figure we now have can be used to update the UI - it will match perfectly with the new x position
+        // for the seeker line to be rendered at. However more work is needed to calculate the transport position
+        // to move the track to. 
+        // First grab this.section.start, which is currently in BBS, and convet to Ticks. Then, take the final
+        // figure we got for our x pos in the UI, and multiply it by 2 to get the corresponding ticks value. We
+        // now have the start of the section in Ticks, and our progress into the section in Ticks, we can add those
+        // together and convert to BBS, then update the track position to this new BBS value. 
+        //
+        const xPosAdjustedForKeys = xPos - this.pianoKeysWidth;
+        const scrolledX = (this.seekerLayerRef.current.attrs.x || 48) - 48;
+        const xPosAdjustedForScroll = xPosAdjustedForKeys - scrolledX;
+        const currQuantizeAdjustment = Tone.Time(this.state.quantize).toTicks() / 2;
+        const xPosAdjustedForQuantize = xPosAdjustedForScroll-(xPosAdjustedForScroll%currQuantizeAdjustment);
+        const finalUIxPos = xPosAdjustedForQuantize;
+        const sectionStartAsTicks = Tone.Time(this.section.start).toTicks();
+        const sectionProgressAsTicks =  xPosAdjustedForQuantize * 2;
+        const newTransportPosition = Tone.Ticks(sectionStartAsTicks+sectionProgressAsTicks).toBarsBeatsSixteenths();
+        Tone.Transport.position = newTransportPosition;
+        this.seekerLineRef.current.strokeWidth(2);
+        this.seekerLineRef.current.x(finalUIxPos);
+        this.seekerLayerRef.current.batchDraw();
     }
 
+    /**
+     * Convenience method for accessing the specific section object corresponding to the sectionId that
+     * was passed in as a prop
+     * @return {object} - the section object
+     */
     get section() {
         return this.props.sections[this.props.id];
     }
 
+    /**
+     * Programmaticaly create an array of all of the notes ranging from C0 to B8.
+     * @return {array} - the array of notes.
+     */
     _createNotesArray() {
         const onlyNotes = ['B', 'A#', 'A','G#', 'G', 'F#', 'F', 'E', 'D#', 'D', 'C#', 'C'];
         const onlyOctaves = ['8', '7', '6', '5', '4', '3', '2', '1', '0'];
@@ -164,25 +235,12 @@ class PianoRoll extends Component {
         return notesArray;
     }
 
-    ___createCellsArray() {
-        // need to end up with an array of objects, and each object has the pitch, time, and i and j
-        // positions for that cell. 
-        let notesArray = this._notesArray;
-        let timeArray = this._timeArray;
-        let cellsArray = [];
-        for (let i = 0; i < timeArray.length; i++) {
-            for (let j = 0; j < notesArray.length; j++) {
-                cellsArray.push({
-                    pitch: notesArray[j],
-                    time: timeArray[i],
-                    x: 48 * i,
-                    y: 16 * j
-                });
-            }
-        }
-        return cellsArray;
-    }
-
+    /**
+     * Programatically creates an array of objects describing each individual grid line required by the
+     * component, such that when it comes to rendering the component can simply map over this array and
+     * construct a <Line/> component from each object in the array. 
+     * @return {array} - the array of grid line objects.
+     */
     _createGridLinesArray() {
         let linesArray = [];
         let strokeWidth = 2;
@@ -217,27 +275,13 @@ class PianoRoll extends Component {
         return linesArray;
     }
 
-    ___createLinesArray() {
-        let linesArray = [];
-        // create vertical lines
-        for (let i = 0; i <= 64; i++) {
-            linesArray.push({
-                points: [i*24, 0, i*24, 1750],
-                strokeWidth: i % 4 ? 0.5 : 1
-            });
-        }
-
-        // create horizontal lines
-        for (let j = 0; j <= 108; j++) {
-            linesArray.push({
-                points: [0, j*16, 1550, j*16],
-                strokeWidth: 1
-            });
-        }
-
-        return linesArray;
-    }
-
+    /**
+     * Given an x and y position for a click event that has occurred, performs the calculations required
+     * to create a note object corresponding to the x and y values supplied as arguments.
+     * @param {number} x - x position of the click event
+     * @param {number} y - y position of the click event
+     * @return {object} - the generated note object. 
+     */
     _calculateNoteInfo(x, y) {
         let currQuantizeAsTicks = Tone.Time(this.state.quantize).toTicks();
         let rowClicked = Math.floor(y / 16);
@@ -257,9 +301,19 @@ class PianoRoll extends Component {
         return noteInfo;
     }
 
+    /**
+     * The main function for handling click events on the canvas, delegating to other functions as needed.
+     * @param {object} e - the event object supplied by the browser 
+     */
     _handleStageClick(e) {
-        console.log(e);
+        //console.log(e);
         let t = e.target;
+        const xPos = e.evt.layerX;
+        const yPos = e.evt.layerY;
+        if (yPos < 40) {
+            this.handleTransportClick(xPos);
+            return;
+        }
         if (t.attrs.type && t.attrs.type === 'noteRect') {
             const { pitch, time } = t.attrs;
             this.props.removeNote(this.section.id, pitch, time);
@@ -279,6 +333,10 @@ class PianoRoll extends Component {
         }
     }
 
+    /**
+     * The main function for handling mouseDown events on the canvas, delegating to other functions as needed.
+     * @param {object} e - the event object supplied by the browser
+     */
     _handleMouseDown(e) {
         if (this.state.pencilActive) {
             // if a note was clicked on just return, the onClick handler already contains all of the
@@ -297,6 +355,10 @@ class PianoRoll extends Component {
         }
     }
 
+    /**
+     * The main function for handling mouseUp events on the canvas, delegating to other functions as needed.
+     * @param {object} e - the event object supplied by the browser.  
+     */
     _handleMouseUp(e) {
 
         // todo - if the distance drawn (ie from pos x at mouseDown to pos x at mouseUp)
@@ -370,40 +432,6 @@ class PianoRoll extends Component {
         }
     }
 
-    ___durationIntToString(durationInt) {
-        switch (durationInt) {
-            case 1:
-                return '16n';
-            case 2:
-                return '8n';
-            case 4:
-                return '4n';
-            case 8:
-                return '2n';
-            case 16:
-                return '1m';
-            default:
-                return '16n';
-        }
-    }
-
-    ___durationStringToInt(durationString) {
-        switch (durationString) {
-            case '16n':
-                return 1;
-            case '8n':
-                return 2;
-            case '4n':
-                return 4;
-            case '2n':
-                return 8;
-            case '1m':
-                return '16n';
-            default:
-                return 1;
-        }
-    }
-
     /**
      * Given a new note, noteToCheck, check this note against all other notes with the same pitch in this
      * section, if this note overlaps any of those notes then it is invalid and the function returns false,
@@ -437,31 +465,40 @@ class PianoRoll extends Component {
         return true;
     }
 
+    /**
+     * Updates the quantize value in state.
+     * @param {object} e - the event object supplied by the browser
+     */
     updateQuantizeValue(e) {
         this.setState({
             quantize: e.target.value
         });
     }
 
+    /**
+     * Updates the duration value in state.
+     * @param {object} e - the event object supplied by the browser
+     */
     updateDurationValue(e) {
         this.setState({
             duration: e.target.value
         });
     }
 
+    /**
+     * Updates the pencilActive boolean value in state.
+     * @param {object} e - the event object supplied by the browser 
+     */
     updateCursorValue(e) {
         this.setState({
             pencilActive: e.target.value === 'pencil'
         });
     }
 
-    _updateLayerPos(e) {
-        this.setState({
-            layerPosX: e.target.attrs.x,
-            layerPosY: e.target.attrs.y
-        });
-    }
-
+    /**
+     * Handles making the necessary updates whenever the horizontal scroll bar is dragged.
+     * @param {object} e - the event object 
+     */
     _horizontalDragMove(e) {
 
 
@@ -494,11 +531,17 @@ class PianoRoll extends Component {
         this.gridLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.seekerLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.gridLayerRef.current.batchDraw();
         this.noteLayerRef.current.batchDraw();
         this.transportLayerRef.current.batchDraw();
+        this.seekerLayerRef.current.batchDraw();
     }
 
+    /**
+     * Handles making the necessary updates whenever the vertical scroll bar is dragged.
+     * @param {object} e - the event object 
+     */
     _verticalDragMove(e) {
         // make necessary calculations
         const currentSliderPos = e.target.attrs.y - this.padding;
@@ -518,15 +561,22 @@ class PianoRoll extends Component {
         this.pianoKeyLayerRef.current.batchDraw();
     }
 
-    closePianoRoll = () => {
-        this.props.closeWindow(this.props.id);
-    }
-
+    /**
+     * Handles the click of a piano key.
+     * @param {object} e - the event object
+     * @param {object} pitch - the pitch of the key that was clicked
+     */
     handlePianoKeyClick = (e, pitch) => {
         e.cancelBubble = true;
         console.log(pitch);
     }
 
+    /**
+     * Programmaticaly creates an array of objects representing the bar numbers that should appear in the 
+     * transport area of the canvas, such that when the component renders it can simply map over the array
+     * and create a <Text/> component from each object in the array. 
+     * @returns {array} - array containing the bar number objects.
+     */
     _createTransportBarNumbersArray = () => {
         let arr = [];
         const start = parseInt(this.section.start.split(':')[0]);
@@ -541,8 +591,7 @@ class PianoRoll extends Component {
 
     render() {
         const gridLinesArray = this._createGridLinesArray();
-        //const currentNotes = this.props.sections[this.props.id].notes;
-        if (this.state.showStage) {
+
         return (
             <div className="piano-roll-container">
                 <div className="piano-roll-controls-container">
@@ -649,9 +698,9 @@ class PianoRoll extends Component {
                             ref={this.transportLayerRef}
                         >
                             <Rect 
-                                x={0}
+                                x={-48}
                                 y={0}
-                                width={this.canvasWidth}
+                                width={this.canvasWidth+52}
                                 height={40}
                                 fill={'#201826'}
                             />
@@ -670,6 +719,7 @@ class PianoRoll extends Component {
                             ))}
                         </Layer>
                         <Layer
+                            x={48}
                             ref={this.seekerLayerRef}
                         >
                             <Line
@@ -742,9 +792,6 @@ class PianoRoll extends Component {
                 </div>
             </div>
         );
-        } else {
-            return null;
-        }
     }
 
 }
@@ -753,7 +800,6 @@ class PianoRoll extends Component {
 
 
 const mapStateToProps = state => ({
-    //notes: state.sectionInfo.notes
     sections: state.sections,
     isPlaying: state.playerInfo.isPlaying
 });
@@ -822,44 +868,6 @@ light color. To work this out - noteString.includes('#')
 
 For now, just add an onClick to each key that logs its notes
 
-
-
-
-
-if I just add 48 to the grid line figures...
-I also have to add 48 to the background rectangles x figure
-I also have to add 48 to the notes x values
-
-
-
-If I start the layer scrolled at 48px...
-I have to add 48px to the figure I get everytime I scroll the canvas horizontally. 
-
-
-
-making the transport area
-
-make a rectangle that is 40px tall, and the necessary width (same width as the
-note layer, grid layer etc). At the start of each bar, include a number stating
-which bar it is. You can derive this from the bar that the section starts on, 
-combined with how far into the section we are. 
-
-
-
-
-remember to add 40px onto the figure in the vertical scroll function, and to start 
-the necessary layers off scrolled 40px 
-
-
-
-
-create an array of numbers, starting at the bar number that the section begins at, 
-and continuing through the duration of the section. Return an object:
-
-{
-  barNumber - number of bar
-  xPos - x position of bar, some multiple of 384
-}
 
 
 
