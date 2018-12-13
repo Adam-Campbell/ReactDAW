@@ -14,12 +14,13 @@ window.Tone = Tone;
 class AudioEngine extends Component {
     constructor(props) {
         super(props);
-        //console.log(props);
         this._section = new Section();
         this._bus = new Bus();
         this._synthFactory = new SynthFactory();
         this._effectFactory = new EffectFactory();
         window.bus = this._bus;
+        this.instrumentReferences = {};
+        window.instrumentReferences = this.instrumentReferences;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -39,6 +40,10 @@ class AudioEngine extends Component {
             const channelInCurrState = curr.channels.find(el => el.id === channel.id);
             if (!channelInCurrState) {
                 this._bus.removeChannel(channel.id);
+                
+                // here we remove the refernece to this channels instrument from the global
+                // instrumentReferences object. 
+                delete this.instrumentReferences[channel.id];
             }
         }
 
@@ -103,6 +108,11 @@ class AudioEngine extends Component {
                 currChannel.instrument.synthData
             );
             channelRef.instrument = (newInstrument);
+            
+            // here we are updating the global instrumentReferences object so that other parts of the program
+            // have access to the new instrument, allowing them to trigger notes without going through redux and
+            // having to update the main app state. 
+            this.instrumentReferences[currChannel.id] = newInstrument;
         } else {
             channelRef.instrument.set(currChannel.instrument.synthData);
         }
@@ -212,6 +222,12 @@ class AudioEngine extends Component {
             channelData.instrument.type, 
             channelData.instrument.synthData
         );
+
+        // this is just adding a reference to this channels instrument on the global instrumentReferences 
+        // object, so that other parts of the program can trigger notes on this instrument without having to
+        // go through redux and update the main app state to do so.
+        this.instrumentReferences[channelData.id] = instrument;
+
         const newChannel = new Channel(channelData.id, instrument);
 
         // Create the effects chain for this channel.

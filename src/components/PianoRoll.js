@@ -569,6 +569,7 @@ class PianoRoll extends Component {
     handlePianoKeyClick = (e, pitch) => {
         e.cancelBubble = true;
         console.log(pitch);
+        window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
     }
 
     /**
@@ -869,7 +870,17 @@ light color. To work this out - noteString.includes('#')
 For now, just add an onClick to each key that logs its notes
 
 
+Handling the triggering of notes...
 
+In the AudioEngine component, on intialization, create a global object on the window, called 
+instrumentReferences. This will be a dictionary, where each key is the id for a channel/track in the
+project, and the corresponding value is a reference to that channels current instrument in memory. This
+means that whenever the instrument for a particular channel gets replaced (but not when its settings are
+updated), the AudioEngine will have to also update this global object, but that's okay. 
+
+So now, whenever the piano roll component needs to trigger a note on its instrument, it can just access
+window.instrumentReferences[this.section.channelId], which will provide a direct reference to the instrument
+in memory, and the piano roll component can then call the triggerAttackRelease method on that instrument. 
 
 
 
