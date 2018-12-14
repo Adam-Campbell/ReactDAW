@@ -16,6 +16,7 @@ class PianoRoll extends Component {
         super(props);
         this.padding = 10;
         this.pianoKeysWidth = 48
+        this.outerContainerRef = React.createRef();
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
         this.noteLayerRef = React.createRef();
@@ -39,11 +40,10 @@ class PianoRoll extends Component {
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
-            isDraggable: false,
-            layerPosX: 0,
-            layerPosY: 0,
             stageWidth: 800,
-            stageHeight: 600
+            stageHeight: 600,
+            scrollBarActive: false,
+            currentlySelectedNote: null
         };
     }
 
@@ -52,6 +52,7 @@ class PianoRoll extends Component {
         this.seekerLineRef.current.x(initialLineAttrs.xPos);
         this.seekerLineRef.current.strokeWidth(initialLineAttrs.strokeWidth);
         this.seekerLayerRef.current.batchDraw();
+        this.outerContainerRef.current.focus();
     }
 
     componentWillUnmount() {
@@ -306,7 +307,13 @@ class PianoRoll extends Component {
      * @param {object} e - the event object supplied by the browser 
      */
     _handleStageClick(e) {
-        //console.log(e);
+        // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
+        // scrollbars.
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
+        
         let t = e.target;
         const xPos = e.evt.layerX;
         const yPos = e.evt.layerY;
@@ -316,8 +323,15 @@ class PianoRoll extends Component {
         }
         if (t.attrs.type && t.attrs.type === 'noteRect') {
             const { pitch, time } = t.attrs;
-            this.props.removeNote(this.section.id, pitch, time);
+            const note_id = t.attrs._id;
+            if (this.state.currentlySelectedNote !== note_id) {
+                this.setState({ currentlySelectedNote: note_id });
+            } else {
+                this.setState({ currentlySelectedNote: null });
+            }
+            //this.props.removeNote(this.section.id, pitch, time);
         } else {
+            this.setState({ currentlySelectedNote: null });
             if (!this.state.pencilActive) {
                 let x = e.evt.layerX;
                 let scrolledX = this.gridLayerRef.current.attrs.x || 0;
@@ -338,6 +352,12 @@ class PianoRoll extends Component {
      * @param {object} e - the event object supplied by the browser
      */
     _handleMouseDown(e) {
+        // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
+        // scrollbars.
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
         if (this.state.pencilActive) {
             // if a note was clicked on just return, the onClick handler already contains all of the
             // logic for that. 
@@ -360,16 +380,12 @@ class PianoRoll extends Component {
      * @param {object} e - the event object supplied by the browser.  
      */
     _handleMouseUp(e) {
-
-        // todo - if the distance drawn (ie from pos x at mouseDown to pos x at mouseUp)
-        // is less than the equivalent tick value according to the current quantize value
-        // in state, then just use that tick value instead of a value based off of the actual
-        // distance drawn. For example, at a quantize value of 8n the smallest notes we can
-        // produce are 96 ticks. So if we draw a distance that comes to only 31 ticks after
-        // everything has been converted/worked out, we ignore that 31 tick value and just use
-        // 96 ticks instead. This ensures that we can never end up producing notes that are 
-        // shorter than the current value we are quantizing for. 
-
+        // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
+        // scrollbars.
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
         // for ref - 48 ticks = '16n'
         if (this.state.pencilActive) {
             // if a note was clicked on just return, the onClick handler already contains all of the
@@ -411,12 +427,15 @@ class PianoRoll extends Component {
             // convert the tick-based downXAsTicks into "0:0:0" format.
             let noteTime = downXAsTicks.toBarsBeatsSixteenths();
             // work out the quantized, tick based length of the note based on the difference between
-            // upXAsTicks and downXAsTicks
-            let noteDurationAsTicks = Tone.Ticks(upXAsTicks-downXAsTicks).quantize(this.state.quantize);
-            // convert the tick-based noteDurationAsTicks into notation format - '8n'.
-            //let noteDurationAsNotation = Tone.Ticks(noteDurationAsTicks).toNotation();
+            // upXAsTicks and downXAsTicks. As a fallback, if this amount is less than the current quantize
+            // level in ticks, just use that figure instead. This prevents accidentally creating notes that 
+            // too small to see in the UI, by clicking whilst using the pencil tool.
+            let noteDurationAsTicks = Math.max(
+                Tone.Ticks(upXAsTicks-downXAsTicks).quantize(this.state.quantize),
+                currQuantizeAsTicks
+            );
+            // convert the tick-based noteDurationAsTicks into BBS format - '0:0:1'.
             const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
-            console.log(Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths());
             const noteObject = {
                 pitch: this._notesArray[rowClicked],
                 time: noteTime,
@@ -518,6 +537,9 @@ class PianoRoll extends Component {
         //  
         //
         //
+        if (!this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: true });
+        }
 
         // work out horizontal % delta
         const currentSliderPos = e.target.attrs.x - this.padding;
@@ -564,7 +586,6 @@ class PianoRoll extends Component {
      */
     handlePianoKeyClick = (e, pitch) => {
         e.cancelBubble = true;
-        console.log(pitch);
         window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
     }
 
@@ -586,11 +607,50 @@ class PianoRoll extends Component {
         return arr;
     }
 
+    /**
+     * The main function for handling keyDown events on this component, delegates to other functions
+     * as necessary.
+     * @param {object} e - the event object
+     */
+    handleKeyDown = e => {
+        //console.log('handleKeyDown was called');
+        console.log(e);
+        console.log(e.charCode);
+        console.log(e.keyCode);
+        console.log(e.which);
+        console.log(e.key);
+        if (e.key === 'Delete') {
+            if (this.state.currentlySelectedNote) {
+                const noteToRemove = this.section.notes.find(el => el._id === this.state.currentlySelectedNote);
+                this.props.removeNote(this.section.id, noteToRemove.pitch, noteToRemove.time);
+            }
+        }
+    }
+
+    /**
+     * Ensures that the scrollBar active value in state is set to true when any mouse interactions with
+     * the scroll bar occur. Also stops the event from bubbling up so that nothing on the layers underneath
+     * the scroll bar layer gets triggered. 
+     * @param {object} e - the event object
+     */
+    handleScrollBarClickEvents = (e) => {
+        e.cancelBubble = true;
+        if (!this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: true });
+        }
+    }
+
     render() {
         const gridLinesArray = this._createGridLinesArray();
 
         return (
-            <div className="piano-roll-container">
+            <div 
+                className="piano-roll-container" 
+                tabIndex="0" 
+                onKeyDown={this.handleKeyDown}
+                style={{outline: 'none'}}
+                ref={this.outerContainerRef}
+            >
                 <div className="piano-roll-controls-container">
                     <QuantizeSelect 
                         value={this.state.quantize} 
@@ -657,15 +717,19 @@ class PianoRoll extends Component {
                                     height={16}
                                     stroke={'#d86597'}
                                     strokeWidth={2}
-                                    fill={'#ed90b9'}
+                                    fill={note._id === this.state.currentlySelectedNote ? 
+                                        '#222222' :
+                                        '#ed90b9'
+                                    }
                                     shadowColor={'#d86597'}
                                     shadowBlur={4}
                                     shadowOffsetX={0}
                                     shadowOffsetY={0}
                                     pitch={note.pitch}
                                     time={note.time}
+                                    _id={note._id}
                                     type={'noteRect'}
-                                    key={index}
+                                    key={note._id}
                                 />
                             ))
                         }
@@ -755,6 +819,8 @@ class PianoRoll extends Component {
                                     return pos;
                                 }}
                                 onDragMove={this.horizontalDragMove}
+                                onMouseDown={this.handleScrollBarClickEvents}
+                                onClick={this.handleScrollBarClickEvents}
                             />
                             <Rect 
                                 x={this.state.stageWidth - 24}
@@ -783,6 +849,8 @@ class PianoRoll extends Component {
                                     return pos;
                                 }}
                                 onDragMove={this.verticalDragMove}
+                                onMouseDown={this.handleScrollBarClickEvents}
+                                onClick={this.handleScrollBarClickEvents}
                             />
                         </Layer>
                     </Stage>
@@ -898,15 +966,20 @@ in memory, and the piano roll component can then call the triggerAttackRelease m
 
 
 
-4. Fix weird behaviours arising when the scrollbars are used whilst the pencil tool 
+||DONE|| 4. Fix weird behaviours arising when the scrollbars are used whilst the pencil tool 
 is active - the mouseup event is still firing which causes a note to be drawn when
 it shouldn't be. 
 
+Perhaps have a scrollBarActive boolean value in state. When a mouseDown event occurs on a scrollBar 
+we set this value to true, and for any other mouse event we set it to false. In our mouseup event handler, 
+before we actually do anything we check that thie scrollBarActive value is false. If it's true, we don't do
+anything besides setting it to true. This means that the mouseUp event immediately following a mouseDown 
+event occuring on a scrollBar will not be subject to the usual handleMouseUp method, but all other mouseUp 
+events will be. 
 
 
 
-
-5. Modify the behaviour of the pencil tool - if the distance between mousedown and
+||DONE|| 5. Modify the behaviour of the pencil tool - if the distance between mousedown and
 mouseup doesn't meet some minimum note duration requirement, say a 32nd note, we'll 
 just create a 32nd note automatically.
 
@@ -914,9 +987,12 @@ just create a 32nd note automatically.
 
 
 
-6. When you click on a pre-existing note it doesn't automatically delete it, it 
+||DONE|| 6. When you click on a pre-existing note it doesn't automatically delete it, it 
 just highlights it. You can delete it with a dedicated delete button, or a keyboard
 shortcut. You can also copy it to be pasted later.
+
+Keep a currentlySelectedNote value in state. When you click on a note, it takes the note object
+and copies it to the currentlySelectedNote value in state, or should it just take the note id?
 
 
 

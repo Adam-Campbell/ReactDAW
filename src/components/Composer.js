@@ -382,13 +382,23 @@ class Composer extends Component {
 
     }
 
+    handleKeyDown = (e) => {
+        console.log('handleKeyDown on the Composer was called');
+        console.log(e);
+    }
+
     render() {
         const gridLines = this._createGridLinesArray();
         const sectionRectsArray = this._createSectionRectsArray();
 
         
         return (
-            <div className="composer__container">
+            <div 
+                className="composer__container"
+                tabIndex="0"
+                onKeyDown={this.handleKeyDown}
+                style={{outline: 'none'}}
+            >
                 <div className="composer__controls-container">
                     <CursorSelect 
                         value={this.state.pencilActive ? 'pencil' : 'pointer'}
