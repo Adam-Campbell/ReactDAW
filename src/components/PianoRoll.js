@@ -11,6 +11,13 @@ import DurationSelect from './DurationSelect';
 import { Rnd } from 'react-rnd';
 import { debounce, throttle } from 'lodash';
 
+/*
+Current work:
+
+Working on updating the pasting functionality to support pasting multiple notes at once. Have already
+updated the copy functionality to support multiple notes. 
+*/
+
 class PianoRoll extends Component {
     constructor(props) {
         super(props);
@@ -43,8 +50,8 @@ class PianoRoll extends Component {
             stageWidth: 800,
             stageHeight: 600,
             scrollBarActive: false,
-            currentlySelectedNote: null,
-            currentlyCopiedNote: null
+            currentlySelectedNotes: [],
+            currentlyCopiedNotes: null
         };
     }
 
@@ -325,14 +332,14 @@ class PianoRoll extends Component {
         if (t.attrs.type && t.attrs.type === 'noteRect') {
             const { pitch, time } = t.attrs;
             const note_id = t.attrs._id;
-            if (this.state.currentlySelectedNote !== note_id) {
-                this.setState({ currentlySelectedNote: note_id });
+            if (!this.state.currentlySelectedNotes.includes(note_id)) {
+                this.setState({ currentlySelectedNotes: [note_id] });
             } else {
-                this.setState({ currentlySelectedNote: null });
+                this.setState({ currentlySelectedNotes: [] });
             }
             //this.props.removeNote(this.section.id, pitch, time);
         } else {
-            this.setState({ currentlySelectedNote: null });
+            //this.setState({ currentlySelectedNotes: [] });
             if (!this.state.pencilActive) {
                 let x = e.evt.layerX;
                 let scrolledX = this.gridLayerRef.current.attrs.x || 0;
@@ -348,6 +355,16 @@ class PianoRoll extends Component {
         }
     }
 
+    handleNoteClick = (e) => {
+        e.cancelBubble = true;
+        const { _id } = e.target.attrs;
+        this.setState({
+            currentlySelectedNotes: this.state.currentlySelectedNotes.includes(_id) ?
+                                    [] :
+                                    [ _id ]
+        });
+    }
+
     /**
      * The main function for handling mouseDown events on the canvas, delegating to other functions as needed.
      * @param {object} e - the event object supplied by the browser
@@ -359,21 +376,19 @@ class PianoRoll extends Component {
             this.setState({ scrollBarActive: false });
             return;
         }
-        if (this.state.pencilActive) {
-            // if a note was clicked on just return, the onClick handler already contains all of the
-            // logic for that. 
-            if (e.target.attrs.type && e.target.attrs.type === 'noteRect') {
-                return;
-            }
-            // All we do here is update state with the coordinates that the mouseDown event happened
-            // at, as the mouseUp event handler will later need to reference these.
-            const scrolledX = this.gridLayerRef.current.attrs.x || 0;
-            const scrolledY = this.gridLayerRef.current.attrs.y || 0;
-            this.setState({
-                mouseDownPosX: e.evt.layerX - scrolledX,
-                mouseDownPosY: e.evt.layerY - scrolledY
-            });
+        // if a note was clicked on just return, the onClick handler already contains all of the
+        // logic for that. 
+        if (e.target.attrs.type && e.target.attrs.type === 'noteRect') {
+            return;
         }
+        // All we do here is update state with the coordinates that the mouseDown event happened
+        // at, as the mouseUp event handler will later need to reference these.
+        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+        this.setState({
+            mouseDownPosX: e.evt.layerX - scrolledX,
+            mouseDownPosY: e.evt.layerY - scrolledY
+        });
     }
 
     /**
@@ -389,7 +404,18 @@ class PianoRoll extends Component {
         }
         // for ref - 48 ticks = '16n'
         if (this.state.pencilActive) {
-            // if a note was clicked on just return, the onClick handler already contains all of the
+            this.handlePencilToolNoteCreation(e);
+        } else {
+            this.handlePointerToolMultiSelect(e);
+        }
+    }
+
+    /**
+     * Contains the logic for creating a new note using the pencil tool.
+     * @param {object} e - the event object
+     */
+    handlePencilToolNoteCreation = (e) => {
+        // if a note was clicked on just return, the onClick handler already contains all of the
             // logic for that. 
             if (e.target.attrs.type && e.target.attrs.type === 'noteRect' || e.target.attrs.type === 'scrollRect') {
                 return;
@@ -449,8 +475,50 @@ class PianoRoll extends Component {
             if (this._isValidNote(noteObject)) {
                 this.props.addNote(this.section.id, noteObject);
             }
+    }
 
-        }
+    handlePointerToolMultiSelect = (e) => {
+        // use the x and y coordinates from the mouseDown and mouseUp events to determine the range
+        // of rows and columns included in the selection.
+
+        // grab the current scroll amounts so that the x and y coords from this mouseUp event can be
+        // adjusted accordingly.
+        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+
+        // we don't necessarily know which vertical bound is top/bottom, or which horizontal bound
+        // is left/right at first.
+
+        const verticalBound1 = this.state.mouseDownPosY;
+        const horizontalBound1 = this.state.mouseDownPosX;
+        const verticalBound2 = e.evt.layerY - scrolledY;
+        const horizontalBound2 = e.evt.layerX - scrolledX;
+
+        // now we determine which bounds are which
+        const leftBound = Math.min(horizontalBound1, horizontalBound2);
+        const rightBound = Math.max(horizontalBound1, horizontalBound2);
+        const topBound = Math.min(verticalBound1, verticalBound2);
+        const bottomBound = Math.max(verticalBound1, verticalBound2);
+
+        const selectedNotes = this.section.notes.filter(note => {
+            const {x, y} = note;
+            return (x >= leftBound && x <= rightBound && y >= topBound && y <= bottomBound);
+        })
+        .map(noteObject => noteObject._id);
+
+        this.setState({
+            currentlySelectedNotes: selectedNotes
+        });
+        console.log(selectedNotes);
+        // grab all of the current notes in the section.
+
+        // filter out all of the notes whose pitch falls outside of the selection.
+
+        // filter out all of the notes that don't reside, at least partially, within the left and
+        // right bounds of the selection.
+
+        // every note that hasn't been filtered out by this point will comprise our selection of notes, 
+        // store in state.currentlySelectedNotes
     }
 
     /**
@@ -617,10 +685,7 @@ class PianoRoll extends Component {
 
         // handle deletion
         if (e.key === 'Delete') {
-            if (this.state.currentlySelectedNote) {
-                const noteToRemove = this.section.notes.find(el => el._id === this.state.currentlySelectedNote);
-                this.props.removeNote(this.section.id, noteToRemove.pitch, noteToRemove.time);
-            }
+            this.handleDeletion();
         }
         // handle copying
         if (e.key === 'c' && e.ctrlKey === true) {
@@ -647,14 +712,28 @@ class PianoRoll extends Component {
     }
 
     /**
+     * Handles the deletion of notes.
+     */
+    handleDeletion = () => {
+        if (this.state.currentlySelectedNotes) {
+            for (let note_id of this.state.currentlySelectedNotes) {
+                const noteObject = this.section.notes.find(el => el._id === note_id);
+                this.props.removeNote(this.section.id, noteObject.pitch, noteObject.time);
+            }
+        }
+    }
+
+    /**
      * Handles the copying of notes
      */
     handleCopying = () => {
-        if (this.state.currentlySelectedNote) {
-            const noteToCopy = this.section.notes.find(el => el._id === this.state.currentlySelectedNote);
-            this.setState({
-                currentlyCopiedNote: noteToCopy
+        if (this.state.currentlySelectedNotes) {
+            const notesToCopy = this.state.currentlySelectedNotes.map(note_id => {
+                return this.section.notes.find(el => el._id === note_id);
             });
+            this.setState({
+                currentlyCopiedNotes: notesToCopy
+            }, () => console.log(this.state.currentlyCopiedNotes));
         }
     }
 
@@ -665,7 +744,22 @@ class PianoRoll extends Component {
         // grab the current transport time
         const currTransportPos = Tone.Transport.position;
         //grab the note to paste
-        const noteToPaste = this.state.currentlyCopiedNote;
+        if (this.state.currentlyCopiedNotes) {
+            for (let note of this.state.currentlyCopiedNotes) {
+                console.log(note);
+                this.pasteOneNote(note, currTransportPos);
+            }
+        }
+    }
+    /* 
+    Current problem with pasting - I'm correctly looping through all of the copied notes and pasting them,
+    however I'm pasting them all at the same x coord because I'm just using the same figures to work out
+    the x coord for every new note I'm pasting. I need to determine which note(s) come(s) first on the x
+    axis, and for that note(s) I can work out the x coord the same way I am now. However for all of the
+    others, I need to work them out relative to that first note(s), so they will be that x coord plus some
+    amount. 
+    */
+    pasteOneNote = (noteToPaste, currTransportPos) => {
         // Define the start and end of the paste area. Quantize according to the current quantize
         // level in state.
         const pasteAreaStartAsTicks = Tone.Ticks(currTransportPos).quantize(this.state.quantize);
@@ -702,7 +796,6 @@ class PianoRoll extends Component {
         }
         // dispatch action to add the new note
         this.props.addNote(this.section.id, newNoteObject);
-        
     }
 
     render() {
@@ -782,7 +875,7 @@ class PianoRoll extends Component {
                                     height={16}
                                     stroke={'#d86597'}
                                     strokeWidth={2}
-                                    fill={note._id === this.state.currentlySelectedNote ? 
+                                    fill={this.state.currentlySelectedNotes.includes(note._id) ? 
                                         '#222222' :
                                         '#ed90b9'
                                     }
@@ -795,6 +888,8 @@ class PianoRoll extends Component {
                                     _id={note._id}
                                     type={'noteRect'}
                                     key={note._id}
+                                    onClick={this.handleNoteClick}
+                                    onMouseUp={e => e.cancelBubble = true}
                                 />
                             ))
                         }
@@ -1074,6 +1169,21 @@ current quantize/snap, the left key will move it back to the previous one.
 8. Multi-select of notes - either hold down the control key while selecting, or,
 with the pointer tool, click and drag along the canvas to select all notes that 
 fall within the area that you specified. 
+
+
+We can use the coordinates of the mouseDown event and the following mouseUp event to get the four corners
+of our selection rectangle. 
+
+Then, using the y coords of the top and bottom edges, we can determine what pitch the selection starts and
+stops at. This allows us to filter out the notes to just get the ones that reside within the 'pitch range'
+of our selection. 
+
+Then we can look at the left and right edges of our selection to get the start and stop times for the
+selection. We can then filter the notes again, only keeping the ones that reside, at least partially,
+within the time range described by the start and finish times of our selection.
+
+
+
 
 
 
