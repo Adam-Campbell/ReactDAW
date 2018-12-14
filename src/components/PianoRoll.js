@@ -287,16 +287,16 @@ class PianoRoll extends Component {
         let rowClicked = Math.floor(y / 16);
         let adjustedX = x - (x%(currQuantizeAsTicks/2));
         let adjustedY = y - (y % 16);
-        let xPosAsTicks = Tone.Ticks(x*2-(x*2%currQuantizeAsTicks)).toBarsBeatsSixteenths();
-        const duration = this.state.duration;
+        let xPosAsBBS = Tone.Ticks(x*2-(x*2%currQuantizeAsTicks)).toBarsBeatsSixteenths();
+        const durationAsBBS = Tone.Time(this.state.duration).toBarsBeatsSixteenths();
         const noteInfo = {
             pitch: this._notesArray[rowClicked],
-            time: xPosAsTicks,
-            duration: duration,
+            time: xPosAsBBS,
+            duration: durationAsBBS,
             _id: generateId(),
             x: adjustedX,
             y: adjustedY,
-            width: Tone.Time(duration).toTicks() / 2
+            width: Tone.Time(durationAsBBS).toTicks() / 2
         };
         return noteInfo;
     }
@@ -414,12 +414,13 @@ class PianoRoll extends Component {
             // upXAsTicks and downXAsTicks
             let noteDurationAsTicks = Tone.Ticks(upXAsTicks-downXAsTicks).quantize(this.state.quantize);
             // convert the tick-based noteDurationAsTicks into notation format - '8n'.
-            let noteDurationAsNotation = Tone.Ticks(noteDurationAsTicks).toNotation();
-            
+            //let noteDurationAsNotation = Tone.Ticks(noteDurationAsTicks).toNotation();
+            const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
+            console.log(Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths());
             const noteObject = {
                 pitch: this._notesArray[rowClicked],
                 time: noteTime,
-                duration: noteDurationAsNotation,
+                duration: noteDurationAsBBS,
                 _id: generateId(),
                 x: adjustedDownX,
                 y: adjustedDownY,
@@ -532,10 +533,7 @@ class PianoRoll extends Component {
         this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.seekerLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.gridLayerRef.current.batchDraw();
-        this.noteLayerRef.current.batchDraw();
-        this.transportLayerRef.current.batchDraw();
-        this.seekerLayerRef.current.batchDraw();
+        this.stageRef.current.batchDraw();
     }
 
     /**
@@ -556,9 +554,7 @@ class PianoRoll extends Component {
         this.gridLayerRef.current.y(-(totalCanvasRange * delta) + 40);
         this.noteLayerRef.current.y(-(totalCanvasRange * delta) + 40);
         this.pianoKeyLayerRef.current.y(-(totalCanvasRange * delta) + 40);
-        this.gridLayerRef.current.batchDraw();
-        this.noteLayerRef.current.batchDraw();
-        this.pianoKeyLayerRef.current.batchDraw();
+        this.stageRef.current.batchDraw();
     }
 
     /**
@@ -828,8 +824,25 @@ no particular order
 
 
 
-1. Bug when using pencil tool needs to be fixed. It sometimes isn't letting notes be
+||DONE|| 1. Bug when using pencil tool needs to be fixed. It sometimes isn't letting notes be
 added that should be valid, most likely an error in the note validation steps. 
+
+
+The source of this bug is the fact that note durations are being stored as notation, ie '8n', '8n.' etc.
+Certain note lengths, such as notes lasting for 10 16th notes can't be expressed properly by this system,
+and in the case of a note lasting for 10 16th notes, it would be expressed as '2n.', which is actually equal
+to 12 16th notes. 
+
+To solve this, instead of storing the note durations as notation, I will store them as BBS, which allows for 
+necessary levels of precision. They could be stored as Ticks, however BBS is a bit less abstract and easier 
+to reason about.
+
+Places that this will impact:
+
+Note creation - both in the handleClick and handleMouseUp methods, will have to be updated to use BBS for the
+note durations. 
+
+The isValidNote method will possibly have to be updated to handle the note durations being in BBS.
 
 
 
@@ -842,7 +855,7 @@ scrollbars.
 
 
 
-3. Add a piano to the left of the piano roll, such that the user can click a key
+||DONE|| 3. Add a piano to the left of the piano roll, such that the user can click a key
 on the piano to sample that note. In order for the piano roll component to directly
 trigger a note on the instrument rather than having to go through redux and the
 audio engine, store a global variable on the window that is a dictionary where each
@@ -934,7 +947,7 @@ avoid weirdness.
 
 
 
-10. Add a transport section to the top of the piano roll canvas - similar in
+||DONE|| 10. Add a transport section to the top of the piano roll canvas - similar in
 appearance and functionality to the one in the composer component. If performance
 permits, add a seeker line as well that shows where abouts the track is within the 
 section. 
@@ -948,7 +961,7 @@ can pull a notes velocity up/down.
 
 
 
-12. Neaten up the piano roll component in general. It's probably a good idea to do
+||PARTIALLY DONE|| 12. Neaten up the piano roll component in general. It's probably a good idea to do
 this before moving onto the more advanced features in this list. 
 
 
