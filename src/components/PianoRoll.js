@@ -43,7 +43,8 @@ class PianoRoll extends Component {
             stageWidth: 800,
             stageHeight: 600,
             scrollBarActive: false,
-            currentlySelectedNote: null
+            currentlySelectedNote: null,
+            currentlyCopiedNote: null
         };
     }
 
@@ -613,17 +614,22 @@ class PianoRoll extends Component {
      * @param {object} e - the event object
      */
     handleKeyDown = e => {
-        //console.log('handleKeyDown was called');
-        console.log(e);
-        console.log(e.charCode);
-        console.log(e.keyCode);
-        console.log(e.which);
-        console.log(e.key);
+
+        // handle deletion
         if (e.key === 'Delete') {
             if (this.state.currentlySelectedNote) {
                 const noteToRemove = this.section.notes.find(el => el._id === this.state.currentlySelectedNote);
                 this.props.removeNote(this.section.id, noteToRemove.pitch, noteToRemove.time);
             }
+        }
+        // handle copying
+        if (e.key === 'c' && e.ctrlKey === true) {
+            this.handleCopying();
+        }
+
+        // handle pasting
+        if (e.key === 'v' && e.ctrlKey === true) {
+            this.handlePasting();
         }
     }
 
@@ -638,6 +644,65 @@ class PianoRoll extends Component {
         if (!this.state.scrollBarActive) {
             this.setState({ scrollBarActive: true });
         }
+    }
+
+    /**
+     * Handles the copying of notes
+     */
+    handleCopying = () => {
+        if (this.state.currentlySelectedNote) {
+            const noteToCopy = this.section.notes.find(el => el._id === this.state.currentlySelectedNote);
+            this.setState({
+                currentlyCopiedNote: noteToCopy
+            });
+        }
+    }
+
+    /**
+     * Handles the pasting of notes
+     */
+    handlePasting = () => {
+        // grab the current transport time
+        const currTransportPos = Tone.Transport.position;
+        //grab the note to paste
+        const noteToPaste = this.state.currentlyCopiedNote;
+        // Define the start and end of the paste area. Quantize according to the current quantize
+        // level in state.
+        const pasteAreaStartAsTicks = Tone.Ticks(currTransportPos).quantize(this.state.quantize);
+        // 768 is the number of ticks in a bar. 
+        const pasteAreaEndAsTicks = pasteAreaStartAsTicks + Tone.Ticks(noteToPaste.duration);
+
+        // check that it is within range of this section. First grab the start and end of the section
+        // as ticks, then compare with the start and end of the paste area. If either the start or the
+        // end of the paste area don't fall into the interval between the start and end of the section,
+        // then paste operation is disallowed.
+        const sectionStartAsTicks = Tone.Ticks(this.section.start).toTicks();
+        const sectionEndAsTicks = sectionStartAsTicks + (768 * this.section.numberOfBars); 
+
+        if (pasteAreaStartAsTicks < sectionStartAsTicks || pasteAreaEndAsTicks > sectionEndAsTicks) {
+            console.log(`
+                pasteAreaStartAsTicks: ${pasteAreaStartAsTicks}
+                pasteAreaEndAsTicks: ${pasteAreaEndAsTicks}
+                sectionStartAsTicks: ${sectionStartAsTicks}
+                sectionEndAsTicks: ${sectionEndAsTicks}
+            `);
+            console.log('note could not be pasted.');
+            return;
+        }
+
+        // construct a new note object based on the note that was copied and the current transport time
+        const newNoteObject = {
+            pitch: noteToPaste.pitch,
+            time: Tone.Ticks(pasteAreaStartAsTicks).toBarsBeatsSixteenths(),
+            duration: noteToPaste.duration,
+            _id: generateId(),
+            x: (pasteAreaStartAsTicks-sectionStartAsTicks) / 2,
+            y: noteToPaste.y,
+            width: noteToPaste.width
+        }
+        // dispatch action to add the new note
+        this.props.addNote(this.section.id, newNoteObject);
+        
     }
 
     render() {
@@ -1014,11 +1079,39 @@ fall within the area that you specified.
 
 
 
-9. Copy pasting will be linked to where you are on currently on the transport
+||PARTIALLY DONE|| 9. Copy pasting will be linked to where you are on currently on the transport
 timeline. Will have to manually ensure that the current spot on the timeline 
 is within the current section, and if not then prevent the user from pasting, to
 avoid weirdness. 
 
+Copy - grab the currentlySelectedNote from state, which is a note _id, and then grab the actual
+corresponding note object from this.section.notes. Take this note object, and save it in the
+currentlyCopiedNote value in state. 
+
+Copy is done for now, but only supports single note copying currently. 
+
+Pasting: 
+
+Grab current transport time, round it down to the nearest whole interval according to the current
+level of quantisation. We also need to check that the transport time is within the currently active
+section, and if it isn't we don't allow pasting to occur. Assuming it is, we construct a new note object 
+like so:
+
+const noteInfo = {
+    pitch: pitch from original note object
+    time: the time we just calculated,
+    duration: duration from original note,
+    _id: a newly generated id,
+    x: a newly calculate x, based off of the new time,
+    y: the y from the original not object,
+    width: the width from the original note object
+};
+
+Then we just call this.props.addNote with the new note object.
+
+
+Simple copy and paste has been added, however it only supports one note at a time. Still to implement:
+allow copying and pasting of multiple notes simultaneously. 
 
 
 
