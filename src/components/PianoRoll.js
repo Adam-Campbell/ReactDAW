@@ -22,7 +22,9 @@ class PianoRoll extends Component {
     constructor(props) {
         super(props);
         this.padding = 10;
-        this.pianoKeysWidth = 48
+        this.pianoKeysWidth = 48;
+        this.stageWidth = 800;
+        this.stageHeight = 600;
         this.outerContainerRef = React.createRef();
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
@@ -31,6 +33,7 @@ class PianoRoll extends Component {
         this.transportLayerRef = React.createRef();
         this.seekerLayerRef = React.createRef();
         this.seekerLineRef = React.createRef();
+        this.velocityLayerRef = React.createRef();
         this.rAFRef = null;
         this.horizontalDragMove = throttle(this._horizontalDragMove, 16).bind(this);
         this.verticalDragMove = throttle(this._verticalDragMove, 16).bind(this);
@@ -101,6 +104,35 @@ class PianoRoll extends Component {
                 this.seekerLayerRef.current.batchDraw();
             }
         }
+    }
+
+    createVelocityArrays = () => {
+        // We want to return an object with two properties - selectedNotes will be an array of all selected
+        // notes, and unselectedNotes will be an array of all unselectedNotes.
+        // First we can check if there actually are any selected notes, and if there aren't then we can just
+        // return all of the notes in the unselectedNotes array, and return an empty array for the selectedNotes
+        // array. 
+        if (!this.state.currentlySelectedNotes) {
+            return {
+                selectedNotes: [],
+                unselectedNotes: [ ...this.section.notes ]
+            };
+        }
+        // however if there are currentlySelectedNotes, then we have to loop through all of the notes in this
+        // section and sort them into selected and unselected notes before returning them. 
+        let selectedNotes = [];
+        let unselectedNotes = [];
+        for (let note of this.section.notes) {
+            if (this.state.currentlySelectedNotes.includes(note._id)) {
+                selectedNotes.push(note);
+            } else {
+                unselectedNotes.push(note);
+            }
+        }
+        return {
+            selectedNotes,
+            unselectedNotes
+        };
     }
 
     /**
@@ -302,6 +334,7 @@ class PianoRoll extends Component {
             pitch: this._notesArray[rowClicked],
             time: xPosAsBBS,
             duration: durationAsBBS,
+            velocity: 1,
             _id: generateId(),
             x: adjustedX,
             y: adjustedY,
@@ -472,6 +505,7 @@ class PianoRoll extends Component {
                 pitch: this._notesArray[rowClicked],
                 time: noteTime,
                 duration: noteDurationAsBBS,
+                velocity: 1,
                 _id: generateId(),
                 x: adjustedDownX,
                 y: adjustedDownY,
@@ -633,6 +667,7 @@ class PianoRoll extends Component {
         this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.seekerLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.velocityLayerRef.current.x(-(totalCanvasRange * delta) + 48);
         this.stageRef.current.batchDraw();
     }
 
@@ -814,12 +849,72 @@ class PianoRoll extends Component {
             width: noteToPaste.width
         }
         // dispatch action to add the new note
-        this.props.addNote(this.section.id, newNoteObject);
+        if (this._isValidNote(newNoteObject)) {
+            this.props.addNote(this.section.id, newNoteObject);
+        }
+    }
+
+    handleVelocityLayerClick = (e) => {
+        e.cancelBubble = true;
+        // Get the x position of the users click, adjust for scrolling and 'roll it back' to the 
+        // last multiple of 8.
+        const { layerX, layerY } = e.evt;
+        const scrolledX = this.velocityLayerRef.current.attrs.x || 0;
+        const xWithScroll = layerX - scrolledX;
+        const xPos = xWithScroll - (xWithScroll%8);
+        
+        
+        // Filter out the notes to get only the notes that have this x value.
+        const matchingNotes = this.section.notes.filter(note => note.x === xPos);
+        // Determine if any of these notes are currently selected.
+        const selectedMatchingNotes = matchingNotes.filter(note => (
+            this.state.currentlySelectedNotes.includes(note._id)
+        ));
+
+        // now we derive the desired velocity from the y position of the click event
+        // first account for layer offsetting
+        const yAdjustedForLayer = layerY - (this.stageHeight - 134) - 10;
+        // clicks further down the page result in a lower velocity but a higher y value,
+        // we have to get the 'reflection' of our y value
+        const yAsVelocity = 100 - yAdjustedForLayer;
+        // Ensure it stays within our desired range of 0-100, then convert to normal range.
+        const velocity = Math.min(Math.max(yAsVelocity, 0), 100) / 100;
+
+
+        // If any of the notes are selected, use the y position of the click to determine the new velocity
+        // for those notes.
+        if (selectedMatchingNotes.length) {
+            for (let note of selectedMatchingNotes) {
+                const newNoteObject = {
+                    ...note,
+                    _id: generateId(),
+                    velocity,
+                };
+                this.props.removeNote(this.section.id, note.pitch, note.time);
+                this.props.addNote(this.section.id, newNoteObject);
+            }
+        // If none of the notes are selected, use the y position of the click to determine the new velocity
+        // for all of the notes at this x position. 
+        } else if (matchingNotes.length) {
+            for (let note of matchingNotes) {
+                const newNoteObject = {
+                    ...note,
+                    _id: generateId(),
+                    velocity,
+                };
+                this.props.removeNote(this.section.id, note.pitch, note.time);
+                this.props.addNote(this.section.id, newNoteObject);
+            }
+        }
+        
+        // Whichever notes we will be operating on, determined by the previous step, loop through each of these
+        // notes, call removeNote() with the original note, and call addNote with a copy of the note that has an
+        // updated velocity value. 
     }
 
     render() {
         const gridLinesArray = this._createGridLinesArray();
-
+        const { selectedNotes, unselectedNotes } = this.createVelocityArrays();
         return (
             <div 
                 className="piano-roll-container" 
@@ -912,6 +1007,41 @@ class PianoRoll extends Component {
                                 />
                             ))
                         }
+                        </Layer>
+                        <Layer
+                            x={48}
+                            y={this.stageHeight - 134}
+                            ref={this.velocityLayerRef}
+                            onClick={this.handleVelocityLayerClick}
+                            onMouseUp={e => e.cancelBubble = true}
+                        >
+                            <Rect
+                                x={0}
+                                y={0}
+                                height={110}
+                                width={this.canvasWidth} 
+                                fill={'#555555'}
+                            />
+                            {unselectedNotes.map(note => (
+                                <Rect 
+                                    fill={'#e0e0e0'}
+                                    width={8}
+                                    height={note.velocity*100}
+                                    x={note.x}
+                                    y={110 - (note.velocity*100)}
+                                    key={note._id}
+                                />
+                            ))}
+                            {selectedNotes.map(note => (
+                                <Rect 
+                                    fill={'#222222'}
+                                    width={8}
+                                    height={note.velocity*100}
+                                    x={note.x}
+                                    y={110 - (note.velocity*100)}
+                                    key={note._id}
+                                />
+                            ))}
                         </Layer>
                         <Layer
                             y={40}
@@ -1252,8 +1382,98 @@ section.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 11. Implement note velocity - have a section at the bottom of the canvas where users 
 can pull a notes velocity up/down.
+
+
+Thoughts on note velocity
+
+
+Will need to be its own layerat the bottom of the canvas. In front of the grid and notes layers,
+but behind the piano keys and scroll bar layers. 
+
+Every note in the section will get a vertical bar in the velocity sectino at the same x coord as that note, 
+the height of the bar will correspond to the velocity of the note. 
+
+You can only change the velocity of the note if the note is selected. 
+
+When we render the velocity bars for the notes, they will each be one of two colors, a lighter color if the
+corresponding note is not currently selected, and a darker color if it is. So in effect the only velocity bars
+that will be editable on any given render are the ones with the darker colors. 
+
+
+Details for implementing the interaction with the velocity bars go here...
+
+The velocity bars will be clickable, rather than draggable. Each velocity bar will be 12px wide - the width
+of a 32nd note in the piano roll. Clicking anywhere within the 12px vertical slice belonging to that velocity
+bar will update the value of that velocity bar according to the vertical position that you clicked at.
+
+To render the velocity bars, we will take the array of notes and split it into two arrays, one containing
+all non selected notes and the other containing all of the selected notes. We will map over the array of non
+selected notes and render a Rect for each one, using the lighter, non selected color for their fills. Then
+we will map over the array of selected notes and render a Rect for each one of those, using the darker selected
+color for their fills. Rendering in this order ensures that any selected Rects will always visually be in
+front of any non selected Rects occupying the horizontal position. 
+
+When user clicks in the velocity section, we check if their are any notes that correspond to the horizontal
+position they clicked at. If there is only one note, we just change the velocity of that one note to correspond
+with the vertical point at which they clicked. 
+
+However, if there are multiple notes, we check if any of those notes are selected. If none of them are selected,
+then we just update them all to the new velocity. If one or more of them are selected, then we update all selected
+notes to the new velocity, but we leave the non selected ones as they were. 
+
+Note that when the piano roll is 'changing' the velocity of a note, it's really calling removeNote() to get rid
+of the previous note and then calling addNote() to add a new copy of that note with the updated velocity. 
+
+
+
+
+Details for dealing with any implications the addition of note velocity will have on other aspects of 
+the component go here...
+
+Will have to update the audio engine to also include the given velocity in its triggerAttackRelease calls. 
+The diffing algorithm doesn't need to care about this because it works off of notes ids anyway. 
+
+In the piano roll component, whenever we create a brand new note, we just pass in the default velocity, which
+is 1. If we copy and then paste a note, we need to honour the velocity of the original note when we paste the
+new note into the piano roll. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -205,7 +205,8 @@ class AudioEngine extends Component {
                     note: note.pitch,
                     time: note.time,
                     duration: note.duration,
-                    id: note._id
+                    id: note._id,
+                    velocity: note.velocity
                 });
             }
         }
@@ -255,7 +256,8 @@ class AudioEngine extends Component {
                 note: note.pitch,
                 time: note.time,
                 duration: note.duration,
-                id: note.id
+                id: note.id,
+                velocity: note.velocity
             });
         }
 
