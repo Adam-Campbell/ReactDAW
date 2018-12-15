@@ -355,6 +355,11 @@ class PianoRoll extends Component {
         }
     }
 
+    /**
+     * Handles the clicking of a note Rect on the canvas, also prevents event bubbling to stop any events
+     * on sublayers from firing
+     * @param {object} e - the event object
+     */
     handleNoteClick = (e) => {
         e.cancelBubble = true;
         const { _id } = e.target.attrs;
@@ -477,6 +482,11 @@ class PianoRoll extends Component {
             }
     }
 
+    /**
+     * Contains the logic required for selecting multiple notes at once by dragging over them
+     * with the pointer tool.
+     * @param {object} e - the event object
+     */
     handlePointerToolMultiSelect = (e) => {
         // use the x and y coordinates from the mouseDown and mouseUp events to determine the range
         // of rows and columns included in the selection.
@@ -509,7 +519,6 @@ class PianoRoll extends Component {
         this.setState({
             currentlySelectedNotes: selectedNotes
         });
-        console.log(selectedNotes);
         // grab all of the current notes in the section.
 
         // filter out all of the notes whose pitch falls outside of the selection.
@@ -742,28 +751,38 @@ class PianoRoll extends Component {
      */
     handlePasting = () => {
         // grab the current transport time
-        const currTransportPos = Tone.Transport.position;
+        const currTransportPos = Tone.Ticks(Tone.Transport.position).quantize(this.state.quantize);;
         //grab the note to paste
         if (this.state.currentlyCopiedNotes) {
+            // first we need to determine what the earliest time value for any of the notes being pasted is, 
+            // because all subsequent notes will be pasted at times relative to that value.
+            let earliestNoteTime = null;
             for (let note of this.state.currentlyCopiedNotes) {
-                console.log(note);
-                this.pasteOneNote(note, currTransportPos);
+                const timeToTicks = Tone.Ticks(note.time);
+                if (timeToTicks < earliestNoteTime || !earliestNoteTime) {
+                    earliestNoteTime = timeToTicks;
+                }
+            }
+            // now loop through the notes again and actually call the paste operation for each note. 
+            for (let note of this.state.currentlyCopiedNotes) {
+                this.pasteOneNote(note, currTransportPos, earliestNoteTime);
             }
         }
     }
-    /* 
-    Current problem with pasting - I'm correctly looping through all of the copied notes and pasting them,
-    however I'm pasting them all at the same x coord because I'm just using the same figures to work out
-    the x coord for every new note I'm pasting. I need to determine which note(s) come(s) first on the x
-    axis, and for that note(s) I can work out the x coord the same way I am now. However for all of the
-    others, I need to work them out relative to that first note(s), so they will be that x coord plus some
-    amount. 
-    */
-    pasteOneNote = (noteToPaste, currTransportPos) => {
-        // Define the start and end of the paste area. Quantize according to the current quantize
-        // level in state.
-        const pasteAreaStartAsTicks = Tone.Ticks(currTransportPos).quantize(this.state.quantize);
-        // 768 is the number of ticks in a bar. 
+
+    /**
+     * Handles the pasting of one partiular notes, used internally by the handlePasting method. 
+     * @param {object} noteToPaste - object containing the data for the note to be pasted
+     * @param {number} currTransportPos - a Tick based value for the current transport position
+     * @param {number} earliestNoteTime - a Tick based value for the earliest time value of any
+     * of the notes being pasted
+     */
+    pasteOneNote = (noteToPaste, currTransportPos, earliestNoteTime) => {
+        // calculate the delta between earliestNoteTime and the time value for this particular note
+        const deltaTicks = Tone.Ticks(noteToPaste.time) - earliestNoteTime;
+        // derive the start and end of the 'paste area' for this note from the other pieces of information
+        // we already know
+        const pasteAreaStartAsTicks = currTransportPos + deltaTicks;
         const pasteAreaEndAsTicks = pasteAreaStartAsTicks + Tone.Ticks(noteToPaste.duration);
 
         // check that it is within range of this section. First grab the start and end of the section
@@ -1166,6 +1185,7 @@ current quantize/snap, the left key will move it back to the previous one.
 
 
 
+||Partially done - haven't set up the ctrl key shortcut||
 8. Multi-select of notes - either hold down the control key while selecting, or,
 with the pointer tool, click and drag along the canvas to select all notes that 
 fall within the area that you specified. 
@@ -1189,7 +1209,7 @@ within the time range described by the start and finish times of our selection.
 
 
 
-||PARTIALLY DONE|| 9. Copy pasting will be linked to where you are on currently on the transport
+||DONE|| 9. Copy pasting will be linked to where you are on currently on the transport
 timeline. Will have to manually ensure that the current spot on the timeline 
 is within the current section, and if not then prevent the user from pasting, to
 avoid weirdness. 
@@ -1220,9 +1240,7 @@ const noteInfo = {
 Then we just call this.props.addNote with the new note object.
 
 
-Simple copy and paste has been added, however it only supports one note at a time. Still to implement:
-allow copying and pasting of multiple notes simultaneously. 
-
+All copy and pasting work complete.
 
 
 
