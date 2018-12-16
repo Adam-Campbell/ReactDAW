@@ -397,11 +397,24 @@ class PianoRoll extends Component {
     handleNoteClick = (e) => {
         e.cancelBubble = true;
         const { _id } = e.target.attrs;
-        this.setState({
-            currentlySelectedNotes: this.state.currentlySelectedNotes.includes(_id) ?
-                                    [] :
-                                    [ _id ]
-        });
+        const { ctrlKey } = e.evt;
+        const currSelection = this.state.currentlySelectedNotes;
+        const noteIsSelected = currSelection.includes(_id);
+        // Different behaviour occurs depending on whether the ctrl key is currently pressed. If it is
+        // pressed, we are adding/removing the current note to/from the selection. If the ctrl key is 
+        // not pressed, we are either making the current note the entire selection, or clearing the
+        // selection entirely.
+        if (ctrlKey) {
+            this.setState({
+                currentlySelectedNotes: noteIsSelected ? 
+                                        currSelection.filter(noteId => noteId !== _id) :
+                                        [...currSelection, _id]
+            });
+        } else {
+            this.setState({
+                currentlySelectedNotes: noteIsSelected ? [] : [ _id ]
+            });
+        }
     }
 
     /**
@@ -684,7 +697,7 @@ class PianoRoll extends Component {
         const delta = currentSliderPos / totalSliderRange;
 
         const canvasHeight = 1728;
-        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24 + 40;
+        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24 + 40 + 110;
 
         // update the layers
         this.gridLayerRef.current.y(-(totalCanvasRange * delta) + 40);
@@ -727,9 +740,9 @@ class PianoRoll extends Component {
      * @param {object} e - the event object
      */
     handleKeyDown = e => {
-        console.log(e);
-        console.log(e.key)
-        // ArrowUp, ArrowDown, ArrowLeft, ArrowRight
+        // console.log(e);
+        // console.log(e.key)
+        
         // handle deletion
         if (e.key === 'Delete') {
             this.handleDeletion();
@@ -789,7 +802,7 @@ class PianoRoll extends Component {
         if (this.state.currentlySelectedNotes) {
             for (let note_id of this.state.currentlySelectedNotes) {
                 const noteObject = this.section.notes.find(el => el._id === note_id);
-                this.props.removeNote(this.section.id, noteObject.pitch, noteObject.time);
+                this.props.removeNote(this.section.id, noteObject._id);
             }
         }
     }
@@ -977,6 +990,11 @@ class PianoRoll extends Component {
         ];
     }
 
+    /**
+     * Handles the mutation of selected notes, delegating to other functions as necessary. 
+     * @param {array} selectionOfIds - the array of note ids that comprise the current selection
+     * @param {string} mutationMethodToUse - string representing the mutation method to be used
+     */
     mutateSelection = (selectionOfIds, mutationMethodToUse) => {
         // map over selectionOfIds to create an array of the actual note objects rather than just the ids.
         // let newNoteIds hold the ids of the new notes we create.
@@ -1034,8 +1052,13 @@ class PianoRoll extends Component {
         });
     }
 
+    /**
+     * Takes in a note object and returns a new note object, with the pitch increased by one semitone.
+     * @param {object} originalNote - the original note object
+     * @returns {object} - the new note object
+     */
     shiftPitchUp = (originalNote) => {
-        const newY = originalNote.y - 16;
+        const newY = Math.max(originalNote.y - 16, 0);
         const newPitch = this._notesArray[newY/16];
         return {
             ...originalNote, 
@@ -1045,8 +1068,13 @@ class PianoRoll extends Component {
         };
     }
 
+    /**
+     * Takes in a note object and returns a new note object, with the pitch decreased by one semitone.
+     * @param {object} originalNote - the original note object
+     * @returns {object} - the new note object
+     */
     shiftPitchDown = (originalNote) => {
-        const newY = originalNote.y + 16;
+        const newY = Math.min(originalNote.y + 16, 1712);
         const newPitch = this._notesArray[newY/16];
         return {
             ...originalNote, 
@@ -1056,6 +1084,13 @@ class PianoRoll extends Component {
         };
     }
 
+    /**
+     * Takes in a note object and returns a new note object, with the time decreased by the current quantize
+     * interval. Partial application is used to give this function the same footprint as its sibling functions
+     * to allow easier use within the main mutateSelection function.
+     * @param {object} originalNote - the original note object
+     * @returns {object} - the new note object
+     */
     shiftTimeBackwards = (currentQuantizeAsTicks) => (originalNote) => {
         const oldTimeAsTicks = Tone.Ticks(originalNote.time);
         const newTime = Tone.Ticks(oldTimeAsTicks - currentQuantizeAsTicks).toBarsBeatsSixteenths();
@@ -1068,6 +1103,13 @@ class PianoRoll extends Component {
         };
     }
 
+    /**
+     * Takes in a note object and returns a new note object, with the time increased by the current quantize
+     * interval. Partial application is used to give this function the same footprint as its sibling functions
+     * to allow easier use within the main mutateSelection function.
+     * @param {object} originalNote - the original note object
+     * @returns {object} - the new note object
+     */
     shiftTimeForwards = (currentQuantizeAsTicks) => (originalNote) => {
         const oldTimeAsTicks = Tone.Ticks(originalNote.time);
         const newTime = Tone.Ticks(oldTimeAsTicks + currentQuantizeAsTicks).toBarsBeatsSixteenths();
@@ -1380,6 +1422,31 @@ no particular order
 
 
 
+Add time constraints to the shiftTimeBackwards and shiftTimeForwards selection mutation methods. You
+shouldn't be able to move it outside of the current section.
+
+Look at possibly moving the JSX into a seperate presentational component, just to reduce the size
+of this one. 
+
+Start thinking about how to implement the moving up/down through the different inversions of a chord.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ||DONE|| 1. Bug when using pencil tool needs to be fixed. It sometimes isn't letting notes be
 added that should be valid, most likely an error in the note validation steps. 
@@ -1486,7 +1553,7 @@ and copies it to the currentlySelectedNote value in state, or should it just tak
 
 
 
-7. When a note (or multiple notes, see next point) is/are selected, pressing the up
+||DONE|| 7. When a note (or multiple notes, see next point) is/are selected, pressing the up
 arrow will move the note up be a semitone, down arrow down by a semitone. The right
 arrow will move the note along to the next step it can occupy according to the 
 current quantize/snap, the left key will move it back to the previous one.  

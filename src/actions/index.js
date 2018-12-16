@@ -21,12 +21,11 @@ export const addNote = (sectionId, noteObject) => ({
     }
 });
 
-export const removeNote = (sectionId, pitch, time) => ({
+export const removeNote = (sectionId, noteId) => ({
     type: actionTypes.REMOVE_NOTE,
     payload: {
         sectionId,
-        pitch,
-        time
+        noteId
     }
 });
 
