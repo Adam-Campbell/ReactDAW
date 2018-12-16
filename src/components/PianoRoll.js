@@ -13,10 +13,23 @@ import { debounce, throttle } from 'lodash';
 import { UIColors } from '../constants';
 
 /*
-Current work:
+Keyboard shortcuts:
 
-Working on updating the pasting functionality to support pasting multiple notes at once. Have already
-updated the copy functionality to support multiple notes. 
+When using the pointer tool, hold shift on a drag to select multiple notes.
+
+Hold ctrl whilst clicking on a note to add it to / remove it from the current selection without
+scrapping the entire selection. 
+
+When one or more notes are selected, the up and down arrows will move every note in the selection up or 
+down by one semitone. The left and right arrows will move every note to the left or right by an amount
+equal to the current quantize setting. 
+
+Holding alt and then pressing the up and down arrows whilst a chord is selected will cycle upwards or downwards
+through the different inversions / voicings for that chord. 
+
+Pressing ctrl + c when one or more notes are selected will copy the selection. Pressing ctrl + v once you have
+a selection copied will paste that selection. The paste will begin at the current transport position. 
+
 */
 
 class PianoRoll extends Component {
@@ -371,10 +384,8 @@ class PianoRoll extends Component {
             } else {
                 this.setState({ currentlySelectedNotes: [] });
             }
-            //this.props.removeNote(this.section.id, pitch, time);
         } else {
-            //this.setState({ currentlySelectedNotes: [] });
-            if (!this.state.pencilActive) {
+            if (!this.state.pencilActive && !e.evt.shiftKey) {
                 let x = e.evt.layerX;
                 let scrolledX = this.gridLayerRef.current.attrs.x || 0;
                 let xWithScroll = x - scrolledX;
@@ -742,7 +753,7 @@ class PianoRoll extends Component {
     handleKeyDown = e => {
         // console.log(e);
         // console.log(e.key)
-        
+
         // handle deletion
         if (e.key === 'Delete') {
             this.handleDeletion();
@@ -757,15 +768,25 @@ class PianoRoll extends Component {
             this.handlePasting();
         }
 
+        
+
         if (e.key === 'ArrowUp') {
             if (this.state.currentlySelectedNotes.length) {
-                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchUp');
+                if (e.altKey) {
+                    this.stepUpThroughInversions();
+                } else {
+                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchUp');
+                }
             }
         }
 
         if (e.key === 'ArrowDown') {
             if (this.state.currentlySelectedNotes.length) {
-                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchDown');
+                if (e.altKey) {
+                    this.stepDownThroughInversions();
+                } else {
+                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchDown');
+                }
             }
         }
 
@@ -1025,11 +1046,17 @@ class PianoRoll extends Component {
                 break;
 
             case 'shiftTimeBackwards':
-                mutationMethod = this.shiftTimeBackwards(Tone.Ticks(this.state.quantize));
+                mutationMethod = this.shiftTimeBackwards(
+                    Tone.Ticks(this.state.quantize),
+                    Tone.Ticks(this.section.start)
+                );
                 break;
 
             case 'shiftTimeForwards':
-                mutationMethod = this.shiftTimeForwards(Tone.Ticks(this.state.quantize));
+                mutationMethod = this.shiftTimeForwards(
+                    Tone.Ticks(this.state.quantize),
+                    Tone.Ticks(this.section.start) + (768 * this.section.numberOfBars)
+                );
                 break;
 
             default:
@@ -1091,14 +1118,15 @@ class PianoRoll extends Component {
      * @param {object} originalNote - the original note object
      * @returns {object} - the new note object
      */
-    shiftTimeBackwards = (currentQuantizeAsTicks) => (originalNote) => {
+    shiftTimeBackwards = (currentQuantizeAsTicks, sectionStartAsTicks) => (originalNote) => {
         const oldTimeAsTicks = Tone.Ticks(originalNote.time);
-        const newTime = Tone.Ticks(oldTimeAsTicks - currentQuantizeAsTicks).toBarsBeatsSixteenths();
-        const newX = originalNote.x - (currentQuantizeAsTicks / 2);
+        const newTimeAsTicks = Math.max(Tone.Ticks(oldTimeAsTicks - currentQuantizeAsTicks), sectionStartAsTicks);
+        const newTimeAsBBS = Tone.Ticks(newTimeAsTicks).toBarsBeatsSixteenths();
+        const newX = Math.max(originalNote.x - (currentQuantizeAsTicks / 2), 0);
         return {
             ...originalNote,
             x: newX,
-            time: newTime,
+            time: newTimeAsBBS,
             _id: generateId()
         };
     }
@@ -1110,16 +1138,112 @@ class PianoRoll extends Component {
      * @param {object} originalNote - the original note object
      * @returns {object} - the new note object
      */
-    shiftTimeForwards = (currentQuantizeAsTicks) => (originalNote) => {
+    shiftTimeForwards = (currentQuantizeAsTicks, sectionEndAsTicks) => (originalNote) => {
         const oldTimeAsTicks = Tone.Ticks(originalNote.time);
-        const newTime = Tone.Ticks(oldTimeAsTicks + currentQuantizeAsTicks).toBarsBeatsSixteenths();
-        const newX = originalNote.x + (currentQuantizeAsTicks / 2);
+        const lastLegalPosition = sectionEndAsTicks - Tone.Ticks(originalNote.duration);
+        const newTimeAsTicks = Math.min(Tone.Ticks(oldTimeAsTicks + currentQuantizeAsTicks), lastLegalPosition);
+        const newTimeAsBBS = Tone.Ticks(newTimeAsTicks).toBarsBeatsSixteenths();
+        const newX = newTimeAsTicks / 2;
         return {
             ...originalNote,
             x: newX,
-            time: newTime,
+            time: newTimeAsBBS,
             _id: generateId()
         };
+    }
+
+    stepUpThroughInversions = () => {
+        // transform our array of note ids into an array of data structures containing the full note
+        // object, as well as the pitchIndex (the index at which that pitch can be found in this._notesArray),
+        // sorted from lowest pitch to highest. Note, that the lowest pitch is actually the highest index in
+        // this._notesArray, since it stores the pitches in descending order. 
+        const orderedSelection = this.state.currentlySelectedNotes.map(noteId => {
+            const noteObject = this.section.notes.find(note => note._id === noteId);
+            const pitchIndex = this._notesArray.findIndex(pitchString => pitchString === noteObject.pitch);
+            return {
+                noteObject,
+                pitchIndex
+            }
+        })
+        .sort((noteA, noteB) => {
+            return noteB.pitchIndex - noteA.pitchIndex;
+        });
+        console.log(orderedSelection);
+        // declare anchor note, which is the note we will update. 
+        let pivotNote = orderedSelection[0];
+        let newPitchIndex = null;
+        for (let note of orderedSelection) {
+            let candidatePitchIndex = note.pitchIndex - 12;
+            const pitchIndexTaken = orderedSelection.find(el => el.pitchIndex === candidatePitchIndex);
+            if (!pitchIndexTaken && candidatePitchIndex >= 0) {
+                newPitchIndex = candidatePitchIndex;
+                break;
+            }
+        }
+        if (newPitchIndex) {
+            const newNoteObject = {
+                ...pivotNote.noteObject,
+                pitch: this._notesArray[newPitchIndex],
+                y: newPitchIndex * 16,
+                _id: generateId()
+            };
+            this.props.removeNote(this.section.id, pivotNote.noteObject._id);
+            this.props.addNote(this.section.id, newNoteObject);
+            this.setState({
+                currentlySelectedNotes: this.swapSelectedNoteIds(
+                    this.state.currentlySelectedNotes,
+                    [newNoteObject._id],
+                    [pivotNote.noteObject._id]
+                )
+            });
+        }
+    }
+
+    stepDownThroughInversions = () => {
+        // transform our array of note ids into an array of data structures containing the full note
+        // object, as well as the pitchIndex (the index at which that pitch can be found in this._notesArray),
+        // sorted from lowest pitch to highest. Note, that the lowest pitch is actually the highest index in
+        // this._notesArray, since it stores the pitches in descending order. 
+        const orderedSelection = this.state.currentlySelectedNotes.map(noteId => {
+            const noteObject = this.section.notes.find(note => note._id === noteId);
+            const pitchIndex = this._notesArray.findIndex(pitchString => pitchString === noteObject.pitch);
+            return {
+                noteObject,
+                pitchIndex
+            }
+        })
+        .sort((noteA, noteB) => {
+            return noteA.pitchIndex - noteB.pitchIndex;
+        });
+
+        // declare anchor note, which is the note we will update. 
+        let pivotNote = orderedSelection[0];
+        let newPitchIndex = null;
+        for (let note of orderedSelection) {
+            let candidatePitchIndex = note.pitchIndex + 12;
+            const pitchIndexTaken = orderedSelection.find(el => el.pitchIndex === candidatePitchIndex);
+            if(!pitchIndexTaken && candidatePitchIndex < this._notesArray.length) {
+                newPitchIndex = candidatePitchIndex;
+                break;
+            }
+        }
+        if (newPitchIndex) {
+            const newNoteObject = {
+                ...pivotNote.noteObject,
+                pitch: this._notesArray[newPitchIndex],
+                y: newPitchIndex * 16,
+                _id: generateId()
+            };
+            this.props.removeNote(this.section.id, pivotNote.noteObject._id);
+            this.props.addNote(this.section.id, newNoteObject);
+            this.setState({
+                currentlySelectedNotes: this.swapSelectedNoteIds(
+                    this.state.currentlySelectedNotes,
+                    [newNoteObject._id],
+                    [pivotNote.noteObject._id]
+                )
+            });
+        }
     }
 
     render() {
@@ -1422,7 +1546,7 @@ no particular order
 
 
 
-Add time constraints to the shiftTimeBackwards and shiftTimeForwards selection mutation methods. You
+DONE Add time constraints to the shiftTimeBackwards and shiftTimeForwards selection mutation methods. You
 shouldn't be able to move it outside of the current section.
 
 Look at possibly moving the JSX into a seperate presentational component, just to reduce the size
@@ -1430,8 +1554,24 @@ of this one.
 
 Start thinking about how to implement the moving up/down through the different inversions of a chord.
 
+Should I first confirm that all of the selected notes are in the same 'vertical slice'? It wouldn't
+really make sense to use this feature in other circumstances, but should I leave this up to the user? 
 
+High level for stepping up (stepping down will be reversed):
 
+Sort the notes in ascending pitch order. 
+
+Take the first element - the lowest pitched note, which will be the one we change, we will call this the
+anchor.
+
+First check if the note the octave above the anchor is available. If it is, we just use that, and we
+are done. 
+
+If it isn't available, we go to the second element in the array, and look at the note the octave above this. 
+If this is available we use it, if not we move onto the third element in the array and repeat the same process. 
+
+If we reach the end of the array and still haven't found a suitable note, or if we reach the top of the range of
+possible notes, we don't change anything with the selection. 
 
 
 
