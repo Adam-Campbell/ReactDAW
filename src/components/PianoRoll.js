@@ -727,7 +727,9 @@ class PianoRoll extends Component {
      * @param {object} e - the event object
      */
     handleKeyDown = e => {
-
+        console.log(e);
+        console.log(e.key)
+        // ArrowUp, ArrowDown, ArrowLeft, ArrowRight
         // handle deletion
         if (e.key === 'Delete') {
             this.handleDeletion();
@@ -740,6 +742,30 @@ class PianoRoll extends Component {
         // handle pasting
         if (e.key === 'v' && e.ctrlKey === true) {
             this.handlePasting();
+        }
+
+        if (e.key === 'ArrowUp') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchUp');
+            }
+        }
+
+        if (e.key === 'ArrowDown') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchDown');
+            }
+        }
+
+        if (e.key === 'ArrowLeft') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeBackwards');
+            }
+        }
+
+        if (e.key === 'ArrowRight') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeForwards');
+            }
         }
     }
 
@@ -949,6 +975,109 @@ class PianoRoll extends Component {
             ...selectedNotesState.filter(id => !oldIds.includes(id)),
             ...newIds
         ];
+    }
+
+    mutateSelection = (selectionOfIds, mutationMethodToUse) => {
+        // map over selectionOfIds to create an array of the actual note objects rather than just the ids.
+        // let newNoteIds hold the ids of the new notes we create.
+        // let newNoteObjects hold the new note objects we create.
+        // rather than create dedicated variable for all of the original note ids we will remove later,
+        // just use the selectionOfIds param.
+        // save function we will us as our method of mutation in a variable methodOfMutation. Use a switch 
+        // statement based on the method param we pass in to grab the right method. 
+        // loop over the array of note objects, and call the methodOfMutation for each one. 
+        // take the object we get  back and push it onto newNoteObjects, also take the id and push it
+        // onto newNoteIds.
+        // once the entire selection has been dealt with, call removeNotes() to get rid of the old notes, 
+        // addNotes() to add the new notes, and then update currentlySelectedNotes in state to the the
+        // newNoteIds array.
+
+        // declare initial variables
+        const newNoteIds = [];
+        const newNoteObjects = [];
+        let mutationMethod;
+        // set the mutationMethod to use, derived from the mutationMethodToUse parameter
+        switch (mutationMethodToUse) {
+            case 'shiftPitchUp':
+                mutationMethod = this.shiftPitchUp;
+                break;
+
+            case 'shiftPitchDown':
+                mutationMethod = this.shiftPitchDown;
+                break;
+
+            case 'shiftTimeBackwards':
+                mutationMethod = this.shiftTimeBackwards(Tone.Ticks(this.state.quantize));
+                break;
+
+            case 'shiftTimeForwards':
+                mutationMethod = this.shiftTimeForwards(Tone.Ticks(this.state.quantize));
+                break;
+
+            default:
+                mutationMethod = this.shiftPitchUp;
+        }
+        // create an array of the actual note objects
+        const noteObjects = selectionOfIds.map(noteId => {
+            return this.section.notes.find(note => note._id === noteId)
+        });
+        // loop over the noteObjects and perform the selected mutation to them
+        for (let noteObject of noteObjects) {
+            const newNoteObject = mutationMethod(noteObject);
+            newNoteObjects.push(newNoteObject);
+            newNoteIds.push(newNoteObject._id);
+        }
+        this.props.removeNotes(this.section.id, selectionOfIds);
+        this.props.addNotes(this.section.id, newNoteObjects);
+        this.setState({
+            currentlySelectedNotes: newNoteIds
+        });
+    }
+
+    shiftPitchUp = (originalNote) => {
+        const newY = originalNote.y - 16;
+        const newPitch = this._notesArray[newY/16];
+        return {
+            ...originalNote, 
+            y: newY,
+            pitch: newPitch,
+            _id: generateId()
+        };
+    }
+
+    shiftPitchDown = (originalNote) => {
+        const newY = originalNote.y + 16;
+        const newPitch = this._notesArray[newY/16];
+        return {
+            ...originalNote, 
+            y: newY,
+            pitch: newPitch,
+            _id: generateId()
+        };
+    }
+
+    shiftTimeBackwards = (currentQuantizeAsTicks) => (originalNote) => {
+        const oldTimeAsTicks = Tone.Ticks(originalNote.time);
+        const newTime = Tone.Ticks(oldTimeAsTicks - currentQuantizeAsTicks).toBarsBeatsSixteenths();
+        const newX = originalNote.x - (currentQuantizeAsTicks / 2);
+        return {
+            ...originalNote,
+            x: newX,
+            time: newTime,
+            _id: generateId()
+        };
+    }
+
+    shiftTimeForwards = (currentQuantizeAsTicks) => (originalNote) => {
+        const oldTimeAsTicks = Tone.Ticks(originalNote.time);
+        const newTime = Tone.Ticks(oldTimeAsTicks + currentQuantizeAsTicks).toBarsBeatsSixteenths();
+        const newX = originalNote.x + (currentQuantizeAsTicks / 2);
+        return {
+            ...originalNote,
+            x: newX,
+            time: newTime,
+            _id: generateId()
+        };
     }
 
     render() {
