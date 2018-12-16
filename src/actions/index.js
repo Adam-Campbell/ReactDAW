@@ -30,6 +30,23 @@ export const removeNote = (sectionId, pitch, time) => ({
     }
 });
 
+export const addNotes = (sectionId, noteObjects) => ({
+    type: actionTypes.ADD_NOTES,
+    payload: {
+        sectionId,
+        noteObjects
+    }
+});
+
+export const removeNotes = (sectionId, noteIds) => ({
+    type: actionTypes.REMOVE_NOTES,
+    payload: {
+        sectionId,
+        noteIds
+    }
+});
+
+
 export const playTrack = () => ({
     type: actionTypes.PLAY_TRACK
 });

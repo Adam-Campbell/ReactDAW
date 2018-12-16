@@ -10,6 +10,7 @@ import CursorSelect from './CursorSelect';
 import DurationSelect from './DurationSelect';
 import { Rnd } from 'react-rnd';
 import { debounce, throttle } from 'lodash';
+import { UIColors } from '../constants';
 
 /*
 Current work:
@@ -843,6 +844,7 @@ class PianoRoll extends Component {
             pitch: noteToPaste.pitch,
             time: Tone.Ticks(pasteAreaStartAsTicks).toBarsBeatsSixteenths(),
             duration: noteToPaste.duration,
+            velocity: noteToPaste.velocity,
             _id: generateId(),
             x: (pasteAreaStartAsTicks-sectionStartAsTicks) / 2,
             y: noteToPaste.y,
@@ -854,6 +856,10 @@ class PianoRoll extends Component {
         }
     }
 
+    /**
+     * Contains the logic for dealing with a click on the velocity layer of the canvas. 
+     * @param {object} e - the event object
+     */
     handleVelocityLayerClick = (e) => {
         e.cancelBubble = true;
         // Get the x position of the users click, adjust for scrolling and 'roll it back' to the 
@@ -884,32 +890,65 @@ class PianoRoll extends Component {
         // If any of the notes are selected, use the y position of the click to determine the new velocity
         // for those notes.
         if (selectedMatchingNotes.length) {
+            let noteObjectsToAdd = [];
+            let newNoteIds = [];
+            let noteIdsToRemove = [];
             for (let note of selectedMatchingNotes) {
                 const newNoteObject = {
                     ...note,
                     _id: generateId(),
                     velocity,
                 };
-                this.props.removeNote(this.section.id, note.pitch, note.time);
-                this.props.addNote(this.section.id, newNoteObject);
+                noteObjectsToAdd.push(newNoteObject);
+                newNoteIds.push(newNoteObject._id);
+                noteIdsToRemove.push(note._id);
             }
+            this.props.addNotes(this.section.id, noteObjectsToAdd);
+            this.props.removeNotes(this.section.id, noteIdsToRemove);
+            this.setState({
+                currentlySelectedNotes: this.swapSelectedNoteIds(
+                    this.state.currentlySelectedNotes,
+                    newNoteIds,
+                    noteIdsToRemove
+                )
+            });
         // If none of the notes are selected, use the y position of the click to determine the new velocity
         // for all of the notes at this x position. 
         } else if (matchingNotes.length) {
+            let noteObjectsToAdd = [];
+            let noteIdsToRemove = [];
             for (let note of matchingNotes) {
                 const newNoteObject = {
                     ...note,
                     _id: generateId(),
                     velocity,
                 };
-                this.props.removeNote(this.section.id, note.pitch, note.time);
-                this.props.addNote(this.section.id, newNoteObject);
+                noteObjectsToAdd.push(newNoteObject);
+                noteIdsToRemove.push(note._id);
             }
+            this.props.addNotes(this.section.id, noteObjectsToAdd);
+            this.props.removeNotes(this.section.id, noteIdsToRemove);
         }
         
         // Whichever notes we will be operating on, determined by the previous step, loop through each of these
         // notes, call removeNote() with the original note, and call addNote with a copy of the note that has an
         // updated velocity value. 
+    }
+
+    /**
+     * Generate a new selection of notes with some or all of the old notes removed, and some
+     * new notes added.
+     * @param {array} selectedNotesState - the starting array of selected note ids
+     * @param {array} newIds - ids to be added to the state
+     * @param {array} oldIds - ids to be removed from the state
+     * @returns {array} - the new array of selected note ids after all addition and removal has
+     * been performed
+     */
+    swapSelectedNoteIds = (selectedNotesState, newIds, oldIds) => {
+        return [
+            ...selectedNotesState.filter(id => !oldIds.includes(id)),
+            ...newIds
+        ];
     }
 
     render() {
@@ -1015,16 +1054,26 @@ class PianoRoll extends Component {
                             onClick={this.handleVelocityLayerClick}
                             onMouseUp={e => e.cancelBubble = true}
                         >
+                            <Line 
+                                points={[0, 0, this.canvasWidth, 0]}
+                                listening={false}
+                                stroke={UIColors.pink}
+                                strokeWidth={4}
+                                shadowColor={UIColors.pink}
+                                shadowBlur={4}
+                                shadowOffsetX={0}
+                                shadowOffsetY={0}
+                            />
                             <Rect
                                 x={0}
                                 y={0}
                                 height={110}
                                 width={this.canvasWidth} 
-                                fill={'#555555'}
+                                fill={UIColors.deepPurple}
                             />
                             {unselectedNotes.map(note => (
                                 <Rect 
-                                    fill={'#e0e0e0'}
+                                    fill={UIColors.pink}
                                     width={8}
                                     height={note.velocity*100}
                                     x={note.x}
@@ -1034,7 +1083,7 @@ class PianoRoll extends Component {
                             ))}
                             {selectedNotes.map(note => (
                                 <Rect 
-                                    fill={'#222222'}
+                                    fill={UIColors.lightPurple}
                                     width={8}
                                     height={note.velocity*100}
                                     x={note.x}
@@ -1184,6 +1233,8 @@ export default connect(
     {
         addNote: ActionCreators.addNote,
         removeNote: ActionCreators.removeNote,
+        addNotes: ActionCreators.addNotes,
+        removeNotes: ActionCreators.removeNotes,
         closeWindow: ActionCreators.closeWindow
     }
 )(PianoRoll);

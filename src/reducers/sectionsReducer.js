@@ -71,6 +71,29 @@ const sections = (state=defaultState, action) => {
                     })
                 }
             };
+
+        case actionTypes.ADD_NOTES:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: [
+                        ...state[action.payload.sectionId].notes,
+                        ...action.payload.noteObjects
+                    ]
+                }
+            };
+
+        case actionTypes.REMOVE_NOTES:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: state[action.payload.sectionId].notes.filter(note => {
+                        return !action.payload.noteIds.includes(note._id);
+                    })
+                }
+            }
             
 
         default:
