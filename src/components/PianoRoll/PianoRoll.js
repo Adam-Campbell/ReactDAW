@@ -57,7 +57,7 @@ const PianoRoll = props => (
                 />
                 <PianoKeyLayer 
                     pianoKeyLayerRef={props.pianoKeyLayerRef}
-                    notesArray={props.notesArray}
+                    pitchesArray={props.pitchesArray}
                     handlePianoKeyClick={props.handlePianoKeyClick}
                 />
                 <TransportLayer 
@@ -105,7 +105,7 @@ PianoRoll.propTypes = {
     currentlySelectedNotes: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     unselectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    notesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
+    pitchesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     transportBarNumbersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
     // input values
     quantizeValue: PropTypes.string.isRequired,

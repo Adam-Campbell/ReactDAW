@@ -8,7 +8,7 @@ const PianoKeyLayer = props => (
         y={40}
         ref={props.pianoKeyLayerRef}
     >
-        {props.notesArray.map((note, index) => (
+        {props.pitchesArray.map((pitch, index) => (
             <Rect 
                 x={0}
                 y={index * 16}
@@ -16,11 +16,11 @@ const PianoKeyLayer = props => (
                 height={16}
                 stroke={UIColors.deepPurple}
                 strokeWidth={2}
-                fill={note.includes('#') ? UIColors.lightPurple : UIColors.offWhite} 
+                fill={pitch.includes('#') ? UIColors.lightPurple : UIColors.offWhite} 
                 key={index} 
-                pitch={note}
+                pitch={pitch}
                 type={'pianoKeyRect'}
-                onClick={e => props.handlePianoKeyClick(e, note)}
+                onClick={e => props.handlePianoKeyClick(e, pitch)}
             />
         ))}
     </Layer>
@@ -29,7 +29,7 @@ const PianoKeyLayer = props => (
 PianoKeyLayer.propTypes = {
     pianoKeyLayerRef: PropTypes.object.isRequired,
     handlePianoKeyClick: PropTypes.func.isRequired,
-    notesArray: PropTypes.arrayOf(PropTypes.string).isRequired
+    pitchesArray: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default PianoKeyLayer;
