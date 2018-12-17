@@ -564,14 +564,35 @@ class PianoRoll extends Component {
         const horizontalBound2 = e.evt.layerX - scrolledX;
 
         // now we determine which bounds are which
-        const leftBound = Math.min(horizontalBound1, horizontalBound2);
-        const rightBound = Math.max(horizontalBound1, horizontalBound2);
-        const topBound = Math.min(verticalBound1, verticalBound2);
-        const bottomBound = Math.max(verticalBound1, verticalBound2);
+        const selectionLeft = Math.min(horizontalBound1, horizontalBound2);
+        const selectionRight = Math.max(horizontalBound1, horizontalBound2);
+        const selectionTop = Math.min(verticalBound1, verticalBound2);
+        const selectionBottom = Math.max(verticalBound1, verticalBound2);
 
         const selectedNotes = this.section.notes.filter(note => {
-            const {x, y} = note;
-            return (x >= leftBound && x <= rightBound && y >= topBound && y <= bottomBound);
+            const {x, y, width, height } = note;
+            //return (x >= leftBound && x <= rightBound && y >= topBound && y <= bottomBound);
+            const noteLeft =  x;
+            const noteRight = x + width;
+            const noteTop = y;
+            const noteBottom = y + height;
+
+            // This series of conditional statements will evaluate to true for any possible overlap
+            // between the vertical range of the selection and the vertical range of the note, 
+            // regardless of which vertical range is greater. 
+            const isInVerticalRange = (noteTop >= selectionTop && noteTop <= selectionBottom) ||
+                                      (noteBottom >= selectionTop && noteBottom <= selectionBottom) ||
+                                      (selectionTop >= noteTop && selectionTop <= noteBottom) ||
+                                      (selectionBottom >= noteTop && selectionBottom <= noteBottom);
+
+            // Similar to isInVerticalRange, accounts for any possible overlap regardless of whether the
+            // note or selection has a larger horizontal range.
+            const isInHorizontalRange = (noteLeft >= selectionLeft && noteLeft <= selectionRight) ||
+                                        (noteRight >= selectionLeft && noteRight <= selectionRight) ||
+                                        (selectionLeft >= noteLeft && selectionLeft <= noteRight) ||
+                                        (selectionRight >= noteLeft && selectionRight <= noteRight);
+
+            return isInVerticalRange && isInHorizontalRange;
         })
         .map(noteObject => noteObject._id);
 
@@ -751,6 +772,8 @@ class PianoRoll extends Component {
      * @param {object} e - the event object
      */
     handleKeyDown = e => {
+        e.preventDefault();
+        e.stopPropagation();
         // console.log(e);
         // console.log(e.key)
 
@@ -800,6 +823,16 @@ class PianoRoll extends Component {
             if (this.state.currentlySelectedNotes.length) {
                 this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeForwards');
             }
+        }
+
+        if (e.key === 'd' && e.ctrlKey) {
+            this.clearCurrentSelection();
+        }
+    }
+
+    clearCurrentSelection = () => {
+        if (this.state.currentlySelectedNotes.length) {
+            this.setState({ currentlySelectedNotes: [] });
         }
     }
 
@@ -922,13 +955,17 @@ class PianoRoll extends Component {
      */
     handleVelocityLayerClick = (e) => {
         e.cancelBubble = true;
+        const shiftKeyPressed = e.evt.shiftKey;
+        console.log(shiftKeyPressed)
+        //const shiftKeyPress = 
         // Get the x position of the users click, adjust for scrolling and 'roll it back' to the 
         // last multiple of 8.
         const { layerX, layerY } = e.evt;
         const scrolledX = this.velocityLayerRef.current.attrs.x || 0;
         const xWithScroll = layerX - scrolledX;
         const xPos = xWithScroll - (xWithScroll%8);
-        
+        // initialized velocity with a default value of 1
+        let velocity = 1;
         
         // Filter out the notes to get only the notes that have this x value.
         const matchingNotes = this.section.notes.filter(note => note.x === xPos);
@@ -937,14 +974,19 @@ class PianoRoll extends Component {
             this.state.currentlySelectedNotes.includes(note._id)
         ));
 
-        // now we derive the desired velocity from the y position of the click event
-        // first account for layer offsetting
-        const yAdjustedForLayer = layerY - (this.stageHeight - 134) - 10;
-        // clicks further down the page result in a lower velocity but a higher y value,
-        // we have to get the 'reflection' of our y value
-        const yAsVelocity = 100 - yAdjustedForLayer;
-        // Ensure it stays within our desired range of 0-100, then convert to normal range.
-        const velocity = Math.min(Math.max(yAsVelocity, 0), 100) / 100;
+        // If the shift key is not pressed then we actually want to calculate the velocity based off
+        // of the y position of the click. If the shift key is pressed we just leave velocity at its 
+        // default value of 1. 
+        if (!shiftKeyPressed) {
+            // now we derive the desired velocity from the y position of the click event
+            // first account for layer offsetting
+            const yAdjustedForLayer = layerY - (this.stageHeight - 134) - 10;
+            // clicks further down the page result in a lower velocity but a higher y value,
+            // we have to get the 'reflection' of our y value
+            const yAsVelocity = 100 - yAdjustedForLayer;
+            // Ensure it stays within our desired range of 0-100, then convert to normal range.
+            velocity = Math.min(Math.max(yAsVelocity, 0), 100) / 100;
+        }
 
 
         // If any of the notes are selected, use the y position of the click to determine the new velocity
@@ -1545,6 +1587,14 @@ improvements to be made to piano roll
 no particular order
 
 
+fixing making selections with the shift key. It should select all notes that fall within its 'range'. Currently
+it won't select notes that start outside of its range. 
+
+
+
+
+
+
 
 DONE Add time constraints to the shiftTimeBackwards and shiftTimeForwards selection mutation methods. You
 shouldn't be able to move it outside of the current section.
@@ -1572,19 +1622,6 @@ If this is available we use it, if not we move onto the third element in the arr
 
 If we reach the end of the array and still haven't found a suitable note, or if we reach the top of the range of
 possible notes, we don't change anything with the selection. 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
