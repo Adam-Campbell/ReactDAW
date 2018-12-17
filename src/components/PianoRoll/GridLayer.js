@@ -1,5 +1,7 @@
 import React from 'react';
 import { Layer, Rect, Line } from 'react-konva';
+import PropTypes from 'prop-types';
+import { UIColors } from '../../constants';
 
 const GridLayer = props => (
     <Layer 
@@ -12,14 +14,14 @@ const GridLayer = props => (
             y={0}
             width={props.canvasWidth}
             height={1728}
-            fill={'#201826'}
+            fill={UIColors.deepPurple}
         />
         {
             props.gridLinesArray.map((line, index) => (
                 <Line 
                     points={line.points}
                     listening={false}
-                    stroke={'#d86597'}
+                    stroke={UIColors.pink}
                     strokeWidth={line.strokeWidth}
                     shadowColor={'#ed90b9'}
                     shadowBlur={4}
@@ -31,5 +33,11 @@ const GridLayer = props => (
         }
     </Layer>
 );
+
+GridLayer.propTypes = {
+    gridLayerRef: PropTypes.object.isRequired,
+    canvasWidth: PropTypes.number.isRequired,
+    gridLinesArray: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default GridLayer;

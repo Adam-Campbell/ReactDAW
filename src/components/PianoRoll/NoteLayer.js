@@ -1,5 +1,7 @@
 import React from 'react';
 import { Layer, Rect } from 'react-konva';
+import PropTypes from 'prop-types';
+import { UIColors } from '../../constants';
 
 const NoteLayer = props => (
     <Layer
@@ -13,13 +15,13 @@ const NoteLayer = props => (
                 y={note.y}
                 width={note.width}
                 height={16}
-                stroke={'#d86597'}
+                stroke={UIColors.pink}
                 strokeWidth={2}
                 fill={props.currentlySelectedNotes.includes(note._id) ? 
-                    '#222222' :
+                    UIColors.darkGrey :
                     '#ed90b9'
                 }
-                shadowColor={'#d86597'}
+                shadowColor={UIColors.pink}
                 shadowBlur={4}
                 shadowOffsetX={0}
                 shadowOffsetY={0}
@@ -34,5 +36,12 @@ const NoteLayer = props => (
         ))}
     </Layer>
 );
+
+NoteLayer.propTypes = {
+    noteLayerRef: PropTypes.object.isRequired,
+    section: PropTypes.object.isRequired,
+    currentlySelectedNotes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    handleNoteClick: PropTypes.func.isRequired
+};
 
 export default NoteLayer;

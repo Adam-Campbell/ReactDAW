@@ -1,5 +1,7 @@
 import React from 'react';
 import { Layer, Rect } from 'react-konva';
+import PropTypes from 'prop-types';
+import { UIColors } from '../../constants';  
 
 const ScrollBarLayer = props => (
     <Layer>
@@ -8,8 +10,8 @@ const ScrollBarLayer = props => (
             y={props.stageHeight - 24}
             width={props.stageWidth}
             height={24}
-            fill={'#47426c'}
-            shadowColor={'#47426c'}
+            fill={UIColors.lightPurple}
+            shadowColor={UIColors.lightPurple}
             shadowBlur={4}
             shadowOffsetX={0}
             shadowOffsetY={0}
@@ -17,7 +19,7 @@ const ScrollBarLayer = props => (
         <Rect 
             width={100}
             height={14}
-            fill={'#d86597'}
+            fill={UIColors.pink}
             x={props.padding}
             y={props.stageHeight - 19}
             draggable={true}
@@ -38,8 +40,8 @@ const ScrollBarLayer = props => (
             y={0}
             width={24}
             height={props.stageHeight}
-            fill={'#47426c'}
-            shadowColor={'#47426c'}
+            fill={UIColors.lightPurple}
+            shadowColor={UIColors.lightPurple}
             shadowBlur={4}
             shadowOffsetX={0}
             shadowOffsetY={0}
@@ -47,7 +49,7 @@ const ScrollBarLayer = props => (
         <Rect 
             width={14}
             height={100}
-            fill={'#d86597'}
+            fill={UIColors.pink}
             y={props.padding}
             x={props.stageWidth - 19}
             draggable={true}
@@ -65,5 +67,14 @@ const ScrollBarLayer = props => (
         />
     </Layer>
 );
+
+ScrollBarLayer.propTypes = {
+    horizontalDragMove: PropTypes.func.isRequired,
+    verticalDragMove: PropTypes.func.isRequired,
+    handleScrollBarClickEvents: PropTypes.func.isRequired,
+    stageHeight: PropTypes.number.isRequired,
+    stageWidth: PropTypes.number.isRequired,
+    padding: PropTypes.number.isRequired,
+}
 
 export default ScrollBarLayer;  

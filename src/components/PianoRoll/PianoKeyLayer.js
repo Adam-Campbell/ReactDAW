@@ -1,5 +1,7 @@
 import React from 'react';
 import { Layer, Rect } from 'react-konva';
+import PropTypes from 'prop-types';
+import { UIColors } from '../../constants';
 
 const PianoKeyLayer = props => (
     <Layer
@@ -12,9 +14,9 @@ const PianoKeyLayer = props => (
                 y={index * 16}
                 width={48}
                 height={16}
-                stroke={'#201826'}
+                stroke={UIColors.deepPurple}
                 strokeWidth={2}
-                fill={note.includes('#') ? '#47426c' : '#e0e0e0'} 
+                fill={note.includes('#') ? UIColors.lightPurple : UIColors.offWhite} 
                 key={index} 
                 pitch={note}
                 type={'pianoKeyRect'}
@@ -23,5 +25,11 @@ const PianoKeyLayer = props => (
         ))}
     </Layer>
 );
+
+PianoKeyLayer.propTypes = {
+    pianoKeyLayerRef: PropTypes.object.isRequired,
+    handlePianoKeyClick: PropTypes.func.isRequired,
+    notesArray: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default PianoKeyLayer;

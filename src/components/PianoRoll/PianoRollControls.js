@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import QuantizeSelect from '../QuantizeSelect';
 import CursorSelect from '../CursorSelect';
 import DurationSelect from '../DurationSelect';
@@ -19,5 +20,14 @@ const PianoRollControls = props => (
         />
     </div>
 );
+
+PianoRollControls.propTypes = {
+    quantizeValue: PropTypes.string.isRequired,
+    updateQuantizeValue: PropTypes.func.isRequired,
+    durationValue: PropTypes.string.isRequired,
+    updateDurationValue: PropTypes.func.isRequired,
+    cursorValue: PropTypes.string.isRequired,
+    updateCursorValue: PropTypes.func.isRequired
+};
 
 export default PianoRollControls;

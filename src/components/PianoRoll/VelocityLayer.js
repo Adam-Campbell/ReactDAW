@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layer, Rect, Line } from 'react-konva';
+import PropTypes from 'prop-types';
 import { UIColors } from '../../constants';
 
 const VelocityLayer = props => (
@@ -49,5 +50,14 @@ const VelocityLayer = props => (
         ))}
     </Layer>
 );
+
+VelocityLayer.propTypes = {
+    stageHeight: PropTypes.number.isRequired,
+    canvasWidth: PropTypes.number.isRequired,
+    velocityLayerRef: PropTypes.object.isRequired,
+    handleVelocityLayerClick: PropTypes.func.isRequired,
+    unselectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    selectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default VelocityLayer;
