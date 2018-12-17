@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Rect, Line, Text } from 'react-konva';
+//import { Stage, Layer, Rect, Line, Text } from 'react-konva';
 import Konva from 'konva';
 import { connect } from 'react-redux';
-import * as ActionCreators from '../actions';
-import { generateId } from '../helpers';
+import * as ActionCreators from '../../actions';
+import { generateId } from '../../helpers';
 import Tone from 'tone';
-import QuantizeSelect from './QuantizeSelect';
-import CursorSelect from './CursorSelect';
-import DurationSelect from './DurationSelect';
-import { Rnd } from 'react-rnd';
-import { debounce, throttle } from 'lodash';
-import { UIColors } from '../constants';
+//import QuantizeSelect from '../QuantizeSelect';
+//import CursorSelect from '../CursorSelect';
+//import DurationSelect from '../DurationSelect';
+//import { Rnd } from 'react-rnd';
+import { throttle } from 'lodash';
+//import { UIColors } from '../../constants';
+import PianoRoll from './PianoRoll';
 
 /*
 Keyboard shortcuts:
@@ -32,13 +33,19 @@ a selection copied will paste that selection. The paste will begin at the curren
 
 */
 
-class PianoRoll extends Component {
+class PianoRollContainer extends Component {
     constructor(props) {
         super(props);
+
+        // these values are fixed, and are merely being aliased here so that when they are used later
+        // it is clear what the numbers refer to.
         this.padding = 10;
         this.pianoKeysWidth = 48;
-        this.stageWidth = 800;
-        this.stageHeight = 600;
+        this.canvasWidth = this.section.numberOfBars * 384;
+        this.canvasHeight = 1768;
+
+        // refs are required for various canvas elements in order to interact directly with 
+        // the Konva API
         this.outerContainerRef = React.createRef();
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
@@ -48,13 +55,20 @@ class PianoRoll extends Component {
         this.seekerLayerRef = React.createRef();
         this.seekerLineRef = React.createRef();
         this.velocityLayerRef = React.createRef();
+
+        // If/when requestAnimationFrame is utilised by the component, the reference to the most recent
+        // request will always be stored in this property to allow easy cancellation if needed.
         this.rAFRef = null;
+
+        // array of scientific pitch notation strings ('C5', F#7 etc) for the range of pitches available.
+        this._notesArray = this._createNotesArray();
+        // array that is mapped over to render the numbers in the transport bar
+        this._transportBarNumbersArray = this._createTransportBarNumbersArray();
+
+        // throttled handlers for handling scrolling
         this.horizontalDragMove = throttle(this._horizontalDragMove, 16).bind(this);
         this.verticalDragMove = throttle(this._verticalDragMove, 16).bind(this);
-        this.canvasWidth = this.section.numberOfBars * 384;
-        this.canvasHeight = 1768;
-        this._notesArray = this._createNotesArray();
-        this._transportBarNumbersArray = this._createTransportBarNumbersArray();
+
         this.handleStageClick = this._handleStageClick.bind(this);
         this.handleMouseDown = this._handleMouseDown.bind(this);
         this.handleMouseUp = this._handleMouseUp.bind(this);
@@ -980,7 +994,7 @@ class PianoRoll extends Component {
         if (!shiftKeyPressed) {
             // now we derive the desired velocity from the y position of the click event
             // first account for layer offsetting
-            const yAdjustedForLayer = layerY - (this.stageHeight - 134) - 10;
+            const yAdjustedForLayer = layerY - (this.state.stageHeight - 134) - 10;
             // clicks further down the page result in a lower velocity but a higher y value,
             // we have to get the 'reflection' of our y value
             const yAsVelocity = 100 - yAdjustedForLayer;
@@ -1291,267 +1305,306 @@ class PianoRoll extends Component {
     render() {
         const gridLinesArray = this._createGridLinesArray();
         const { selectedNotes, unselectedNotes } = this.createVelocityArrays();
-        return (
-            <div 
-                className="piano-roll-container" 
-                tabIndex="0" 
-                onKeyDown={this.handleKeyDown}
-                style={{outline: 'none'}}
-                ref={this.outerContainerRef}
-            >
-                <div className="piano-roll-controls-container">
-                    <QuantizeSelect 
-                        value={this.state.quantize} 
-                        handleChange={this.updateQuantizeValue.bind(this)} 
-                    />
-                    <DurationSelect 
-                        value={this.state.duration}
-                        handleChange={this.updateDurationValue.bind(this)}
-                    />
-                    <CursorSelect 
-                        value={this.state.pencilActive ? 'pencil' : 'pointer'}
-                        handleChange={this.updateCursorValue.bind(this)}
-                    />
-                </div>
-                <div className="canvas-container" id="piano-roll-canvas-container">
-                    <Stage 
-                        container={'piano-roll-canvas-container'}
-                        ref={this.stageRef}
-                        width={800} 
-                        height={600} 
-                        onClick={this.handleStageClick}
-                        onMouseDown={this.handleMouseDown} 
-                        onMouseUp={this.handleMouseUp}
-                    >
-                        <Layer 
-                            x={48} 
-                            y={40} 
-                            ref={this.gridLayerRef} 
-                        >
-                            <Rect 
-                                x={0}
-                                y={0}
-                                width={this.canvasWidth}
-                                height={1728}
-                                fill={'#201826'}
-                            />
-                            {
-                                gridLinesArray.map((line, index) => (
-                                    <Line 
-                                        points={line.points}
-                                        listening={false}
-                                        stroke={'#d86597'}
-                                        strokeWidth={line.strokeWidth}
-                                        shadowColor={'#ed90b9'}
-                                        shadowBlur={4}
-                                        shadowOffsetX={0}
-                                        shadowOffsetY={0}
-                                        key={index}
-                                    />
-                                ))
-                            }
-                        </Layer>
-                        <Layer
-                            x={48}
-                            y={40}
-                            ref={this.noteLayerRef}
-                        >
-                        {
-                            this.section.notes.map((note, index) => (
-                                <Rect 
-                                    x={note.x}
-                                    y={note.y}
-                                    width={note.width}
-                                    height={16}
-                                    stroke={'#d86597'}
-                                    strokeWidth={2}
-                                    fill={this.state.currentlySelectedNotes.includes(note._id) ? 
-                                        '#222222' :
-                                        '#ed90b9'
-                                    }
-                                    shadowColor={'#d86597'}
-                                    shadowBlur={4}
-                                    shadowOffsetX={0}
-                                    shadowOffsetY={0}
-                                    pitch={note.pitch}
-                                    time={note.time}
-                                    _id={note._id}
-                                    type={'noteRect'}
-                                    key={note._id}
-                                    onClick={this.handleNoteClick}
-                                    onMouseUp={e => e.cancelBubble = true}
-                                />
-                            ))
-                        }
-                        </Layer>
-                        <Layer
-                            x={48}
-                            y={this.stageHeight - 134}
-                            ref={this.velocityLayerRef}
-                            onClick={this.handleVelocityLayerClick}
-                            onMouseUp={e => e.cancelBubble = true}
-                        >
-                            <Line 
-                                points={[0, 0, this.canvasWidth, 0]}
-                                listening={false}
-                                stroke={UIColors.pink}
-                                strokeWidth={4}
-                                shadowColor={UIColors.pink}
-                                shadowBlur={4}
-                                shadowOffsetX={0}
-                                shadowOffsetY={0}
-                            />
-                            <Rect
-                                x={0}
-                                y={0}
-                                height={110}
-                                width={this.canvasWidth} 
-                                fill={UIColors.deepPurple}
-                            />
-                            {unselectedNotes.map(note => (
-                                <Rect 
-                                    fill={UIColors.pink}
-                                    width={8}
-                                    height={note.velocity*100}
-                                    x={note.x}
-                                    y={110 - (note.velocity*100)}
-                                    key={note._id}
-                                />
-                            ))}
-                            {selectedNotes.map(note => (
-                                <Rect 
-                                    fill={UIColors.lightPurple}
-                                    width={8}
-                                    height={note.velocity*100}
-                                    x={note.x}
-                                    y={110 - (note.velocity*100)}
-                                    key={note._id}
-                                />
-                            ))}
-                        </Layer>
-                        <Layer
-                            y={40}
-                            ref={this.pianoKeyLayerRef}
-                        >
-                            {this._notesArray.map((note, index) => (
-                                <Rect 
-                                    x={0}
-                                    y={index * 16}
-                                    width={48}
-                                    height={16}
-                                    stroke={'#201826'}
-                                    strokeWidth={2}
-                                    fill={note.includes('#') ? '#47426c' : '#e0e0e0'} 
-                                    key={index} 
-                                    pitch={note}
-                                    type={'pianoKeyRect'}
-                                    onClick={e => this.handlePianoKeyClick(e, note)}
-                                />
-                            ))}
-                        </Layer>
-                        <Layer
-                            x={48}
-                            ref={this.transportLayerRef}
-                        >
-                            <Rect 
-                                x={-48}
-                                y={0}
-                                width={this.canvasWidth+52}
-                                height={40}
-                                fill={'#201826'}
-                            />
-                            {this._transportBarNumbersArray.map((barObject, index) =>(
-                                <Text 
-                                    text={barObject.barNumber}
-                                    x={barObject.xPos}
-                                    y={20}
-                                    key={index}
-                                    fill={'#e0e0e0'}
-                                    shadowColor={'#e0e0e0'}
-                                    shadowBlur={4}
-                                    shadowOffsetX={0}
-                                    shadowOffsetY={0}
-                                />
-                            ))}
-                        </Layer>
-                        <Layer
-                            x={48}
-                            ref={this.seekerLayerRef}
-                        >
-                            <Line
-                                ref={this.seekerLineRef}
-                                points={[0, 0, 0, this.canvasHeight]}
-                                listening={false}
-                                stroke={'#e0e0e0'}
-                                strokeWidth={0}
-                            />
-                        </Layer>
-                        <Layer>
-                            <Rect 
-                                x={0}
-                                y={this.state.stageHeight - 24}
-                                width={this.state.stageWidth}
-                                height={24}
-                                fill={'#47426c'}
-                                shadowColor={'#47426c'}
-                                shadowBlur={4}
-                                shadowOffsetX={0}
-                                shadowOffsetY={0}
-                            />
-                            <Rect 
-                                width={100}
-                                height={14}
-                                fill={'#d86597'}
-                                x={this.padding}
-                                y={this.state.stageHeight - 19}
-                                draggable={true}
-                                type={'scrollRect'}
-                                dragBoundFunc={(pos) => {
-                                    const currX = pos.x;
-                                    const highBound = this.state.stageWidth - 24 - 100;
-                                    pos.x = Math.min(Math.max(currX, this.padding), highBound);
-                                    pos.y = this.state.stageHeight - 19;
-                                    return pos;
-                                }}
-                                onDragMove={this.horizontalDragMove}
-                                onMouseDown={this.handleScrollBarClickEvents}
-                                onClick={this.handleScrollBarClickEvents}
-                            />
-                            <Rect 
-                                x={this.state.stageWidth - 24}
-                                y={0}
-                                width={24}
-                                height={this.state.stageHeight}
-                                fill={'#47426c'}
-                                shadowColor={'#47426c'}
-                                shadowBlur={4}
-                                shadowOffsetX={0}
-                                shadowOffsetY={0}
-                            />
-                            <Rect 
-                                width={14}
-                                height={100}
-                                fill={'#d86597'}
-                                y={this.padding}
-                                x={this.state.stageWidth - 19}
-                                draggable={true}
-                                type={'scrollRect'}
-                                dragBoundFunc={(pos) => {
-                                    const currY = pos.y;
-                                    const highBound = this.state.stageHeight - 24 - 100;
-                                    pos.y = Math.min(Math.max(currY, this.padding), highBound);
-                                    pos.x = this.state.stageWidth - 19;
-                                    return pos;
-                                }}
-                                onDragMove={this.verticalDragMove}
-                                onMouseDown={this.handleScrollBarClickEvents}
-                                onClick={this.handleScrollBarClickEvents}
-                            />
-                        </Layer>
-                    </Stage>
-                </div>
-            </div>
-        );
+        return <PianoRoll 
+            handleKeyDown={this.handleKeyDown}
+            outerContainerRef={this.outerContainerRef}
+            quantizeValue={this.state.quantize}
+            updateQuantizeValue={this.updateQuantizeValue.bind(this)}
+            durationValue={this.state.duration}
+            updateDurationValue={this.updateDurationValue.bind(this)}
+            cursorValue={this.state.pencilActive ? 'pencil' : 'pointer'}
+            updateCursorValue={this.updateCursorValue.bind(this)}
+            stageRef={this.stageRef}
+            handleStageClick={this.handleStageClick}
+            handleMouseDown={this.handleMouseDown}
+            handleMouseUp={this.handleMouseUp}
+            gridLayerRef={this.gridLayerRef}
+            canvasWidth={this.canvasWidth}
+            canvasHeight={this.canvasHeight}
+            gridLinesArray={gridLinesArray}
+            noteLayerRef={this.noteLayerRef}
+            section={this.section}
+            currentlySelectedNotes={this.state.currentlySelectedNotes}
+            handleNoteClick={this.handleNoteClick}
+            stageHeight={this.state.stageHeight}
+            stageWidth={this.state.stageWidth}
+            velocityLayerRef={this.velocityLayerRef}
+            handleVelocityLayerClick={this.handleVelocityLayerClick}
+            selectedNotes={selectedNotes}
+            unselectedNotes={unselectedNotes}
+            pianoKeyLayerRef={this.pianoKeyLayerRef}
+            notesArray={this._notesArray}
+            handlePianoKeyClick={this.handlePianoKeyClick}
+            transportLayerRef={this.transportLayerRef}
+            transportBarNumbersArray={this._transportBarNumbersArray}
+            seekerLayerRef={this.seekerLayerRef}
+            seekerLineRef={this.seekerLineRef}
+            padding={this.padding}
+            horizontalDragMove={this.horizontalDragMove}
+            verticalDragMove={this.verticalDragMove}
+            handleScrollBarClickEvents={this.handleScrollBarClickEvents}
+        />
+        // return (
+        //     <div 
+        //         className="piano-roll-container" 
+        //         tabIndex="0" 
+        //         onKeyDown={this.handleKeyDown}
+        //         style={{outline: 'none'}}
+        //         ref={this.outerContainerRef}
+        //     >
+        //         <div className="piano-roll-controls-container">
+        //             <QuantizeSelect 
+        //                 value={this.state.quantize} 
+        //                 handleChange={this.updateQuantizeValue.bind(this)} 
+        //             />
+        //             <DurationSelect 
+        //                 value={this.state.duration}
+        //                 handleChange={this.updateDurationValue.bind(this)}
+        //             />
+        //             <CursorSelect 
+        //                 value={this.state.pencilActive ? 'pencil' : 'pointer'}
+        //                 handleChange={this.updateCursorValue.bind(this)}
+        //             />
+        //         </div>
+        //         <div className="canvas-container" id="piano-roll-canvas-container">
+        //             <Stage 
+        //                 container={'piano-roll-canvas-container'}
+        //                 ref={this.stageRef}
+        //                 width={800} 
+        //                 height={600} 
+        //                 onClick={this.handleStageClick}
+        //                 onMouseDown={this.handleMouseDown} 
+        //                 onMouseUp={this.handleMouseUp}
+        //             >
+        //                 <Layer 
+        //                     x={48} 
+        //                     y={40} 
+        //                     ref={this.gridLayerRef} 
+        //                 >
+        //                     <Rect 
+        //                         x={0}
+        //                         y={0}
+        //                         width={this.canvasWidth}
+        //                         height={1728}
+        //                         fill={'#201826'}
+        //                     />
+        //                     {
+        //                         gridLinesArray.map((line, index) => (
+        //                             <Line 
+        //                                 points={line.points}
+        //                                 listening={false}
+        //                                 stroke={'#d86597'}
+        //                                 strokeWidth={line.strokeWidth}
+        //                                 shadowColor={'#ed90b9'}
+        //                                 shadowBlur={4}
+        //                                 shadowOffsetX={0}
+        //                                 shadowOffsetY={0}
+        //                                 key={index}
+        //                             />
+        //                         ))
+        //                     }
+        //                 </Layer>
+        //                 <Layer
+        //                     x={48}
+        //                     y={40}
+        //                     ref={this.noteLayerRef}
+        //                 >
+        //                 {
+        //                     this.section.notes.map((note, index) => (
+        //                         <Rect 
+        //                             x={note.x}
+        //                             y={note.y}
+        //                             width={note.width}
+        //                             height={16}
+        //                             stroke={'#d86597'}
+        //                             strokeWidth={2}
+        //                             fill={this.state.currentlySelectedNotes.includes(note._id) ? 
+        //                                 '#222222' :
+        //                                 '#ed90b9'
+        //                             }
+        //                             shadowColor={'#d86597'}
+        //                             shadowBlur={4}
+        //                             shadowOffsetX={0}
+        //                             shadowOffsetY={0}
+        //                             pitch={note.pitch}
+        //                             time={note.time}
+        //                             _id={note._id}
+        //                             type={'noteRect'}
+        //                             key={note._id}
+        //                             onClick={this.handleNoteClick}
+        //                             onMouseUp={e => e.cancelBubble = true}
+        //                         />
+        //                     ))
+        //                 }
+        //                 </Layer>
+        //                 <Layer
+        //                     x={48}
+        //                     y={this.stageHeight - 134}
+        //                     ref={this.velocityLayerRef}
+        //                     onClick={this.handleVelocityLayerClick}
+        //                     onMouseUp={e => e.cancelBubble = true}
+        //                 >
+        //                     <Line 
+        //                         points={[0, 0, this.canvasWidth, 0]}
+        //                         listening={false}
+        //                         stroke={UIColors.pink}
+        //                         strokeWidth={4}
+        //                         shadowColor={UIColors.pink}
+        //                         shadowBlur={4}
+        //                         shadowOffsetX={0}
+        //                         shadowOffsetY={0}
+        //                     />
+        //                     <Rect
+        //                         x={0}
+        //                         y={0}
+        //                         height={110}
+        //                         width={this.canvasWidth} 
+        //                         fill={UIColors.deepPurple}
+        //                     />
+        //                     {unselectedNotes.map(note => (
+        //                         <Rect 
+        //                             fill={UIColors.pink}
+        //                             width={8}
+        //                             height={note.velocity*100}
+        //                             x={note.x}
+        //                             y={110 - (note.velocity*100)}
+        //                             key={note._id}
+        //                         />
+        //                     ))}
+        //                     {selectedNotes.map(note => (
+        //                         <Rect 
+        //                             fill={UIColors.lightPurple}
+        //                             width={8}
+        //                             height={note.velocity*100}
+        //                             x={note.x}
+        //                             y={110 - (note.velocity*100)}
+        //                             key={note._id}
+        //                         />
+        //                     ))}
+        //                 </Layer>
+        //                 <Layer
+        //                     y={40}
+        //                     ref={this.pianoKeyLayerRef}
+        //                 >
+        //                     {this._notesArray.map((note, index) => (
+        //                         <Rect 
+        //                             x={0}
+        //                             y={index * 16}
+        //                             width={48}
+        //                             height={16}
+        //                             stroke={'#201826'}
+        //                             strokeWidth={2}
+        //                             fill={note.includes('#') ? '#47426c' : '#e0e0e0'} 
+        //                             key={index} 
+        //                             pitch={note}
+        //                             type={'pianoKeyRect'}
+        //                             onClick={e => this.handlePianoKeyClick(e, note)}
+        //                         />
+        //                     ))}
+        //                 </Layer>
+        //                 <Layer
+        //                     x={48}
+        //                     ref={this.transportLayerRef}
+        //                 >
+        //                     <Rect 
+        //                         x={-48}
+        //                         y={0}
+        //                         width={this.canvasWidth+52}
+        //                         height={40}
+        //                         fill={'#201826'}
+        //                     />
+        //                     {this._transportBarNumbersArray.map((barObject, index) =>(
+        //                         <Text 
+        //                             text={barObject.barNumber}
+        //                             x={barObject.xPos}
+        //                             y={20}
+        //                             key={index}
+        //                             fill={'#e0e0e0'}
+        //                             shadowColor={'#e0e0e0'}
+        //                             shadowBlur={4}
+        //                             shadowOffsetX={0}
+        //                             shadowOffsetY={0}
+        //                         />
+        //                     ))}
+        //                 </Layer>
+        //                 <Layer
+        //                     x={48}
+        //                     ref={this.seekerLayerRef}
+        //                 >
+        //                     <Line
+        //                         ref={this.seekerLineRef}
+        //                         points={[0, 0, 0, this.canvasHeight]}
+        //                         listening={false}
+        //                         stroke={'#e0e0e0'}
+        //                         strokeWidth={0}
+        //                     />
+        //                 </Layer>
+        //                 <Layer>
+        //                     <Rect 
+        //                         x={0}
+        //                         y={this.state.stageHeight - 24}
+        //                         width={this.state.stageWidth}
+        //                         height={24}
+        //                         fill={'#47426c'}
+        //                         shadowColor={'#47426c'}
+        //                         shadowBlur={4}
+        //                         shadowOffsetX={0}
+        //                         shadowOffsetY={0}
+        //                     />
+        //                     <Rect 
+        //                         width={100}
+        //                         height={14}
+        //                         fill={'#d86597'}
+        //                         x={this.padding}
+        //                         y={this.state.stageHeight - 19}
+        //                         draggable={true}
+        //                         type={'scrollRect'}
+        //                         dragBoundFunc={(pos) => {
+        //                             const currX = pos.x;
+        //                             const highBound = this.state.stageWidth - 24 - 100;
+        //                             pos.x = Math.min(Math.max(currX, this.padding), highBound);
+        //                             pos.y = this.state.stageHeight - 19;
+        //                             return pos;
+        //                         }}
+        //                         onDragMove={this.horizontalDragMove}
+        //                         onMouseDown={this.handleScrollBarClickEvents}
+        //                         onClick={this.handleScrollBarClickEvents}
+        //                     />
+        //                     <Rect 
+        //                         x={this.state.stageWidth - 24}
+        //                         y={0}
+        //                         width={24}
+        //                         height={this.state.stageHeight}
+        //                         fill={'#47426c'}
+        //                         shadowColor={'#47426c'}
+        //                         shadowBlur={4}
+        //                         shadowOffsetX={0}
+        //                         shadowOffsetY={0}
+        //                     />
+        //                     <Rect 
+        //                         width={14}
+        //                         height={100}
+        //                         fill={'#d86597'}
+        //                         y={this.padding}
+        //                         x={this.state.stageWidth - 19}
+        //                         draggable={true}
+        //                         type={'scrollRect'}
+        //                         dragBoundFunc={(pos) => {
+        //                             const currY = pos.y;
+        //                             const highBound = this.state.stageHeight - 24 - 100;
+        //                             pos.y = Math.min(Math.max(currY, this.padding), highBound);
+        //                             pos.x = this.state.stageWidth - 19;
+        //                             return pos;
+        //                         }}
+        //                         onDragMove={this.verticalDragMove}
+        //                         onMouseDown={this.handleScrollBarClickEvents}
+        //                         onClick={this.handleScrollBarClickEvents}
+        //                     />
+        //                 </Layer>
+        //             </Stage>
+        //         </div>
+        //     </div>
+        // );
     }
 
 }
@@ -1574,7 +1627,7 @@ export default connect(
         removeNotes: ActionCreators.removeNotes,
         closeWindow: ActionCreators.closeWindow
     }
-)(PianoRoll);
+)(PianoRollContainer);
 
 
 
