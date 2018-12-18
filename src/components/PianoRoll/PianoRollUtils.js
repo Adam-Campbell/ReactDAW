@@ -259,16 +259,16 @@ export const createTransportBarNumbersArray = (optionsObject) => {
  * Generate a new selection of notes with some or all of the old notes removed, and some
  * new notes added.
  * @param {array} selectedNotesState - the starting array of selected note ids
- * @param {array} newIds - ids to be added to the state
- * @param {array} oldIds - ids to be removed from the state
+ * @param {array} newNoteIds - note ids to be added to the state
+ * @param {array} oldNoteIds - note ids to be removed from the state
  * @returns {array} - the new array of selected note ids after all addition and removal has
  * been performed
  */
 export const swapSelectedNoteIds = (optionsObject) => {
-    const { selectedNotesState, newIds, oldIds } = optionsObject
+    const { selectedNotesState, newNoteIds, oldNoteIds } = optionsObject
     return [
-        ...selectedNotesState.filter(id => !oldIds.includes(id)),
-        ...newIds
+        ...selectedNotesState.filter(id => !oldNoteIds.includes(id)),
+        ...newNoteIds
     ];
 };
 
@@ -456,12 +456,77 @@ export const getNoteDurationFromPencilOperation = (optionsObject) => {
     const currQuantizeAsTicks = Tone.Time(currentQuantizeValue).toTicks();
     // roll back downX to the previous whole interval, determined by the current quantize level.
     const rolledBackDownX = downX - (downX%(currQuantizeAsTicks/2));
+    // convert this rolled back value into Ticks
     const downXAsTicks = Tone.Ticks(rolledBackDownX*2-(rolledBackDownX*2%currQuantizeAsTicks));
+    // convert upXWithScroll into Ticks
     const upXAsTicks = Tone.Ticks(upXWithScroll*2);
+    // If the Tick value we end up with based on downXAsTicks and upXAsTicks is less than our current
+    // quantize value as Ticks, then just use the quantize value instead. 
     const noteDurationAsTicks = Math.max(
         Tone.Ticks(upXAsTicks-downXAsTicks).quantize(currentQuantizeValue),
         currQuantizeAsTicks
     );
+    // Whichever Ticks based value we got, convert into bars beats and sixteenths.
     const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
     return noteDurationAsBBS;
 };
+
+
+/**
+ * Generates a new note object to be used in a paste operation, derived from the note that was copied, as
+ * well as the current transport time. Will return the note object if successfull, or null if unsuccessfull. 
+ * @param {object} noteToPaste - object containing the data for the note to be pasted
+ * @param {number} currTransportPos - a Tick based value for the current transport position
+ * @param {number} earliestNoteTime - a Tick based value for the earliest time value of any
+ * of the notes being pasted
+ * @param {array} allNotes - array of note objects for all of the notes currently in this section
+ * @param {string} sectionStart - the start property for the current section
+ * @param {number} sectionBars - the numberOfBars property for the current section
+ * @returns {object} - the generated note object.
+ */
+export const generateNoteObjectForPasting = (optionsObject) => {
+    const { 
+        noteToPaste,
+        currTransportPos,
+        earliestNoteTime,
+        allNotes,
+        sectionStart,
+        sectionBars 
+    } = optionsObject;
+
+    // calculate the delta between earliestNoteTime and the time value for this particular note
+    const deltaTicks = Tone.Ticks(noteToPaste.time) - earliestNoteTime;
+    // derive the start and end of the 'paste area' for this note from the other pieces of information
+    // we already know
+    const pasteAreaStartAsTicks = currTransportPos + deltaTicks;
+    const pasteAreaEndAsTicks = pasteAreaStartAsTicks + Tone.Ticks(noteToPaste.duration);
+
+    // check that it is within range of this section. First grab the start and end of the section
+    // as ticks, then compare with the start and end of the paste area. If either the start or the
+    // end of the paste area don't fall into the interval between the start and end of the section,
+    // then paste operation is disallowed.
+    const sectionStartAsTicks = Tone.Ticks(sectionStart).toTicks();
+    const sectionEndAsTicks = sectionStartAsTicks + (768 * sectionBars); 
+    
+    if (pasteAreaStartAsTicks < sectionStartAsTicks || pasteAreaEndAsTicks > sectionEndAsTicks) {
+        return null;
+    }
+
+    // construct a new note object based on the note that was copied and the current transport time
+    const newNoteObject = {
+        pitch: noteToPaste.pitch,
+        time: Tone.Ticks(pasteAreaStartAsTicks).toBarsBeatsSixteenths(),
+        duration: noteToPaste.duration,
+        velocity: noteToPaste.velocity,
+        _id: generateId(),
+        x: (pasteAreaStartAsTicks-sectionStartAsTicks) / 2,
+        y: noteToPaste.y,
+        width: noteToPaste.width
+    }
+    // ensure that the note doesn't clash with any other notes present.
+    const noteIsValid = isValidNote({
+        noteToCheck: newNoteObject,
+        allSectionNotes: allNotes
+    });
+    return noteIsValid ? newNoteObject : null;
+}

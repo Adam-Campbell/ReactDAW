@@ -23,7 +23,8 @@ import {
     shiftTimeForwards,
     findOverlapAlongAxis,
     getNoteIdsForSelectionRange,
-    getNoteDurationFromPencilOperation
+    getNoteDurationFromPencilOperation,
+    generateNoteObjectForPasting
 } from './PianoRollUtils';
 
 /*
@@ -155,10 +156,18 @@ class PianoRollContainer extends Component {
     }
 
     /**
+     * Convenience method for accessing the specific section object corresponding to the sectionId that
+     * was passed in as a prop
+     * @return {object} - the section object
+     */
+    get section() {
+        return this.props.sections[this.props.id];
+    }
+
+    /**
      * The main function responsible for updating the seeker line, called in each animation frame, gets
      * the new location for the seeker line and redraws the seeker layer of the canvas. 
      */
-    // can't  be pure
     repaintSeekerLayer = () => {
         const newLineAttrs = getTransportLineAttrs({
             sectionStart: this.section.start,
@@ -172,69 +181,9 @@ class PianoRollContainer extends Component {
     }
 
     /**
-     * Handles a click that occurs within the Transport section of the canvas, delegating to other
-     * functions as needed. 
-     * @param {number} xPos - the x position of the click event that occurred. 
-     */
-    // can't be pure
-    handleTransportClick = (xPos) => {
-        // We get the raw xPos as an argument. 
-        //
-        // Eventual goals - we want to produce an x position for the seekerLine to be rendered at,
-        // and we want to produce a corresponding time on the timeline for the track to move to. This 
-        // timeline could either be in BBS or in Ticks.
-        //
-        // First we establish a single source of truth for how far into the section the user has clicked. 
-        // Take the raw xPos and subtract this.pianoKeysWidth from it to account for the piano keys offsetting 
-        // the layers. 
-        // Now we adjust for any potential scrolling. get the current x for an applicable layer and subtract 48
-        // from it - because this layer starts off with an x of 48. This means if no scrolling has occurred we
-        // get 0, or if any scrolling has occurred we will get some negative value corresponding to the amount
-        // scrolled. We take the value we get, and subtract it from our xPos (effectively adding it since we
-        // know the number is non-positive).
-        //
-        // Now we adjust for quantization to get a nice figure. Grab the current quantize level from state and
-        // convert it into Ticks, then divide by 2 (because 2 ticks correspond to 1 pixel in the UI). 
-        // Now we use modulo to adjust our xPos into the last whole interval according to our quantize level. 
-        //
-        // The figure we now have can be used to update the UI - it will match perfectly with the new x position
-        // for the seeker line to be rendered at. However more work is needed to calculate the transport position
-        // to move the track to. 
-        // First grab this.section.start, which is currently in BBS, and convet to Ticks. Then, take the final
-        // figure we got for our x pos in the UI, and multiply it by 2 to get the corresponding ticks value. We
-        // now have the start of the section in Ticks, and our progress into the section in Ticks, we can add those
-        // together and convert to BBS, then update the track position to this new BBS value. 
-        //
-        const xPosAdjustedForKeys = xPos - this.pianoKeysWidth;
-        const scrolledX = (this.seekerLayerRef.current.attrs.x || 48) - 48;
-        const xPosAdjustedForScroll = xPosAdjustedForKeys - scrolledX;
-        const currQuantizeAdjustment = Tone.Time(this.state.quantize).toTicks() / 2;
-        const xPosAdjustedForQuantize = xPosAdjustedForScroll-(xPosAdjustedForScroll%currQuantizeAdjustment);
-        const finalUIxPos = xPosAdjustedForQuantize;
-        const sectionStartAsTicks = Tone.Time(this.section.start).toTicks();
-        const sectionProgressAsTicks =  xPosAdjustedForQuantize * 2;
-        const newTransportPosition = Tone.Ticks(sectionStartAsTicks+sectionProgressAsTicks).toBarsBeatsSixteenths();
-        Tone.Transport.position = newTransportPosition;
-        this.seekerLineRef.current.strokeWidth(2);
-        this.seekerLineRef.current.x(finalUIxPos);
-        this.seekerLayerRef.current.batchDraw();
-    }
-
-    /**
-     * Convenience method for accessing the specific section object corresponding to the sectionId that
-     * was passed in as a prop
-     * @return {object} - the section object
-     */
-    // can't be pure
-    get section() {
-        return this.props.sections[this.props.id];
-    }
-
-    /**
      * The main function for handling click events on the canvas, delegating to other functions as needed.
      * @param {object} e - the event object supplied by the browser 
      */
-    // can't be pure
     _handleStageClick(e) {
         // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
         // scrollbars.
@@ -251,7 +200,6 @@ class PianoRollContainer extends Component {
             return;
         }
         if (t.attrs.type && t.attrs.type === 'noteRect') {
-            const { pitch, time } = t.attrs;
             const note_id = t.attrs._id;
             if (!this.state.currentlySelectedNotes.includes(note_id)) {
                 this.setState({ currentlySelectedNotes: [note_id] });
@@ -260,13 +208,13 @@ class PianoRollContainer extends Component {
             }
         } else {
             if (!this.state.pencilActive && !e.evt.shiftKey) {
-                let x = e.evt.layerX;
-                let scrolledX = this.gridLayerRef.current.attrs.x || 0;
-                let xWithScroll = x - scrolledX;
-                let y = e.evt.layerY;
-                let scrolledY = this.gridLayerRef.current.attrs.y || 0;
-                let yWithScroll = y - scrolledY;
-                let noteObject = calculateNoteInfo({
+                const x = e.evt.layerX;
+                const scrolledX = this.gridLayerRef.current.attrs.x || 0;
+                const xWithScroll = x - scrolledX;
+                const y = e.evt.layerY;
+                const scrolledY = this.gridLayerRef.current.attrs.y || 0;
+                const yWithScroll = y - scrolledY;
+                const noteObject = calculateNoteInfo({
                     x: xWithScroll, 
                     y: yWithScroll,
                     pitchesArray: this._pitchesArray,
@@ -288,7 +236,6 @@ class PianoRollContainer extends Component {
      * The main function for handling mouseDown events on the canvas, delegating to other functions as needed.
      * @param {object} e - the event object supplied by the browser
      */
-    // can't be pure
     _handleMouseDown(e) {
         // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
         // scrollbars.
@@ -315,7 +262,6 @@ class PianoRollContainer extends Component {
      * The main function for handling mouseUp events on the canvas, delegating to other functions as needed.
      * @param {object} e - the event object supplied by the browser.  
      */
-    // can't be pure
     _handleMouseUp(e) {
         // safeguard to ensure that nothing gets triggered on during/at the end of an interaction with the
         // scrollbars.
@@ -336,7 +282,6 @@ class PianoRollContainer extends Component {
      * as necessary.
      * @param {object} e - the event object
      */
-    // can't be pure
     handleKeyDown = e => {
         e.preventDefault();
         e.stopPropagation();
@@ -397,11 +342,34 @@ class PianoRollContainer extends Component {
     }
 
     /**
+     * Handles a click that occurs within the Transport section of the canvas, delegating to other
+     * functions as needed. 
+     * @param {number} xPos - the x position of the click event that occurred. 
+     */
+    handleTransportClick = (xPos) => {
+        // adjust the xPos for any scrolling
+        const scrolledX = this.seekerLayerRef.current.attrs.x || 48;
+        const xPosAdjustedForScroll = xPos - scrolledX;
+        // adjust the xPos to snap it to the current quantize value
+        const currQuantizeAdjustment = Tone.Time(this.state.quantize).toTicks() / 2;
+        const xPosAdjustedForQuantize = xPosAdjustedForScroll-(xPosAdjustedForScroll%currQuantizeAdjustment);
+        // calculate the new transport position based on the section start time and the current progression into
+        // the section.
+        const sectionStartAsTicks = Tone.Time(this.section.start).toTicks();
+        const sectionProgressAsTicks =  xPosAdjustedForQuantize * 2;
+        const newTransportPosition = Tone.Ticks(sectionStartAsTicks+sectionProgressAsTicks).toBarsBeatsSixteenths();
+        Tone.Transport.position = newTransportPosition;
+        // update the canvas element with new xPos and redraw the canvas layer. 
+        this.seekerLineRef.current.strokeWidth(2);
+        this.seekerLineRef.current.x(xPosAdjustedForQuantize);
+        this.seekerLayerRef.current.batchDraw();
+    }
+
+    /**
      * Handles the clicking of a note Rect on the canvas, also prevents event bubbling to stop any events
      * on sublayers from firing
      * @param {object} e - the event object
      */
-    // can't be pure
     handleNoteClick = (e) => {
         e.cancelBubble = true;
         const { _id } = e.target.attrs;
@@ -430,7 +398,6 @@ class PianoRollContainer extends Component {
      * @param {object} e - the event object
      * @param {object} pitch - the pitch of the key that was clicked
      */
-    // can't be pure
     handlePianoKeyClick = (e, pitch) => {
         e.cancelBubble = true;
         window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
@@ -440,73 +407,45 @@ class PianoRollContainer extends Component {
      * Contains the logic for creating a new note using the pencil tool.
      * @param {object} e - the event object
      */
-    // can't be pure
     handlePencilToolNoteCreation = (e) => {
         // if a note was clicked on just return, the onClick handler already contains all of the
-            // logic for that. 
-            if (e.target.attrs.type && e.target.attrs.type === 'noteRect' || e.target.attrs.type === 'scrollRect') {
-                return;
-            }
-            // We have take the information about the mouseDown event from state, and combined with
-            // the information about this mouseUp event we have to calculate all of the details for 
-            // the note that will be added - pitch, time, duration, _id, x, y, width.
-            
-            // x pos of cursor when mouseDown occurred
-            let downX = this.state.mouseDownPosX;
-            // y pos of cursor when mouseDown occurred
-            let downY = this.state.mouseDownPosY;
-            // x pos of cursor when mouseUp occurred, scrolledX is to account for any potential scrolling
-            // of the canvas that has occured.
-            let scrolledX = this.gridLayerRef.current.attrs.x || 0;
-            let upX = e.evt.layerX - scrolledX;
-            // current quantize value in state converted into ticks
-            let currQuantizeAsTicks = Tone.Time(this.state.quantize).toTicks();
-           
-            // the x pos during mouseDown, 'rolled back' to the last whole quantized unit,
-            // based on the current quantize value. Can be used to set the visual x position
-            // for the note on the grid.
-            let adjustedDownX = downX - (downX%(currQuantizeAsTicks/2));
-            // x pos during mousedown adjusted to a tick value. Note, this is different from
-            // adjustedDownX - that is used for the visual coordinate of the note, whereas this
-            // is used for the tick value that the note should start at. 
-            let downXAsTicks = Tone.Ticks(adjustedDownX*2-(adjustedDownX*2%currQuantizeAsTicks));
-            //let downXAsTicks = Tone.Ticks(downX*2-(downX*2%currQuantizeAsTicks));
-            //let upXAsTicks = Tone.Ticks(upX*2-(upX*2%currQuantizeAsTicks));
-            // x pos during mouseUp, adjusted to ticks, used to determine note duration.
-            let upXAsTicks = Tone.Ticks(upX*2);
-            // work out the quantized, tick based length of the note based on the difference between
-            // upXAsTicks and downXAsTicks. As a fallback, if this amount is less than the current quantize
-            // level in ticks, just use that figure instead. This prevents accidentally creating notes that 
-            // too small to see in the UI, by clicking whilst using the pencil tool.
-            let noteDurationAsTicks = Math.max(
-                Tone.Ticks(upXAsTicks-downXAsTicks).quantize(this.state.quantize),
-                currQuantizeAsTicks
-            );
-            // convert the tick-based noteDurationAsTicks into BBS format - '0:0:1'.
-            const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
+        // logic for that. 
+        if (
+            e.target.attrs.type && 
+            (e.target.attrs.type === 'noteRect' || e.target.attrs.type === 'scrollRect')
+        ) {
+            return;
+        }
+        
+        const {
+            mouseDownPosX,
+            mouseDownPosY
+        } = this.state;
+        // x scrolling value of the canvas layer.
+        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
 
-            const noteDuration = getNoteDurationFromPencilOperation({
-                downX: this.state.mouseDownPosX,
-                downY: this.state.mouseDownPosY,
-                rawUpX: e.evt.layerX,
-                scrolledX: scrolledX,
-                currentQuantizeValue: this.state.quantize
-            });
+        const noteDuration = getNoteDurationFromPencilOperation({
+            downX: mouseDownPosX,
+            downY: mouseDownPosY,
+            rawUpX: e.evt.layerX,
+            scrolledX: scrolledX,
+            currentQuantizeValue: this.state.quantize
+        });
 
-            const noteObject = calculateNoteInfo({
-                x: downX,
-                y: downY,
-                pitchesArray: this._pitchesArray,
-                currentQuantizeValue: this.state.quantize,
-                noteDuration: noteDuration
-            });
-            const noteIsValid = isValidNote({
-                noteToCheck: noteObject,
-                allSectionNotes: this.section.notes
-            });
-            if (noteIsValid) {
-                this.props.addNote(this.section.id, noteObject);
-            }
+        const noteObject = calculateNoteInfo({
+            x: mouseDownPosX,
+            y: mouseDownPosY,
+            pitchesArray: this._pitchesArray,
+            currentQuantizeValue: this.state.quantize,
+            noteDuration: noteDuration
+        });
+        const noteIsValid = isValidNote({
+            noteToCheck: noteObject,
+            allSectionNotes: this.section.notes
+        });
+        if (noteIsValid) {
+            this.props.addNote(this.section.id, noteObject);
+        }
     }
 
     /**
@@ -540,7 +479,6 @@ class PianoRollContainer extends Component {
      * Updates the quantize value in state.
      * @param {object} e - the event object supplied by the browser
      */
-    // can't be pure
     updateQuantizeValue(e) {
         this.setState({
             quantize: e.target.value
@@ -551,7 +489,6 @@ class PianoRollContainer extends Component {
      * Updates the duration value in state.
      * @param {object} e - the event object supplied by the browser
      */
-    // can't be pure
     updateDurationValue(e) {
         this.setState({
             duration: e.target.value
@@ -562,7 +499,6 @@ class PianoRollContainer extends Component {
      * Updates the pencilActive boolean value in state.
      * @param {object} e - the event object supplied by the browser 
      */
-    // can't be pure
     updateCursorValue(e) {
         this.setState({
             pencilActive: e.target.value === 'pencil'
@@ -573,25 +509,7 @@ class PianoRollContainer extends Component {
      * Handles making the necessary updates whenever the horizontal scroll bar is dragged.
      * @param {object} e - the event object 
      */
-    // can't be pure
     _horizontalDragMove(e) {
-
-
-        // Strategy
-        // Work out how far along the horizontal slider is, as a percentage (or rather decimal)
-        // of the total range of space it can reside in. 
-        // Then, using the .x() method, set the x values for the canvas layers as the negative of
-        // the total canvas width multiplied by the decimal previously calculated.
-        //
-        // Working out how far along the horizontal slider is:
-        // total range is this.state.stageWidth - (this.padding * 2) - 100
-        // current position within that range is e.target.attrs.x - this.padding
-        // to decimal => current position / total range
-        //
-        // total range for overal canvas is canvasWidth - stageWidth
-        //  
-        //
-        //
         if (!this.state.scrollBarActive) {
             this.setState({ scrollBarActive: true });
         }
@@ -618,7 +536,6 @@ class PianoRollContainer extends Component {
      * Handles making the necessary updates whenever the vertical scroll bar is dragged.
      * @param {object} e - the event object 
      */
-    // can't be pure
     _verticalDragMove(e) {
         // make necessary calculations
         const currentSliderPos = e.target.attrs.y - this.padding;
@@ -653,7 +570,6 @@ class PianoRollContainer extends Component {
     /**
      * Clears the current selection in state, if there is a selection.
      */
-    // can't be pure
     clearCurrentSelection = () => {
         if (this.state.currentlySelectedNotes.length) {
             this.setState({ currentlySelectedNotes: [] });
@@ -663,21 +579,16 @@ class PianoRollContainer extends Component {
     /**
      * Handles the deletion of notes.
      */
-    // refactor so that it deletes all desired notes in one go, and that part of the process can be made
-    // pure. 
     handleDeletion = () => {
         if (this.state.currentlySelectedNotes) {
-            for (let note_id of this.state.currentlySelectedNotes) {
-                const noteObject = this.section.notes.find(el => el._id === note_id);
-                this.props.removeNote(this.section.id, noteObject._id);
-            }
+            this.props.removeNotes(this.section.id, this.state.currentlySelectedNotes);
+            this.clearCurrentSelection();
         }
     }
 
     /**
      * Handles the copying of notes
      */
-    // can't be pure
     handleCopying = () => {
         if (this.state.currentlySelectedNotes) {
             const notesToCopy = this.state.currentlySelectedNotes.map(note_id => {
@@ -689,15 +600,10 @@ class PianoRollContainer extends Component {
         }
     }
 
-    //
-    // Pasting should be refactored so that it pastes all of the notes in one step, rather than dispatching
-    // a new action for each note. This approach will also probably allow at least part of the process to be
-    // made pure and extracted into the utils file as well, whereas in it's current state it all has to live
-    // within the actual component.
-    //
-
     /**
-     * Handles the pasting of notes
+     * Handles the pasting of notes. Grabs the currently copied notes, and pastes them relative to the current
+     * transport position at the time of pasting. Will not paste a note if it falls outside of the current section
+     * or if it overlaps with another preexisting note. 
      */
     handlePasting = () => {
         // grab the current transport time
@@ -713,64 +619,25 @@ class PianoRollContainer extends Component {
                     earliestNoteTime = timeToTicks;
                 }
             }
+            const arrayOfNewNoteObjects = [];
             // now loop through the notes again and actually call the paste operation for each note. 
             for (let note of this.state.currentlyCopiedNotes) {
-                this.pasteOneNote(note, currTransportPos, earliestNoteTime);
+                //this.pasteOneNote(note, currTransportPos, earliestNoteTime);
+                const newNoteObject = generateNoteObjectForPasting({
+                    noteToPaste: note,
+                    currTransportPos: currTransportPos,
+                    earliestNoteTime: earliestNoteTime,
+                    allNotes: this.section.notes,
+                    sectionStart: this.section.start,
+                    sectionBars: this.section.bars 
+                });
+                if (newNoteObject) {
+                    arrayOfNewNoteObjects.push(newNoteObject);
+                }
             }
-        }
-    }
-
-    /**
-     * Handles the pasting of one partiular notes, used internally by the handlePasting method. 
-     * @param {object} noteToPaste - object containing the data for the note to be pasted
-     * @param {number} currTransportPos - a Tick based value for the current transport position
-     * @param {number} earliestNoteTime - a Tick based value for the earliest time value of any
-     * of the notes being pasted
-     */
-    pasteOneNote = (noteToPaste, currTransportPos, earliestNoteTime) => {
-        // calculate the delta between earliestNoteTime and the time value for this particular note
-        const deltaTicks = Tone.Ticks(noteToPaste.time) - earliestNoteTime;
-        // derive the start and end of the 'paste area' for this note from the other pieces of information
-        // we already know
-        const pasteAreaStartAsTicks = currTransportPos + deltaTicks;
-        const pasteAreaEndAsTicks = pasteAreaStartAsTicks + Tone.Ticks(noteToPaste.duration);
-
-        // check that it is within range of this section. First grab the start and end of the section
-        // as ticks, then compare with the start and end of the paste area. If either the start or the
-        // end of the paste area don't fall into the interval between the start and end of the section,
-        // then paste operation is disallowed.
-        const sectionStartAsTicks = Tone.Ticks(this.section.start).toTicks();
-        const sectionEndAsTicks = sectionStartAsTicks + (768 * this.section.numberOfBars); 
-
-        if (pasteAreaStartAsTicks < sectionStartAsTicks || pasteAreaEndAsTicks > sectionEndAsTicks) {
-            console.log(`
-                pasteAreaStartAsTicks: ${pasteAreaStartAsTicks}
-                pasteAreaEndAsTicks: ${pasteAreaEndAsTicks}
-                sectionStartAsTicks: ${sectionStartAsTicks}
-                sectionEndAsTicks: ${sectionEndAsTicks}
-            `);
-            console.log('note could not be pasted.');
-            return;
-        }
-
-        // construct a new note object based on the note that was copied and the current transport time
-        const newNoteObject = {
-            pitch: noteToPaste.pitch,
-            time: Tone.Ticks(pasteAreaStartAsTicks).toBarsBeatsSixteenths(),
-            duration: noteToPaste.duration,
-            velocity: noteToPaste.velocity,
-            _id: generateId(),
-            x: (pasteAreaStartAsTicks-sectionStartAsTicks) / 2,
-            y: noteToPaste.y,
-            width: noteToPaste.width
-        }
-        // dispatch action to add the new note
-        const noteIsValid = isValidNote({
-            noteToCheck: newNoteObject,
-            allSectionNotes: this.section.notes
-        })
-        if (noteIsValid) {
-            this.props.addNote(this.section.id, newNoteObject);
+            if (arrayOfNewNoteObjects.length) {
+                this.props.addNotes(this.section.id, arrayOfNewNoteObjects);
+            }
         }
     }
 
@@ -778,12 +645,10 @@ class PianoRollContainer extends Component {
      * Contains the logic for dealing with a click on the velocity layer of the canvas. 
      * @param {object} e - the event object
      */
-    // can't be pure
+    // parts of this can probably be factored out into a pure util function
     handleVelocityLayerClick = (e) => {
         e.cancelBubble = true;
         const shiftKeyPressed = e.evt.shiftKey;
-        console.log(shiftKeyPressed)
-        //const shiftKeyPress = 
         // Get the x position of the users click, adjust for scrolling and 'roll it back' to the 
         // last multiple of 8.
         const { layerX, layerY } = e.evt;
@@ -857,35 +722,14 @@ class PianoRollContainer extends Component {
             this.props.addNotes(this.section.id, noteObjectsToAdd);
             this.props.removeNotes(this.section.id, noteIdsToRemove);
         }
-        
-        // Whichever notes we will be operating on, determined by the previous step, loop through each of these
-        // notes, call removeNote() with the original note, and call addNote with a copy of the note that has an
-        // updated velocity value. 
-    }
-
-    
+    };
 
     /**
      * Handles the mutation of selected notes, delegating to other functions as necessary. 
      * @param {array} selectionOfIds - the array of note ids that comprise the current selection
      * @param {string} mutationMethodToUse - string representing the mutation method to be used
      */
-    // can't be pure
     mutateSelection = (selectionOfIds, mutationMethodToUse) => {
-        // map over selectionOfIds to create an array of the actual note objects rather than just the ids.
-        // let newNoteIds hold the ids of the new notes we create.
-        // let newNoteObjects hold the new note objects we create.
-        // rather than create dedicated variable for all of the original note ids we will remove later,
-        // just use the selectionOfIds param.
-        // save function we will us as our method of mutation in a variable methodOfMutation. Use a switch 
-        // statement based on the method param we pass in to grab the right method. 
-        // loop over the array of note objects, and call the methodOfMutation for each one. 
-        // take the object we get  back and push it onto newNoteObjects, also take the id and push it
-        // onto newNoteIds.
-        // once the entire selection has been dealt with, call removeNotes() to get rid of the old notes, 
-        // addNotes() to add the new notes, and then update currentlySelectedNotes in state to the the
-        // newNoteIds array.
-
         // declare initial variables
         const newNoteIds = [];
         const newNoteObjects = [];
@@ -981,6 +825,7 @@ class PianoRollContainer extends Component {
             });
         }
     }
+
     // can probably be refactored for at least part of this to be pure
     stepDownThroughInversions = () => {
         // transform our array of note ids into an array of data structures containing the full note
