@@ -20,7 +20,10 @@ import {
     shiftPitchUp,
     shiftPitchDown,
     shiftTimeBackwards,
-    shiftTimeForwards
+    shiftTimeForwards,
+    findOverlapAlongAxis,
+    getNoteIdsForSelectionRange,
+    getNoteDurationFromPencilOperation
 } from './PianoRollUtils';
 
 /*
@@ -141,7 +144,7 @@ class PianoRollContainer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isPlaying !== this.props.isPlaying) {
             if (this.props.isPlaying) {
-                requestAnimationFrame(this.getTransportPosition);
+                requestAnimationFrame(this.repaintSeekerLayer);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.seekerLineRef.current.strokeWidth(0);
@@ -151,13 +154,12 @@ class PianoRollContainer extends Component {
         }
     }
 
-
     /**
      * The main function responsible for updating the seeker line, called in each animation frame, gets
      * the new location for the seeker line and redraws the seeker layer of the canvas. 
      */
     // can't  be pure
-    getTransportPosition = () => {
+    repaintSeekerLayer = () => {
         const newLineAttrs = getTransportLineAttrs({
             sectionStart: this.section.start,
             sectionBars: this.section.numberOfBars,
@@ -166,10 +168,8 @@ class PianoRollContainer extends Component {
         this.seekerLineRef.current.x(newLineAttrs.xPos);
         this.seekerLineRef.current.strokeWidth(newLineAttrs.strokeWidth);
         this.seekerLayerRef.current.batchDraw();
-        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
+        this.rAFRef = requestAnimationFrame(this.repaintSeekerLayer);
     }
-
-    
 
     /**
      * Handles a click that occurs within the Transport section of the canvas, delegating to other
@@ -271,7 +271,7 @@ class PianoRollContainer extends Component {
                     y: yWithScroll,
                     pitchesArray: this._pitchesArray,
                     currentQuantizeValue: this.state.quantize,
-                    currentDurationValue: this.state.duration
+                    noteDuration: Tone.Time(this.state.duration).toBarsBeatsSixteenths()
                 });
                 const noteIsValid = isValidNote({
                     noteToCheck: noteObject, 
@@ -281,35 +281,6 @@ class PianoRollContainer extends Component {
                     this.props.addNote(this.section.id, noteObject);
                 }
             }
-        }
-    }
-
-    /**
-     * Handles the clicking of a note Rect on the canvas, also prevents event bubbling to stop any events
-     * on sublayers from firing
-     * @param {object} e - the event object
-     */
-    // can't be pure
-    handleNoteClick = (e) => {
-        e.cancelBubble = true;
-        const { _id } = e.target.attrs;
-        const { ctrlKey } = e.evt;
-        const currSelection = this.state.currentlySelectedNotes;
-        const noteIsSelected = currSelection.includes(_id);
-        // Different behaviour occurs depending on whether the ctrl key is currently pressed. If it is
-        // pressed, we are adding/removing the current note to/from the selection. If the ctrl key is 
-        // not pressed, we are either making the current note the entire selection, or clearing the
-        // selection entirely.
-        if (ctrlKey) {
-            this.setState({
-                currentlySelectedNotes: noteIsSelected ? 
-                                        currSelection.filter(noteId => noteId !== _id) :
-                                        [...currSelection, _id]
-            });
-        } else {
-            this.setState({
-                currentlySelectedNotes: noteIsSelected ? [] : [ _id ]
-            });
         }
     }
 
@@ -361,6 +332,111 @@ class PianoRollContainer extends Component {
     }
 
     /**
+     * The main function for handling keyDown events on this component, delegates to other functions
+     * as necessary.
+     * @param {object} e - the event object
+     */
+    // can't be pure
+    handleKeyDown = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        // console.log(e);
+        // console.log(e.key)
+
+        // handle deletion
+        if (e.key === 'Delete') {
+            this.handleDeletion();
+        }
+        // handle copying
+        if (e.key === 'c' && e.ctrlKey === true) {
+            this.handleCopying();
+        }
+
+        // handle pasting
+        if (e.key === 'v' && e.ctrlKey === true) {
+            this.handlePasting();
+        }
+
+        
+
+        if (e.key === 'ArrowUp') {
+            if (this.state.currentlySelectedNotes.length) {
+                if (e.altKey) {
+                    this.stepUpThroughInversions();
+                } else {
+                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchUp');
+                }
+            }
+        }
+
+        if (e.key === 'ArrowDown') {
+            if (this.state.currentlySelectedNotes.length) {
+                if (e.altKey) {
+                    this.stepDownThroughInversions();
+                } else {
+                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchDown');
+                }
+            }
+        }
+
+        if (e.key === 'ArrowLeft') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeBackwards');
+            }
+        }
+
+        if (e.key === 'ArrowRight') {
+            if (this.state.currentlySelectedNotes.length) {
+                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeForwards');
+            }
+        }
+
+        if (e.key === 'd' && e.ctrlKey) {
+            this.clearCurrentSelection();
+        }
+    }
+
+    /**
+     * Handles the clicking of a note Rect on the canvas, also prevents event bubbling to stop any events
+     * on sublayers from firing
+     * @param {object} e - the event object
+     */
+    // can't be pure
+    handleNoteClick = (e) => {
+        e.cancelBubble = true;
+        const { _id } = e.target.attrs;
+        const { ctrlKey } = e.evt;
+        const currSelection = this.state.currentlySelectedNotes;
+        const noteIsSelected = currSelection.includes(_id);
+        // Different behaviour occurs depending on whether the ctrl key is currently pressed. If it is
+        // pressed, we are adding/removing the current note to/from the selection. If the ctrl key is 
+        // not pressed, we are either making the current note the entire selection, or clearing the
+        // selection entirely.
+        if (ctrlKey) {
+            this.setState({
+                currentlySelectedNotes: noteIsSelected ? 
+                                        currSelection.filter(noteId => noteId !== _id) :
+                                        [...currSelection, _id]
+            });
+        } else {
+            this.setState({
+                currentlySelectedNotes: noteIsSelected ? [] : [ _id ]
+            });
+        }
+    }
+
+    /**
+     * Handles the click of a piano key.
+     * @param {object} e - the event object
+     * @param {object} pitch - the pitch of the key that was clicked
+     */
+    // can't be pure
+    handlePianoKeyClick = (e, pitch) => {
+        e.cancelBubble = true;
+        window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
+    }
+
+    /**
      * Contains the logic for creating a new note using the pencil tool.
      * @param {object} e - the event object
      */
@@ -385,15 +461,11 @@ class PianoRollContainer extends Component {
             let upX = e.evt.layerX - scrolledX;
             // current quantize value in state converted into ticks
             let currQuantizeAsTicks = Tone.Time(this.state.quantize).toTicks();
-            // the row 'clicked' during mouseDown, according to the y pos
-            let rowClicked = Math.floor(downY / 16);
+           
             // the x pos during mouseDown, 'rolled back' to the last whole quantized unit,
             // based on the current quantize value. Can be used to set the visual x position
             // for the note on the grid.
             let adjustedDownX = downX - (downX%(currQuantizeAsTicks/2));
-            // adjustment of the y pos during mouseDown, can be used to set the visual y 
-            // position for the note on the grid.
-            let adjustedDownY = downY - (downY % 16);
             // x pos during mousedown adjusted to a tick value. Note, this is different from
             // adjustedDownX - that is used for the visual coordinate of the note, whereas this
             // is used for the tick value that the note should start at. 
@@ -402,8 +474,6 @@ class PianoRollContainer extends Component {
             //let upXAsTicks = Tone.Ticks(upX*2-(upX*2%currQuantizeAsTicks));
             // x pos during mouseUp, adjusted to ticks, used to determine note duration.
             let upXAsTicks = Tone.Ticks(upX*2);
-            // convert the tick-based downXAsTicks into "0:0:0" format.
-            let noteTime = downXAsTicks.toBarsBeatsSixteenths();
             // work out the quantized, tick based length of the note based on the difference between
             // upXAsTicks and downXAsTicks. As a fallback, if this amount is less than the current quantize
             // level in ticks, just use that figure instead. This prevents accidentally creating notes that 
@@ -414,16 +484,22 @@ class PianoRollContainer extends Component {
             );
             // convert the tick-based noteDurationAsTicks into BBS format - '0:0:1'.
             const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
-            const noteObject = {
-                pitch: this._pitchesArray[rowClicked],
-                time: noteTime,
-                duration: noteDurationAsBBS,
-                velocity: 1,
-                _id: generateId(),
-                x: adjustedDownX,
-                y: adjustedDownY,
-                width: noteDurationAsTicks / 2 
-            };
+
+            const noteDuration = getNoteDurationFromPencilOperation({
+                downX: this.state.mouseDownPosX,
+                downY: this.state.mouseDownPosY,
+                rawUpX: e.evt.layerX,
+                scrolledX: scrolledX,
+                currentQuantizeValue: this.state.quantize
+            });
+
+            const noteObject = calculateNoteInfo({
+                x: downX,
+                y: downY,
+                pitchesArray: this._pitchesArray,
+                currentQuantizeValue: this.state.quantize,
+                noteDuration: noteDuration
+            });
             const noteIsValid = isValidNote({
                 noteToCheck: noteObject,
                 allSectionNotes: this.section.notes
@@ -438,7 +514,6 @@ class PianoRollContainer extends Component {
      * with the pointer tool.
      * @param {object} e - the event object
      */
-    // could probably split this up for part of it to be pure
     handlePointerToolMultiSelect = (e) => {
         // use the x and y coordinates from the mouseDown and mouseUp events to determine the range
         // of rows and columns included in the selection.
@@ -448,61 +523,18 @@ class PianoRollContainer extends Component {
         const scrolledX = this.gridLayerRef.current.attrs.x || 0;
         const scrolledY = this.gridLayerRef.current.attrs.y || 0;
 
-        // we don't necessarily know which vertical bound is top/bottom, or which horizontal bound
-        // is left/right at first.
-
-        const verticalBound1 = this.state.mouseDownPosY;
-        const horizontalBound1 = this.state.mouseDownPosX;
-        const verticalBound2 = e.evt.layerY - scrolledY;
-        const horizontalBound2 = e.evt.layerX - scrolledX;
-
-        // now we determine which bounds are which
-        const selectionLeft = Math.min(horizontalBound1, horizontalBound2);
-        const selectionRight = Math.max(horizontalBound1, horizontalBound2);
-        const selectionTop = Math.min(verticalBound1, verticalBound2);
-        const selectionBottom = Math.max(verticalBound1, verticalBound2);
-
-        const selectedNotes = this.section.notes.filter(note => {
-            const {x, y, width, height } = note;
-            //return (x >= leftBound && x <= rightBound && y >= topBound && y <= bottomBound);
-            const noteLeft =  x;
-            const noteRight = x + width;
-            const noteTop = y;
-            const noteBottom = y + height;
-
-            // This series of conditional statements will evaluate to true for any possible overlap
-            // between the vertical range of the selection and the vertical range of the note, 
-            // regardless of which vertical range is greater. 
-            const isInVerticalRange = (noteTop >= selectionTop && noteTop <= selectionBottom) ||
-                                      (noteBottom >= selectionTop && noteBottom <= selectionBottom) ||
-                                      (selectionTop >= noteTop && selectionTop <= noteBottom) ||
-                                      (selectionBottom >= noteTop && selectionBottom <= noteBottom);
-
-            // Similar to isInVerticalRange, accounts for any possible overlap regardless of whether the
-            // note or selection has a larger horizontal range.
-            const isInHorizontalRange = (noteLeft >= selectionLeft && noteLeft <= selectionRight) ||
-                                        (noteRight >= selectionLeft && noteRight <= selectionRight) ||
-                                        (selectionLeft >= noteLeft && selectionLeft <= noteRight) ||
-                                        (selectionRight >= noteLeft && selectionRight <= noteRight);
-
-            return isInVerticalRange && isInHorizontalRange;
-        })
-        .map(noteObject => noteObject._id);
+        const selectedNoteIds = getNoteIdsForSelectionRange({
+            verticalSelectionBound1: this.state.mouseDownPosY,
+            verticalSelectionBound2: e.evt.layerY - scrolledY,
+            horizontalSelectionBound1: this.state.mouseDownPosX,
+            horizontalSelectionBound2: e.evt.layerX - scrolledX,
+            allNotes: this.section.notes
+        });
 
         this.setState({
-            currentlySelectedNotes: selectedNotes
+            currentlySelectedNotes: selectedNoteIds
         });
-        // grab all of the current notes in the section.
-
-        // filter out all of the notes whose pitch falls outside of the selection.
-
-        // filter out all of the notes that don't reside, at least partially, within the left and
-        // right bounds of the selection.
-
-        // every note that hasn't been filtered out by this point will comprise our selection of notes, 
-        // store in state.currentlySelectedNotes
     }
-
 
     /**
      * Updates the quantize value in state.
@@ -605,92 +637,6 @@ class PianoRollContainer extends Component {
     }
 
     /**
-     * Handles the click of a piano key.
-     * @param {object} e - the event object
-     * @param {object} pitch - the pitch of the key that was clicked
-     */
-    // can't be pure
-    handlePianoKeyClick = (e, pitch) => {
-        e.cancelBubble = true;
-        window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
-    }
-
-    /**
-     * The main function for handling keyDown events on this component, delegates to other functions
-     * as necessary.
-     * @param {object} e - the event object
-     */
-    // can't be pure
-    handleKeyDown = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        // console.log(e);
-        // console.log(e.key)
-
-        // handle deletion
-        if (e.key === 'Delete') {
-            this.handleDeletion();
-        }
-        // handle copying
-        if (e.key === 'c' && e.ctrlKey === true) {
-            this.handleCopying();
-        }
-
-        // handle pasting
-        if (e.key === 'v' && e.ctrlKey === true) {
-            this.handlePasting();
-        }
-
-        
-
-        if (e.key === 'ArrowUp') {
-            if (this.state.currentlySelectedNotes.length) {
-                if (e.altKey) {
-                    this.stepUpThroughInversions();
-                } else {
-                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchUp');
-                }
-            }
-        }
-
-        if (e.key === 'ArrowDown') {
-            if (this.state.currentlySelectedNotes.length) {
-                if (e.altKey) {
-                    this.stepDownThroughInversions();
-                } else {
-                    this.mutateSelection(this.state.currentlySelectedNotes, 'shiftPitchDown');
-                }
-            }
-        }
-
-        if (e.key === 'ArrowLeft') {
-            if (this.state.currentlySelectedNotes.length) {
-                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeBackwards');
-            }
-        }
-
-        if (e.key === 'ArrowRight') {
-            if (this.state.currentlySelectedNotes.length) {
-                this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeForwards');
-            }
-        }
-
-        if (e.key === 'd' && e.ctrlKey) {
-            this.clearCurrentSelection();
-        }
-    }
-
-    /**
-     * Clears the current selectin in state, if there is a selection.
-     */
-    // can't be pure
-    clearCurrentSelection = () => {
-        if (this.state.currentlySelectedNotes.length) {
-            this.setState({ currentlySelectedNotes: [] });
-        }
-    }
-
-    /**
      * Ensures that the scrollBar active value in state is set to true when any mouse interactions with
      * the scroll bar occur. Also stops the event from bubbling up so that nothing on the layers underneath
      * the scroll bar layer gets triggered. 
@@ -705,9 +651,20 @@ class PianoRollContainer extends Component {
     }
 
     /**
-     * Handles the deletion of notes.
+     * Clears the current selection in state, if there is a selection.
      */
     // can't be pure
+    clearCurrentSelection = () => {
+        if (this.state.currentlySelectedNotes.length) {
+            this.setState({ currentlySelectedNotes: [] });
+        }
+    }
+
+    /**
+     * Handles the deletion of notes.
+     */
+    // refactor so that it deletes all desired notes in one go, and that part of the process can be made
+    // pure. 
     handleDeletion = () => {
         if (this.state.currentlySelectedNotes) {
             for (let note_id of this.state.currentlySelectedNotes) {
@@ -1073,6 +1030,11 @@ class PianoRollContainer extends Component {
     }
 
     render() {
+
+        if (!this.section) {
+            return null;
+        }
+
         const gridLinesArray = createGridLinesArray({
             canvasWidth: this.canvasWidth,
             currentQuantizeValueAsTicks: Tone.Time(this.state.quantize).toTicks()

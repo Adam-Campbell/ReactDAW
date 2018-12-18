@@ -183,18 +183,13 @@ export const isValidNote = (optionsObject) => {
         if (noteToCheck.pitch === currentNote.pitch) {
             const startOfCurrentNote = Tone.Time(currentNote.time).toTicks();
             const endOfCurrentNote = startOfCurrentNote + Tone.Time(currentNote.duration).toTicks() - 1;
-            if (
-                (startOfNoteToCheck >= startOfCurrentNote && startOfNoteToCheck <= endOfCurrentNote) ||
-                (endOfNoteToCheck >= startOfCurrentNote && endOfNoteToCheck <= endOfCurrentNote) ||
-                (startOfCurrentNote >= startOfNoteToCheck && startOfCurrentNote <= endOfNoteToCheck) ||
-                (endOfCurrentNote >= startOfNoteToCheck && endOfCurrentNote <= endOfNoteToCheck)
-            ) {
-                // console.log(`
-                //     new note start: ${startOfNoteToCheck}
-                //     new note end: ${endOfNoteToCheck}
-                //     current note start: ${startOfCurrentNote}
-                //     current note end: ${endOfCurrentNote}
-                // `);
+            const doesOverlap = findOverlapAlongAxis({
+                elementALowerBound: startOfNoteToCheck,
+                elementAUpperBound: endOfNoteToCheck,
+                elementBLowerBound: startOfCurrentNote,
+                elementBUpperBound: endOfCurrentNote
+            });
+            if (doesOverlap) {
                 return false;
             }
         }
@@ -213,30 +208,28 @@ export const isValidNote = (optionsObject) => {
  * @param {string} currentDurationValue - the current duration value for this section
  * @return {object} - the generated note object. 
  */
-// could be pure, possibly move to utils
 export const calculateNoteInfo = (optionsObject) => {
     const { 
         x, 
         y, 
         pitchesArray, 
         currentQuantizeValue,
-        currentDurationValue 
+        noteDuration 
     } = optionsObject;
     let currQuantizeAsTicks = Tone.Time(currentQuantizeValue).toTicks();
     let rowClicked = Math.floor(y / 16);
     let adjustedX = x - (x%(currQuantizeAsTicks/2));
     let adjustedY = y - (y % 16);
     let xPosAsBBS = Tone.Ticks(x*2-(x*2%currQuantizeAsTicks)).toBarsBeatsSixteenths();
-    const durationAsBBS = Tone.Time(currentDurationValue).toBarsBeatsSixteenths();
     const noteInfo = {
         pitch: pitchesArray[rowClicked],
         time: xPosAsBBS,
-        duration: durationAsBBS,
+        duration: noteDuration,
         velocity: 1,
         _id: generateId(),
         x: adjustedX,
         y: adjustedY,
-        width: Tone.Time(durationAsBBS).toTicks() / 2
+        width: Tone.Time(noteDuration).toTicks() / 2
     };
     return noteInfo;
 };
@@ -361,3 +354,114 @@ export const shiftTimeForwards = (optionsObject) => (originalNote) => {
         _id: generateId()
     };
 }
+
+/**
+ * Given the upper and lower bounds of two elements across some axis, determines whether there is 
+ * any overlap between the two elements on the axis in question. Either the x or y axis can be used,
+ * as long as the same axis is used for each argument supplied. 
+ * @param {number} elementALowerBound - the lower boundary of the first element to compare
+ * @param {number} elementAUpperBound - the upperf boundary of the first element to compare
+ * @param {number} elementBLowerBound - the lower boundary of the second element to compare
+ * @param {number} elementBUpperBound - the upper boundary of the second element to compare
+ * @returns {boolean} - true if overlap exists, false if not.
+ */
+export const findOverlapAlongAxis = (optionsObject) => {
+    const { 
+        elementALowerBound,
+        elementAUpperBound,
+        elementBLowerBound,
+        elementBUpperBound
+    } = optionsObject;
+    
+    // If there is any overlap at all between the two elements then at least one of these logical statements
+    // must be true, conversely if none of the statements are true we can say conclusively that there is
+    // absolutely no overlap.
+    return (elementALowerBound >= elementBLowerBound && elementALowerBound <= elementBUpperBound) ||
+           (elementAUpperBound >= elementBLowerBound && elementAUpperBound <= elementBUpperBound) ||
+           (elementBLowerBound >= elementALowerBound && elementBLowerBound <= elementAUpperBound) ||
+           (elementBUpperBound >= elementALowerBound && elementBUpperBound <= elementAUpperBound);
+};
+
+/**
+ * Given the four bounds of a selection area, and all of the current notes in the section, determines 
+ * which of those notes falls within / overlaps with the selection.
+ * @param {number} verticalSelectionBound1 - one vertical bound of the selection
+ * @param {number} verticalSelectionBound2 - the other vertical bound of the selection
+ * @param {number} horizontalSelectionBound1 - one horizontal bound of the selection
+ * @param {number} horizontalSelectionBound2 - the other horizontal bound of the selection
+ * @param {array} allNotes - an array of note objects for all notes in this section
+ * @returns {array} - an array comprised of the ids of all the notes that overlapped with the selection 
+ */
+export const getNoteIdsForSelectionRange = (optionsObject) => {
+    const { 
+        verticalSelectionBound1,
+        verticalSelectionBound2,
+        horizontalSelectionBound1,
+        horizontalSelectionBound2,
+        allNotes, 
+    } = optionsObject;
+
+    // first determine which bounds are which
+    const selectionLeft = Math.min(horizontalSelectionBound1, horizontalSelectionBound2);
+    const selectionRight = Math.max(horizontalSelectionBound1, horizontalSelectionBound2);
+    const selectionTop = Math.min(verticalSelectionBound1, verticalSelectionBound2);
+    const selectionBottom = Math.max(verticalSelectionBound1, verticalSelectionBound2);
+
+    const selectedNoteIds = allNotes.filter(note => {
+        const {x, y, width } = note;
+        const noteLeft =  x;
+        const noteRight = x + width;
+        const noteTop = y;
+        const noteBottom = y + 16;
+        const isInVerticalRange = findOverlapAlongAxis({
+            elementALowerBound: noteTop,
+            elementAUpperBound: noteBottom,
+            elementBLowerBound: selectionTop,
+            elementBUpperBound: selectionBottom
+        });
+        const isInHorizontalRange = findOverlapAlongAxis({
+            elementALowerBound: noteLeft,
+            elementAUpperBound: noteRight,
+            elementBLowerBound: selectionLeft,
+            elementBUpperBound: selectionRight
+        });
+        return isInVerticalRange && isInHorizontalRange;
+    })
+    .map(noteObject => noteObject._id);
+
+    return selectedNoteIds;
+};
+
+/**
+ * Given the information about a pair of mouseDown and mouseUp events that occurred, determine the duration
+ * of the note that was 'drawn' with these events. 
+ * @param {number} downX - previously captured x coord of the mouseDown event, already adjusted for any scrolling
+ * @param {number} upX - previously captured y coord of the mouseDown event, already adjusted for any scrolling
+ * @param {number} rawUpX - the raw x coord from the mouseUp event, not yet adjusted for anything
+ * @param {number} scrolledX - how far the canvas layer was scrolled on the x axis when the mouseUp event occurred
+ * @param {string} currentQuantizeValue - the current quantize value from state
+ */
+export const getNoteDurationFromPencilOperation = (optionsObject) => {
+    const { 
+        downX, 
+        downY,
+        rawUpX,
+        scrolledX,
+        currentQuantizeValue
+    } = optionsObject;
+
+    // adjust mouseUp x coord for scrolling
+    const upXWithScroll = rawUpX - scrolledX;
+    // convert current quantize value to Ticks
+    const currQuantizeAsTicks = Tone.Time(currentQuantizeValue).toTicks();
+    // roll back downX to the previous whole interval, determined by the current quantize level.
+    const rolledBackDownX = downX - (downX%(currQuantizeAsTicks/2));
+    const downXAsTicks = Tone.Ticks(rolledBackDownX*2-(rolledBackDownX*2%currQuantizeAsTicks));
+    const upXAsTicks = Tone.Ticks(upXWithScroll*2);
+    const noteDurationAsTicks = Math.max(
+        Tone.Ticks(upXAsTicks-downXAsTicks).quantize(currentQuantizeValue),
+        currQuantizeAsTicks
+    );
+    const noteDurationAsBBS = Tone.Ticks(noteDurationAsTicks).toBarsBeatsSixteenths();
+    return noteDurationAsBBS;
+};
