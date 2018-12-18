@@ -24,7 +24,9 @@ import {
     findOverlapAlongAxis,
     getNoteIdsForSelectionRange,
     getNoteDurationFromPencilOperation,
-    generateNoteObjectForPasting
+    generateNoteObjectForPasting,
+    getSortedNoteDataStructs,
+    getFirstAvailablePitchInChord
 } from './PianoRollUtils';
 
 /*
@@ -559,7 +561,6 @@ class PianoRollContainer extends Component {
      * the scroll bar layer gets triggered. 
      * @param {object} e - the event object
      */
-    // can't be pure
     handleScrollBarClickEvents = (e) => {
         e.cancelBubble = true;
         if (!this.state.scrollBarActive) {
@@ -778,97 +779,75 @@ class PianoRollContainer extends Component {
         });
     }
 
-    // can probably be refactored for at least part of this to be pure
+    
     stepUpThroughInversions = () => {
         // transform our array of note ids into an array of data structures containing the full note
         // object, as well as the pitchIndex (the index at which that pitch can be found in this._pitchesArray),
         // sorted from lowest pitch to highest. Note, that the lowest pitch is actually the highest index in
         // this._pitchesArray, since it stores the pitches in descending order. 
-        const orderedSelection = this.state.currentlySelectedNotes.map(noteId => {
-            const noteObject = this.section.notes.find(note => note._id === noteId);
-            const pitchIndex = this._pitchesArray.findIndex(pitchString => pitchString === noteObject.pitch);
-            return {
-                noteObject,
-                pitchIndex
-            }
-        })
-        .sort((noteA, noteB) => {
-            return noteB.pitchIndex - noteA.pitchIndex;
+        const orderedSelection = getSortedNoteDataStructs({
+            currentlySelectedNotes: this.state.currentlySelectedNotes,
+            allNotes: this.section.notes,
+            pitchesArray: this._pitchesArray,
+            shouldSortPitchesAscending: true
         });
-        console.log(orderedSelection);
-        // declare anchor note, which is the note we will update. 
-        let pivotNote = orderedSelection[0];
-        let newPitchIndex = null;
-        for (let note of orderedSelection) {
-            let candidatePitchIndex = note.pitchIndex - 12;
-            const pitchIndexTaken = orderedSelection.find(el => el.pitchIndex === candidatePitchIndex);
-            if (!pitchIndexTaken && candidatePitchIndex >= 0) {
-                newPitchIndex = candidatePitchIndex;
-                break;
-            }
-        }
+        const noteToChange = orderedSelection[0];
+        const newPitchIndex = getFirstAvailablePitchInChord({
+            orderedSelection,
+            shouldTraversePitchesAscending: true,
+            pitchesArrayLength: this._pitchesArray.length
+        });
         if (newPitchIndex) {
             const newNoteObject = {
-                ...pivotNote.noteObject,
+                ...noteToChange.noteObject,
                 pitch: this._pitchesArray[newPitchIndex],
                 y: newPitchIndex * 16,
                 _id: generateId()
             };
-            this.props.removeNote(this.section.id, pivotNote.noteObject._id);
+            this.props.removeNote(this.section.id, noteToChange.noteObject._id);
             this.props.addNote(this.section.id, newNoteObject);
             this.setState({
                 currentlySelectedNotes: swapSelectedNoteIds({
                     selectedNotesState: this.state.currentlySelectedNotes,
                     newNoteIds: [newNoteObject._id],
-                    oldNoteIds: [pivotNote.noteObject._id]
+                    oldNoteIds: [noteToChange.noteObject._id]
                 })
             });
         }
     }
 
-    // can probably be refactored for at least part of this to be pure
+    
     stepDownThroughInversions = () => {
         // transform our array of note ids into an array of data structures containing the full note
         // object, as well as the pitchIndex (the index at which that pitch can be found in this._pitchesArray),
         // sorted from lowest pitch to highest. Note, that the lowest pitch is actually the highest index in
         // this._pitchesArray, since it stores the pitches in descending order. 
-        const orderedSelection = this.state.currentlySelectedNotes.map(noteId => {
-            const noteObject = this.section.notes.find(note => note._id === noteId);
-            const pitchIndex = this._pitchesArray.findIndex(pitchString => pitchString === noteObject.pitch);
-            return {
-                noteObject,
-                pitchIndex
-            }
-        })
-        .sort((noteA, noteB) => {
-            return noteA.pitchIndex - noteB.pitchIndex;
+        const orderedSelection = getSortedNoteDataStructs({
+            currentlySelectedNotes: this.state.currentlySelectedNotes,
+            allNotes: this.section.notes,
+            pitchesArray: this._pitchesArray,
+            shouldSortPitchesAscending: false
         });
-
-        // declare anchor note, which is the note we will update. 
-        let pivotNote = orderedSelection[0];
-        let newPitchIndex = null;
-        for (let note of orderedSelection) {
-            let candidatePitchIndex = note.pitchIndex + 12;
-            const pitchIndexTaken = orderedSelection.find(el => el.pitchIndex === candidatePitchIndex);
-            if(!pitchIndexTaken && candidatePitchIndex < this._pitchesArray.length) {
-                newPitchIndex = candidatePitchIndex;
-                break;
-            }
-        }
+        const noteToChange = orderedSelection[0];
+        const newPitchIndex = getFirstAvailablePitchInChord({
+            orderedSelection,
+            shouldTraversePitchesAscending: false,
+            pitchesArrayLength: this._pitchesArray.length
+        });
         if (newPitchIndex) {
             const newNoteObject = {
-                ...pivotNote.noteObject,
+                ...noteToChange.noteObject,
                 pitch: this._pitchesArray[newPitchIndex],
                 y: newPitchIndex * 16,
                 _id: generateId()
             };
-            this.props.removeNote(this.section.id, pivotNote.noteObject._id);
+            this.props.removeNote(this.section.id, noteToChange.noteObject._id);
             this.props.addNote(this.section.id, newNoteObject);
             this.setState({
                 currentlySelectedNotes: swapSelectedNoteIds({
                     selectedNotesState: this.state.currentlySelectedNotes,
                     newNoteIds: [newNoteObject._id],
-                    oldNoteIds: [pivotNote.noteObject._id]
+                    oldNoteIds: [noteToChange.noteObject._id]
                 })
             });
         }

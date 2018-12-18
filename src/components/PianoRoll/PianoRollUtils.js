@@ -530,3 +530,69 @@ export const generateNoteObjectForPasting = (optionsObject) => {
     });
     return noteIsValid ? newNoteObject : null;
 }
+
+/**
+ * Creates an array of data structures that is required when trying to step a chord up or down
+ * through its inversions.
+ * @param {array} currentlySelectedNotes - an array of ids for the currently selected notes
+ * @param {array} allNotes - an array of note objects for all notes currently in the section
+ * @param {array} pitchesArray - an array of strings representing all available pitches  
+ * @param {boolean} shouldSortPitchesAscending - whether the array produced should be sorted in ascending
+ * or descending order.
+ * @returns {array} - an array of objects each with two properties - a note object as one property, and then
+ * the position of that note objects pitch within pitchesArray as the other property. 
+ */
+export const getSortedNoteDataStructs = (optionsObject) => {
+    const { 
+        currentlySelectedNotes, 
+        allNotes,
+        pitchesArray,
+        shouldSortPitchesAscending
+    } = optionsObject;
+
+    const orderedSelection = currentlySelectedNotes.map(noteId => {
+        const noteObject = allNotes.find(note => note._id === noteId);
+        const pitchIndex = pitchesArray.findIndex(pitchString => pitchString === noteObject.pitch);
+        return {
+            noteObject,
+            pitchIndex
+        }
+    })
+    .sort((noteA, noteB) => {
+        return shouldSortPitchesAscending ? 
+               noteB.pitchIndex - noteA.pitchIndex : 
+               noteA.pitchIndex - noteB.pitchIndex;
+    });
+
+    return orderedSelection;
+};
+
+/**
+ * Used when stepping a chord up or down through its inversions, finds the first available pitch that's 
+ * part of that chord and is also free that the note being operated on can be moved into. 
+ * @param {array} orderedSelection - an array of objects, should be returned from the 
+ * getSortedNoteDataStructs function
+ * @param {boolean} shouldTraversePitchesAscending - whether the function should upwards or downwards through
+ * the pitches of the chord
+ * @param {number} pitchesArrayLength - the lenght of the pitches array
+ * @returns {number} - either returns the index of the new pitch if a suitable pitch is found, or returns null
+ * if no pitch was found. 
+ */
+export const getFirstAvailablePitchInChord = (optionsObject) => {
+    const { 
+        orderedSelection,
+        shouldTraversePitchesAscending,
+        pitchesArrayLength
+    } = optionsObject;
+
+    for (let note of orderedSelection) {
+        let candidatePitchIndex = shouldTraversePitchesAscending ? 
+                                  note.pitchIndex - 12 :
+                                  note.pitchIndex + 12;
+        const pitchIndexTaken = orderedSelection.find(el => el.pitchIndex === candidatePitchIndex);
+        if (!pitchIndexTaken && candidatePitchIndex >= 0 && candidatePitchIndex < pitchesArrayLength) {
+            return candidatePitchIndex;
+        }
+    }
+    return null;
+};
