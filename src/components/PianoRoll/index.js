@@ -434,7 +434,6 @@ class PianoRollContainer extends Component {
             scrolledX: scrolledX,
             currentQuantizeValue: this.state.quantize
         });
-
         const noteObject = calculateNoteInfo({
             x: mouseDownPosX,
             y: mouseDownPosY,

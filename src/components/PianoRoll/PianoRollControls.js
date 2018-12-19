@@ -3,21 +3,58 @@ import PropTypes from 'prop-types';
 import QuantizeSelect from '../QuantizeSelect';
 import CursorSelect from '../CursorSelect';
 import DurationSelect from '../DurationSelect';
+import SelectInput from '../SelectInput';
 
 const PianoRollControls = props => (
     <div className="piano-roll-controls-container">
-        <QuantizeSelect 
-            value={props.quantizeValue} 
-            handleChange={props.updateQuantizeValue} 
+        <SelectInput 
+            value={props.quantizeValue}
+            handleChange={props.updateQuantizeValue}
+            inputId="piano-roll-quantize-select"
+            label="Select quantize level:"
+            options={[
+                { value: '32t', text: '32t' },
+                { value: '32n', text: '32n' },
+                { value: '16t', text: '16t' },
+                { value: '16n', text: '16n' },
+                { value: '8t', text: '8t' },
+                { value: '8n', text: '8n' },
+                { value: '4t', text: '4t' },
+                { value: '4n', text: '4n' },
+                { value: '2t', text: '2t' },
+                { value: '2n', text: '2n' },
+                { value: '1m', text: '1m' }
+            ]}
         />
-        <DurationSelect 
+        <SelectInput 
             value={props.durationValue}
             handleChange={props.updateDurationValue}
+            inputId="piano-roll-duration-select"
+            label="Select note duration:"
+            options={[
+                { value: '32t', text: '32t' },
+                { value: '32n', text: '32n' },
+                { value: '16t', text: '16t' },
+                { value: '16n', text: '16n' },
+                { value: '8t', text: '8t' },
+                { value: '8n', text: '8n' },
+                { value: '4t', text: '4t' },
+                { value: '4n', text: '4n' },
+                { value: '2t', text: '2t' },
+                { value: '2n', text: '2n' },
+                { value: '1m', text: '1m' }
+            ]}
         />
-        <CursorSelect 
+        <SelectInput 
             value={props.cursorValue}
             handleChange={props.updateCursorValue}
-        />
+            inputId="piano-roll-cursor-select"
+            label="Select tool:"
+            options={[
+                { value: 'pointer', text: 'Pointer' },
+                { value: 'pencil', text: 'Pencil' }
+            ]}
+        /> 
     </div>
 );
 

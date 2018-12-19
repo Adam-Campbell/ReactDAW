@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "konva": "^2.5.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
@@ -14,6 +16,7 @@
     "react-redux": "^5.1.1",
     "react-rnd": "^9.0.4",
     "react-scripts": "2.1.1",
+    "react-test-renderer": "^16.6.3",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "tone": "^0.12.80"

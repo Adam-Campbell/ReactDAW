@@ -1,3 +1,4 @@
+import Tone from 'tone';
 import {
     createSelectedAndUnselectedNoteArrays,
     getWholeBarsFromString,
@@ -20,6 +21,8 @@ import {
     getSortedNoteDataStructs,
     getFirstAvailablePitchInChord
 } from './PianoRollUtils';
+
+jest.mock('tone');
 
 describe('createSelectedAndUnselectedNoteArrays', () => {
     const arrayOfNoteIds = ['15769432', '96532156', '46132489'];
@@ -143,6 +146,37 @@ describe('createPitchesArray', () => {
         const result = createPitchesArray();
         expect(result).toHaveLength(108);
         expect(result).toMatchSnapshot();
+    });
+});
+
+describe('createGridLinesArray', () => {
+    Tone.Ticks.mockImplementation((input) => {
+        switch (input) {
+            case '16n':
+                return 48;
+            case '8n':
+                return 96;
+            default:
+                return 48;
+        }
+    });
+    test('correctly creates the array of grid lines data objects', () => {
+        const result = createGridLinesArray({
+            sectionBars: 4,
+            canvasWidth: 1536,
+            canvasGridHeight: 1728,
+            currentQuantizeValue: '16n',
+        });
+        expect(result).toHaveLength(174);
+    });
+    test('alters its output correctly for different quantize values supplied', () => {
+        const result = createGridLinesArray({
+            sectionBars: 4,
+            canvasWidth: 1536,
+            canvasGridHeight: 1728,
+            currentQuantizeValue: '8n',
+        });
+        expect(result).toHaveLength(142);
     });
 });
 
