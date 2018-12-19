@@ -58,6 +58,7 @@ class PianoRollContainer extends Component {
         this.padding = 10;
         this.pianoKeysWidth = 48;
         this.canvasWidth = this.section.numberOfBars * 384;
+        this.canvasGridHeight = 1728;
         this.canvasHeight = 1768;
 
         // refs are required for various canvas elements in order to interact directly with 
@@ -860,8 +861,10 @@ class PianoRollContainer extends Component {
         }
 
         const gridLinesArray = createGridLinesArray({
+            sectionBars: this.section.numberOfBars,
             canvasWidth: this.canvasWidth,
-            currentQuantizeValueAsTicks: Tone.Time(this.state.quantize).toTicks()
+            canvasGridHeight: this.canvasGridHeight,
+            currentQuantizeValue: this.state.quantize
         });
         const { selectedNotes, unselectedNotes } = createSelectedAndUnselectedNoteArrays({
             currentlySelectedNotes: this.state.currentlySelectedNotes,

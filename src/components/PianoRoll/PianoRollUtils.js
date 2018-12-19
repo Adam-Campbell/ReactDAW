@@ -126,21 +126,29 @@ export const createPitchesArray = () => {
  * Programatically creates an array of objects describing each individual grid line required by the
  * component, such that when it comes to rendering the component can simply map over this array and
  * construct a <Line/> component from each object in the array. 
+ * @param {number} sectionBars - the numberOfBars property of this section
  * @param {number} canvasWidth - the width of the canvas
- * @param {number} currentQuantizeValueAsTicks - the current quantize value for the piano roll, converted
- * into Ticks
+ * @param {number} canvasGridHeight - the height of the grid section of the canvas
+ * @param {number} currentQuantizeValue- the current quantize value for the piano roll component
  * @return {array} - the array of grid line objects.
  */
 export const createGridLinesArray = (optionsObject) => {
-    const { canvasWidth, currentQuantizeValueAsTicks } = optionsObject;
-    let linesArray = [];
+    const { 
+        sectionBars, 
+        currentQuantizeValue,
+        canvasWidth,
+        canvasGridHeight
+    } = optionsObject;
+
+    const linesArray = [];
     let strokeWidth = 2;
     let escapeHatch = 0;
     let currPos = 0;
-    //let quantizeInterval = Tone.Time(this.state.quantize).toTicks() / 2;
-    let quantizeInterval = currentQuantizeValueAsTicks / 2;
+    const quantizeInterval = Tone.Ticks(currentQuantizeValue) / 2;
+    //const quantizeInterval = 24;
+    const maxPos = sectionBars * 384;
 
-    while(currPos <= canvasWidth && escapeHatch < 1000) {
+    while (currPos <= maxPos && escapeHatch < 1000) {
         if (currPos % 384 === 0) {
             strokeWidth = 2;
         } else if (currPos % 96 === 0) {
@@ -149,7 +157,7 @@ export const createGridLinesArray = (optionsObject) => {
             strokeWidth = 0.5;
         }
         linesArray.push({
-            points: [currPos, 0, currPos, 1728],
+            points: [currPos, 0, currPos, canvasGridHeight],
             strokeWidth: strokeWidth
         });
         currPos += quantizeInterval;
