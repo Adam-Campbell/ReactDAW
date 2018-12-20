@@ -1,53 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as ActionCreators from '../actions';
+import * as ActionCreators from '../../actions';
 import { Stage, Layer, Rect, Line, Text } from 'react-konva';
 import Konva from 'konva';
-import { debounce, throttle } from 'lodash';
-import TrackInfo from './TrackInfo';
-import { UIColors } from '../constants';
-import { generateId } from '../helpers';
+import { throttle } from 'lodash';
+import TrackInfo from '../TrackInfo';
+import { UIColors } from '../../constants';
+import { generateId } from '../../helpers';
 import Tone from 'tone';
-import CursorSelect from './CursorSelect';
-import AddTrackMenu from './AddTrackMenu';
-import SectionDurationSelect from './SectionDurationSelect';
-
+import CursorSelect from '../CursorSelect';
+import AddTrackMenu from '../AddTrackMenu';
+import SectionDurationSelect from '../SectionDurationSelect';
+import Composer from './Composer';
 /*
-outer dimensions - 960 x 300
 
-Will consist of track info container, that will hold a track info component for each track, and the
-composer canvas, which will display the actual composer view. The composer canvas will have a horizontal
-scroll bar, which only scrolls the canvas, and a vertical scroll bar which will scroll the canvas and 
-the track info container. 
+Behaviours to be implemented:
+
+- Copying and pasting of sections with ctrl+c and ctrl+v
+- Deletion of selected section(s) with delete key
+- The selection functionality needs to be expanded to handle the selection of multiple sections rather than
+just one.
+- Will need a way to select which track a section gets pasted to. Perhaps maintain a currentlySelectedTrack
+property in state and update it when a track is clicked on.
+
+- Will need to consider how pasting should work in general.
+
+- Implement similar functionality to the PianoRoll component, whereby holding down ctrl whilst clicking
+on a section allows you to add to the selection rather than replacing the entire selection.
+
+- Make as much of the functionality pure as possible and move into a seperate utils file. 
 
 */
 
-
-/*
-Todo:
-
-Implement add track - create the menu that will appear when the add track button is pressed,
-and when a particular type of track is chosen from the menu, fire off the addTrack action
-with the relevant arguments. 
-
-Handle scrolling - horizontal scroll needs to affect several canvas layers, vertical scroll needs
-to affect canvas layers plus the track info container. 
-
-Add a remove button to each track info component that will remove that track from the project. 
-
-Implement pencil functionality similar to that found in the piano roll - you start drawing when 
-the mousedown event occurs, and on mouseup a new section is created of the appropriate length
-etc. 
-
-Think about the best way to implement copying and pasting sections. 
-
-Think about possibly adding a vertical line that moves across the composer canvas that shows the 
-current position in the track. Also clicking within the top section of the canvas (that shows the
-bar numbers) will skip to that bar. 
-
-*/
-
-class Composer extends Component {
+class ComposerContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -63,8 +48,8 @@ class Composer extends Component {
         this.seekerLayerRef = React.createRef();
         this.seekerLineRef = React.createRef();
         this.rAFRef = null;
-        this.horizontalDragMove = throttle(this._horizontalDragMove, 16);
-        this.verticalDragMove = throttle(this._verticalDragMove, 16);
+        this.horizontalDragMove = throttle(this.horizontalDragMove, 16);
+        this.verticalDragMove = throttle(this.verticalDragMove, 16);
         this.state = {
             sectionDuration: 4,
             currentlySelectedSection: null,
@@ -116,7 +101,7 @@ class Composer extends Component {
         //return parseInt(barsString.charAt(0));
     }
 
-    _verticalDragMove = (e) => {
+    verticalDragMove = (e) => {
         if (this.stageHeight > this.canvasHeight) {
             return;
         }
@@ -136,7 +121,7 @@ class Composer extends Component {
         this.sectionsLayerRef.current.batchDraw();
     }
 
-    _horizontalDragMove = (e) => {
+    horizontalDragMove = (e) => {
         // work out horizontal % delta
         const currentSliderPos = e.target.attrs.x - this.scrollPadding;
         const totalSliderRange = this.stageWidth - this.scrollPadding - 24 - 100;
@@ -340,7 +325,7 @@ class Composer extends Component {
         this.props.openWindow(sectionId, 'section');
     }
 
-    updateCursorValue(e) {
+    updateCursorValue = (e) => {
         this.setState({
             pencilActive: e.target.value === 'pencil'
         });
@@ -388,204 +373,236 @@ class Composer extends Component {
     }
 
     render() {
-        const gridLines = this._createGridLinesArray();
+        const gridLinesArray = this._createGridLinesArray();
         const sectionRectsArray = this._createSectionRectsArray();
 
+        return <Composer 
+            stageRef={this.stageRef}
+            gridLayerRef={this.gridLayerRef}
+            sectionsLayerRef={this.sectionsLayerRef}
+            transportLayerRef={this.transportLayerRef}
+            seekerLayerRef={this.seekerLayerRef}
+            seekerLineRef={this.seekerLineRef}
+            canvasWidth={this.canvasWidth}
+            canvasHeight={this.canvasHeight}
+            stageWidth={this.stageWidth}
+            stageHeight={this.stageHeight}
+            scrollPadding={this.scrollPadding}
+            gridLinesArray={gridLinesArray}
+            sectionRectsArray={sectionRectsArray}
+            cursorValue={this.state.pencilActive ? 'pencil' : 'pointer'}
+            durationValue={this.state.sectionDuration}
+            handleKeyDown={this.handleKeyDown}
+            updateCursorValue={this.updateCursorValue}
+            updateDurationValue={this.updateSectionDurationValue}
+            removeSelectedSection={this.removeSelectedSection}
+            handleStageClick={this.handleStageClick}
+            handleStageMouseDown={this.handleStageMouseDown}
+            handleStageMouseUp={this.handleStageMouseUp}
+            handleSectionClick={this.handleSectionClick}
+            handleSectionDoubleClick={this.handleSectionDoubleClick}
+            verticalDragMove={this.verticalDragMove}
+            horizontalDragMove={this.horizontalDragMove}
+            trackInfoMenuTopScroll={this.state.trackInfoMenuTopScroll}
+            channels={this.props.channels}
+            currentlySelectedSection={this.state.currentlySelectedSection}
+        />
+
         
-        return (
-            <div 
-                className="composer__container"
-                tabIndex="0"
-                onKeyDown={this.handleKeyDown}
-                style={{outline: 'none'}}
-            >
-                <div className="composer__controls-container">
-                    <CursorSelect 
-                        value={this.state.pencilActive ? 'pencil' : 'pointer'}
-                        handleChange={this.updateCursorValue.bind(this)}
-                    />
-                    <SectionDurationSelect 
-                        value={this.state.sectionDuration}
-                        handleChange={this.updateSectionDurationValue}
-                    />
-                    <button 
-                        className="composer__delete-section-button"
-                        onClick={this.removeSelectedSection}
-                    >Delete Selected Section</button>
-                </div>
-                <div className="composer__row">
-                    <div className="composer__track-info-container-outer">
-                        <AddTrackMenu />
-                        <div className="composer__track-info-scroll-outer">
-                            <div 
-                                className="composer__track-info-scroll-inner"
-                                style={{top: this.state.trackInfoMenuTopScroll}}
-                            >
-                                {
-                                    this.props.channels.map((channel, index) => (
-                                        <TrackInfo 
-                                            trackId={channel.id}
-                                            key={channel.id} 
-                                        /> 
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div className="composer__canvas-container" id="composer-canvas-container">
-                        <Stage
-                            container={'composer-canvas-container'}
-                            onClick={this.handleStageClick}
-                            onMouseDown={this.handleStageMouseDown}
-                            onMouseUp={this.handleStageMouseUp}
-                            ref={this.stageRef}
-                            width={740} 
-                            height={300} 
-                        >
-                            <Layer ref={this.gridLayerRef}>
-                                <Rect 
-                                    x={0}
-                                    y={0}
-                                    width={this.canvasWidth}
-                                    height={this.canvasHeight}
-                                    fill={'#201826'}
-                                />
-                                {
-                                    gridLines.map((linePoints, index) => (
-                                        <Line
-                                            points={linePoints}
-                                            listening={false}
-                                            stroke={'#47426c'}
-                                            strokeWidth={2}
-                                            shadowColor={'#47426c'}
-                                            shadowBlur={4}
-                                            shadowOffsetX={0}
-                                            shadowOffsetY={0}
-                                            key={index}
-                                        />
-                                    ))
-                                }
-                            </Layer>
-                            <Layer ref={this.sectionsLayerRef}>
-                                {
-                                    sectionRectsArray.map((section, index) => (
-                                        <Rect 
-                                            x={section.x}
-                                            y={section.y}
-                                            sectionId={section.sectionId}
-                                            height={section.height}
-                                            width={section.width}
-                                            fill={
-                                                section.sectionId === this.state.currentlySelectedSection ? 
-                                                '#222222' :
-                                                section.color
-                                            }
-                                            stroke={UIColors.offWhite}
-                                            strokeWidth={2}
-                                            type={'section'}
-                                            key={index}
-                                            onClick={(e) => this.handleSectionClick(e, section.sectionId)}
-                                            onDblClick={(e) => this.handleSectionDoubleClick(e, section.sectionId)}
-                                        />
-                                    ))
-                                } 
-                            </Layer>
-                            <Layer ref={this.transportLayerRef}>
-                                <Rect 
-                                    x={0}
-                                    y={0}
-                                    width={this.canvasWidth}
-                                    height={40}
-                                    fill={'#201826'}
-                                />
-                                {
-                                    new Array(200).fill(0).map((el, index) => (
-                                        <Text 
-                                            text={`${index+1}`}
-                                            x={(index+1) * 48}
-                                            y={20}
-                                            key={index}
-                                            fill={'#e0e0e0'}
-                                            shadowColor={'#e0e0e0'}
-                                            shadowBlur={4}
-                                            shadowOffsetX={0}
-                                            shadowOffsetY={0}
-                                        />
-                                    ))
-                                }
-                            </Layer>
-                            <Layer ref={this.seekerLayerRef}>
-                                <Line
-                                    ref={this.seekerLineRef}
-                                    points={[0, 0, 0, this.canvasHeight]}
-                                    listening={false}
-                                    stroke={'#e0e0e0'}
-                                    strokeWidth={2}
-                                />
-                            </Layer>
-                            <Layer>
-                                <Rect 
-                                    x={716}
-                                    y={0}
-                                    width={24}
-                                    height={300}
-                                    fill={'#47426c'}
-                                    shadowColor={'#47426c'}
-                                    shadowBlur={4}
-                                    shadowOffsetX={0}
-                                    shadowOffsetY={0}
-                                />
-                                <Rect 
-                                    x={721}
-                                    y={10}
-                                    width={14}
-                                    height={100}
-                                    fill={'#d86597'}
-                                    draggable={true}
-                                    dragBoundFunc={(pos) => {
-                                        const currY = pos.y;
-                                        // total stage height minus height of horizontal scroll bar
-                                        // minus height of scroll slider
-                                        const highBound = this.stageHeight - 24 - 100;
-                                        pos.y = Math.min(Math.max(this.scrollPadding, currY), highBound);
-                                        pos.x = 721;
-                                        return pos;
-                                    }}
-                                    onDragMove={this.verticalDragMove}
-                                />
-                                <Rect 
-                                    x={0}
-                                    y={276}
-                                    width={740}
-                                    height={24}
-                                    fill={'#47426c'}
-                                    shadowColor={'#47426c'}
-                                    shadowBlur={4}
-                                    shadowOffsetX={0}
-                                    shadowOffsetY={0}
-                                />
-                                <Rect 
-                                    x={10}
-                                    y={281}
-                                    width={100}
-                                    height={14}
-                                    fill={'#d86597'}
-                                    draggable={true}
-                                    dragBoundFunc={(pos) => {
-                                        const currX = pos.x;
-                                        const highBound = this.stageWidth - 24 - 100;
-                                        pos.x = Math.min(Math.max(currX, this.scrollPadding), highBound);
-                                        pos.y = 281;
-                                        return pos;
-                                    }}
-                                    onDragMove={this.horizontalDragMove}
-                                />
-                            </Layer>
-                        </Stage>
-                    </div>
-                </div>
-            </div>
-        );
+        // return (
+        //     <div 
+        //         className="composer__container"
+        //         tabIndex="0"
+        //         onKeyDown={this.handleKeyDown}
+        //         style={{outline: 'none'}}
+        //     >
+        //         <div className="composer__controls-container">
+        //             <CursorSelect 
+        //                 value={this.state.pencilActive ? 'pencil' : 'pointer'}
+        //                 handleChange={this.updateCursorValue.bind(this)}
+        //             />
+        //             <SectionDurationSelect 
+        //                 value={this.state.sectionDuration}
+        //                 handleChange={this.updateSectionDurationValue}
+        //             />
+        //             <button 
+        //                 className="composer__delete-section-button"
+        //                 onClick={this.removeSelectedSection}
+        //             >Delete Selected Section</button>
+        //         </div>
+        //         <div className="composer__row">
+        //             <div className="composer__track-info-container-outer">
+        //                 <AddTrackMenu />
+        //                 <div className="composer__track-info-scroll-outer">
+        //                     <div 
+        //                         className="composer__track-info-scroll-inner"
+        //                         style={{top: this.state.trackInfoMenuTopScroll}}
+        //                     >
+        //                         {
+        //                             this.props.channels.map((channel, index) => (
+        //                                 <TrackInfo 
+        //                                     trackId={channel.id}
+        //                                     key={channel.id} 
+        //                                 /> 
+        //                             ))
+        //                         }
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //             <div className="composer__canvas-container" id="composer-canvas-container">
+        //                 <Stage
+        //                     container={'composer-canvas-container'}
+        //                     onClick={this.handleStageClick}
+        //                     onMouseDown={this.handleStageMouseDown}
+        //                     onMouseUp={this.handleStageMouseUp}
+        //                     ref={this.stageRef}
+        //                     width={740} 
+        //                     height={300} 
+        //                 >
+        //                     <Layer ref={this.gridLayerRef}>
+        //                         <Rect 
+        //                             x={0}
+        //                             y={0}
+        //                             width={this.canvasWidth}
+        //                             height={this.canvasHeight}
+        //                             fill={'#201826'}
+        //                         />
+        //                         {
+        //                             gridLines.map((linePoints, index) => (
+        //                                 <Line
+        //                                     points={linePoints}
+        //                                     listening={false}
+        //                                     stroke={'#47426c'}
+        //                                     strokeWidth={2}
+        //                                     shadowColor={'#47426c'}
+        //                                     shadowBlur={4}
+        //                                     shadowOffsetX={0}
+        //                                     shadowOffsetY={0}
+        //                                     key={index}
+        //                                 />
+        //                             ))
+        //                         }
+        //                     </Layer>
+        //                     <Layer ref={this.sectionsLayerRef}>
+        //                         {
+        //                             sectionRectsArray.map((section, index) => (
+        //                                 <Rect 
+        //                                     x={section.x}
+        //                                     y={section.y}
+        //                                     sectionId={section.sectionId}
+        //                                     height={section.height}
+        //                                     width={section.width}
+        //                                     fill={
+        //                                         section.sectionId === this.state.currentlySelectedSection ? 
+        //                                         '#222222' :
+        //                                         section.color
+        //                                     }
+        //                                     stroke={UIColors.offWhite}
+        //                                     strokeWidth={2}
+        //                                     type={'section'}
+        //                                     key={index}
+        //                                     onClick={(e) => this.handleSectionClick(e, section.sectionId)}
+        //                                     onDblClick={(e) => this.handleSectionDoubleClick(e, section.sectionId)}
+        //                                 />
+        //                             ))
+        //                         } 
+        //                     </Layer>
+        //                     <Layer ref={this.transportLayerRef}>
+        //                         <Rect 
+        //                             x={0}
+        //                             y={0}
+        //                             width={this.canvasWidth}
+        //                             height={40}
+        //                             fill={'#201826'}
+        //                         />
+        //                         {
+        //                             new Array(200).fill(0).map((el, index) => (
+        //                                 <Text 
+        //                                     text={`${index+1}`}
+        //                                     x={(index+1) * 48}
+        //                                     y={20}
+        //                                     key={index}
+        //                                     fill={'#e0e0e0'}
+        //                                     shadowColor={'#e0e0e0'}
+        //                                     shadowBlur={4}
+        //                                     shadowOffsetX={0}
+        //                                     shadowOffsetY={0}
+        //                                 />
+        //                             ))
+        //                         }
+        //                     </Layer>
+        //                     <Layer ref={this.seekerLayerRef}>
+        //                         <Line
+        //                             ref={this.seekerLineRef}
+        //                             points={[0, 0, 0, this.canvasHeight]}
+        //                             listening={false}
+        //                             stroke={'#e0e0e0'}
+        //                             strokeWidth={2}
+        //                         />
+        //                     </Layer>
+        //                     <Layer>
+        //                         <Rect 
+        //                             x={716}
+        //                             y={0}
+        //                             width={24}
+        //                             height={300}
+        //                             fill={'#47426c'}
+        //                             shadowColor={'#47426c'}
+        //                             shadowBlur={4}
+        //                             shadowOffsetX={0}
+        //                             shadowOffsetY={0}
+        //                         />
+        //                         <Rect 
+        //                             x={721}
+        //                             y={10}
+        //                             width={14}
+        //                             height={100}
+        //                             fill={'#d86597'}
+        //                             draggable={true}
+        //                             dragBoundFunc={(pos) => {
+        //                                 const currY = pos.y;
+        //                                 // total stage height minus height of horizontal scroll bar
+        //                                 // minus height of scroll slider
+        //                                 const highBound = this.stageHeight - 24 - 100;
+        //                                 pos.y = Math.min(Math.max(this.scrollPadding, currY), highBound);
+        //                                 pos.x = 721;
+        //                                 return pos;
+        //                             }}
+        //                             onDragMove={this.verticalDragMove}
+        //                         />
+        //                         <Rect 
+        //                             x={0}
+        //                             y={276}
+        //                             width={740}
+        //                             height={24}
+        //                             fill={'#47426c'}
+        //                             shadowColor={'#47426c'}
+        //                             shadowBlur={4}
+        //                             shadowOffsetX={0}
+        //                             shadowOffsetY={0}
+        //                         />
+        //                         <Rect 
+        //                             x={10}
+        //                             y={281}
+        //                             width={100}
+        //                             height={14}
+        //                             fill={'#d86597'}
+        //                             draggable={true}
+        //                             dragBoundFunc={(pos) => {
+        //                                 const currX = pos.x;
+        //                                 const highBound = this.stageWidth - 24 - 100;
+        //                                 pos.x = Math.min(Math.max(currX, this.scrollPadding), highBound);
+        //                                 pos.y = 281;
+        //                                 return pos;
+        //                             }}
+        //                             onDragMove={this.horizontalDragMove}
+        //                         />
+        //                     </Layer>
+        //                 </Stage>
+        //             </div>
+        //         </div>
+        //     </div>
+        // );
     }
 }
 
@@ -604,4 +621,4 @@ export default connect(
         removeSection: ActionCreators.removeSection,
         openWindow: ActionCreators.openWindow
     }
-)(Composer);
+)(ComposerContainer);
