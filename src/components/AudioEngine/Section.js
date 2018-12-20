@@ -48,7 +48,7 @@ export default class Section {
     }
 
     _partCallback(time, value) {
-        this.instrument.triggerAttackRelease(value.note, value.duration, time);
+        this.instrument.triggerAttackRelease(value.note, value.duration, time, value.velocity);
     }
 
     addNote(noteData) {
@@ -56,7 +56,7 @@ export default class Section {
         //console.log(noteData);
         this._part.add(noteData);
         this.noteStore[noteData.id] = noteData;
-        this.instrument.triggerAttackRelease(noteData.note, '8n');
+        //this.instrument.triggerAttackRelease(noteData.note, '8n');
         // if (canBeAdded) {
         //     //const id = generateId();
         //     //noteData.id = id;

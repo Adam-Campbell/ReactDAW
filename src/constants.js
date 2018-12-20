@@ -14,7 +14,8 @@ export const UIColors = {
     brightBlue: '#00bff3',
     brightYellow: '#f4ab54',
     brightRed: '#e23340',
-    brightGreen: '#25e452'
+    brightGreen: '#25e452',
+    darkGrey: '#222222'
 };
 
 export const effectTypes = {

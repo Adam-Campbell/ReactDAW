@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Fragment>
+  <label
+    className="select-input__label pink"
+    htmlFor="test-select-input"
+  >
+    Just for testing
+  </label>
+  <select
+    className="select-input pink"
+    id="test-select-input"
+    onChange={[MockFunction]}
+    value="optionOne"
+  >
+    <option
+      className="select-input__option"
+      key="0"
+      value="optionOne"
+    >
+      Option One
+    </option>
+    <option
+      className="select-input__option"
+      key="1"
+      value="optionTwo"
+    >
+      Option Two
+    </option>
+  </select>
+</Fragment>
+`;

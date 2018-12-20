@@ -221,6 +221,9 @@ class Composer extends Component {
         if (yPos < 40) {
             const barClicked = `${Math.floor(xPos / 48)}:0:0`;
             Tone.Transport.position = barClicked;
+            const newXPos = this.convertTransportPositionToXPos(Tone.Transport.position);        
+            this.seekerLineRef.current.x(newXPos);
+            this.seekerLayerRef.current.batchDraw();
             // otherwise we have clicked on the main section of the canvas
         } else {
             // if pencil is active then we don't want to do anything in the click event, everything is
@@ -379,13 +382,23 @@ class Composer extends Component {
 
     }
 
+    handleKeyDown = (e) => {
+        console.log('handleKeyDown on the Composer was called');
+        console.log(e);
+    }
+
     render() {
         const gridLines = this._createGridLinesArray();
         const sectionRectsArray = this._createSectionRectsArray();
 
         
         return (
-            <div className="composer__container">
+            <div 
+                className="composer__container"
+                tabIndex="0"
+                onKeyDown={this.handleKeyDown}
+                style={{outline: 'none'}}
+            >
                 <div className="composer__controls-container">
                     <CursorSelect 
                         value={this.state.pencilActive ? 'pencil' : 'pointer'}

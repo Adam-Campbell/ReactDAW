@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //import ColoredRect from './components/ColoredRect.js';
 import { connect } from 'react-redux';
 import * as ActionCreators from './actions';
-import PianoRoll from './components/PianoRoll.js';
+import PianoRoll from './components/PianoRoll';
 import './App.css';
 import AudioEngine from './components/AudioEngine';
 import StartStopButton from './components/StartStopButton';

@@ -32,13 +32,13 @@ class SynthFactory {
                 return this._createMonoSynth(data);
 
             default:
-                return new Tone.PolySynth(6, Tone.Synth);
+                return new Tone.PolySynth(24, Tone.Synth);
         }
     }
 
     _createSynth(data) {
         console.log(data);
-        const synth = new Tone.PolySynth(6, Tone.Synth);
+        const synth = new Tone.PolySynth(24, Tone.Synth);
         if (data) {
             synth.set(data);
         }
@@ -48,7 +48,7 @@ class SynthFactory {
     }
 
     _createAMSynth(data) {
-        const synth = new Tone.PolySynth(6, Tone.AMSynth);
+        const synth = new Tone.PolySynth(24, Tone.AMSynth);
         if (data) {
             synth.set(data);
         }
@@ -56,7 +56,7 @@ class SynthFactory {
     }
 
     _createFMSynth(data) {
-        const synth = new Tone.PolySynth(6, Tone.FMSynth);
+        const synth = new Tone.PolySynth(24, Tone.FMSynth);
         if (data) {
             synth.set(data);
         }
@@ -64,7 +64,7 @@ class SynthFactory {
     }
 
     _createDuoSynth(data) {
-        const synth = new Tone.PolySynth(6, Tone.DuoSynth);
+        const synth = new Tone.PolySynth(24, Tone.DuoSynth);
         if (data) {
             synth.set(data);
         }
@@ -72,7 +72,7 @@ class SynthFactory {
     }
 
     _createMonoSynth(data) {
-        const synth = new Tone.PolySynth(6, Tone.MonoSynth);
+        const synth = new Tone.PolySynth(24, Tone.MonoSynth);
         if (data) {
             synth.set(data);
         }

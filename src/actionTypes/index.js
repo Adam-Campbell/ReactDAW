@@ -1,6 +1,9 @@
 export const ADD_NOTE = 'ADD_NOTE';
 export const REMOVE_NOTE = 'REMOVE_NOTE';
 
+export const ADD_NOTES = 'ADD_NOTES';
+export const REMOVE_NOTES = 'REMOVE_NOTES';
+
 export const PLAY_TRACK = 'PLAY_TRACK';
 export const STOP_TRACK = 'STOP_TRACK';
 

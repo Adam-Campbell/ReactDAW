@@ -60,17 +60,51 @@ const sections = (state=defaultState, action) => {
                 }
             };
 
+        // case actionTypes.REMOVE_NOTE:
+        //     return {
+        //         ...state,
+        //         [action.payload.sectionId]: {
+        //             ...state[action.payload.sectionId],
+        //             notes: state[action.payload.sectionId].notes.filter(note => {
+        //                 return note.pitch !== action.payload.pitch ||
+        //                        note.time !== action.payload.time
+        //             })
+        //         }
+        //     };
+
         case actionTypes.REMOVE_NOTE:
             return {
                 ...state,
                 [action.payload.sectionId]: {
                     ...state[action.payload.sectionId],
                     notes: state[action.payload.sectionId].notes.filter(note => {
-                        return note.pitch !== action.payload.pitch ||
-                               note.time !== action.payload.time
+                        return note._id !== action.payload.noteId
                     })
                 }
             };
+
+        case actionTypes.ADD_NOTES:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: [
+                        ...state[action.payload.sectionId].notes,
+                        ...action.payload.noteObjects
+                    ]
+                }
+            };
+
+        case actionTypes.REMOVE_NOTES:
+            return {
+                ...state,
+                [action.payload.sectionId]: {
+                    ...state[action.payload.sectionId],
+                    notes: state[action.payload.sectionId].notes.filter(note => {
+                        return !action.payload.noteIds.includes(note._id);
+                    })
+                }
+            }
             
 
         default:
