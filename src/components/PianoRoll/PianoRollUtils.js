@@ -145,7 +145,6 @@ export const createGridLinesArray = (optionsObject) => {
     let escapeHatch = 0;
     let currPos = 0;
     const quantizeInterval = Tone.Ticks(currentQuantizeValue) / 2;
-    //const quantizeInterval = 24;
     const maxPos = sectionBars * 384;
 
     while (currPos <= maxPos && escapeHatch < 1000) {

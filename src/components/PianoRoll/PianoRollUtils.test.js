@@ -24,6 +24,7 @@ import {
 
 jest.mock('tone');
 
+
 describe('createSelectedAndUnselectedNoteArrays', () => {
     const arrayOfNoteIds = ['15769432', '96532156', '46132489'];
     const note1 = { 
@@ -177,6 +178,68 @@ describe('createGridLinesArray', () => {
             currentQuantizeValue: '8n',
         });
         expect(result).toHaveLength(142);
+    });
+});
+
+describe('isValidNote', () => {
+    Tone.Time.mockImplementation(input => {
+        const toBBS = transportPositionStringToSixteenths(input);
+        return {
+            BBSValue: toBBS,
+            toTicks: function() {
+                return this.BBSValue * 48
+            }
+        }
+    });
+    const allSectionNotes = [
+        {
+            pitch: 'G5',
+            time: '0:1:0',
+            duration: '0:1:0',
+            velocity: 1,
+            _id: '3026759361591377',
+            x: 96,
+            y: 640,
+            width: 96
+        },
+        {
+            pitch: 'A5',
+            time: '0:2:0',
+            duration: '0:1:0',
+            velocity: 1,
+            _id: '0982452036643140',
+            x: 192,
+            y: 608,
+            width: 96
+        }
+    ]
+    test('correctly identifies that a note is valid', () => {
+        const noteToCheck = {
+            pitch: 'A5',
+            time: '0:1:0',
+            duration: '0:1:0',
+            velocity: 1,
+            _id: '2636642221506882',
+            x: 96,
+            y: 608,
+            width: 96
+        };
+        const result = isValidNote({ noteToCheck, allSectionNotes });
+        expect(result).toBe(true);
+    }); 
+    test('correctly identifies that a note is invalid', () => {
+        const noteToCheck = {
+            pitch: 'A5',
+            time: '0:1:2',
+            duration: '0:1:0',
+            velocity: 1,
+            _id: '9637057747336235',
+            x: 144,
+            y: 608,
+            width: 96
+        };
+        const result = isValidNote({ noteToCheck, allSectionNotes });
+        expect(result).toBe(false);
     });
 });
 

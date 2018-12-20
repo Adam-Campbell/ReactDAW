@@ -1,264 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-ShallowWrapper {
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <SelectInput
-    handleChange={[MockFunction]}
-    inputId="test-select-input"
-    label="Just for testing"
-    options={
-      Array [
-        Object {
-          "text": "Option One",
-          "value": "optionOne",
-        },
-        Object {
-          "text": "Option Two",
-          "value": "optionTwo",
-        },
-      ]
-    }
+<Fragment>
+  <label
+    className="select-input__label pink"
+    htmlFor="test-select-input"
+  >
+    Just for testing
+  </label>
+  <select
+    className="select-input pink"
+    id="test-select-input"
+    onChange={[MockFunction]}
     value="optionOne"
-  />,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateError": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "function",
-    "props": Object {
-      "children": Array [
-        <label
-          className="select-input__label pink"
-          htmlFor="test-select-input"
-        >
-          Just for testing
-        </label>,
-        <select
-          className="select-input pink"
-          id="test-select-input"
-          onChange={[MockFunction]}
-          value="optionOne"
-        >
-          <option
-            className="select-input__option"
-            value="optionOne"
-          >
-            Option One
-          </option>
-          <option
-            className="select-input__option"
-            value="optionTwo"
-          >
-            Option Two
-          </option>
-        </select>,
-      ],
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": "Just for testing",
-          "className": "select-input__label pink",
-          "htmlFor": "test-select-input",
-        },
-        "ref": null,
-        "rendered": "Just for testing",
-        "type": "label",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            <option
-              className="select-input__option"
-              value="optionOne"
-            >
-              Option One
-            </option>,
-            <option
-              className="select-input__option"
-              value="optionTwo"
-            >
-              Option Two
-            </option>,
-          ],
-          "className": "select-input pink",
-          "id": "test-select-input",
-          "onChange": [MockFunction],
-          "value": "optionOne",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": "0",
-            "nodeType": "host",
-            "props": Object {
-              "children": "Option One",
-              "className": "select-input__option",
-              "value": "optionOne",
-            },
-            "ref": null,
-            "rendered": "Option One",
-            "type": "option",
-          },
-          Object {
-            "instance": null,
-            "key": "1",
-            "nodeType": "host",
-            "props": Object {
-              "children": "Option Two",
-              "className": "select-input__option",
-              "value": "optionTwo",
-            },
-            "ref": null,
-            "rendered": "Option Two",
-            "type": "option",
-          },
-        ],
-        "type": "select",
-      },
-    ],
-    "type": Symbol(react.fragment),
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "function",
-      "props": Object {
-        "children": Array [
-          <label
-            className="select-input__label pink"
-            htmlFor="test-select-input"
-          >
-            Just for testing
-          </label>,
-          <select
-            className="select-input pink"
-            id="test-select-input"
-            onChange={[MockFunction]}
-            value="optionOne"
-          >
-            <option
-              className="select-input__option"
-              value="optionOne"
-            >
-              Option One
-            </option>
-            <option
-              className="select-input__option"
-              value="optionTwo"
-            >
-              Option Two
-            </option>
-          </select>,
-        ],
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Just for testing",
-            "className": "select-input__label pink",
-            "htmlFor": "test-select-input",
-          },
-          "ref": null,
-          "rendered": "Just for testing",
-          "type": "label",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <option
-                className="select-input__option"
-                value="optionOne"
-              >
-                Option One
-              </option>,
-              <option
-                className="select-input__option"
-                value="optionTwo"
-              >
-                Option Two
-              </option>,
-            ],
-            "className": "select-input pink",
-            "id": "test-select-input",
-            "onChange": [MockFunction],
-            "value": "optionOne",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": "0",
-              "nodeType": "host",
-              "props": Object {
-                "children": "Option One",
-                "className": "select-input__option",
-                "value": "optionOne",
-              },
-              "ref": null,
-              "rendered": "Option One",
-              "type": "option",
-            },
-            Object {
-              "instance": null,
-              "key": "1",
-              "nodeType": "host",
-              "props": Object {
-                "children": "Option Two",
-                "className": "select-input__option",
-                "value": "optionTwo",
-              },
-              "ref": null,
-              "rendered": "Option Two",
-              "type": "option",
-            },
-          ],
-          "type": "select",
-        },
-      ],
-      "type": Symbol(react.fragment),
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-        "lifecycles": Object {
-          "componentDidUpdate": Object {
-            "onSetState": true,
-          },
-          "getDerivedStateFromProps": true,
-          "getSnapshotBeforeUpdate": true,
-          "setState": Object {
-            "skipsComponentDidUpdateOnNullish": true,
-          },
-        },
-      },
-    },
-  },
-}
+  >
+    <option
+      className="select-input__option"
+      key="0"
+      value="optionOne"
+    >
+      Option One
+    </option>
+    <option
+      className="select-input__option"
+      key="1"
+      value="optionTwo"
+    >
+      Option Two
+    </option>
+  </select>
+</Fragment>
 `;

@@ -49,7 +49,7 @@ a selection copied will paste that selection. The paste will begin at the curren
 
 */
 
-class PianoRollContainer extends Component {
+export class PianoRollContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -112,10 +112,16 @@ class PianoRollContainer extends Component {
             sectionBars: this.section.numberOfBars,
             currentTransportPosition: Tone.Transport.position
         });
-        this.seekerLineRef.current.x(initialLineAttrs.xPos);
-        this.seekerLineRef.current.strokeWidth(initialLineAttrs.strokeWidth);
-        this.seekerLayerRef.current.batchDraw();
-        this.outerContainerRef.current.focus();
+        if (this.seekerLineRef.current) {
+            this.seekerLineRef.current.x(initialLineAttrs.xPos);
+            this.seekerLineRef.current.strokeWidth(initialLineAttrs.strokeWidth);
+        }
+        if (this.seekerLayerRef.current) {
+            this.seekerLayerRef.current.batchDraw();
+        }
+        if (this.outerContainerRef.current) {
+            this.outerContainerRef.current.focus();
+        }
     }
 
     componentWillUnmount() {

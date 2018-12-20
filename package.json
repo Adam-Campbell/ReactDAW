@@ -2,6 +2,9 @@
   "name": "piano-roll-test",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
+  },
   "dependencies": {
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
@@ -35,5 +38,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "enzyme-to-json": "^3.3.5"
+  }
 }
