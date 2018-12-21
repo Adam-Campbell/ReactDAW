@@ -26,11 +26,14 @@ const ComposerControls = props => (
                 { value: '4', text: '4' }
             ]} 
         />
-        <button 
-            className="composer__delete-section-button"
-            onClick={props.removeSelectedSection}
-        >Delete Selected Section</button>
     </div>
 );
+
+ComposerControls.propTypes = {
+    cursorValue: PropTypes.string.isRequired,
+    updateCursorValue: PropTypes.func.isRequired,
+    durationValue: PropTypes.number.isRequired,
+    updateDurationValue: PropTypes.func.isRequired
+};
 
 export default ComposerControls;

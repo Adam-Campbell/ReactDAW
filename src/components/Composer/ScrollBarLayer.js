@@ -10,8 +10,8 @@ const ScrollBarLayer = props => (
             y={0}
             width={24}
             height={300}
-            fill={'#47426c'}
-            shadowColor={'#47426c'}
+            fill={UIColors.lightPurple}
+            shadowColor={UIColors.lightPurple}
             shadowBlur={4}
             shadowOffsetX={0}
             shadowOffsetY={0}
@@ -21,7 +21,7 @@ const ScrollBarLayer = props => (
             y={10}
             width={14}
             height={100}
-            fill={'#d86597'}
+            fill={UIColors.pink}
             draggable={true}
             dragBoundFunc={(pos) => {
                 const currY = pos.y;
@@ -39,8 +39,8 @@ const ScrollBarLayer = props => (
             y={276}
             width={740}
             height={24}
-            fill={'#47426c'}
-            shadowColor={'#47426c'}
+            fill={UIColors.lightPurple}
+            shadowColor={UIColors.lightPurple}
             shadowBlur={4}
             shadowOffsetX={0}
             shadowOffsetY={0}
@@ -50,7 +50,7 @@ const ScrollBarLayer = props => (
             y={281}
             width={100}
             height={14}
-            fill={'#d86597'}
+            fill={UIColors.pink}
             draggable={true}
             dragBoundFunc={(pos) => {
                 const currX = pos.x;
@@ -63,5 +63,13 @@ const ScrollBarLayer = props => (
         />
     </Layer>
 );
+
+ScrollBarLayer.propTypes = {
+    stageHeight: PropTypes.number.isRequired,
+    stageWidth: PropTypes.number.isRequired,
+    scrollPadding: PropTypes.number.isRequired,
+    verticalDragMove: PropTypes.func.isRequired,
+    horizontalDragMove: PropTypes.func.isRequired
+};
 
 export default ScrollBarLayer;

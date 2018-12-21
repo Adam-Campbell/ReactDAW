@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { UIColors } from '../constants';
-/*
-
-
-
-*/
+import { UIColors } from '../../constants';
 
 class TrackColorSwatch extends Component {
     constructor(props) {

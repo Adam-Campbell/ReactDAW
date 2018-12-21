@@ -14,8 +14,8 @@ const SectionsLayer = props => (
                     height={section.height}
                     width={section.width}
                     fill={
-                        section.sectionId === props.currentlySelectedSection ? 
-                        '#222222' :
+                        props.currentlySelectedSections.includes(section.sectionId) ? 
+                        UIColors.darkGrey :
                         section.color
                     }
                     stroke={UIColors.offWhite}
@@ -29,5 +29,13 @@ const SectionsLayer = props => (
         } 
     </Layer>
 );
+
+SectionsLayer.propTypes = {
+    sectionsLayerRef: PropTypes.object.isRequired,
+    sectionRectsArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentlySelectedSections: PropTypes.arrayOf(PropTypes.string).isRequired,
+    handleSectionClick: PropTypes.func.isRequired,
+    handleSectionDoubleClick: PropTypes.func.isRequired
+};
 
 export default SectionsLayer;

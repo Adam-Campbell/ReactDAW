@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Stage, Layer, Rect, Line, Text } from 'react-konva';
-import Konva from 'konva';
-import TrackInfo from '../TrackInfo';
-import { UIColors } from '../../constants';
-import SelectInput from '../SelectInput';
+import { Stage } from 'react-konva';
+import TrackInfo from './TrackInfo';
 import AddTrackMenu from '../AddTrackMenu';
-
 import ComposerControls from './ComposerControls';
 import GridLayer from './GridLayer';
 import SectionsLayer from './SectionsLayer';
@@ -26,7 +22,6 @@ const Composer = props => (
             updateCursorValue={props.updateCursorValue}
             durationValue={props.durationValue}
             updateDurationValue={props.updateDurationValue}
-            removeSelectedSection={props.removeSelectedSection}
         />
         <div className="composer__row">
             <div className="composer__track-info-container-outer">
@@ -40,7 +35,9 @@ const Composer = props => (
                             props.channels.map((channel, index) => (
                                 <TrackInfo 
                                     trackId={channel.id}
-                                    key={channel.id} 
+                                    key={channel.id}
+                                    isSelected={props.currentlySelectedChannel === channel.id}
+                                    updateSelectedChannel={props.updateSelectedChannel}
                                 /> 
                             ))
                         }
@@ -66,7 +63,7 @@ const Composer = props => (
                     <SectionsLayer 
                         sectionsLayerRef={props.sectionsLayerRef}
                         sectionRectsArray={props.sectionRectsArray}
-                        currentlySelectedSection={props.currentlySelectedSection}
+                        currentlySelectedSections={props.currentlySelectedSections}
                         handleSectionClick={props.handleSectionClick}
                         handleSectionDoubleClick={props.handleSectionDoubleClick}
                     />
@@ -116,7 +113,6 @@ Composer.propTypes = {
     handleKeyDown: PropTypes.func.isRequired,
     updateCursorValue: PropTypes.func.isRequired,
     updateDurationValue: PropTypes.func.isRequired,
-    removeSelectedSection: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleStageMouseDown: PropTypes.func.isRequired,
     handleStageMouseUp: PropTypes.func.isRequired,
@@ -124,10 +120,12 @@ Composer.propTypes = {
     handleSectionDoubleClick: PropTypes.func.isRequired,
     verticalDragMove: PropTypes.func.isRequired,
     horizontalDragMove: PropTypes.func.isRequired,
+    updateSelectedChannel: PropTypes.func.isRequired,
     // other
     trackInfoMenuTopScroll: PropTypes.number.isRequired,
     channels: PropTypes.arrayOf(PropTypes.object).isRequired,
-    currentlySelectedSection: PropTypes.any
+    currentlySelectedSections: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currentlySelectedChannel: PropTypes.any
 };
 
 export default Composer;

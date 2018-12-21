@@ -195,6 +195,10 @@
     inset 0 0 2px #d86597;
 }
 
+.track-info.selected {
+  background-color: #47426c;
+}
+
 .track-info__left-block {
 
 }

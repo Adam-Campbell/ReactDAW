@@ -9,10 +9,16 @@ const SeekerLayer = props => (
             ref={props.seekerLineRef}
             points={[0, 0, 0, props.canvasHeight]}
             listening={false}
-            stroke={'#e0e0e0'}
+            stroke={UIColors.offWhite}
             strokeWidth={2}
         />
     </Layer>
 );
+
+SeekerLayer.propTypes = {
+    seekerLayerRef: PropTypes.object.isRequired,
+    seekerLineRef: PropTypes.object.isRequired,
+    canvasHeight: PropTypes.number.isRequired
+}
 
 export default SeekerLayer;

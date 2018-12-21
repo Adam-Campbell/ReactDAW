@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { Stage, Layer, Rect, Line, Text } from 'react-konva';
-import Konva from 'konva';
 import { throttle } from 'lodash';
-import TrackInfo from '../TrackInfo';
-import { UIColors } from '../../constants';
 import { generateId } from '../../helpers';
 import Tone from 'tone';
-import CursorSelect from '../CursorSelect';
-import AddTrackMenu from '../AddTrackMenu';
-import SectionDurationSelect from '../SectionDurationSelect';
 import Composer from './Composer';
+import { addOrRemoveElementFromSelection } from './ComposerUtils';
 /*
 
 Behaviours to be implemented:
@@ -30,7 +24,67 @@ on a section allows you to add to the selection rather than replacing the entire
 
 - Make as much of the functionality pure as possible and move into a seperate utils file. 
 
+
+
+
+
+
+
+First we handle selection and multi-select of sections. 
+
+on section click
+
+- Check if ctrl key is currently pressed. 
+- If the ctrl key is pressed, then either add the clicked section to the current selection, or remove the clicked
+section from the current selection, depending on whether or not the clicked section was already a part of the
+selection.
+- If the ctrl key is not pressed, then either set the current selection to only the clicked section, or empty out
+the current selection entirely, depending on whether or note the clicked section was already in the selection. 
+
+
+This is now done.
+
+
+
+
+copying and pasting strategy
+
+We want to be able to copy sections from multiple different tracks simultaneously, and when we paste we want
+the order/positions of the tracks that the sections were copied from to be respected, relative to each other,
+but we want the pasting to start at the track that is selected at the time the paste operation begins.
+
+That is to say, if we copy a selection of a section on track 1, a section on track 3 and one on track 4, then 
+we select track 2 as our active track and hit paste, the sections are pasted onto tracks 2, 4 and 5 respectively. 
+
+If this approach causes one of the sections to go 'out of bounds', that section doesn't get pasted. So if we only 
+had 4 tracks when we tried that previous example, the section that would have been pasted on track 5 just doesn't
+get pasted. 
+
+But how best to facilitate this? 
+
+When we copy the sections, we will be taking the sectionId from our selection state, and grabbing the actual
+section data for that section. We then comprise our copy data of the data we get from this. However, we should
+replace the channelId prop with the index of the channel within the channels array. Then when the paste operation
+occurs, we can use this index to work out which track the section needs to be added to, the tracks could change 
+during the time between the copying and pasting events occuring. 
+
+One more thing is needed, when we perform the copy operation, we need to keep track of the smallest index we 
+get, and we need to save that somewhere in the data structure that our copy operation creates. Then when we
+perform the paste operation, we can work out index of the correct track to add a section to with the following
+formula:
+
+index from the copied section  -  smallest index from copy operation  +  index of active track when pasting
+
+So if we copy a selection where the lowest index is 1, and we have a given section with index 2 from that
+selection, and the active track is during paste is track 2, we would get 2 - 1 + 2 = 3, so the given section
+would be pasted on track 3, this is the desired behaviour. 
+
+
+
+
 */
+
+
 
 class ComposerContainer extends Component {
 
@@ -52,7 +106,8 @@ class ComposerContainer extends Component {
         this.verticalDragMove = throttle(this.verticalDragMove, 16);
         this.state = {
             sectionDuration: 4,
-            currentlySelectedSection: null,
+            currentlySelectedChannel: null,
+            currentlySelectedSections: [],
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
@@ -309,9 +364,14 @@ class ComposerContainer extends Component {
     handleSectionClick = (e, sectionId) => {
         // this is Konvas method for stopping the event from bubbling up to the other canvas elements,
         // we don't want to trigger their event listeners. 
+        console.log(e);
         e.cancelBubble = true;
         this.setState({
-            currentlySelectedSection: sectionId
+            currentlySelectedSections: addOrRemoveElementFromSelection({
+                currentSelectionState: this.state.currentlySelectedSections,
+                element: sectionId,
+                shouldPreserveSelection: e.evt.ctrlKey
+            })
         });
     }
 
@@ -320,7 +380,7 @@ class ComposerContainer extends Component {
         // we don't want to trigger their event listeners. 
         e.cancelBubble = true;
         this.setState({
-            currentlySelectedSection: null
+            currentlySelectedSections: []
         });
         this.props.openWindow(sectionId, 'section');
     }
@@ -337,12 +397,9 @@ class ComposerContainer extends Component {
         });
     }
 
-    removeSelectedSection = () => {
-        if (this.state.currentlySelectedSection) {
-            const sectionId = this.state.currentlySelectedSection;
-            const channelId = this.props.sections[sectionId].channelId;
-            this.props.removeSection(sectionId, channelId);
-        }
+    removeOneSection = (sectionId) => {
+        const channelId = this.props.sections[sectionId].channelId;
+        this.props.removeSection(sectionId, channelId);
     }
 
     getTransportPosition = () => {
@@ -368,9 +425,37 @@ class ComposerContainer extends Component {
     }
 
     handleKeyDown = (e) => {
-        console.log('handleKeyDown on the Composer was called');
-        console.log(e);
+        //console.log('handleKeyDown on the Composer was called');
+        //console.log(e);
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.key === 'Delete') {
+            this.handleSectionDeletion();
+        }
     }
+
+    updateSelectedChannel = (channelId) => {
+        this.setState({
+            currentlySelectedChannel: channelId
+        });
+    }
+
+    /**
+     * Handles the deletion of sections.
+     */
+    handleSectionDeletion = () => {
+        for (let sectionId of this.state.currentlySelectedSections) {
+            this.removeOneSection(sectionId);
+        }
+        this.clearCurrentSectionSelection();   
+    }
+
+    clearCurrentSectionSelection = () => {
+        this.setState({
+            currentlySelectedSections: []
+        });
+    }
+
 
     render() {
         const gridLinesArray = this._createGridLinesArray();
@@ -395,7 +480,6 @@ class ComposerContainer extends Component {
             handleKeyDown={this.handleKeyDown}
             updateCursorValue={this.updateCursorValue}
             updateDurationValue={this.updateSectionDurationValue}
-            removeSelectedSection={this.removeSelectedSection}
             handleStageClick={this.handleStageClick}
             handleStageMouseDown={this.handleStageMouseDown}
             handleStageMouseUp={this.handleStageMouseUp}
@@ -405,7 +489,9 @@ class ComposerContainer extends Component {
             horizontalDragMove={this.horizontalDragMove}
             trackInfoMenuTopScroll={this.state.trackInfoMenuTopScroll}
             channels={this.props.channels}
-            currentlySelectedSection={this.state.currentlySelectedSection}
+            currentlySelectedSections={this.state.currentlySelectedSections}
+            currentlySelectedChannel={this.state.currentlySelectedChannel}
+            updateSelectedChannel={this.updateSelectedChannel}
         />
 
         
