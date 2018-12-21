@@ -37,11 +37,7 @@ const sections = (state=defaultState, action) => {
             return {
                 ...state,
                 [action.payload.sectionId]: {
-                    id: action.payload.sectionId,
-                    channelId: action.payload.channelId,
-                    notes: [],
-                    start: action.payload.sectionStart,
-                    numberOfBars: action.payload.sectionLength
+                    ...action.payload.sectionObject
                 }
             };
 

@@ -5,7 +5,12 @@ import { throttle } from 'lodash';
 import { generateId } from '../../helpers';
 import Tone from 'tone';
 import Composer from './Composer';
-import { addOrRemoveElementFromSelection } from './ComposerUtils';
+import { 
+    addOrRemoveElementFromSelection ,
+    createCopiedSectionsDataStructure,
+    getWholeBarsFromString,
+    findEarliestStartTime
+} from './ComposerUtils';
 /*
 
 Behaviours to be implemented:
@@ -79,6 +84,25 @@ So if we copy a selection where the lowest index is 1, and we have a given secti
 selection, and the active track is during paste is track 2, we would get 2 - 1 + 2 = 3, so the given section
 would be pasted on track 3, this is the desired behaviour. 
 
+__________________________________________________________________________________________________________
+__________________________________________________________________________________________________________
+
+Copying dealt with, now pasting...
+
+When paste operation begins, take note of which track is currently selected. If there is not one selected,
+just choose the track at index 0. 
+
+Query Tone.Transport to determine what time to start pasting from. Round down to the nearest whole bar.
+
+Loop through all of the section objects, and find the earliest start time, save into a variable. This start
+time can be used to determine the relative start time of any of the sections - just take the start time of
+that section and subtract the earliest start time from it. 
+
+Now loop through each section object and dispatch an addSection action with a new section object based off of
+that section object. This new section object  will have an adjusted start time (see above), and we will have
+to use the channelIndex property to find the correct channelId. In addition, if there are any notes in the
+section, we have to create copies of the notes but with new _ids. 
+
 
 
 
@@ -108,6 +132,7 @@ class ComposerContainer extends Component {
             sectionDuration: 4,
             currentlySelectedChannel: null,
             currentlySelectedSections: [],
+            currentlyCopiedSections: {},
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
@@ -286,11 +311,17 @@ class ComposerContainer extends Component {
                 const channelIndex = Math.floor((adjustedYPos-40)/70);
                 const startAsNumber = Math.floor(adjustedXPos/48);
                 const startAsBBS = `${startAsNumber}:0:0`;
+                const newSectionObject = {
+                    id: generateId(),
+                    channelId: this.props.channels[channelIndex].id,
+                    notes: [],
+                    start: startAsBBS,
+                    numberOfBars: this.state.sectionDuration
+                };
                 this.props.addSection(
-                    generateId(),
-                    this.props.channels[channelIndex].id,
-                    startAsBBS,
-                    this.state.sectionDuration
+                    newSectionObject,
+                    newSectionObject.id,
+                    newSectionObject.channelId
                 );
             }
         }
@@ -352,11 +383,17 @@ class ComposerContainer extends Component {
             const sectionLengthInBars = sectionEndAsNumber - sectionStartAsNumber > 1 ?
                                         sectionEndAsNumber - sectionStartAsNumber : 1;
             
+            const newSectionObject = {
+                id: generateId(),
+                channelId: channelId,
+                notes: [],
+                start: sectionStartAsBBS,
+                numberOfBars: sectionLengthInBars
+            };
             this.props.addSection(
-                generateId(),
-                channelId,
-                sectionStartAsBBS,
-                sectionLengthInBars
+                newSectionObject,
+                newSectionObject.id,
+                newSectionObject.channelId
             );
         }
     }
@@ -429,8 +466,20 @@ class ComposerContainer extends Component {
         //console.log(e);
         e.preventDefault();
         e.stopPropagation();
+
+        // handle deletion
         if (e.key === 'Delete') {
             this.handleSectionDeletion();
+        }
+
+        // handle copying
+        if (e.key === 'c' && e.ctrlKey === true) {
+            this.handleCopying();
+        }
+
+        // handle pasting
+        if (e.key === 'v' && e.ctrlKey === true) {
+            this.handlePasting();
         }
     }
 
@@ -455,6 +504,66 @@ class ComposerContainer extends Component {
             currentlySelectedSections: []
         });
     }
+
+    handleCopying = () => {
+        const copiedSections = createCopiedSectionsDataStructure({
+            currentSelectionState: this.state.currentlySelectedSections,
+            allSections: this.props.sections,
+            allChannels: this.props.channels
+        });
+        this.setState({
+            currentlyCopiedSections: copiedSections
+        }); 
+    }
+
+    handlePasting = () => {
+        const currentBar = getWholeBarsFromString(Tone.Transport.position);
+        const { sectionObjects, lowestIndex } = this.state.currentlyCopiedSections;
+        // work out the index of the currently selected channel, or if there is no such channel, just use 
+        // index 0.
+        let currentChannelIndex;
+        if (this.state.currentlySelectedChannel) {
+            currentChannelIndex = this.props.channels.findIndex(channel => {
+                return channel.id === this.state.currentlySelectedChannel;
+            });
+        } else {
+            currentChannelIndex = 0;
+        }
+        // find the earliest start time.
+        const earliestStartTime = findEarliestStartTime(sectionObjects);
+        // loop over the section objects and for each create a new section object to paste, adjusted
+        // as necessary, and then dispatch the action to add that section.
+        for (let section of sectionObjects) {
+            const startDiff = getWholeBarsFromString(section.start) - getWholeBarsFromString(earliestStartTime);
+            const adjustedStartString = `${currentBar+startDiff}:0:0`;
+            // work out the adjusted index for the channel that this section will be pasted to and grab
+            // that channels id.
+            const adjustedIndex = section.channelIndex - lowestIndex + currentChannelIndex;
+            console.log(section.channelIndex, lowestIndex, currentChannelIndex);
+            const channelId = this.props.channels[adjustedIndex].id;
+            const notesArray = section.notes.map(note => {
+                return {
+                    ...note,
+                    _id: generateId()
+                }
+            });
+            const newSectionObject = {
+                id: generateId(),
+                channelId: channelId,
+                notes: notesArray,
+                start: adjustedStartString,
+                numberOfBars: section.numberOfBars
+            };
+            this.props.addSection(
+                newSectionObject, 
+                newSectionObject.id,
+                newSectionObject.channelId
+            )
+        }
+
+        //index from the copied section  -  smallest index from copy operation  +  index of active track when pasting
+    }
+
 
 
     render() {

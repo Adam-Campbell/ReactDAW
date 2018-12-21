@@ -110,13 +110,12 @@ export const updateChannelColor = (channelId, newChannelColor) => ({
     }
 });
 
-export const addSection = (sectionId, channelId, sectionStart, sectionLength) => ({
+export const addSection = (sectionObject, sectionId, channelId) => ({
     type: actionTypes.ADD_SECTION,
     payload: {
+        sectionObject,
         sectionId,
-        channelId,
-        sectionStart,
-        sectionLength
+        channelId
     }
 });
 
