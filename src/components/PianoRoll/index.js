@@ -8,8 +8,6 @@ import { throttle } from 'lodash';
 import PianoRoll from './PianoRoll';
 import {
     createSelectedAndUnselectedNoteArrays,
-    getWholeBarsFromString,
-    transportPositionStringToSixteenths,
     getTransportLineAttrs,
     createPitchesArray,
     createGridLinesArray,
@@ -21,13 +19,19 @@ import {
     shiftPitchDown,
     shiftTimeBackwards,
     shiftTimeForwards,
-    findOverlapAlongAxis,
     getNoteIdsForSelectionRange,
     getNoteDurationFromPencilOperation,
     generateNoteObjectForPasting,
     getSortedNoteDataStructs,
     getFirstAvailablePitchInChord
 } from './PianoRollUtils';
+
+import { 
+    findOverlapAlongAxis,
+    addOrRemoveElementFromSelection,
+    getWholeBarsFromString,
+    transportPositionStringToSixteenths
+} from '../../sharedUtils';
 
 /*
 Keyboard shortcuts:
@@ -46,6 +50,22 @@ through the different inversions / voicings for that chord.
 
 Pressing ctrl + c when one or more notes are selected will copy the selection. Pressing ctrl + v once you have
 a selection copied will paste that selection. The paste will begin at the current transport position. 
+
+*/
+
+
+
+/*
+________
+________
+  TODO 
+________
+________
+
+Go through all of the methods on this component, and its utility functions in the seperate utils file, and
+everywhere that I am adjusting a mouse event coord for scrolling, make use of the adjustForScroll helper 
+function which is in the sharedUtils file. 
+
 
 */
 
@@ -381,25 +401,17 @@ export class PianoRollContainer extends Component {
      */
     handleNoteClick = (e) => {
         e.cancelBubble = true;
-        const { _id } = e.target.attrs;
-        const { ctrlKey } = e.evt;
-        const currSelection = this.state.currentlySelectedNotes;
-        const noteIsSelected = currSelection.includes(_id);
-        // Different behaviour occurs depending on whether the ctrl key is currently pressed. If it is
-        // pressed, we are adding/removing the current note to/from the selection. If the ctrl key is 
-        // not pressed, we are either making the current note the entire selection, or clearing the
-        // selection entirely.
-        if (ctrlKey) {
-            this.setState({
-                currentlySelectedNotes: noteIsSelected ? 
-                                        currSelection.filter(noteId => noteId !== _id) :
-                                        [...currSelection, _id]
-            });
-        } else {
-            this.setState({
-                currentlySelectedNotes: noteIsSelected ? [] : [ _id ]
-            });
-        }
+        const note_id = e.target.attrs._id;
+        // Add or remove the clicked note from the current selection, based on whether or not it was already 
+        // in there. Whether the rest of the selection is preserved depends on whether or note the ctrl key 
+        // was pressed down during the click event. 
+        this.setState({
+            currentlySelectedNotes: addOrRemoveElementFromSelection({
+                currentSelectionState: this.state.currentlySelectedNotes,
+                element: note_id,
+                shouldPreserveSelection: e.evt.ctrlKey
+            })
+        });
     }
 
     /**

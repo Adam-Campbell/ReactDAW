@@ -33,6 +33,8 @@ const ScrollBarLayer = props => (
                 return pos;
             }}
             onDragMove={props.verticalDragMove}
+            onClick={props.handleScrollBarClickEvents}
+            onMouseDown={props.handleScrollBarClickEvents}
         />
         <Rect 
             x={0}
@@ -60,6 +62,8 @@ const ScrollBarLayer = props => (
                 return pos;
             }}
             onDragMove={props.horizontalDragMove}
+            onClick={props.handleScrollBarClickEvents}
+            onMouseDown={props.handleScrollBarClickEvents}
         />
     </Layer>
 );
@@ -69,7 +73,8 @@ ScrollBarLayer.propTypes = {
     stageWidth: PropTypes.number.isRequired,
     scrollPadding: PropTypes.number.isRequired,
     verticalDragMove: PropTypes.func.isRequired,
-    horizontalDragMove: PropTypes.func.isRequired
+    horizontalDragMove: PropTypes.func.isRequired,
+    handleScrollBarClickEvents: PropTypes.func.isRequired
 };
 
 export default ScrollBarLayer;

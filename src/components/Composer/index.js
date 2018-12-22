@@ -6,165 +6,25 @@ import { generateId } from '../../helpers';
 import Tone from 'tone';
 import Composer from './Composer';
 import { 
-    addOrRemoveElementFromSelection ,
     createCopiedSectionsDataStructure,
-    getWholeBarsFromString,
     findEarliestStartTime,
-    getBarNumberFromBBSString,
     createGridLinesArray,
     createSectionRectsArray,
-    createSectionObject,
+    createSectionObject
+} from './ComposerUtils';
+
+import { 
+    findOverlapAlongAxis,
+    addOrRemoveElementFromSelection,
+    getWholeBarsFromString,
     adjustForScroll,
     transportPositionStringToSixteenths
-} from './ComposerUtils';
-/*
-
-Behaviours to be implemented:
-
-- Copying and pasting of sections with ctrl+c and ctrl+v
-- Deletion of selected section(s) with delete key
-- The selection functionality needs to be expanded to handle the selection of multiple sections rather than
-just one.
-- Will need a way to select which track a section gets pasted to. Perhaps maintain a currentlySelectedTrack
-property in state and update it when a track is clicked on.
-
-- Will need to consider how pasting should work in general.
-
-- Implement similar functionality to the PianoRoll component, whereby holding down ctrl whilst clicking
-on a section allows you to add to the selection rather than replacing the entire selection.
-
-- Make as much of the functionality pure as possible and move into a seperate utils file. 
-
-
-
-
-
-
-
-First we handle selection and multi-select of sections. 
-
-on section click
-
-- Check if ctrl key is currently pressed. 
-- If the ctrl key is pressed, then either add the clicked section to the current selection, or remove the clicked
-section from the current selection, depending on whether or not the clicked section was already a part of the
-selection.
-- If the ctrl key is not pressed, then either set the current selection to only the clicked section, or empty out
-the current selection entirely, depending on whether or note the clicked section was already in the selection. 
-
-
-This is now done.
-
-
-
-
-copying and pasting strategy
-
-We want to be able to copy sections from multiple different tracks simultaneously, and when we paste we want
-the order/positions of the tracks that the sections were copied from to be respected, relative to each other,
-but we want the pasting to start at the track that is selected at the time the paste operation begins.
-
-That is to say, if we copy a selection of a section on track 1, a section on track 3 and one on track 4, then 
-we select track 2 as our active track and hit paste, the sections are pasted onto tracks 2, 4 and 5 respectively. 
-
-If this approach causes one of the sections to go 'out of bounds', that section doesn't get pasted. So if we only 
-had 4 tracks when we tried that previous example, the section that would have been pasted on track 5 just doesn't
-get pasted. 
-
-But how best to facilitate this? 
-
-When we copy the sections, we will be taking the sectionId from our selection state, and grabbing the actual
-section data for that section. We then comprise our copy data of the data we get from this. However, we should
-replace the channelId prop with the index of the channel within the channels array. Then when the paste operation
-occurs, we can use this index to work out which track the section needs to be added to, the tracks could change 
-during the time between the copying and pasting events occuring. 
-
-One more thing is needed, when we perform the copy operation, we need to keep track of the smallest index we 
-get, and we need to save that somewhere in the data structure that our copy operation creates. Then when we
-perform the paste operation, we can work out index of the correct track to add a section to with the following
-formula:
-
-index from the copied section  -  smallest index from copy operation  +  index of active track when pasting
-
-So if we copy a selection where the lowest index is 1, and we have a given section with index 2 from that
-selection, and the active track is during paste is track 2, we would get 2 - 1 + 2 = 3, so the given section
-would be pasted on track 3, this is the desired behaviour. 
-
-__________________________________________________________________________________________________________
-__________________________________________________________________________________________________________
-
-Copying dealt with, now pasting...
-
-When paste operation begins, take note of which track is currently selected. If there is not one selected,
-just choose the track at index 0. 
-
-Query Tone.Transport to determine what time to start pasting from. Round down to the nearest whole bar.
-
-Loop through all of the section objects, and find the earliest start time, save into a variable. This start
-time can be used to determine the relative start time of any of the sections - just take the start time of
-that section and subtract the earliest start time from it. 
-
-Now loop through each section object and dispatch an addSection action with a new section object based off of
-that section object. This new section object  will have an adjusted start time (see above), and we will have
-to use the channelIndex property to find the correct channelId. In addition, if there are any notes in the
-section, we have to create copies of the notes but with new _ids. 
-
-
-handlers
-
-on all handlers, check to see if state.scrollBarActive is true, if it is then set it to false and return
-from the function without performing any of the other logic.
-
-handleStageClick
-    if pencil is not active
-        perform logic to add a note
-
-
-handleStageMouseUp
-    If y <= 40 then return
-    If pencil tool is active, use the information from the mouseUp event combined with the information from the
-    previous mouseDown event to generate a new section.
-    If pointer tool is active and shift key is pressed, use the information from the mouseUp event and previous
-    mouseDown event to generate a selection. 
-    If pointer tool is active but the shift key is not pressed then we don't do anything.
-
-handleStageMouseDown
-    if y > 40
-        take the x and y positions of mouseDown event, adjust for scrolling and save in state
-
-handleSectionClick
-    either add or remove section from selection, whilst either preserving the rest of the selection
-    or not
-
-handleSectionDoubleClick
-    clear selection state - is this necessary?
-    open the section in a new window
-
-handleScrollBarClickEvents - used on both click and mouseDown events
-    set e.cancelBubble = true
-    set state.scrollBarActive to true
-
-handleHorizontalScrollBarDrag
-    just use the existing logic
-
-handleVerticalScrollBarDrag
-    just use the existing logic
-
-handleTransportClick
-
-handleKeyDown
-
-
-*/
-
-
+} from '../../sharedUtils';
 
 class ComposerContainer extends Component {
 
     constructor(props) {
         super(props);
-        //this.canvasWidth = 200 * 48;
-        //this.canvasHeight = 7 * 70 + 40;
         this.stageWidth = 740;
         this.stageHeight = 300;
         this.scrollPadding = 10;
@@ -182,6 +42,7 @@ class ComposerContainer extends Component {
             currentlySelectedChannel: null,
             currentlySelectedSections: [],
             currentlyCopiedSections: {},
+            scrollBarActive: false,
             mouseDownPosX: 0,
             mouseDownPosY: 0,
             pencilActive: false,
@@ -193,7 +54,7 @@ class ComposerContainer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isPlaying !== this.props.isPlaying) {
             if (this.props.isPlaying) {
-                requestAnimationFrame(this.getTransportPosition);
+                requestAnimationFrame(this.repaintSeekerLayer);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.seekerLineRef.current.x(0);
@@ -210,13 +71,22 @@ class ComposerContainer extends Component {
         return 200 * 48;
     }
 
-    getTransportPosition = () => {
+    /**
+     * Works out the next x position for the seeker line according to the current transport position, 
+     * then updates the seeker line with that x position and repaints the seeker layer. 
+     */
+    repaintSeekerLayer = () => {
         const newXPos = transportPositionStringToSixteenths(Tone.Transport.position) * 3;        
         this.seekerLineRef.current.x(newXPos);
         this.seekerLayerRef.current.batchDraw();
-        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
+        this.rAFRef = requestAnimationFrame(this.repaintSeekerLayer);
     }
 
+    /**
+     * Handles vertical scrolling of the composer component, updating both the canvas and the track info
+     * elements.
+     * @param {object} e - the event object
+     */
     verticalDragMove = (e) => {
         if (this.stageHeight > this.canvasHeight) {
             return;
@@ -233,10 +103,13 @@ class ComposerContainer extends Component {
         });
         this.gridLayerRef.current.y(-(totalCanvasRange * delta));
         this.sectionsLayerRef.current.y(-(totalCanvasRange * delta));
-        this.gridLayerRef.current.batchDraw();
-        this.sectionsLayerRef.current.batchDraw();
+        this.stageRef.current.batchDraw();
     }
 
+    /**
+     * Handles horizontal scrolling of the canvas of the composer component. 
+     * @param {object} e - the event object
+     */
     horizontalDragMove = (e) => {
         // work out horizontal % delta
         const currentSliderPos = e.target.attrs.x - this.scrollPadding;
@@ -248,13 +121,37 @@ class ComposerContainer extends Component {
         this.sectionsLayerRef.current.x(-(totalCanvasRange * delta));
         this.transportLayerRef.current.x(-(totalCanvasRange * delta));
         this.seekerLayerRef.current.x(-(totalCanvasRange * delta));
-        this.gridLayerRef.current.batchDraw();
-        this.sectionsLayerRef.current.batchDraw();
-        this.transportLayerRef.current.batchDraw();
-        this.seekerLayerRef.current.batchDraw();
+        this.stageRef.current.batchDraw();
     }
 
+    /**
+     * Handles click and mouseDown events on the scrollbars - updating state to signify that a scrollbar is
+     * active, and preventing event bubbling so that none of the event listeners on the layers underneath 
+     * get triggered. 
+     * @param {object} e - the event object
+     */
+    handleScrollBarClickEvents = (e) => {
+        e.cancelBubble = true;
+        if (!this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: true });
+        }
+    }
+
+    /**
+     * Handles click events on the stage which have not been caught by event listeners on any of the layers above. 
+     * Delegates to other functions as necessary. 
+     * @param {object} e - the event object.
+     */
     handleStageClick = (e) => {
+        // if scroll bar is active, make it inactive and return
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
+        // if shift key is currently pressed, return.
+        if (e.evt.shiftKey) {
+            return;
+        }
         // grab x and y positions for click
         const rawXPos = e.evt.layerX;
         const rawYPos = e.evt.layerY;
@@ -286,9 +183,17 @@ class ComposerContainer extends Component {
 
     }
 
+    /**
+     * Handles mouseDown events on the stage which have not been caught by event listeners on any of the layers
+     * above. Delegates to other functions as necessary. 
+     * @param {object} e - the event object
+     */
     handleStageMouseDown = (e) => {
-        const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
-        if (e.evt.layerY >= 40 && this.state.pencilActive && !isSection) {
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
+        if (e.evt.layerY >= 40) {
             this.setState({
                 mouseDownPosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
                 mouseDownPosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y})
@@ -296,35 +201,135 @@ class ComposerContainer extends Component {
         }
     }
 
+    /**
+     * Handles mouseUp events on the stage which have not been caught by event listeners on any of the layers
+     * above. Delegates to other functions as necessary. 
+     * @param {object} e - the event object
+     */
     handleStageMouseUp = (e) => {
+        // If scrollBar is active, just make it inactive and return
+        if (this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: false });
+            return;
+        }
         const rawYPos = e.evt.layerY;
+        // if rawYPos is less than 40, then we have clicked on the transport section of the canvas, and this is
+        // dealt with elsewhere.
+        if (rawYPos < 40) { 
+            return; 
+        }
         const mouseUpPosX = adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x });
-        // conditional ensures that we are not on the transport section of the canvas, that the pencil
-        // tool is active, and that the mouseUp event has not occurred on a section rectangle. 
-        const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
-        if (rawYPos >= 40 && this.state.pencilActive && !isSection) {
-            const { mouseDownPosX, mouseDownPosY } = this.state;
-            const sectionStartAsNumber = Math.floor(mouseDownPosX / 48);
-            const sectionEndAsNumber = Math.round(mouseUpPosX / 48);
-            const sectionLengthInBars = sectionEndAsNumber - sectionStartAsNumber > 1 ?
-                                        sectionEndAsNumber - sectionStartAsNumber : 1;
-
-            const newSectionObject = createSectionObject({
-                x: mouseDownPosX,
-                y: mouseDownPosY,
-                allChannels: this.props.channels,
-                numberOfBars: sectionLengthInBars
+        const mouseUpPosY = adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y });
+        const targetIsSection = e.target.attrs.type && e.target.attrs.type === 'section';
+        // if the pencil tool is active and the target of the mouseUp event is not a section rectangle on the
+        // canvas, then delegate to handlePencilToolNoteCreation().
+        if (this.state.pencilActive && !targetIsSection) {
+            this.handlePencilNoteCreation(mouseUpPosX);
+            return;
+        }
+        // if the pointer tool is active and the shift key is currently held down, then delegate to
+        // handlePointerToolMultiSelect().
+        if (!this.state.pencilActive && e.evt.shiftKey) {
+            this.handlePointerToolMultiSelect({
+                verticalSelectionBound1: this.state.mouseDownPosY,
+                verticalSelectionBound2: mouseUpPosY,
+                horizontalSelectionBound1: this.state.mouseDownPosX,
+                horizontalSelectionBound2: mouseUpPosX
             });
-            if (newSectionObject) {
-                this.props.addSection(
-                    newSectionObject,
-                    newSectionObject.id,
-                    newSectionObject.channelId
-                );
-            }
         }
     }
 
+    /**
+     * Handles the creation of a note via the pencil tool
+     * @param {number} mouseUpPosX - the x coordinate for the mouseUp event being used to construct the new
+     * section. It should already be adjusted for any scrolling that has occurred on the canvas before it is
+     * passed to this function. 
+     */
+    handlePencilNoteCreation = (mouseUpPosX) => {
+        const { mouseDownPosX, mouseDownPosY } = this.state;
+        const sectionStartAsNumber = Math.floor(mouseDownPosX / 48);
+        const sectionEndAsNumber = Math.round(mouseUpPosX / 48);
+        const sectionLengthInBars = sectionEndAsNumber - sectionStartAsNumber > 1 ?
+                                    sectionEndAsNumber - sectionStartAsNumber : 1;
+
+        const newSectionObject = createSectionObject({
+            x: mouseDownPosX,
+            y: mouseDownPosY,
+            allChannels: this.props.channels,
+            numberOfBars: sectionLengthInBars
+        });
+        if (newSectionObject) {
+            this.props.addSection(
+                newSectionObject,
+                newSectionObject.id,
+                newSectionObject.channelId
+            );
+        }
+    }
+
+    /**
+     * Handles the creation of a selection range whilst using the pointer tool.
+     * @param {number} verticalSelectionBound1 - a vertical bound of the selection
+     * @param {number} verticalSelectionBound2 - the other vertical bound of the selection
+     * @param {number} horizontalSelectionBound1 - a horizontal bound of the selection
+     * @param {number} horizontalSelectionBound2 - the other horizontal bound of the selection
+     */
+    handlePointerToolMultiSelect = (optionsObject) => {
+        const { 
+            verticalSelectionBound1, 
+            verticalSelectionBound2, 
+            horizontalSelectionBound1,
+            horizontalSelectionBound2
+        } = optionsObject;
+
+        // selectedSectionIds will hold the ids of any sections which meet the necessary criteria once we
+        // have examined all of them. 
+        let selectedSectionsIds = [];
+        // Ascertain which horizontal bound is which, same for the vertical bounds. 
+        const selectionLeftBound = Math.min(horizontalSelectionBound1, horizontalSelectionBound2);
+        const selectionRightBound = Math.max(horizontalSelectionBound1, horizontalSelectionBound2);
+        const selectionTopBound = Math.min(verticalSelectionBound1, verticalSelectionBound2);
+        const selectionBottomBound = Math.max(verticalSelectionBound1, verticalSelectionBound2);
+        
+        // Loop through all of the sections in the app state.
+        for (let sectionId in this.props.sections) {
+            const section = this.props.sections[sectionId];
+            // Now derive sectionLeftBound, sectionRightBound, sectionTopBound, sectionBottomBound.
+            const channelIndex = this.props.channels.findIndex(channel => channel.id === section.channelId);
+            const sectionTopBound = (channelIndex * 70) + 40;
+            const sectionBottomBound = sectionTopBound + 70;
+            const sectionLeftBound = getWholeBarsFromString(section.start) * 48;
+            const sectionRightBound = sectionLeftBound + (section.numberOfBars * 48);
+            // Determine whether there is any horizontal overlap
+            const isInHorizontalRange = findOverlapAlongAxis({
+                elementALowerBound: selectionLeftBound,
+                elementAUpperBound: selectionRightBound,
+                elementBLowerBound: sectionLeftBound,
+                elementBUpperBound: sectionRightBound
+            });
+            // Determine whether there is any vertical overlap
+            const isInVerticalRange = findOverlapAlongAxis({
+                elementALowerBound: selectionTopBound,
+                elementAUpperBound: selectionBottomBound,
+                elementBLowerBound: sectionTopBound,
+                elementBUpperBound: sectionBottomBound
+            });
+            // If there is both horizontal and vertical overlap, push this sections id onto the 
+            // selectedSectionsIds array.
+            if (isInHorizontalRange && isInVerticalRange) {
+                selectedSectionsIds.push(section.id);
+            }
+        }
+        // Update state with the selectedSectinsIds array, even if it is empty.
+        this.setState({
+            currentlySelectedSections: selectedSectionsIds
+        });
+    }
+
+    /**
+     * Handle clicks that occur on the transport section of the canvas.
+     * @param {number} xPos - the x position of the click event, already adjused for any scrolling. 
+     */
     handleTransportClick = (xPos) => {
         const barClicked = `${Math.floor(xPos / 48)}:0:0`;
         Tone.Transport.position = barClicked;
@@ -333,11 +338,20 @@ class ComposerContainer extends Component {
         this.seekerLayerRef.current.batchDraw();
     }
 
+    /**
+     * Handle click events that occur on a section rect within the canvas.
+     * @param {object} e - the event object
+     * @param {string} sectionId - the id of the section that was clicked
+     */
     handleSectionClick = (e, sectionId) => {
         // this is Konvas method for stopping the event from bubbling up to the other canvas elements,
         // we don't want to trigger their event listeners. 
-        console.log(e);
         e.cancelBubble = true;
+        // return early if shift key is currently suppressed, to prevent this function from interfering with
+        // the multi select logic.
+        if (e.evt.shiftKey) {
+            return;
+        }
         this.setState({
             currentlySelectedSections: addOrRemoveElementFromSelection({
                 currentSelectionState: this.state.currentlySelectedSections,
@@ -347,6 +361,11 @@ class ComposerContainer extends Component {
         });
     }
 
+    /**
+     * handles doubleClick events that occur on a section rect within the canvas.
+     * @param {object} e - the event object. 
+     * @param {string} sectionId - the id of the section that was clicked
+     */
     handleSectionDoubleClick = (e, sectionId) => {
         // this is Konvas method for stopping the event from bubbling up to the other canvas elements,
         // we don't want to trigger their event listeners. 
@@ -357,23 +376,31 @@ class ComposerContainer extends Component {
         this.props.openWindow(sectionId, 'section');
     }
 
+    /**
+     * Updates the pencilActive property in state.
+     * @param {object} e - the event object
+     */
     updateCursorValue = (e) => {
         this.setState({
             pencilActive: e.target.value === 'pencil'
         });
     }
 
+    /**
+     * Updates the sectionDuration property in state.
+     * @param {object} e- the event object
+     */
     updateSectionDurationValue = (e) => {
         this.setState({
             sectionDuration: parseInt(e.target.value)
         });
     }
 
-    removeOneSection = (sectionId) => {
-        const channelId = this.props.sections[sectionId].channelId;
-        this.props.removeSection(sectionId, channelId);
-    }
-
+    /**
+     * Handles keyDown events that take place anywhere in the component, as long as they haven't already been
+     * dealt with by another event listener.
+     * @param {object} e - the event object
+     */
     handleKeyDown = (e) => {
         //console.log('handleKeyDown on the Composer was called');
         //console.log(e);
@@ -396,6 +423,10 @@ class ComposerContainer extends Component {
         }
     }
 
+    /**
+     * Updates the currentlySelectedChannel property in state.
+     * @param {string} channelId - the channel id to update to. 
+     */
     updateSelectedChannel = (channelId) => {
         this.setState({
             currentlySelectedChannel: channelId
@@ -412,12 +443,27 @@ class ComposerContainer extends Component {
         this.clearCurrentSectionSelection();   
     }
 
+    /**
+     * Dispatches the action to remove one section, utilised by the handleSectionDeletion method. 
+     * @param {string} sectionId - the id of the section to be removed.
+     */
+    removeOneSection = (sectionId) => {
+        const channelId = this.props.sections[sectionId].channelId;
+        this.props.removeSection(sectionId, channelId);
+    }
+
+    /**
+     * Sets the currentlySelectedSections property in state back to an empty state.
+     */
     clearCurrentSectionSelection = () => {
         this.setState({
             currentlySelectedSections: []
         });
     }
 
+    /**
+     * Handles the copying of the current section selection.
+     */
     handleCopying = () => {
         const copiedSections = createCopiedSectionsDataStructure({
             currentSelectionState: this.state.currentlySelectedSections,
@@ -429,6 +475,9 @@ class ComposerContainer extends Component {
         }); 
     }
 
+    /**
+     * Handles the pasting of the section data that was previously copied.
+     */
     handlePasting = () => {
         const currentBar = getWholeBarsFromString(Tone.Transport.position);
         const { sectionObjects, lowestIndex } = this.state.currentlyCopiedSections;
@@ -519,203 +568,8 @@ class ComposerContainer extends Component {
             currentlySelectedSections={this.state.currentlySelectedSections}
             currentlySelectedChannel={this.state.currentlySelectedChannel}
             updateSelectedChannel={this.updateSelectedChannel}
+            handleScrollBarClickEvents={this.handleScrollBarClickEvents}
         />
-
-        
-        // return (
-        //     <div 
-        //         className="composer__container"
-        //         tabIndex="0"
-        //         onKeyDown={this.handleKeyDown}
-        //         style={{outline: 'none'}}
-        //     >
-        //         <div className="composer__controls-container">
-        //             <CursorSelect 
-        //                 value={this.state.pencilActive ? 'pencil' : 'pointer'}
-        //                 handleChange={this.updateCursorValue.bind(this)}
-        //             />
-        //             <SectionDurationSelect 
-        //                 value={this.state.sectionDuration}
-        //                 handleChange={this.updateSectionDurationValue}
-        //             />
-        //             <button 
-        //                 className="composer__delete-section-button"
-        //                 onClick={this.removeSelectedSection}
-        //             >Delete Selected Section</button>
-        //         </div>
-        //         <div className="composer__row">
-        //             <div className="composer__track-info-container-outer">
-        //                 <AddTrackMenu />
-        //                 <div className="composer__track-info-scroll-outer">
-        //                     <div 
-        //                         className="composer__track-info-scroll-inner"
-        //                         style={{top: this.state.trackInfoMenuTopScroll}}
-        //                     >
-        //                         {
-        //                             this.props.channels.map((channel, index) => (
-        //                                 <TrackInfo 
-        //                                     trackId={channel.id}
-        //                                     key={channel.id} 
-        //                                 /> 
-        //                             ))
-        //                         }
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //             <div className="composer__canvas-container" id="composer-canvas-container">
-        //                 <Stage
-        //                     container={'composer-canvas-container'}
-        //                     onClick={this.handleStageClick}
-        //                     onMouseDown={this.handleStageMouseDown}
-        //                     onMouseUp={this.handleStageMouseUp}
-        //                     ref={this.stageRef}
-        //                     width={740} 
-        //                     height={300} 
-        //                 >
-        //                     <Layer ref={this.gridLayerRef}>
-        //                         <Rect 
-        //                             x={0}
-        //                             y={0}
-        //                             width={this.canvasWidth}
-        //                             height={this.canvasHeight}
-        //                             fill={'#201826'}
-        //                         />
-        //                         {
-        //                             gridLines.map((linePoints, index) => (
-        //                                 <Line
-        //                                     points={linePoints}
-        //                                     listening={false}
-        //                                     stroke={'#47426c'}
-        //                                     strokeWidth={2}
-        //                                     shadowColor={'#47426c'}
-        //                                     shadowBlur={4}
-        //                                     shadowOffsetX={0}
-        //                                     shadowOffsetY={0}
-        //                                     key={index}
-        //                                 />
-        //                             ))
-        //                         }
-        //                     </Layer>
-        //                     <Layer ref={this.sectionsLayerRef}>
-        //                         {
-        //                             sectionRectsArray.map((section, index) => (
-        //                                 <Rect 
-        //                                     x={section.x}
-        //                                     y={section.y}
-        //                                     sectionId={section.sectionId}
-        //                                     height={section.height}
-        //                                     width={section.width}
-        //                                     fill={
-        //                                         section.sectionId === this.state.currentlySelectedSection ? 
-        //                                         '#222222' :
-        //                                         section.color
-        //                                     }
-        //                                     stroke={UIColors.offWhite}
-        //                                     strokeWidth={2}
-        //                                     type={'section'}
-        //                                     key={index}
-        //                                     onClick={(e) => this.handleSectionClick(e, section.sectionId)}
-        //                                     onDblClick={(e) => this.handleSectionDoubleClick(e, section.sectionId)}
-        //                                 />
-        //                             ))
-        //                         } 
-        //                     </Layer>
-        //                     <Layer ref={this.transportLayerRef}>
-        //                         <Rect 
-        //                             x={0}
-        //                             y={0}
-        //                             width={this.canvasWidth}
-        //                             height={40}
-        //                             fill={'#201826'}
-        //                         />
-        //                         {
-        //                             new Array(200).fill(0).map((el, index) => (
-        //                                 <Text 
-        //                                     text={`${index+1}`}
-        //                                     x={(index+1) * 48}
-        //                                     y={20}
-        //                                     key={index}
-        //                                     fill={'#e0e0e0'}
-        //                                     shadowColor={'#e0e0e0'}
-        //                                     shadowBlur={4}
-        //                                     shadowOffsetX={0}
-        //                                     shadowOffsetY={0}
-        //                                 />
-        //                             ))
-        //                         }
-        //                     </Layer>
-        //                     <Layer ref={this.seekerLayerRef}>
-        //                         <Line
-        //                             ref={this.seekerLineRef}
-        //                             points={[0, 0, 0, this.canvasHeight]}
-        //                             listening={false}
-        //                             stroke={'#e0e0e0'}
-        //                             strokeWidth={2}
-        //                         />
-        //                     </Layer>
-        //                     <Layer>
-        //                         <Rect 
-        //                             x={716}
-        //                             y={0}
-        //                             width={24}
-        //                             height={300}
-        //                             fill={'#47426c'}
-        //                             shadowColor={'#47426c'}
-        //                             shadowBlur={4}
-        //                             shadowOffsetX={0}
-        //                             shadowOffsetY={0}
-        //                         />
-        //                         <Rect 
-        //                             x={721}
-        //                             y={10}
-        //                             width={14}
-        //                             height={100}
-        //                             fill={'#d86597'}
-        //                             draggable={true}
-        //                             dragBoundFunc={(pos) => {
-        //                                 const currY = pos.y;
-        //                                 // total stage height minus height of horizontal scroll bar
-        //                                 // minus height of scroll slider
-        //                                 const highBound = this.stageHeight - 24 - 100;
-        //                                 pos.y = Math.min(Math.max(this.scrollPadding, currY), highBound);
-        //                                 pos.x = 721;
-        //                                 return pos;
-        //                             }}
-        //                             onDragMove={this.verticalDragMove}
-        //                         />
-        //                         <Rect 
-        //                             x={0}
-        //                             y={276}
-        //                             width={740}
-        //                             height={24}
-        //                             fill={'#47426c'}
-        //                             shadowColor={'#47426c'}
-        //                             shadowBlur={4}
-        //                             shadowOffsetX={0}
-        //                             shadowOffsetY={0}
-        //                         />
-        //                         <Rect 
-        //                             x={10}
-        //                             y={281}
-        //                             width={100}
-        //                             height={14}
-        //                             fill={'#d86597'}
-        //                             draggable={true}
-        //                             dragBoundFunc={(pos) => {
-        //                                 const currX = pos.x;
-        //                                 const highBound = this.stageWidth - 24 - 100;
-        //                                 pos.x = Math.min(Math.max(currX, this.scrollPadding), highBound);
-        //                                 pos.y = 281;
-        //                                 return pos;
-        //                             }}
-        //                             onDragMove={this.horizontalDragMove}
-        //                         />
-        //                     </Layer>
-        //                 </Stage>
-        //             </div>
-        //         </div>
-        //     </div>
-        // );
     }
 }
 

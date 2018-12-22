@@ -1,29 +1,7 @@
 import Tone from 'tone';
 import { generateId } from '../../helpers';
-/**
- * Given a selection state and an element, either add the element to the selection if it is not already there,
- * or remove it from the selection if it is already there. If shouldPreserveSelection is true then all other
- * elements in the selection will be preserved, if false then all other elements will be discarded. 
- * @param {array} currentSelectionState - the current selection state
- * @param {string} element - the element to either add or remove from the selection
- * @param {boolean} shouldPreserveSelection - If true, all other elements in the selection are preserved,
- * but if false then all other elements in the selection are removed. 
- */
-export const addOrRemoveElementFromSelection = (optionsObject) => {
-    const { 
-        currentSelectionState,
-        element, 
-        shouldPreserveSelection
-    } = optionsObject;
+import { getWholeBarsFromString } from '../../sharedUtils';
 
-    const elementIsInSelection = currentSelectionState.includes(element);
-    if (shouldPreserveSelection) {
-        return elementIsInSelection ? currentSelectionState.filter(el => el !== element) :
-                                      [ ...currentSelectionState, element ];
-    } else {
-        return elementIsInSelection ? [] : [ element ];
-    }
-};
 
 /**
  * Given a selection state, and and an app state, creates the data structure required for pasting later.
@@ -59,11 +37,12 @@ export const createCopiedSectionsDataStructure = (optionsObject) => {
     };
 }
 
-export const getWholeBarsFromString = (transportPositionString) => {
-    const splitString= transportPositionString.split(':');
-    return parseInt(splitString[0]);
-};
 
+/**
+ * Given an array of section objects, it compares the start property of each object and returns the 
+ * earliest start found. 
+ * @param {array} sectionObjects - an array of section objects. 
+ */
 export const findEarliestStartTime = (sectionObjects) => {
     let earliestSectionStart = null;
     for (let section of sectionObjects) {
@@ -79,11 +58,6 @@ export const findEarliestStartTime = (sectionObjects) => {
     }
     return earliestSectionStart;
 };
-
-export const getBarNumberFromBBSString = (barsString) => {
-    let subStr = barsString.split(':')[0];
-    return parseInt(subStr);
-}
 
 /**
  * Creates and returns an array containing all of the data for generating the grid lines on the composer canvas, 
@@ -129,7 +103,7 @@ export const createSectionRectsArray = (optionsObject) => {
         for (let sectionId of channel.sectionIds) {
             let section = allSections[sectionId];
             let rectObject = {
-                x: getBarNumberFromBBSString(section.start) * 48,
+                x: getWholeBarsFromString(section.start) * 48,
                 y: (i * 70) + 40,
                 width: section.numberOfBars * 48,
                 height: 70,
@@ -179,27 +153,3 @@ export const createSectionObject = (optionsObject) => {
     return newSectionObject;
 };
 
-/**
- * A simple utility function that takes a raw coordinate, a scroll value, and subtracts the scroll value from
- * the raw coordinate to get an adjusted coordinate. If scroll is undefined it will assume a default value of 0.
- * Whilst this function might seem superflous, the process of adjusting a mouse event coord for a scroll value is
- * something done many times in the rest of the code, this provides a slightly more terse way of writing it
- * compared to creating local variables for everything everytime, whilst being more readable and understandable
- * than the alternative of just performing calculations with the raw numbers from the event objects. 
- * @param {number} raw - the raw coord value from the event object
- * @param {number} scroll - the current scroll value 
- */
-export const adjustForScroll = (optionsObject) => {
-    const { raw } = optionsObject;
-    const scroll = optionsObject.scroll || 0;
-    return raw - scroll;
-}
-
-
-export const transportPositionStringToSixteenths = (transportPositionString) => {
-    const splitString= transportPositionString.split(':');
-    const asSixteenths = parseInt(splitString[0])*16 + 
-                        parseInt(splitString[1])*4 +
-                        parseFloat(splitString[2]);
-    return asSixteenths;
-};

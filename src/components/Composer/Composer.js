@@ -82,6 +82,7 @@ const Composer = props => (
                         scrollPadding={props.scrollPadding}
                         verticalDragMove={props.verticalDragMove}
                         horizontalDragMove={props.horizontalDragMove}
+                        handleScrollBarClickEvents={props.handleScrollBarClickEvents}
                     />
                 </Stage>
             </div>
@@ -121,6 +122,7 @@ Composer.propTypes = {
     verticalDragMove: PropTypes.func.isRequired,
     horizontalDragMove: PropTypes.func.isRequired,
     updateSelectedChannel: PropTypes.func.isRequired,
+    handleScrollBarClickEvents: PropTypes.func.isRequired,
     // other
     trackInfoMenuTopScroll: PropTypes.number.isRequired,
     channels: PropTypes.arrayOf(PropTypes.object).isRequired,
