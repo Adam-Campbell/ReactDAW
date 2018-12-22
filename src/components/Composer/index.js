@@ -9,7 +9,13 @@ import {
     addOrRemoveElementFromSelection ,
     createCopiedSectionsDataStructure,
     getWholeBarsFromString,
-    findEarliestStartTime
+    findEarliestStartTime,
+    getBarNumberFromBBSString,
+    createGridLinesArray,
+    createSectionRectsArray,
+    createSectionObject,
+    adjustForScroll,
+    transportPositionStringToSixteenths
 } from './ComposerUtils';
 /*
 
@@ -104,6 +110,49 @@ to use the channelIndex property to find the correct channelId. In addition, if 
 section, we have to create copies of the notes but with new _ids. 
 
 
+handlers
+
+on all handlers, check to see if state.scrollBarActive is true, if it is then set it to false and return
+from the function without performing any of the other logic.
+
+handleStageClick
+    if pencil is not active
+        perform logic to add a note
+
+
+handleStageMouseUp
+    If y <= 40 then return
+    If pencil tool is active, use the information from the mouseUp event combined with the information from the
+    previous mouseDown event to generate a new section.
+    If pointer tool is active and shift key is pressed, use the information from the mouseUp event and previous
+    mouseDown event to generate a selection. 
+    If pointer tool is active but the shift key is not pressed then we don't do anything.
+
+handleStageMouseDown
+    if y > 40
+        take the x and y positions of mouseDown event, adjust for scrolling and save in state
+
+handleSectionClick
+    either add or remove section from selection, whilst either preserving the rest of the selection
+    or not
+
+handleSectionDoubleClick
+    clear selection state - is this necessary?
+    open the section in a new window
+
+handleScrollBarClickEvents - used on both click and mouseDown events
+    set e.cancelBubble = true
+    set state.scrollBarActive to true
+
+handleHorizontalScrollBarDrag
+    just use the existing logic
+
+handleVerticalScrollBarDrag
+    just use the existing logic
+
+handleTransportClick
+
+handleKeyDown
 
 
 */
@@ -161,24 +210,11 @@ class ComposerContainer extends Component {
         return 200 * 48;
     }
 
-    _createGridLinesArray() {
-        let linesArray = [];
-        // create vertical lines
-        for (let i = 0; i <= 200;  i++) {
-            linesArray.push([i*48 , 40, i*48, this.canvasHeight]);
-        }
-        // create horizontal lines
-        let verticalBound = Math.max(4, this.props.channels.length);
-        for (let j = 0; j <= verticalBound; j++) {
-            linesArray.push([0, j*70+40, this.canvasWidth, j*70+40]);
-        }
-        return linesArray;
-    }
-
-    barsToNumbers = (barsString) => {
-        let subStr = barsString.split(':')[0];
-        return parseInt(subStr);
-        //return parseInt(barsString.charAt(0));
+    getTransportPosition = () => {
+        const newXPos = transportPositionStringToSixteenths(Tone.Transport.position) * 3;        
+        this.seekerLineRef.current.x(newXPos);
+        this.seekerLayerRef.current.batchDraw();
+        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
     }
 
     verticalDragMove = (e) => {
@@ -218,106 +254,28 @@ class ComposerContainer extends Component {
         this.seekerLayerRef.current.batchDraw();
     }
 
-    _createSectionRectsArray = () => {
-        let arr = [];
-        for (let i = 0; i < this.props.channels.length; i++) {
-            let channel = this.props.channels[i];
-            for (let sectionId of channel.sectionIds) {
-                let section = this.props.sections[sectionId];
-                let rectObject = {
-                    x: this.barsToNumbers(section.start) * 48,
-                    y: (i * 70) + 40,
-                    width: section.numberOfBars * 48,
-                    height: 70,
-                    color: channel.color,
-                    sectionId: section.id
-                }
-                arr.push(rectObject);
-            }
-        }
-        return arr;
-    }
-
-    oldhandleStageClick = (e) => {
-        // get x and y positions of click relative to layer.
-
-        // to work out channel => Math.floor((y-40)/70), will produce 0 for first 
-        // channel, 1 for second channel etc. The correct channel will be at that
-        // that position in the channels array.
-
-        // to work out start time => Math.floor(x/48), produces 0 for first bar, 1 
-        // for second bar etc. Convert this number into bars:beats:sixteenths formatted
-        // string, 0 becomes '0:0:0', 1 becomes '1:0:0' etc.
-
-        if (e.target.attrs.type && e.target.attrs.type === 'section') {
-            console.log('section was clicked on!');
-            //this.props.openWindow(e.target.attrs.sectionId, 'section');
-        } else {
-            console.log('stage was clicked on!');
-            const x = e.evt.layerX;
-            const y = e.evt.layerY;
-            const channelIndex = Math.floor((y-40)/70);
-            const startAsNumber = Math.floor(x/48);
-            const startAsBBS = `${startAsNumber}:0:0`;
-            this.props.addSection(
-                generateId(),
-                this.props.channels[channelIndex].id,
-                startAsBBS,
-                this.state.sectionDuration
-            );
-        }
-        
-    }
-
-
-
     handleStageClick = (e) => {
-
-        // set currentlySelectedSection back to null on every stage click to be safe.
-        this.setState({
-            currentlySelectedSection: null
-        });
-
         // grab x and y positions for click
-        const xPos = e.evt.layerX;
-        const yPos = e.evt.layerY;
-
+        const rawXPos = e.evt.layerX;
+        const rawYPos = e.evt.layerY;
+        // adjust for scroll
+        const xPosWithScroll = adjustForScroll({ raw: rawXPos, scroll: this.gridLayerRef.current.attrs.x });
+        const yPosWithScroll = adjustForScroll({ raw: rawYPos, scroll: this.gridLayerRef.current.attrs.y });
         // if yPos < 40 then we have clicked on the transport section of the canvas
-        if (yPos < 40) {
-            const barClicked = `${Math.floor(xPos / 48)}:0:0`;
-            Tone.Transport.position = barClicked;
-            const newXPos = this.convertTransportPositionToXPos(Tone.Transport.position);        
-            this.seekerLineRef.current.x(newXPos);
-            this.seekerLayerRef.current.batchDraw();
-            // otherwise we have clicked on the main section of the canvas
-        } else {
-            // if pencil is active then we don't want to do anything in the click event, everything is
-            // handled by mouseDown and mouseUp events. 
-            if (!this.state.pencilActive) {
-                // use the information from the click event to dispatch an addSection action with the
-                // necessary arguments.
-                const scrolledX = this.gridLayerRef.current.attrs.x || 0;
-                const scrolledY = this.gridLayerRef.current.attrs.y || 0;
-                const adjustedXPos = xPos - scrolledX;
-                const adjustedYPos = yPos - scrolledY;
-
-                // this catches clicks that occur on rows that exist on the grid but do not have
-                // channels assigned to them yet, we return early because we cannot try and add a 
-                // section here yet.
-                if (adjustedYPos > this.props.channels.length * 70 + 40) {
-                    return;
-                }
-
-                const channelIndex = Math.floor((adjustedYPos-40)/70);
-                const startAsNumber = Math.floor(adjustedXPos/48);
-                const startAsBBS = `${startAsNumber}:0:0`;
-                const newSectionObject = {
-                    id: generateId(),
-                    channelId: this.props.channels[channelIndex].id,
-                    notes: [],
-                    start: startAsBBS,
-                    numberOfBars: this.state.sectionDuration
-                };
+        if (rawYPos < 40) {
+            this.handleTransportClick(xPosWithScroll);
+            return;
+        }
+        // if pencil is active then we don't want to do anything in the click event, everything is
+        // handled by mouseDown and mouseUp events. 
+        if (!this.state.pencilActive) {
+            const newSectionObject = createSectionObject({
+                x: xPosWithScroll,
+                y: yPosWithScroll,
+                allChannels: this.props.channels,
+                numberOfBars: this.state.sectionDuration
+            });
+            if (newSectionObject) {
                 this.props.addSection(
                     newSectionObject,
                     newSectionObject.id,
@@ -329,73 +287,50 @@ class ComposerContainer extends Component {
     }
 
     handleStageMouseDown = (e) => {
-        const xPos = e.evt.layerX;
-        const yPos = e.evt.layerY;
-        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
-        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
-        const adjustedXPos = xPos - scrolledX;
-        const adjustedYPos = yPos - scrolledY;
         const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
-        if (yPos >= 40 && this.state.pencilActive && !isSection) {
+        if (e.evt.layerY >= 40 && this.state.pencilActive && !isSection) {
             this.setState({
-                mouseDownPosX: adjustedXPos,
-                mouseDownPosY: adjustedYPos
+                mouseDownPosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
+                mouseDownPosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y})
             });
         }
     }
 
     handleStageMouseUp = (e) => {
-        const xPos = e.evt.layerX;
-        const yPos = e.evt.layerY;
-        const scrolledX = this.gridLayerRef.current.attrs.x || 0;
-        const scrolledY = this.gridLayerRef.current.attrs.y || 0;
-        const adjustedXPos = xPos - scrolledX;
-        const adjustedYPos = yPos - scrolledY;
-
-        // this catches clicks that occur on rows that exist on the grid but do not have
-        // channels assigned to them yet, we return early because we cannot try and add a 
-        // section here yet.
-        if (adjustedYPos > this.props.channels.length * 70 + 40) {
-            return;
-        }
-
+        const rawYPos = e.evt.layerY;
+        const mouseUpPosX = adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x });
+        // conditional ensures that we are not on the transport section of the canvas, that the pencil
+        // tool is active, and that the mouseUp event has not occurred on a section rectangle. 
         const isSection = e.target.attrs.type && e.target.attrs.type === 'section';
-        if (yPos >= 40 && this.state.pencilActive && !isSection) {
-            // logic for creating section goes here...
-
-            // to add a section we need:
-            // sectionId - generate using generateId(),
-            // channelId -  derive from state.mouseDownPosY
-            // sectionStart - derive from state.mouseDownPosX
-            // sectionLength - derive from diff between state.mouseDownPosX and xPos
-
+        if (rawYPos >= 40 && this.state.pencilActive && !isSection) {
             const { mouseDownPosX, mouseDownPosY } = this.state;
-            const adjustedMouseDownPosY = mouseDownPosY - scrolledY
-            if (adjustedMouseDownPosY > this.props.channels.length * 70 + 40) {
-                return;
-            }
-
-            const channelIndex = Math.floor((mouseDownPosY - 40) / 70);
-            const channelId = this.props.channels[channelIndex].id;
             const sectionStartAsNumber = Math.floor(mouseDownPosX / 48);
-            const sectionStartAsBBS = `${sectionStartAsNumber}:0:0`;
-            const sectionEndAsNumber = Math.round(adjustedXPos / 48);
+            const sectionEndAsNumber = Math.round(mouseUpPosX / 48);
             const sectionLengthInBars = sectionEndAsNumber - sectionStartAsNumber > 1 ?
                                         sectionEndAsNumber - sectionStartAsNumber : 1;
-            
-            const newSectionObject = {
-                id: generateId(),
-                channelId: channelId,
-                notes: [],
-                start: sectionStartAsBBS,
+
+            const newSectionObject = createSectionObject({
+                x: mouseDownPosX,
+                y: mouseDownPosY,
+                allChannels: this.props.channels,
                 numberOfBars: sectionLengthInBars
-            };
-            this.props.addSection(
-                newSectionObject,
-                newSectionObject.id,
-                newSectionObject.channelId
-            );
+            });
+            if (newSectionObject) {
+                this.props.addSection(
+                    newSectionObject,
+                    newSectionObject.id,
+                    newSectionObject.channelId
+                );
+            }
         }
+    }
+
+    handleTransportClick = (xPos) => {
+        const barClicked = `${Math.floor(xPos / 48)}:0:0`;
+        Tone.Transport.position = barClicked;
+        const newXPos = transportPositionStringToSixteenths(Tone.Transport.position) * 3;        
+        this.seekerLineRef.current.x(newXPos);
+        this.seekerLayerRef.current.batchDraw();
     }
 
     handleSectionClick = (e, sectionId) => {
@@ -437,28 +372,6 @@ class ComposerContainer extends Component {
     removeOneSection = (sectionId) => {
         const channelId = this.props.sections[sectionId].channelId;
         this.props.removeSection(sectionId, channelId);
-    }
-
-    getTransportPosition = () => {
-        const newXPos = this.convertTransportPositionToXPos(Tone.Transport.position);        
-        this.seekerLineRef.current.x(newXPos);
-        this.seekerLayerRef.current.batchDraw();
-        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
-    }
-
-    convertTransportPositionToXPos = (transportPositionString) => {
-        // Format of input string is "0:0:0", this will split it into an array of
-        // [bars, beats, sixteenths]
-        const spl= transportPositionString.split(':');
-        // Convert the bars, beats and sixteenths into one figure in terms of sixteenths.
-        const asSixteenths = parseInt(spl[0])*16 + 
-                           parseInt(spl[1])*4 +
-                           parseFloat(spl[2]);
-        // ratio of sixteenths to pixels is 1/3, so multiply by 3 to turn the sixteenths value
-        // into the appropriate x position.
-        const asXPos = asSixteenths * 3;
-        return asXPos;
-
     }
 
     handleKeyDown = (e) => {
@@ -539,36 +452,41 @@ class ComposerContainer extends Component {
             // work out the adjusted index for the channel that this section will be pasted to and grab
             // that channels id.
             const adjustedIndex = section.channelIndex - lowestIndex + currentChannelIndex;
-            console.log(section.channelIndex, lowestIndex, currentChannelIndex);
-            const channelId = this.props.channels[adjustedIndex].id;
-            const notesArray = section.notes.map(note => {
-                return {
-                    ...note,
-                    _id: generateId()
-                }
-            });
-            const newSectionObject = {
-                id: generateId(),
-                channelId: channelId,
-                notes: notesArray,
-                start: adjustedStartString,
-                numberOfBars: section.numberOfBars
-            };
-            this.props.addSection(
-                newSectionObject, 
-                newSectionObject.id,
-                newSectionObject.channelId
-            )
+            if (adjustedIndex < this.props.channels.length) {
+                const channelId = this.props.channels[adjustedIndex].id;
+                const notesArray = section.notes.map(note => {
+                    return {
+                        ...note,
+                        _id: generateId()
+                    }
+                });
+                const newSectionObject = {
+                    id: generateId(),
+                    channelId: channelId,
+                    notes: notesArray,
+                    start: adjustedStartString,
+                    numberOfBars: section.numberOfBars
+                };
+                this.props.addSection(
+                    newSectionObject, 
+                    newSectionObject.id,
+                    newSectionObject.channelId
+                );
+            }
         }
 
-        //index from the copied section  -  smallest index from copy operation  +  index of active track when pasting
     }
 
-
-
     render() {
-        const gridLinesArray = this._createGridLinesArray();
-        const sectionRectsArray = this._createSectionRectsArray();
+        const gridLinesArray = createGridLinesArray({
+            canvasHeight: this.canvasHeight,
+            canvasWidth: this.canvasWidth,
+            channelsArrayLength: this.props.channels.length
+        });
+        const sectionRectsArray = createSectionRectsArray({
+            allChannels: this.props.channels,
+            allSections: this.props.sections
+        });
 
         return <Composer 
             stageRef={this.stageRef}
