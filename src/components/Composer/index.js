@@ -193,10 +193,18 @@ class ComposerContainer extends Component {
             this.setState({ scrollBarActive: false });
             return;
         }
+        // As long as the mouse down event occurred on the main part of the canvas, update mouseDownPosX and
+        // mouseDownPosY with values derived from the event. If the event occurred on the transport section
+        // of the canvas, null out the values in state. 
         if (e.evt.layerY >= 40) {
             this.setState({
                 mouseDownPosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
                 mouseDownPosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y})
+            });
+        } else {
+            this.setState({
+                mouseDownPosX: null,
+                mouseDownPosY: null
             });
         }
     }
@@ -218,12 +226,14 @@ class ComposerContainer extends Component {
         if (rawYPos < 40) { 
             return; 
         }
+
         const mouseUpPosX = adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x });
         const mouseUpPosY = adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y });
         const targetIsSection = e.target.attrs.type && e.target.attrs.type === 'section';
-        // if the pencil tool is active and the target of the mouseUp event is not a section rectangle on the
-        // canvas, then delegate to handlePencilToolNoteCreation().
-        if (this.state.pencilActive && !targetIsSection) {
+        // delegate to handlePencilToolNoteCreation() if the pencil tool is active, the target of the mouseUp
+        // event is not a section rectangle, and if the preceeding mouseDown event occurred within a 'legal' 
+        // part of the canvas (if it didn't then mouseDownPosY will be null).
+        if (this.state.pencilActive && !targetIsSection && this.state.mouseDownPosY !== null) {
             this.handlePencilNoteCreation(mouseUpPosX);
             return;
         }
@@ -421,6 +431,11 @@ class ComposerContainer extends Component {
         if (e.key === 'v' && e.ctrlKey === true) {
             this.handlePasting();
         }
+
+        // handle clearing selection
+        if (e.key === 'd' && e.ctrlKey) {
+            this.clearCurrentSelection();
+        }
     }
 
     /**
@@ -479,8 +494,12 @@ class ComposerContainer extends Component {
      * Handles the pasting of the section data that was previously copied.
      */
     handlePasting = () => {
-        const currentBar = getWholeBarsFromString(Tone.Transport.position);
         const { sectionObjects, lowestIndex } = this.state.currentlyCopiedSections;
+        // return early if nothing has been copied
+        if (!sectionObjects.length) {
+            return;
+        }
+        const currentBar = getWholeBarsFromString(Tone.Transport.position);
         // work out the index of the currently selected channel, or if there is no such channel, just use 
         // index 0.
         let currentChannelIndex;

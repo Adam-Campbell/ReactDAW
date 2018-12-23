@@ -403,14 +403,10 @@ export const getNoteIdsForSelectionRange = (optionsObject) => {
 export const getNoteDurationFromPencilOperation = (optionsObject) => {
     const { 
         downX, 
-        downY,
-        rawUpX,
-        scrolledX,
+        upX,
         currentQuantizeValue
     } = optionsObject;
 
-    // adjust mouseUp x coord for scrolling
-    const upXWithScroll = rawUpX - scrolledX;
     // convert current quantize value to Ticks
     const currQuantizeAsTicks = Tone.Time(currentQuantizeValue).toTicks();
     // roll back downX to the previous whole interval, determined by the current quantize level.
@@ -418,7 +414,7 @@ export const getNoteDurationFromPencilOperation = (optionsObject) => {
     // convert this rolled back value into Ticks
     const downXAsTicks = Tone.Ticks(rolledBackDownX*2-(rolledBackDownX*2%currQuantizeAsTicks));
     // convert upXWithScroll into Ticks
-    const upXAsTicks = Tone.Ticks(upXWithScroll*2);
+    const upXAsTicks = Tone.Ticks(upX*2);
     // If the Tick value we end up with based on downXAsTicks and upXAsTicks is less than our current
     // quantize value as Ticks, then just use the quantize value instead. 
     const noteDurationAsTicks = Math.max(

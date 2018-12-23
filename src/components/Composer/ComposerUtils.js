@@ -42,6 +42,7 @@ export const createCopiedSectionsDataStructure = (optionsObject) => {
  * Given an array of section objects, it compares the start property of each object and returns the 
  * earliest start found. 
  * @param {array} sectionObjects - an array of section objects. 
+ * @returns {string} - the earliest start time found, in a BBS string format '0:0:0' 
  */
 export const findEarliestStartTime = (sectionObjects) => {
     let earliestSectionStart = null;
@@ -65,6 +66,7 @@ export const findEarliestStartTime = (sectionObjects) => {
  * @param {number} canvasHeight - the height of the composer canvas
  * @param {number} canvasWidth - the width of the composer canvas
  * @param {number} channelsArrayLength - the length of the array holding all of the channels in the app state
+ * @returns {array} - the constructed array
  */
 export const createGridLinesArray = (optionsObject) => {
     const { 
@@ -91,6 +93,7 @@ export const createGridLinesArray = (optionsObject) => {
  * render the necessary elements on the canvas.
  * @param {array} allChannels - the array holding all of the channels data in the apps state
  * @param {object} allSections - the object holding all of the sections data in the apps state
+ * @returns {array} - the constructed array
  */
 export const createSectionRectsArray = (optionsObject) => {
     const { 
