@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { UIColors } from '../constants';
 import { connect } from 'react-redux';
-import * as ActionCreators from '../actions';
+import PropTypes from 'prop-types';
+import * as ActionCreators from '../../actions';
 import TrackColorSwatch from './TrackColorSwatch';
 
 class TrackInfo extends Component {
@@ -71,6 +71,9 @@ class TrackInfo extends Component {
 
     handleContainerClick = (e) => {
         console.log('container was clicked!');
+        if (!this.props.isSelected) {
+            this.props.updateSelectedChannel(this.props.trackId);
+        }
         if (this.state.isEditingName) {
             this.exitNameEditMode();
         }
@@ -104,7 +107,10 @@ class TrackInfo extends Component {
 
     render() {
         return (
-            <div className="track-info" onClick={this.handleContainerClick}>
+            <div 
+                className={`track-info ${this.props.isSelected && 'selected'}`} 
+                onClick={this.handleContainerClick}
+            >
                 <div className="track-info__left-block">
                     {this.state.isEditingName ?
                         <input 
@@ -162,6 +168,12 @@ class TrackInfo extends Component {
         );
     }
 }
+
+TrackInfo.propTypes = {
+    trackId: PropTypes.string.isRequired,
+    isSelected: PropTypes.bool.isRequired,
+    updateSelectedChannel: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
     channels: state.channels

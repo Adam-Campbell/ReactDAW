@@ -1,8 +1,6 @@
 import Tone from 'tone';
 import {
     createSelectedAndUnselectedNoteArrays,
-    getWholeBarsFromString,
-    transportPositionStringToSixteenths,
     getTransportLineAttrs,
     createPitchesArray,
     createGridLinesArray,
@@ -14,13 +12,14 @@ import {
     shiftPitchDown,
     shiftTimeBackwards,
     shiftTimeForwards,
-    findOverlapAlongAxis,
     getNoteIdsForSelectionRange,
     getNoteDurationFromPencilOperation,
     generateNoteObjectForPasting,
     getSortedNoteDataStructs,
     getFirstAvailablePitchInChord
 } from './PianoRollUtils';
+
+import { transportPositionStringToSixteenths } from '../../sharedUtils';
 
 jest.mock('tone');
 
@@ -105,21 +104,6 @@ describe('createSelectedAndUnselectedNoteArrays', () => {
         expect(result.unselectedNotes).toContainEqual(note3);
         expect(result.unselectedNotes).toContainEqual(note4);
         expect(result.unselectedNotes).toContainEqual(note5);
-    });
-});
-
-describe('getWholeBarsFromString', () => {
-    test('correctly returns the bar as a number', () => {
-        expect(getWholeBarsFromString('4:2:3')).toBe(4);
-    });
-});
-
-describe('transportPositionStringToSixteenths', () => {
-    test('correctly converts the string to the desired numeric value', () => {
-        expect(transportPositionStringToSixteenths('2:3:1')).toBe(45)
-    });
-    test('converts correctly even when the sixteenths value is a floating point number', () => {
-        expect(transportPositionStringToSixteenths('1:2:3.5461')).toBeCloseTo(27.5461);
     });
 });
 
@@ -370,25 +354,6 @@ describe('shiftPitchDown', () => {
         expect(result.x).toBe(0);
         expect(result.y).toBe(1712);
         expect(result.width).toBe(48);
-    });
-});
-
-describe('findOverlapAlongAxis', () => {
-    test('correctly identifies an overlap between the elements', () => {
-        expect(findOverlapAlongAxis({
-           elementALowerBound: 48,
-           elementAUpperBound: 632,
-           elementBLowerBound: 24,
-           elementBUpperBound: 128 
-        })).toBe(true);
-    });
-    test('correctly identifies the absence of an overlap between the elements', () => {
-        expect(findOverlapAlongAxis({
-            elementALowerBound: 16,
-            elementAUpperBound: 128,
-            elementBLowerBound: 256,
-            elementBUpperBound: 512 
-        })).toBe(false);
     });
 });
 

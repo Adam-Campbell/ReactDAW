@@ -31,7 +31,6 @@ const NoteLayer = props => (
                 type={'noteRect'}
                 key={note._id}
                 onClick={props.handleNoteClick}
-                onMouseUp={e => e.cancelBubble = true}
             />
         ))}
     </Layer>

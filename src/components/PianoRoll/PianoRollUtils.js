@@ -1,5 +1,10 @@
 import Tone from 'tone';
 import { generateId } from '../../helpers'
+import { 
+    findOverlapAlongAxis,
+    getWholeBarsFromString,
+    transportPositionStringToSixteenths
+} from '../../sharedUtils';
 /**
  * Creates two arrays, one holding the note objects for all currently selected notes, and the other 
  * holding the note objects for all currently unselected notes. Returns both of the arrays as properties
@@ -39,32 +44,6 @@ export const createSelectedAndUnselectedNoteArrays = (optionsObject) => {
     };
 };
 
-/**
- * Given a BBS string, determine the amount of whole bars present in the time described by the string
- * and return this value as an integer.
- * @param {string} transportPositionString - the BBS string to query
- * @return {number} - the whole bars as an integer.
- */
-export const getWholeBarsFromString = (transportPositionString) => {
-    const splitString= transportPositionString.split(':');
-    return parseInt(splitString[0]);
-};
-
-
-/**
- * Given a BBS string, reduce the string down on floating point number which is the total value of the 
- * bars, beats and sixteenths, all in terms of sixteenths. 
- * @param {string} transportPositionString - the BBS string to query.
- * @return {number} - the amount of sixteenths as a floating point number - if it doesn't come to a
- * discrete amount of sixteenths it will return parts of sixteenths as well.
- */
-export const transportPositionStringToSixteenths = (transportPositionString) => {
-    const splitString= transportPositionString.split(':');
-    const asSixteenths = parseInt(splitString[0])*16 + 
-                        parseInt(splitString[1])*4 +
-                        parseFloat(splitString[2]);
-    return asSixteenths;
-};
 
 /**
  * Works out the next x position that the seeker line needs to be rendered to. Only used by the 
@@ -363,33 +342,6 @@ export const shiftTimeForwards = (optionsObject) => (originalNote) => {
 }
 
 /**
- * Given the upper and lower bounds of two elements across some axis, determines whether there is 
- * any overlap between the two elements on the axis in question. Either the x or y axis can be used,
- * as long as the same axis is used for each argument supplied. 
- * @param {number} elementALowerBound - the lower boundary of the first element to compare
- * @param {number} elementAUpperBound - the upperf boundary of the first element to compare
- * @param {number} elementBLowerBound - the lower boundary of the second element to compare
- * @param {number} elementBUpperBound - the upper boundary of the second element to compare
- * @returns {boolean} - true if overlap exists, false if not.
- */
-export const findOverlapAlongAxis = (optionsObject) => {
-    const { 
-        elementALowerBound,
-        elementAUpperBound,
-        elementBLowerBound,
-        elementBUpperBound
-    } = optionsObject;
-    
-    // If there is any overlap at all between the two elements then at least one of these logical statements
-    // must be true, conversely if none of the statements are true we can say conclusively that there is
-    // absolutely no overlap.
-    return (elementALowerBound >= elementBLowerBound && elementALowerBound <= elementBUpperBound) ||
-           (elementAUpperBound >= elementBLowerBound && elementAUpperBound <= elementBUpperBound) ||
-           (elementBLowerBound >= elementALowerBound && elementBLowerBound <= elementAUpperBound) ||
-           (elementBUpperBound >= elementALowerBound && elementBUpperBound <= elementAUpperBound);
-};
-
-/**
  * Given the four bounds of a selection area, and all of the current notes in the section, determines 
  * which of those notes falls within / overlaps with the selection.
  * @param {number} verticalSelectionBound1 - one vertical bound of the selection
@@ -451,14 +403,10 @@ export const getNoteIdsForSelectionRange = (optionsObject) => {
 export const getNoteDurationFromPencilOperation = (optionsObject) => {
     const { 
         downX, 
-        downY,
-        rawUpX,
-        scrolledX,
+        upX,
         currentQuantizeValue
     } = optionsObject;
 
-    // adjust mouseUp x coord for scrolling
-    const upXWithScroll = rawUpX - scrolledX;
     // convert current quantize value to Ticks
     const currQuantizeAsTicks = Tone.Time(currentQuantizeValue).toTicks();
     // roll back downX to the previous whole interval, determined by the current quantize level.
@@ -466,7 +414,7 @@ export const getNoteDurationFromPencilOperation = (optionsObject) => {
     // convert this rolled back value into Ticks
     const downXAsTicks = Tone.Ticks(rolledBackDownX*2-(rolledBackDownX*2%currQuantizeAsTicks));
     // convert upXWithScroll into Ticks
-    const upXAsTicks = Tone.Ticks(upXWithScroll*2);
+    const upXAsTicks = Tone.Ticks(upX*2);
     // If the Tick value we end up with based on downXAsTicks and upXAsTicks is less than our current
     // quantize value as Ticks, then just use the quantize value instead. 
     const noteDurationAsTicks = Math.max(
