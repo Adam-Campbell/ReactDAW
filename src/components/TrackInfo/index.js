@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as ActionCreators from '../../actions';
-import TrackColorSwatch from './TrackColorSwatch';
+import TrackInfo from './TrackInfo';
 
-class TrackInfo extends Component {
+export class TrackInfoContainer extends Component {
     constructor(props) {
         super(props);
-        this.foo = 'bar';
         this.inputRef = React.createRef();
         this.swatchNodeRef = React.createRef();
         const track = props.channels.find(channel => channel.id === props.trackId);
@@ -106,70 +105,30 @@ class TrackInfo extends Component {
 
 
     render() {
-        return (
-            <div 
-                className={`track-info ${this.props.isSelected && 'selected'}`} 
-                onClick={this.handleContainerClick}
-            >
-                <div className="track-info__left-block">
-                    {this.state.isEditingName ?
-                        <input 
-                            ref={this.inputRef}
-                            className="track-info__track-name-input"
-                            type="text" 
-                            value={this.state.trackName} 
-                            onChange={this.updateTrackName}
-                            onKeyPress={this.handleInputKeyPress}
-                            onClick={(e) => e.stopPropagation()}
-                        ></input> :
-                        <p 
-                            className="track-info__track-name"
-                            onClick={this.enterNameEditMode}
-                        >{this.state.trackName}</p>  
-                    }
-                    <button 
-                        className="track-info__button" 
-                        onClick={this.handleMuteButtonClick}
-                    >M</button>
-                    <button 
-                        className="track-info__button"
-                        onClick={this.handleSoloButtonClick}
-                    >S</button>
-                    <button 
-                        className="track-info__button"
-                        onClick={this.handleSettingsButtonClick}
-                    >O</button>
-                    <button 
-                        className="track-info__button"
-                        onClick={this.handleDeleteButtonClick}
-                    >X</button>
-                </div>
-                <div className="track-color-picker">
-                <span 
-                    className="track-color-picker__color-swatch"
-                    onClick={this.enterColorEditMode}
-                    ref={this.swatchNodeRef}
-                    style={{
-                        backgroundColor: this.state.trackColor,
-                        color: this.state.trackColor
-                    }}
-                ></span>
-                {
-                    this.state.isEditingTrackColor && (
-                        <TrackColorSwatch 
-                            handleColorSwatchClick={this.handleColorSwatchClick}
-                            nodeRef={this.swatchNodeRef.current}
-                            exitColorEditMode={this.exitColorEditMode}
-                        />
-                    )
-                }
-                </div>
-            </div>
-        );
+        return <TrackInfo 
+            inputRef={this.inputRef}
+            swatchNodeRef={this.swatchNodeRef}
+            isSelected={this.props.isSelected}
+            isEditingName={this.state.isEditingName}
+            trackName={this.state.trackName}
+            isEditingTrackColor={this.state.isEditingTrackColor}
+            trackColor={this.state.trackColor}
+            handleContainerClick={this.handleContainerClick}
+            updateTrackName={this.updateTrackName}
+            handleInputKeyPress={this.handleInputKeyPress}
+            enterNameEditMode={this.enterNameEditMode}
+            handleMuteButtonClick={this.handleMuteButtonClick}
+            handleSoloButtonClick={this.handleSoloButtonClick}
+            handleSettingsButtonClick={this.handleSettingsButtonClick}
+            handleDeleteButtonClick={this.handleDeleteButtonClick}
+            enterColorEditMode={this.enterColorEditMode}
+            exitColorEditMode={this.exitColorEditMode}
+            handleColorSwatchClick={this.handleColorSwatchClick}
+        />
     }
 }
 
-TrackInfo.propTypes = {
+TrackInfoContainer.propTypes = {
     trackId: PropTypes.string.isRequired,
     isSelected: PropTypes.bool.isRequired,
     updateSelectedChannel: PropTypes.func.isRequired
@@ -187,7 +146,7 @@ export default connect(
         removeChannel: ActionCreators.removeChannel,
         openWindow: ActionCreators.openWindow
     }
-)(TrackInfo);
+)(TrackInfoContainer);
 
 
 

@@ -45,7 +45,7 @@ test('component handles switching between open and closed states correctly', () 
 test('component calls the addTrack handler when a list item is clicked', () => {
     const component = shallow(
         <AddTrackMenuContainer 
-            numberOfChannels={0}
+            numberOfChannels={2}
             addChannel={mockedAddChannel}
         /> 
     );
@@ -53,4 +53,5 @@ test('component calls the addTrack handler when a list item is clicked', () => {
     expect(mockedAddChannel).not.toHaveBeenCalled();
     presentational.find('li.add-track-menu__menu-item').first().simulate('click');
     expect(mockedAddChannel).toHaveBeenCalledTimes(1);
+    expect(mockedAddChannel.mock.calls[mockedAddChannel.mock.calls.length-1][1]).toBe('Channel 3');
 });

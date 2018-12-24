@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Stage } from 'react-konva';
-import TrackInfo from './TrackInfo';
+import TrackInfo from '../TrackInfo';
 import AddTrackMenu from '../AddTrackMenu';
 import ComposerControls from './ComposerControls';
 import GridLayer from './GridLayer';
