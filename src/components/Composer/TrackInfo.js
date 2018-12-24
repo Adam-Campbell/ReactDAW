@@ -53,15 +53,15 @@ class TrackInfo extends Component {
     }
 
     handleMuteButtonClick = (e) => {
-        console.log('mute button was clicked');
+        //console.log('mute button was clicked');
     }
 
     handleSoloButtonClick = (e) => {
-        console.log('solo button was clicked');
+        //console.log('solo button was clicked');
     }
 
     handleSettingsButtonClick = (e) => {
-        console.log('settings button was clicked');
+        //console.log('settings button was clicked');
         this.openInstrumentWindow();
     }
 
@@ -70,7 +70,7 @@ class TrackInfo extends Component {
     }
 
     handleContainerClick = (e) => {
-        console.log('container was clicked!');
+        //console.log('container was clicked!');
         if (!this.props.isSelected) {
             this.props.updateSelectedChannel(this.props.trackId);
         }

@@ -414,7 +414,6 @@ class ComposerContainer extends Component {
     handleKeyDown = (e) => {
         //console.log('handleKeyDown on the Composer was called');
         //console.log(e);
-        e.preventDefault();
         e.stopPropagation();
 
         // handle deletion

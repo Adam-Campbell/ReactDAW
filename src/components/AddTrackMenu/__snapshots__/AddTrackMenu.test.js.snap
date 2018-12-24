@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`container component renders correctly 1`] = `
+<AddTrackMenu
+  closeMenu={[Function]}
+  handleAddChannel={[Function]}
+  menuIsOpen={false}
+  openMenu={[Function]}
+/>
+`;
+
+exports[`presentational component renders correctly 1`] = `
+<div
+  className="add-track-menu"
+>
+  <button
+    className="add-track-menu__button"
+    onClick={[MockFunction]}
+  >
+    + Add track
+  </button>
+  <div
+    className="add-track-menu__item-container show-menu"
+  >
+    <ul
+      className="add-track-menu__list"
+    >
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        Synth
+      </li>
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        AM Synth
+      </li>
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        FM Synth
+      </li>
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        Duo Synth
+      </li>
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        Mono Synth
+      </li>
+      <li
+        className="add-track-menu__menu-item"
+        onClick={[MockFunction]}
+      >
+        X
+      </li>
+    </ul>
+  </div>
+</div>
+`;
