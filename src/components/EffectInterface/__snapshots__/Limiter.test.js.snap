@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="Limiter"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="threshold"
+      label="Threshold"
+      max={10}
+      min={-96}
+      propertyPathArray={
+        Array [
+          "threshold",
+        ]
+      }
+      step={0.5}
+      value={-12}
+    />
+  </div>
+</div>
+`;

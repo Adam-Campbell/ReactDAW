@@ -1,16 +1,15 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const JCReverb = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'JC Reverb'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'room-size'}
                 label={'Room Size'}
                 min={0}
@@ -18,10 +17,10 @@ const JCReverb = props => (
                 step={0.005}
                 value={props.effectData.roomSize}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['roomSize']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'wet'}
                 label={'Wet'}
                 min={0}
@@ -29,11 +28,17 @@ const JCReverb = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>
     </div>
 );
+
+JCReverb.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default JCReverb;

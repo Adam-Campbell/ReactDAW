@@ -1,16 +1,15 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Phaser = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Phaser'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'q'}
                 label={'Q'}
                 min={0}
@@ -18,10 +17,10 @@ const Phaser = props => (
                 step={0.5}
                 value={props.effectData.Q}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['Q']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'base-frequency'}
                 label={'Base Frequency'}
                 min={40}
@@ -29,10 +28,10 @@ const Phaser = props => (
                 step={25}
                 value={props.effectData.baseFrequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['baseFrequency']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'frequency'}
                 label={'Frequency'}
                 min={0.1}
@@ -40,10 +39,10 @@ const Phaser = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['frequency']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'octaves'}
                 label={'Octaves'}
                 min={0}
@@ -51,10 +50,10 @@ const Phaser = props => (
                 step={1}
                 value={props.effectData.octaves}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['octaves']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'wet'}
                 label={'Wet'}
                 min={0}
@@ -62,11 +61,17 @@ const Phaser = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>
     </div>
 );
+
+Phaser.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default Phaser;

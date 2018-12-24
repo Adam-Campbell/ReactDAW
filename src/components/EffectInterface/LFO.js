@@ -1,16 +1,16 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedSelectInput from '../EnhancedSelectInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const LFO = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'LFO'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'amplitude'}
                 label={'Amplitude'}
                 min={0.25}
@@ -18,10 +18,10 @@ const LFO = props => (
                 step={0.05}
                 value={props.effectData.amplitude}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['amplitude']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'frequency'}
                 label={'Frequency'}
                 min={0.1}
@@ -29,10 +29,10 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['frequency']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'max'}
                 label={'Max'}
                 min={1}
@@ -40,10 +40,10 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.max}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['max']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'min'}
                 label={'Min'}
                 min={-10}
@@ -51,10 +51,10 @@ const LFO = props => (
                 step={0.1}
                 value={props.effectData.min}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['min']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'phase'}
                 label={'Phase'}
                 min={0}
@@ -62,15 +62,15 @@ const LFO = props => (
                 step={1}
                 value={props.effectData.phase}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['phase']}
             />
-            <SelectInput 
+            <EnhancedSelectInput 
                 inputId={'type'}
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'sine', text: 'Sine'},
@@ -82,5 +82,11 @@ const LFO = props => (
         </div>
     </div>
 );
+
+LFO.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default LFO;

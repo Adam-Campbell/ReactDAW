@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="LFO"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="amplitude"
+      label="Amplitude"
+      max={4}
+      min={0.25}
+      propertyPathArray={
+        Array [
+          "amplitude",
+        ]
+      }
+      step={0.05}
+      value={1}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="frequency"
+      label="Frequency"
+      max={10}
+      min={0.1}
+      propertyPathArray={
+        Array [
+          "frequency",
+        ]
+      }
+      step={0.1}
+      value={2}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="max"
+      label="Max"
+      max={10}
+      min={1}
+      propertyPathArray={
+        Array [
+          "max",
+        ]
+      }
+      step={0.1}
+      value={1}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="min"
+      label="Min"
+      max={0}
+      min={-10}
+      propertyPathArray={
+        Array [
+          "min",
+        ]
+      }
+      step={0.1}
+      value={0}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="phase"
+      label="Phase"
+      max={360}
+      min={0}
+      propertyPathArray={
+        Array [
+          "phase",
+        ]
+      }
+      step={1}
+      value={0}
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="type"
+      label="Type"
+      options={
+        Array [
+          Object {
+            "text": "Sine",
+            "value": "sine",
+          },
+          Object {
+            "text": "Square",
+            "value": "square",
+          },
+          Object {
+            "text": "Sawtooth",
+            "value": "sawtooth",
+          },
+          Object {
+            "text": "Triangle",
+            "value": "triangle",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "type",
+        ]
+      }
+      value="sine"
+    />
+  </div>
+</div>
+`;

@@ -1,16 +1,16 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedSelectInput from '../EnhancedSelectInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Chorus = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Chorus'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'delay-time'}
                 label={'Delay Time'}
                 min={2}
@@ -18,10 +18,10 @@ const Chorus = props => (
                 step={0.5}
                 value={props.effectData.delayTime}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['delayTime']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'depth'}
                 label={'Depth'}
                 min={0}
@@ -29,10 +29,10 @@ const Chorus = props => (
                 step={0.005}
                 value={props.effectData.depth}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['depth']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'frequency'}
                 label={'Frequency'}
                 min={0.1}
@@ -40,10 +40,10 @@ const Chorus = props => (
                 step={0.005}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['frequency']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'spread'}
                 label={'Spread'}
                 min={0}
@@ -51,15 +51,15 @@ const Chorus = props => (
                 step={1}
                 value={props.effectData.spread}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['spread']}
             />
-            <SelectInput 
+            <EnhancedSelectInput 
                 inputId={'type'}
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     {value: 'sine', text: 'Sine'},
@@ -68,7 +68,7 @@ const Chorus = props => (
                     {value: 'sawtooth', text: 'Sawtooth'}
                 ]}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'wet'}
                 label={'Wet'}
                 min={0}
@@ -76,11 +76,17 @@ const Chorus = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>
     </div>
 );
+
+Chorus.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+}
 
 export default Chorus;

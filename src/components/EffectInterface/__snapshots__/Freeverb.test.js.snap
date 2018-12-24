@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="Freeverb"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="dampening"
+      label="Dampening"
+      max={16000}
+      min={40}
+      propertyPathArray={
+        Array [
+          "dampening",
+        ]
+      }
+      step={5}
+      value={3000}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="room-size"
+      label="Room Size"
+      max={1}
+      min={0}
+      propertyPathArray={
+        Array [
+          "roomSize",
+        ]
+      }
+      step={0.005}
+      value={0.7}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="wet"
+      label="Wet"
+      max={1}
+      min={0}
+      propertyPathArray={
+        Array [
+          "wet",
+        ]
+      }
+      step={0.005}
+      value={1}
+    />
+  </div>
+</div>
+`;

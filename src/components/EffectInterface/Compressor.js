@@ -1,16 +1,15 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Compressor = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Compressor'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'attack'}
                 label={'Attack'}
                 min={0.001}
@@ -18,10 +17,10 @@ const Compressor = props => (
                 step={0.001}
                 value={props.effectData.attack}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['attack']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'knee'}
                 label={'Knee'}
                 min={5}
@@ -29,10 +28,10 @@ const Compressor = props => (
                 step={1}
                 value={props.effectData.knee}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['knee']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'ratio'}
                 label={'Ratio'}
                 min={1}
@@ -40,10 +39,10 @@ const Compressor = props => (
                 step={0.25}
                 value={props.effectData.ratio}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['ratio']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'release'}
                 label={'Release'}
                 min={0.001}
@@ -51,10 +50,10 @@ const Compressor = props => (
                 step={0.001}
                 value={props.effectData.release}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['release']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'threshold'}
                 label={'threshold'}
                 min={-96}
@@ -62,11 +61,17 @@ const Compressor = props => (
                 step={0.5}
                 value={props.effectData.threshold}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['threshold']}
             />
         </div>
     </div>
 );
+
+Compressor.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+}
 
 export default Compressor;

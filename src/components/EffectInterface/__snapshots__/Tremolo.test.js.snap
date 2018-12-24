@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="Tremolo"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="depth"
+      label="Depth"
+      max={1}
+      min={0}
+      propertyPathArray={
+        Array [
+          "depth",
+        ]
+      }
+      step={0.005}
+      value={0.5}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="frequency"
+      label="Frequency"
+      max={20}
+      min={0.1}
+      propertyPathArray={
+        Array [
+          "frequency",
+        ]
+      }
+      step={0.1}
+      value={10}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="spread"
+      label="Spread"
+      max={180}
+      min={0}
+      propertyPathArray={
+        Array [
+          "spread",
+        ]
+      }
+      step={1}
+      value={180}
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="type"
+      label="Type"
+      options={
+        Array [
+          Object {
+            "text": "Sine",
+            "value": "sine",
+          },
+          Object {
+            "text": "Square",
+            "value": "square",
+          },
+          Object {
+            "text": "Sawtooth",
+            "value": "sawtooth",
+          },
+          Object {
+            "text": "Triangle",
+            "value": "triangle",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "type",
+        ]
+      }
+      value="sine"
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="wet"
+      label="Wet"
+      max={1}
+      min={0}
+      propertyPathArray={
+        Array [
+          "wet",
+        ]
+      }
+      step={0.005}
+      value={1}
+    />
+  </div>
+</div>
+`;
