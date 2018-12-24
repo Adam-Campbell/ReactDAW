@@ -1,0 +1,215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__module-container"
+>
+  <h2
+    className="synth-interface__module-heading"
+  >
+    Filter Envelope
+  </h2>
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-attack"
+    label="Attack"
+    max={1}
+    min={0.005}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "attack",
+      ]
+    }
+    step={0.005}
+    value={0.06}
+  />
+  <EnhancedSelectInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-attack-curve"
+    label="Attack Curve"
+    options={
+      Array [
+        Object {
+          "text": "Linear",
+          "value": "linear",
+        },
+        Object {
+          "text": "Exponential",
+          "value": "exponential",
+        },
+        Object {
+          "text": "Sine",
+          "value": "sine",
+        },
+        Object {
+          "text": "Cosine",
+          "value": "cosine",
+        },
+        Object {
+          "text": "Bounce",
+          "value": "bounce",
+        },
+        Object {
+          "text": "Ripple",
+          "value": "ripple",
+        },
+        Object {
+          "text": "Step",
+          "value": "step",
+        },
+      ]
+    }
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "attackCurve",
+      ]
+    }
+    value="linear"
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-base-frequency"
+    label="Base Frequency"
+    max={16000}
+    min={50}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "baseFrequency",
+      ]
+    }
+    step={25}
+    value={200}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-decay"
+    label="Decay"
+    max={1}
+    min={0}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "decay",
+      ]
+    }
+    step={0.005}
+    value={0.2}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-exponent"
+    label="Exponent"
+    max={10}
+    min={1}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "exponent",
+      ]
+    }
+    step={1}
+    value={2}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-octaves"
+    label="Octaves"
+    max={10}
+    min={0}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "octaves",
+      ]
+    }
+    step={1}
+    value={7}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-release"
+    label="Release"
+    max={1}
+    min={0.005}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "release",
+      ]
+    }
+    step={0.005}
+    value={2}
+  />
+  <EnhancedSelectInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-release-curve"
+    label="Release Curve"
+    options={
+      Array [
+        Object {
+          "text": "Linear",
+          "value": "linear",
+        },
+        Object {
+          "text": "Exponential",
+          "value": "exponential",
+        },
+        Object {
+          "text": "Sine",
+          "value": "sine",
+        },
+        Object {
+          "text": "Cosine",
+          "value": "cosine",
+        },
+        Object {
+          "text": "Bounce",
+          "value": "bounce",
+        },
+        Object {
+          "text": "Ripple",
+          "value": "ripple",
+        },
+        Object {
+          "text": "Step",
+          "value": "step",
+        },
+      ]
+    }
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "releaseCurve",
+      ]
+    }
+    value="exponential"
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="filter-envelope-sustain"
+    label="Sustain"
+    max={1}
+    min={0}
+    propertyPathArray={
+      Array [
+        "filterEnvelope",
+        "sustain",
+      ]
+    }
+    step={0.005}
+    value={0.5}
+  />
+</div>
+`;

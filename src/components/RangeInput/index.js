@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RangeInput = props => (
     <React.Fragment>
@@ -11,15 +12,19 @@ const RangeInput = props => (
             max={props.max}
             step={props.step}
             value={props.value}
-            onChange={(e) => {
-                props.handleChange(
-                    props.instrumentId,
-                    props.propertyPathArray,
-                    parseFloat(e.target.value)
-                )
-            }}
+            onChange={props.handleChange}
         ></input>
     </React.Fragment>
 );
+
+RangeInput.propTypes = {
+    inputId: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    step: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default RangeInput

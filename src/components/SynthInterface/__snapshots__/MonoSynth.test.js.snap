@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__container"
+>
+  <HeaderModule
+    synthTitle="Mono Synth"
+  />
+  <EnvelopeModule
+    additionalNesting={Array []}
+    envelopeData={
+      Object {
+        "attack": 0.005,
+        "attackCurve": "linear",
+        "decay": 0.1,
+        "release": 1,
+        "releaseCurve": "exponential",
+        "sustain": 0.9,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <OscillatorModule
+    additionalNesting={Array []}
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    oscillatorData={
+      Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "square",
+        "volume": 0,
+      }
+    }
+  />
+  <FilterModule
+    additionalNesting={Array []}
+    filterData={
+      Object {
+        "Q": 6,
+        "frequency": 350,
+        "gain": 0,
+        "rolloff": -24,
+        "type": "lowpass",
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <FilterEnvelopeModule
+    additionalNesting={Array []}
+    filterEnvelopeData={
+      Object {
+        "attack": 0.06,
+        "attackCurve": "linear",
+        "baseFrequency": 200,
+        "decay": 0.2,
+        "exponent": 2,
+        "octaves": 7,
+        "release": 2,
+        "releaseCurve": "exponential",
+        "sustain": 0.5,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+</div>
+`;

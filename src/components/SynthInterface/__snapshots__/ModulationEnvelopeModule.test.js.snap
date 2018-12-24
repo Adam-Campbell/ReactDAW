@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__module-container"
+>
+  <h2
+    className="synth-interface__module-heading"
+  >
+    Modulation Envelope
+  </h2>
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-attack"
+    label="Attack"
+    max={1}
+    min={0.005}
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "attack",
+      ]
+    }
+    step={0.005}
+    value={0.5}
+  />
+  <EnhancedSelectInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-attack-curve"
+    label="Attack Curve"
+    options={
+      Array [
+        Object {
+          "text": "Linear",
+          "value": "linear",
+        },
+        Object {
+          "text": "Exponential",
+          "value": "exponential",
+        },
+        Object {
+          "text": "Sine",
+          "value": "sine",
+        },
+        Object {
+          "text": "Cosine",
+          "value": "cosine",
+        },
+        Object {
+          "text": "Bounce",
+          "value": "bounce",
+        },
+        Object {
+          "text": "Ripple",
+          "value": "ripple",
+        },
+        Object {
+          "text": "Step",
+          "value": "step",
+        },
+      ]
+    }
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "attackCurve",
+      ]
+    }
+    value="linear"
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-decay"
+    label="Decay"
+    max={1}
+    min={0.005}
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "decay",
+      ]
+    }
+    step={0.005}
+    value={0}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-release"
+    label="Release"
+    max={1}
+    min={0.005}
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "release",
+      ]
+    }
+    step={0.005}
+    value={0.5}
+  />
+  <EnhancedSelectInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-release-curve"
+    label="Release Curve"
+    options={
+      Array [
+        Object {
+          "text": "Linear",
+          "value": "linear",
+        },
+        Object {
+          "text": "Exponential",
+          "value": "exponential",
+        },
+        Object {
+          "text": "Sine",
+          "value": "sine",
+        },
+        Object {
+          "text": "Cosine",
+          "value": "cosine",
+        },
+        Object {
+          "text": "Bounce",
+          "value": "bounce",
+        },
+        Object {
+          "text": "Ripple",
+          "value": "ripple",
+        },
+        Object {
+          "text": "Step",
+          "value": "step",
+        },
+      ]
+    }
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "releaseCurve",
+      ]
+    }
+    value="exponential"
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="5542150612118159"
+    inputId="modulation-envelope-sustain"
+    label="Sustain"
+    max={1}
+    min={0}
+    propertyPathArray={
+      Array [
+        "modulationEnvelope",
+        "sustain",
+      ]
+    }
+    step={0.005}
+    value={1}
+  />
+</div>
+`;

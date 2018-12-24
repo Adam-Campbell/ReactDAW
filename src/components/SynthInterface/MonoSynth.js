@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HeaderModule from './HeaderModule';
 import EnvelopeModule from './EnvelopeModule';
 import OscillatorModule from './OscillatorModule';
@@ -7,7 +8,7 @@ import FilterEnvelopeModule from './FilterEnvelopeModule';
 
 const MonoSynth = props => (
     <div className="synth-interface__container">
-        <HeaderModule synthTitle="Mono Synth" handleClose={props.handleClose} />
+        <HeaderModule synthTitle="Mono Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
@@ -34,5 +35,11 @@ const MonoSynth = props => (
         />
     </div>
 );
+
+MonoSynth.propTypes = {
+    instrumentData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default MonoSynth;

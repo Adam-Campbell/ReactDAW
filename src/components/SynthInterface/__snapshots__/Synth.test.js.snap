@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__container synth-interface__container--small"
+>
+  <HeaderModule
+    synthTitle="Synth"
+  />
+  <EnvelopeModule
+    additionalNesting={Array []}
+    envelopeData={
+      Object {
+        "attack": 0.005,
+        "attackCurve": "linear",
+        "decay": 0.1,
+        "release": 1,
+        "releaseCurve": "exponential",
+        "sustain": 0.3,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <OscillatorModule
+    additionalNesting={Array []}
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    oscillatorData={
+      Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "triangle",
+        "volume": 0,
+      }
+    }
+  />
+</div>
+`;

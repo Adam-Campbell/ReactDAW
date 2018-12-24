@@ -1,0 +1,18 @@
+import React from 'react';
+import { shallow } from 'enzyme';
+import EnvelopeModule from './EnvelopeModule';
+import { synthData } from '../../constants';
+
+const envelopeData = synthData.synth.envelope;
+
+test('renders correctly', () => {
+    const component = shallow(
+        <EnvelopeModule 
+            envelopeData={envelopeData}
+            instrumentId="5542150612118159"
+            additionalNesting={[]}
+            handleChange={jest.fn()}
+        />
+    );
+    expect(component).toMatchSnapshot();
+});

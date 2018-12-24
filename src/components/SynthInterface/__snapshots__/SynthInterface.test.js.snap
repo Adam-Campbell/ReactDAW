@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Synth
+  handleChange={[Function]}
+  instrumentData={
+    Object {
+      "envelope": Object {
+        "attack": 0.005,
+        "attackCurve": "linear",
+        "decay": 0.1,
+        "release": 1,
+        "releaseCurve": "exponential",
+        "sustain": 0.3,
+      },
+      "oscillator": Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "triangle",
+        "volume": 0,
+      },
+      "portamento": 0,
+      "volume": 0,
+    }
+  }
+  instrumentId="5542150612118159"
+/>
+`;

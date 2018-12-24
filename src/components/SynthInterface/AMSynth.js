@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HeaderModule from './HeaderModule';
 import OscillatorModule from './OscillatorModule';
 import EnvelopeModule from './EnvelopeModule';
 import ModulationModule from './ModulationModule';
 import ModulationEnvelopeModule from './ModulationEnvelopeModule';
-import RangeInput from './RangeInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const AMSynth = props => (
     <div className="synth-interface__container">
-        <HeaderModule synthTitle="AM Synth" handleClose={props.handleClose} />
+        <HeaderModule synthTitle="AM Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
@@ -34,7 +35,7 @@ const AMSynth = props => (
             additionalNesting={[]}
         />
         <div className="synth-interface__module-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'detune'}
                 label={'Detune'}
                 min={-100}
@@ -42,10 +43,10 @@ const AMSynth = props => (
                 step={1}
                 value={props.instrumentData.detune}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['detune']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'harmonicity'}
                 label={'Harmonicity'}
                 min={0.25}
@@ -53,10 +54,10 @@ const AMSynth = props => (
                 step={0.25}
                 value={props.instrumentData.harmonicity}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['harmonicity']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'volume'}
                 label={'Volume'}
                 min={-80}
@@ -64,11 +65,17 @@ const AMSynth = props => (
                 step={1}
                 value={props.instrumentData.volume}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['volume']}
             />
         </div>
     </div>
 );
+
+AMSynth.propTypes = {
+    instrumentData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default AMSynth;

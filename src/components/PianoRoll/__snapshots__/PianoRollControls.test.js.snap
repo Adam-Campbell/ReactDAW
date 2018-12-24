@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="piano-roll-controls-container"
+>
+  <SelectInput
+    handleChange={[MockFunction]}
+    inputId="piano-roll-quantize-select"
+    label="Select quantize level:"
+    options={
+      Array [
+        Object {
+          "text": "32t",
+          "value": "32t",
+        },
+        Object {
+          "text": "32n",
+          "value": "32n",
+        },
+        Object {
+          "text": "16t",
+          "value": "16t",
+        },
+        Object {
+          "text": "16n",
+          "value": "16n",
+        },
+        Object {
+          "text": "8t",
+          "value": "8t",
+        },
+        Object {
+          "text": "8n",
+          "value": "8n",
+        },
+        Object {
+          "text": "4t",
+          "value": "4t",
+        },
+        Object {
+          "text": "4n",
+          "value": "4n",
+        },
+        Object {
+          "text": "2t",
+          "value": "2t",
+        },
+        Object {
+          "text": "2n",
+          "value": "2n",
+        },
+        Object {
+          "text": "1m",
+          "value": "1m",
+        },
+      ]
+    }
+    value="16n"
+  />
+  <SelectInput
+    handleChange={[MockFunction]}
+    inputId="piano-roll-duration-select"
+    label="Select note duration:"
+    options={
+      Array [
+        Object {
+          "text": "32t",
+          "value": "32t",
+        },
+        Object {
+          "text": "32n",
+          "value": "32n",
+        },
+        Object {
+          "text": "16t",
+          "value": "16t",
+        },
+        Object {
+          "text": "16n",
+          "value": "16n",
+        },
+        Object {
+          "text": "8t",
+          "value": "8t",
+        },
+        Object {
+          "text": "8n",
+          "value": "8n",
+        },
+        Object {
+          "text": "4t",
+          "value": "4t",
+        },
+        Object {
+          "text": "4n",
+          "value": "4n",
+        },
+        Object {
+          "text": "2t",
+          "value": "2t",
+        },
+        Object {
+          "text": "2n",
+          "value": "2n",
+        },
+        Object {
+          "text": "1m",
+          "value": "1m",
+        },
+      ]
+    }
+    value="16n"
+  />
+  <SelectInput
+    handleChange={[MockFunction]}
+    inputId="piano-roll-cursor-select"
+    label="Select tool:"
+    options={
+      Array [
+        Object {
+          "text": "Pointer",
+          "value": "pointer",
+        },
+        Object {
+          "text": "Pencil",
+          "value": "pencil",
+        },
+      ]
+    }
+    value="pointer"
+  />
+</div>
+`;

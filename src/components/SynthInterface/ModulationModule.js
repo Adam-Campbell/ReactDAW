@@ -1,11 +1,12 @@
 import React from 'react';
-import RangeInput from './RangeInput';
-import SelectInput from './SelectInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
+import EnhancedSelectInput from '../EnhancedSelectInput';
 
 const ModulationModule = props => (
     <div className="synth-interface__module-container">
         <h2 className="synth-interface__module-heading">Modulation</h2>
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-detune'}
             label={'Detune'}
             min={-100}
@@ -13,10 +14,10 @@ const ModulationModule = props => (
             step={1}
             value={props.modulationData.detune}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulation', 'detune']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-phase'}
             label={'Phase'}
             min={0}
@@ -24,15 +25,15 @@ const ModulationModule = props => (
             step={1}
             value={props.modulationData.phase}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulation', 'phase']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'modulation-type'}
             label={'Type'}
             value={props.modulationData.type}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulation', 'type']}
             options={[
                 {value: 'sine', text: 'Sine'},
@@ -41,7 +42,7 @@ const ModulationModule = props => (
                 {value: 'sawtooth', text: 'Sawtooth'}
             ]}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-volume'}
             label={'Volume'}
             min={-80}
@@ -49,10 +50,17 @@ const ModulationModule = props => (
             step={1}
             value={props.modulationData.volume}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulation', 'volume']}
         />
     </div>
 );
+
+ModulationModule.propTypes = {
+    modulationData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default ModulationModule;
