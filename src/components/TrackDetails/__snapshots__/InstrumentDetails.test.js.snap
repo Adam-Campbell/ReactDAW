@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="track-details__instrument-info-container"
+>
+  <h2
+    className="track-details__heading"
+  >
+    Instrument
+  </h2>
+  <label
+    className="track-details__instrument-select-label"
+    htmlFor="instrument-select"
+  >
+    Current instrument
+  </label>
+  <select
+    className="track-details__instrument-select"
+    id="instrument-select"
+    onChange={[MockFunction]}
+    value="synth"
+  >
+    <option
+      className="track-details__instrument-select-option"
+      value="synth"
+    >
+      Synth
+    </option>
+    <option
+      className="track-details__instrument-select-option"
+      value="amSynth"
+    >
+      AM Synth
+    </option>
+    <option
+      className="track-details__instrument-select-option"
+      value="fmSynth"
+    >
+      FM Synth
+    </option>
+    <option
+      className="track-details__instrument-select-option"
+      value="duoSynth"
+    >
+      Duo Synth
+    </option>
+    <option
+      className="track-details__instrument-select-option"
+      value="monoSynth"
+    >
+      Mono
+    </option>
+  </select>
+  <button
+    className="track-details__instrument-settings-button"
+    onClick={[MockFunction]}
+  >
+    Edit Settings
+  </button>
+</div>
+`;

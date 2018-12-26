@@ -3,16 +3,15 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import Tone from 'tone';
 import Transport from './Transport';
+import { formatTransportPosition } from './transportUtils';
 
-class TransportContainer extends Component {
+export class TransportContainer extends Component {
     constructor(props) {
         super(props);
-        this.foo = 'bar';
-        this.spanRef = React.createRef();
         this.rAFRef = null;
         this.inputRef = React.createRef();
         this.state = {
-            trackPosition: Tone.Transport.position,
+            transportPosition: Tone.Transport.position,
             isEditingBPM: false,
             editedBPM: this.props.bpm
         }
@@ -21,31 +20,24 @@ class TransportContainer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isPlaying !== this.props.isPlaying) {
             if (this.props.isPlaying) {
-                requestAnimationFrame(this.getPosition);
+                requestAnimationFrame(this.getTransportPosition);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.setState({
-                    trackPosition: '0:0:0'
+                    transportPosition: '0:0:0'
                 });
             }
         }
     }
 
-    getPosition = () => {
-        const newTrackPosition = this.formatTrackPosition(Tone.Transport.position);
-        if (newTrackPosition !== this.state.trackPosition) {
+    getTransportPosition = () => {
+        const newTransportPosition = formatTransportPosition(Tone.Transport.position);
+        if (newTransportPosition !== this.state.transportPosition) {
             this.setState({
-                trackPosition: newTrackPosition
+                transportPosition: newTransportPosition
             });
         }
-        this.rAFRef = requestAnimationFrame(this.getPosition);
-    }
-
-
-    formatTrackPosition = (trackPositionString) => {
-        let splitted = trackPositionString.split(':');
-        let roundedDownSixteenths = Math.floor(parseFloat(splitted[2]));
-        return `${splitted[0]}:${splitted[1]}:${roundedDownSixteenths}`;
+        this.rAFRef = requestAnimationFrame(this.getTransportPosition);
     }
 
     handleBPMChange = (e) => {
@@ -89,7 +81,7 @@ class TransportContainer extends Component {
             handleTransportBarClick={this.handleTransportBarClick}
             playTrack={this.props.playTrack}
             stopTrack={this.props.stopTrack}
-            trackPosition={this.state.trackPosition}
+            transportPosition={this.state.transportPosition}
             isEditingBPM={this.state.isEditingBPM}
             editedBPM={this.state.editedBPM}
             handleBPMChange={this.handleBPMChange}

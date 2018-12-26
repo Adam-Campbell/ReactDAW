@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <p
+    className="track-details__effect-text"
+  >
+    chorus
+  </p>
+  <button
+    className="track-details__effect-button"
+    onClick={[Function]}
+  >
+    Edit Settings
+  </button>
+  <button
+    className="track-details__effect-button"
+    onClick={[Function]}
+  >
+    Remove
+  </button>
+</div>
+`;

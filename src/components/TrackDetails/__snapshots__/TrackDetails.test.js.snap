@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="track-details__container"
+>
+  <InstrumentDetails
+    handleChange={[Function]}
+    handleOpen={[Function]}
+    instrumentType="synth"
+  />
+  <EffectsDetails
+    effectTypeToAdd="chorus"
+    effects={
+      Array [
+        Object {
+          "channelId": "3821569482884337",
+          "effectData": Object {
+            "delayTime": 3.5,
+            "depth": 0.7,
+            "frequency": 1.5,
+            "spread": 180,
+            "type": "sine",
+            "wet": 1,
+          },
+          "id": "3666421382061490",
+          "type": "chorus",
+        },
+      ]
+    }
+    handleAdd={[Function]}
+    handleChange={[Function]}
+    handleOpen={[Function]}
+    handleRemove={[Function]}
+  />
+</div>
+`;

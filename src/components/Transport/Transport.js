@@ -14,7 +14,7 @@ const Transport = props => (
             className="button pink"
             onClick={props.stopTrack}
         >Stop</button>
-        <span className="transport__track-position" >{props.trackPosition}</span>
+        <span className="transport__track-position" >{props.transportPosition}</span>
         <div className="transport__bpm-container">
             <span className="transport__bpm-label">BPM:</span>
             {props.isEditingBPM ? 
@@ -38,7 +38,7 @@ Transport.propTypes = {
     handleTransportBarClick: PropTypes.func.isRequired,
     playTrack: PropTypes.func.isRequired,
     stopTrack: PropTypes.func.isRequired,
-    trackPosition: PropTypes.string.isRequired,
+    transportPosition: PropTypes.string.isRequired,
     isEditingBPM: PropTypes.bool.isRequired,
     editedBPM: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     handleBPMChange: PropTypes.func.isRequired,
