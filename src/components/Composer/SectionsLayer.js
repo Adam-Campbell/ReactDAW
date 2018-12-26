@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layer, Rect, Line } from 'react-konva';
+import { Layer, Rect } from 'react-konva';
 import { UIColors } from '../../constants';
 
 const SectionsLayer = props => (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { generateId } from '../../helpers';
+import { generateId } from '../../sharedUtils';
 import { UIColors } from '../../constants';
 import AddTrackMenu from './AddTrackMenu';
 

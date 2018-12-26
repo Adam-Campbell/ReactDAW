@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import { effectTypes, synthData, effectData } from '../../constants';
-import { generateId } from '../../helpers';
+import { generateId } from '../../sharedUtils';
 import InstrumentDetails from './InstrumentDetails';
 import EffectsDetails from './EffectsDetails';
 

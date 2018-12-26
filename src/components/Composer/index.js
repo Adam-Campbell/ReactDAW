@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import { throttle } from 'lodash';
-import { generateId } from '../../helpers';
 import Tone from 'tone';
 import Composer from './Composer';
 import { 
@@ -18,7 +17,8 @@ import {
     addOrRemoveElementFromSelection,
     getWholeBarsFromString,
     adjustForScroll,
-    transportPositionStringToSixteenths
+    transportPositionStringToSixteenths,
+    generateId
 } from '../../sharedUtils';
 
 export class ComposerContainer extends Component {
