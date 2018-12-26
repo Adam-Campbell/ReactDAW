@@ -2250,15 +2250,7 @@ exports[`renders correctly 2`] = `
             "current": null,
           }
         }
-        section={
-          Object {
-            "channelId": "0443540104839537",
-            "id": "7943665839704739",
-            "notes": Array [],
-            "numberOfBars": 4,
-            "start": "0:0:0",
-          }
-        }
+        sectionNotes={Array []}
       />
       <VelocityLayer
         canvasWidth={1536}

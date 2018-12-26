@@ -43,7 +43,7 @@ const PianoRoll = props => (
                 />
                 <NoteLayer 
                     noteLayerRef={props.noteLayerRef}
-                    section={props.section}
+                    sectionNotes={props.section.notes}
                     currentlySelectedNotes={props.currentlySelectedNotes}
                     handleNoteClick={props.handleNoteClick}
                 />
@@ -130,45 +130,3 @@ PianoRoll.propTypes = {
 };
 
 export default PianoRoll;
-
-/*
-Props
-handleKeyDown = callback function
-outerContainerRef - react ref
-quantizeValue - quantize value from state
-updateQuantizeValue - callback
-durationValue - duration value from state
-updateDurationValue - callback
-cursorValue - cursor value, either 'pointer' or 'pencil'
-updateCursorValue - callback
-stageRef - react ref
-handleStageClick - callback
-handleMouseDown - callback
-handleMouseUp - callback
-gridLayerRef - react ref
-canvasWidth - num, width of canvas
-canvasHeight - num, height of canvas
-gridLinesArray - array of data objects for grid line rendering
-noteLayerRef - react ref
-section - reference to the section object from redux store
-currentlySelectedNotes - currentlySelectedNotes from state
-handleNoteClick - callback
-stageHeight - num, the height of the stage (visible area of canvas)
-stageWidth - num, the width of the stage (visible area of canvas)
-velocityLayerRef - react ref
-handleVelocityLayerClick - callback
-selectedNotes - array of data objects representing the currently selected notes
-unselectedNotes - array of data object representing the currently unselected notes
-pianoKeyLayerRef - react ref
-notesArray - array of strings representing the range of pitches available for notes
-handlePianoKeyClick - callback
-transportLayerRef - react ref
-transportBarNumbersArray - array of data objects for rendering the transport bar numbers programatically
-seekerLayerRef - react ref
-seekerLineRef - react ref
-padding - num, the padding value for this component
-horizontalDragMove - callback
-verticalDragMove - callback
-handleScrollBarClickEvents - callback
-
-*/

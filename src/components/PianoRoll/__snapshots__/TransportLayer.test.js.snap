@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Layer
+  x={48}
+>
+  <Rect
+    fill="#201826"
+    height={40}
+    width={1588}
+    x={-48}
+    y={0}
+  />
+  <Text
+    fill="#e0e0e0"
+    key="0"
+    shadowBlur={4}
+    shadowColor="#e0e0e0"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    text={0}
+    x={0}
+    y={20}
+  />
+  <Text
+    fill="#e0e0e0"
+    key="1"
+    shadowBlur={4}
+    shadowColor="#e0e0e0"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    text={1}
+    x={384}
+    y={20}
+  />
+  <Text
+    fill="#e0e0e0"
+    key="2"
+    shadowBlur={4}
+    shadowColor="#e0e0e0"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    text={2}
+    x={768}
+    y={20}
+  />
+  <Text
+    fill="#e0e0e0"
+    key="3"
+    shadowBlur={4}
+    shadowColor="#e0e0e0"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    text={3}
+    x={1152}
+    y={20}
+  />
+</Layer>
+`;
