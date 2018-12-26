@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Layer>
+  <Rect
+    fill="#d86597"
+    height={70}
+    key="0"
+    onClick={[Function]}
+    onDblClick={[Function]}
+    sectionId="7009247242625234"
+    stroke="#e0e0e0"
+    strokeWidth={2}
+    type="section"
+    width={192}
+    x={0}
+    y={40}
+  />
+</Layer>
+`;

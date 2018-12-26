@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="composer__controls-container"
+>
+  <SelectInput
+    handleChange={[MockFunction]}
+    inputId="composer-cursor-select"
+    label="Select tool:"
+    options={
+      Array [
+        Object {
+          "text": "Pointer",
+          "value": "pointer",
+        },
+        Object {
+          "text": "Pencil",
+          "value": "pencil",
+        },
+      ]
+    }
+    value="pointer"
+  />
+  <SelectInput
+    handleChange={[MockFunction]}
+    inputId="composer-duration-select"
+    label="Select section duration:"
+    options={
+      Array [
+        Object {
+          "text": "1",
+          "value": "1",
+        },
+        Object {
+          "text": "2",
+          "value": "2",
+        },
+        Object {
+          "text": "3",
+          "value": "3",
+        },
+        Object {
+          "text": "4",
+          "value": "4",
+        },
+      ]
+    }
+    value="4"
+  />
+</div>
+`;

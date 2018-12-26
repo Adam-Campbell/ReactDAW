@@ -21,7 +21,7 @@ import {
     transportPositionStringToSixteenths
 } from '../../sharedUtils';
 
-class ComposerContainer extends Component {
+export class ComposerContainer extends Component {
 
     constructor(props) {
         super(props);
