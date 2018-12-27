@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DragLayer } from 'react-dnd';
 import TrackDetails from './TrackDetails';
 import PianoRoll from './PianoRoll';
-import SynthInterface from './SynthInterface';
+import InstrumentInterface from './InstrumentInterface';
 import EffectInterface from './EffectInterface';
 
 const DragWrapperPreview = props => (
@@ -65,7 +65,7 @@ class CustomDragLayer extends Component {
                     x={currX}
                     y={currY}
                 >
-                    <SynthInterface instrumentId={windowId} />
+                    <InstrumentInterface instrumentId={windowId} />
                 </DragWrapperPreview> 
                 
                 case 'effect':

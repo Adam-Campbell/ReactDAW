@@ -5,8 +5,8 @@ import Section from './Section';
 import Bus from './Bus';
 import Channel from './Channel';
 import Tone from 'tone';
-import { synthTypes, effectTypes } from '../../constants';
-import SynthFactory from './SynthFactory';
+import { instrumentTypes, effectTypes } from '../../constants';
+import InstrumentFactory from './InstrumentFactory';
 import EffectFactory from './EffectFactory';
 
 window.Tone = Tone;
@@ -16,7 +16,7 @@ class AudioEngine extends Component {
         super(props);
         this._section = new Section();
         this._bus = new Bus();
-        this._synthFactory = new SynthFactory();
+        this._instrumentFactory = new InstrumentFactory();
         this._effectFactory = new EffectFactory();
         window.bus = this._bus;
         this.instrumentReferences = {};
@@ -103,7 +103,7 @@ class AudioEngine extends Component {
         // you could check first to see if the instrument data has actually changed at all between prev
         // and curr states, and only call the set method if it has changed. 
         if (prevChannel.instrument.type !== currChannel.instrument.type) {
-            const newInstrument = this._synthFactory.create(
+            const newInstrument = this._instrumentFactory.create(
                 currChannel.instrument.type, 
                 currChannel.instrument.synthData
             );
@@ -219,7 +219,7 @@ class AudioEngine extends Component {
      */
     _createChannel(channelData) {
         // Create the instrument for this channel.
-        const instrument = this._synthFactory.create(
+        const instrument = this._instrumentFactory.create(
             channelData.instrument.type, 
             channelData.instrument.synthData
         );
@@ -306,7 +306,7 @@ class AudioEngine extends Component {
                 this._bus.addChannel(
                     new Channel(
                         channel.id, 
-                        this._synthFactory.create(
+                        this._instrumentFactory.create(
                             channel.instrumentId,
                             currState.instruments[channel.instrumentId].synthData
                         )

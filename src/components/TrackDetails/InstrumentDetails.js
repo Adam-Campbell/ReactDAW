@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { synthTypes } from '../../constants';
+import { instrumentTypes } from '../../constants';
 
 const InstrumentDetails = props => (
     <div className="track-details__instrument-info-container">
@@ -17,24 +17,28 @@ const InstrumentDetails = props => (
         >
             <option 
                 className="track-details__instrument-select-option" 
-                value={synthTypes.default}
+                value={instrumentTypes.default}
             >Synth</option>
             <option 
                 className="track-details__instrument-select-option" 
-                value={synthTypes.am}
+                value={instrumentTypes.am}
             >AM Synth</option>
             <option 
                 className="track-details__instrument-select-option" 
-                value={synthTypes.fm}
+                value={instrumentTypes.fm}
             >FM Synth</option>
             <option 
                 className="track-details__instrument-select-option" 
-                value={synthTypes.duo}
+                value={instrumentTypes.duo}
             >Duo Synth</option>
             <option 
                 className="track-details__instrument-select-option" 
-                value={synthTypes.mono}
+                value={instrumentTypes.mono}
             >Mono</option>
+            <option 
+                className="track-details__instrument-select-option" 
+                value={instrumentTypes.drumKit}
+            >Drum Kit</option>
         </select>
         <button 
             className="track-details__instrument-settings-button"

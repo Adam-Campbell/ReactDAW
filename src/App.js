@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PianoRoll from './components/PianoRoll';
 import AudioEngine from './components/AudioEngine';
 import Composer from './components/Composer';
-import SynthInterface from './components/SynthInterface';
+import InstrumentInterface from './components/InstrumentInterface';
 import TrackDetails from './components/TrackDetails';
 import Transport from './components/Transport';
 import EffectInterface from './components/EffectInterface';
@@ -31,7 +31,7 @@ class App extends Component {
 
               case 'synth':
                 return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
-                          <SynthInterface instrumentId={window.id} />
+                          <InstrumentInterface instrumentId={window.id} />
                         </DragWrapper>
 
               case 'instrumentSettings':

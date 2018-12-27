@@ -1,9 +1,10 @@
-export const synthTypes = {
+export const instrumentTypes = {
     default: 'synth',
     am: 'amSynth',
     fm: 'fmSynth',
     duo: 'duoSynth',
-    mono: 'monoSynth'
+    mono: 'monoSynth',
+    drumKit: 'drumKit'
 };
 
 export const UIColors = {
@@ -60,7 +61,7 @@ export const defaultSynthData = {
     volume: 0
 }
 
-export const synthData = {
+export const instrumentData = {
     synth: {
         envelope: {
             attack: 0.005,
@@ -273,6 +274,11 @@ export const synthData = {
         },
         portamento: 0,
         volume: 0
+    },
+    drumKit: {
+        kick: 'https://tonejs.github.io/examples/audio/505/kick.mp3',
+        snare: 'https://tonejs.github.io/examples/audio/505/snare.mp3',
+        hat: 'https://tonejs.github.io/examples/audio/505/hh.mp3'
     }
 };
 
