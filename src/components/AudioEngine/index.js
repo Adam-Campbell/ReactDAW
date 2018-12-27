@@ -105,7 +105,7 @@ class AudioEngine extends Component {
         if (prevChannel.instrument.type !== currChannel.instrument.type) {
             const newInstrument = this._instrumentFactory.create(
                 currChannel.instrument.type, 
-                currChannel.instrument.synthData
+                currChannel.instrument.instrumentData
             );
             channelRef.instrument = (newInstrument);
             
@@ -114,7 +114,7 @@ class AudioEngine extends Component {
             // having to update the main app state. 
             this.instrumentReferences[currChannel.id] = newInstrument;
         } else {
-            channelRef.instrument.set(currChannel.instrument.synthData);
+            channelRef.instrument.set(currChannel.instrument.instrumentData);
         }
 
         // Update the effects chain for this channel.
@@ -221,7 +221,7 @@ class AudioEngine extends Component {
         // Create the instrument for this channel.
         const instrument = this._instrumentFactory.create(
             channelData.instrument.type, 
-            channelData.instrument.synthData
+            channelData.instrument.instrumentData
         );
 
         // this is just adding a reference to this channels instrument on the global instrumentReferences 
@@ -308,7 +308,7 @@ class AudioEngine extends Component {
                         channel.id, 
                         this._instrumentFactory.create(
                             channel.instrumentId,
-                            currState.instruments[channel.instrumentId].synthData
+                            currState.instruments[channel.instrumentId].instrumentData
                         )
                     )
                 );

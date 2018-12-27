@@ -8,6 +8,7 @@ import AMSynth from './AMSynth';
 import FMSynth from './FMSynth';
 import DuoSynth from './DuoSynth';
 import MonoSynth from './MonoSynth';
+import DrumKit from './DrumKit';
 import { instrumentTypes } from '../../constants';
 
 export class InstrumentInterface extends Component {
@@ -63,6 +64,13 @@ export class InstrumentInterface extends Component {
 
             case instrumentTypes.mono:
                 return <MonoSynth 
+                    instrumentData={this.instrumentData}
+                    instrumentId={this.props.instrumentId}
+                    handleChange={this.handleChange}
+                />
+
+            case instrumentTypes.drumKit:
+                return <DrumKit 
                     instrumentData={this.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
