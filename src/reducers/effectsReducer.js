@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import { deepCopy, updatePropAtPath } from '../shareUtils';
+import { deepCopy, updatePropAtPath } from '../sharedUtils';
 
 const defaultState = {};
 

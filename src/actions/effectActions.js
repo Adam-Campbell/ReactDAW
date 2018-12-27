@@ -18,11 +18,11 @@ export const removeEffect = (effectId, channelId) => ({
     }
 });
 
-export const updateEffectSettings = (effectId, effectSettings) => ({
+export const updateEffectSettings = (effectId, effectData) => ({
     type: actionTypes.UPDATE_EFFECT_SETTINGS,
     payload: {
         effectId, 
-        effectSettings
+        effectData
     }
 });
 

@@ -17,11 +17,11 @@ export const removeInstrument = (instrumentId) => ({
         }
 });
 
-export const updateInstrumentSettings = (instrumentId, instrumentSettings) => ({
+export const updateInstrumentSettings = (instrumentId, instrumentData) => ({
     type: actionTypes.UPDATE_INSTRUMENT_SETTINGS,
     payload: {
         instrumentId,
-        instrumentSettings
+        instrumentData
     }
 });
 

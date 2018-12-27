@@ -53,7 +53,7 @@ const instruments = (state=defaultState, action) => {
                 ...state,
                 [action.payload.instrumentId]: {
                     ...state[action.payload.instrumentId],
-                    synthData: action.payload.instrumentSettings
+                    synthData: action.payload.instrumentData
                 }
             };
 
