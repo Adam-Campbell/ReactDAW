@@ -1,16 +1,15 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Gate = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Gate'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'attack'}
                 label={'Attack'}
                 min={0.001}
@@ -18,10 +17,10 @@ const Gate = props => (
                 step={0.001}
                 value={props.effectData.attack}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['attack']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'release'}
                 label={'Release'}
                 min={0.001}
@@ -29,10 +28,10 @@ const Gate = props => (
                 step={0.001}
                 value={props.effectData.release}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['release']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'threshold'}
                 label={'threshold'}
                 min={-96}
@@ -40,11 +39,17 @@ const Gate = props => (
                 step={0.5}
                 value={props.effectData.threshold}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['threshold']}
             />
         </div>
     </div>
 );
+
+Gate.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default Gate;

@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-//import { Stage, Layer, Text } from 'react-konva';
-//import ColoredRect from './components/ColoredRect.js';
-import { connect } from 'react-redux';
-import * as ActionCreators from './actions';
-import PianoRoll from './components/PianoRoll';
 import './App.css';
+import { connect } from 'react-redux';
+import PianoRoll from './components/PianoRoll';
 import AudioEngine from './components/AudioEngine';
-import StartStopButton from './components/StartStopButton';
-import { Rnd } from 'react-rnd';
 import Composer from './components/Composer';
 import SynthInterface from './components/SynthInterface';
 import TrackDetails from './components/TrackDetails';
@@ -23,9 +18,6 @@ class App extends Component {
     return (
       <div className="main-container">
         <AudioEngine />
-        <div className="menu">
-        <StartStopButton />
-        </div>
         <Transport />
         <Composer />
         <CustomDragLayer /> 

@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="Filter"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="q"
+      label="Q"
+      max={20}
+      min={0}
+      propertyPathArray={
+        Array [
+          "Q",
+        ]
+      }
+      step={0.5}
+      value={1}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="frequency"
+      label="Frequency"
+      max={16000}
+      min={40}
+      propertyPathArray={
+        Array [
+          "frequency",
+        ]
+      }
+      step={5}
+      value={350}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="gain"
+      label="Gain"
+      max={10}
+      min={-40}
+      propertyPathArray={
+        Array [
+          "gain",
+        ]
+      }
+      step={0.1}
+      value={0}
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="rolloff"
+      label="Rolloff"
+      options={
+        Array [
+          Object {
+            "text": "-12",
+            "value": "-12",
+          },
+          Object {
+            "text": "-24",
+            "value": "-24",
+          },
+          Object {
+            "text": "-48",
+            "value": "-48",
+          },
+          Object {
+            "text": "-96",
+            "value": "-96",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "rolloff",
+        ]
+      }
+      shouldConvertToFloat={true}
+      value={-12}
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="type"
+      label="Type"
+      options={
+        Array [
+          Object {
+            "text": "Low Pass",
+            "value": "lowpass",
+          },
+          Object {
+            "text": "High Pass",
+            "value": "highpass",
+          },
+          Object {
+            "text": "Band Pass",
+            "value": "bandpass",
+          },
+          Object {
+            "text": "Low Shelf",
+            "value": "lowshelf",
+          },
+          Object {
+            "text": "High Shelf",
+            "value": "highshelf",
+          },
+          Object {
+            "text": "Notch",
+            "value": "notch",
+          },
+          Object {
+            "text": "All Pass",
+            "value": "allpass",
+          },
+          Object {
+            "text": "Peaking",
+            "value": "peaking",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "type",
+        ]
+      }
+      value="lowpass"
+    />
+  </div>
+</div>
+`;

@@ -9,7 +9,7 @@ const NoteLayer = props => (
         y={40}
         ref={props.noteLayerRef}
     >
-        {props.section.notes.map((note, index) => (
+        {props.sectionNotes.map((note, index) => (
             <Rect 
                 x={note.x}
                 y={note.y}
@@ -38,7 +38,7 @@ const NoteLayer = props => (
 
 NoteLayer.propTypes = {
     noteLayerRef: PropTypes.object.isRequired,
-    section: PropTypes.object.isRequired,
+    sectionNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     currentlySelectedNotes: PropTypes.arrayOf(PropTypes.string).isRequired,
     handleNoteClick: PropTypes.func.isRequired
 };

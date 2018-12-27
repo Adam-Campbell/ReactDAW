@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__container"
+>
+  <EffectHeader
+    effectTitle="EQ3"
+  />
+  <div
+    className="effect__settings-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="high"
+      label="High"
+      max={10}
+      min={-40}
+      propertyPathArray={
+        Array [
+          "high",
+        ]
+      }
+      step={0.1}
+      value={0}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="high-frequency"
+      label="High Frequency"
+      max={6000}
+      min={1200}
+      propertyPathArray={
+        Array [
+          "highFrequency",
+        ]
+      }
+      step={25}
+      value={2500}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="low"
+      label="Low"
+      max={10}
+      min={-40}
+      propertyPathArray={
+        Array [
+          "low",
+        ]
+      }
+      step={0.1}
+      value={0}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="low-frequency"
+      label="Low Frequency"
+      max={800}
+      min={200}
+      propertyPathArray={
+        Array [
+          "lowFrequency",
+        ]
+      }
+      step={10}
+      value={400}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="6156266754586526"
+      inputId="mid"
+      label="Mid"
+      max={10}
+      min={-40}
+      propertyPathArray={
+        Array [
+          "mid",
+        ]
+      }
+      step={0.1}
+      value={0}
+    />
+  </div>
+</div>
+`;

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Layer
+  x={48}
+>
+  <Line
+    listening={false}
+    points={
+      Array [
+        0,
+        0,
+        0,
+        1768,
+      ]
+    }
+    stroke="#e0e0e0"
+    strokeWidth={0}
+  />
+</Layer>
+`;

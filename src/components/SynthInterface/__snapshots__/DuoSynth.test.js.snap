@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__container"
+>
+  <HeaderModule
+    synthTitle="Duo Synth"
+  />
+  <div
+    className="synth-interface__module-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="harmonicity"
+      label="Harmonicity"
+      max={8}
+      min={0.25}
+      propertyPathArray={
+        Array [
+          "harmonicity",
+        ]
+      }
+      step={0.25}
+      value={1.5}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="vibrato-amount"
+      label="Vibrato Amount"
+      max={5}
+      min={0}
+      propertyPathArray={
+        Array [
+          "vibratoAmount",
+        ]
+      }
+      step={0.2}
+      value={0.5}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="vibrato-rate"
+      label="Vibrato Rate"
+      max={1000}
+      min={5}
+      propertyPathArray={
+        Array [
+          "vibratoRate",
+        ]
+      }
+      step={5}
+      value={5}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="volume"
+      label="Volume"
+      max={20}
+      min={-80}
+      propertyPathArray={
+        Array [
+          "volume",
+        ]
+      }
+      step={1}
+      value={0}
+    />
+  </div>
+  <div>
+    <button
+      className="button off-white"
+      onClick={[Function]}
+    >
+      Show Voice A
+    </button>
+    <button
+      className="button off-white"
+      onClick={[Function]}
+    >
+      Show Voice B
+    </button>
+  </div>
+  <div
+    className="synth-interface__seperator"
+  >
+    <h2
+      className="synth-interface__module-heading"
+    >
+      Voice A
+    </h2>
+  </div>
+  <EnvelopeModule
+    additionalNesting={
+      Array [
+        "voice0",
+      ]
+    }
+    envelopeData={
+      Object {
+        "attack": 0.01,
+        "attackCurve": "linear",
+        "decay": 0,
+        "release": 0.5,
+        "releaseCurve": "exponential",
+        "sustain": 1,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <OscillatorModule
+    additionalNesting={
+      Array [
+        "voice0",
+      ]
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    oscillatorData={
+      Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "sine",
+        "volume": 0,
+      }
+    }
+  />
+  <FilterModule
+    additionalNesting={
+      Array [
+        "voice0",
+      ]
+    }
+    filterData={
+      Object {
+        "Q": 6,
+        "frequency": 350,
+        "gain": 0,
+        "rolloff": -24,
+        "type": "lowpass",
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <FilterEnvelopeModule
+    additionalNesting={
+      Array [
+        "voice0",
+      ]
+    }
+    filterEnvelopeData={
+      Object {
+        "attack": 0.01,
+        "attackCurve": "linear",
+        "baseFrequency": 200,
+        "decay": 0,
+        "exponent": 2,
+        "octaves": 7,
+        "release": 0.5,
+        "releaseCurve": "exponential",
+        "sustain": 1,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+</div>
+`;

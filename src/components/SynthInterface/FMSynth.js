@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HeaderModule from './HeaderModule';
 import OscillatorModule from './OscillatorModule';
 import EnvelopeModule from './EnvelopeModule';
 import ModulationModule from './ModulationModule';
 import ModulationEnvelopeModule from './ModulationEnvelopeModule';
-import RangeInput from './RangeInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const FMSynth = props => (
     <div className="synth-interface__container">
-        <HeaderModule synthTitle="FM Synth" handleClose={props.handleClose} />
+        <HeaderModule synthTitle="FM Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
@@ -34,7 +35,7 @@ const FMSynth = props => (
             additionalNesting={[]}
         />
         <div className="synth-interface__module-container">
-        <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'detune'}
                 label={'Detune'}
                 min={-100}
@@ -42,10 +43,10 @@ const FMSynth = props => (
                 step={1}
                 value={props.instrumentData.detune}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['detune']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'harmonicity'}
                 label={'Harmonicity'}
                 min={0.25}
@@ -53,10 +54,10 @@ const FMSynth = props => (
                 step={0.25}
                 value={props.instrumentData.harmonicity}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['harmonicity']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'volume'}
                 label={'Volume'}
                 min={-80}
@@ -64,10 +65,10 @@ const FMSynth = props => (
                 step={1}
                 value={props.instrumentData.volume}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['volume']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'modulation-index'}
                 label={'Modulation Index'}
                 min={0}
@@ -75,11 +76,17 @@ const FMSynth = props => (
                 step={0.5}
                 value={props.instrumentData.modulationIndex}
                 handleChange={props.handleChange}
-                instrumentId={props.instrumentId}
+                identifier={props.instrumentId}
                 propertyPathArray={['modulationIndex']}
             />
         </div>
     </div>
 );
+
+FMSynth.propTypes = {
+    instrumentData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default FMSynth;

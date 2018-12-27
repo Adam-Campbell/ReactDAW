@@ -1,11 +1,12 @@
 import React from 'react';
-import RangeInput from './RangeInput';
-import SelectInput from './SelectInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
+import EnhancedSelectInput from '../EnhancedSelectInput';
 
 const FilterModule = props => (
     <div className="synth-interface__module-container">
         <h2 className="synth-interface__module-heading">Filter</h2>
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'filter-q'}
             label={'Q'}
             min={0}
@@ -13,10 +14,10 @@ const FilterModule = props => (
             step={0.5}
             value={props.filterData.Q}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'filter', 'Q']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'filter-frequency'}
             label={'Frequency'}
             min={40}
@@ -24,10 +25,10 @@ const FilterModule = props => (
             step={5}
             value={props.filterData.frequency}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'filter', 'frequency']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'filter-gain'}
             label={'Gain'}
             min={-40}
@@ -35,15 +36,15 @@ const FilterModule = props => (
             step={0.1}
             value={props.filterData.gain}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'filter', 'gain']}
         />
-        <SelectInput 
+        <EnhancedSelectInput 
             inputId={'filter-rolloff'}
             label={'Rolloff'}
             value={props.filterData.rolloff}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             shouldConvertToFloat={true}
             propertyPathArray={[...props.additionalNesting, 'filter', 'rolloff']}
             options={[
@@ -53,12 +54,12 @@ const FilterModule = props => (
                 { value: '-96', text: '-96'}
             ]}
         />
-        <SelectInput 
+        <EnhancedSelectInput 
             inputId={'filter-type'}
             label={'Type'}
             value={props.filterData.type}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'filter', 'type']}
             options={[
                 { value: 'lowpass', text: 'Low Pass'},
@@ -73,5 +74,12 @@ const FilterModule = props => (
         />
     </div>
 );
+
+FilterModule.propTypes = {
+    filterData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default FilterModule;

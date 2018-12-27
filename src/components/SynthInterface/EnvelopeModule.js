@@ -1,11 +1,12 @@
 import React from 'react';
-import RangeInput from './RangeInput';
-import SelectInput from './SelectInput';
+import PropTypes from 'prop-types';
+import EnhancedSelectInput from '../EnhancedSelectInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const EnvelopeModule = props => (
     <div className="synth-interface__module-container">
         <h2 className="synth-interface__module-heading">Envelope</h2>
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'envelope-attack'}
             label={'Attack'}
             min={0.005}
@@ -13,15 +14,15 @@ const EnvelopeModule = props => (
             step={0.005}
             value={props.envelopeData.attack}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'attack']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'envelope-attack-curve'}
             label={'Attack Curve'}
             value={props.envelopeData.attackCurve}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'attackCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
@@ -33,7 +34,7 @@ const EnvelopeModule = props => (
                 {value: 'step', text: 'Step'}
             ]}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'envelope-decay'}
             label={'Decay'}
             min={0.005}
@@ -41,10 +42,10 @@ const EnvelopeModule = props => (
             step={0.005}
             value={props.envelopeData.decay}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'decay']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'envelope-release'}
             label={'Release'}
             min={0.005}
@@ -52,15 +53,15 @@ const EnvelopeModule = props => (
             step={0.005}
             value={props.envelopeData.release}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'release']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'envelope-release-curve'}
             label={'Release Curve'}
             value={props.envelopeData.releaseCurve}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'releaseCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
@@ -71,8 +72,9 @@ const EnvelopeModule = props => (
                 {value: 'ripple', text: 'Ripple'},
                 {value: 'step', text: 'Step'}
             ]}
+
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'envelope-sustain'}
             label={'Sustain'}
             min={0}
@@ -80,10 +82,17 @@ const EnvelopeModule = props => (
             step={0.005}
             value={props.envelopeData.sustain}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'envelope', 'sustain']}
         />
     </div>
 );
+
+EnvelopeModule.propTypes = {
+    envelopeData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default EnvelopeModule;

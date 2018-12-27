@@ -1,32 +1,11 @@
 import * as actionTypes from '../actionTypes';
-import { synthTypes, defaultSynthData, synthData } from '../constants';
-import { deepCopy, updatePropAtPath, deletePropFromObject } from '../helpers';
+import { synthData } from '../constants';
+import { deepCopy, updatePropAtPath, deletePropFromObject } from '../sharedUtils';
 
 const defaultState = {};
 
 
 /*
-Default synth settings:
-{
-    envelope: {
-        attack: 0.005,
-        attackCurve: 'linear',
-        decay: 0.1,
-        release: 1,
-        releaseCurve: 'exponential',
-        sustain: 0.3
-    },
-    oscillator: {
-        detune: 0,
-        frequency: 440,
-        mute: false,
-        phase: 0,
-        type: 'triangle',
-        volume: 0
-    },
-    portamento: 0,
-    volume: 0
-}
 
 synth object schema:
 
@@ -74,7 +53,7 @@ const instruments = (state=defaultState, action) => {
                 ...state,
                 [action.payload.instrumentId]: {
                     ...state[action.payload.instrumentId],
-                    synthData: action.payload.instrumentSettings
+                    synthData: action.payload.instrumentData
                 }
             };
 

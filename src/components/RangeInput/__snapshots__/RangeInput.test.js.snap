@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calls the callback function when a change event occurs 1`] = `
+<Fragment>
+  <label
+    className="range-input__label"
+    htmlFor="test-range-input"
+  >
+    Just for testing
+  </label>
+  <input
+    className="range-input"
+    id="test-range-input"
+    max={100}
+    min={0}
+    onChange={[MockFunction]}
+    step={1}
+    type="range"
+    value={5}
+  />
+</Fragment>
+`;
+
+exports[`renders correctly 1`] = `
+<Fragment>
+  <label
+    className="range-input__label"
+    htmlFor="test-range-input"
+  >
+    Just for testing
+  </label>
+  <input
+    className="range-input"
+    id="test-range-input"
+    max={100}
+    min={0}
+    onChange={[MockFunction]}
+    step={1}
+    type="range"
+    value={5}
+  />
+</Fragment>
+`;

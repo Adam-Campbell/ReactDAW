@@ -1,16 +1,16 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedSelectInput from '../EnhancedSelectInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Filter = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Filter'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'q'}
                 label={'Q'}
                 min={0}
@@ -18,10 +18,10 @@ const Filter = props => (
                 step={0.5}
                 value={props.effectData.Q}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['Q']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'frequency'}
                 label={'Frequency'}
                 min={40}
@@ -29,10 +29,10 @@ const Filter = props => (
                 step={5}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['frequency']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'gain'}
                 label={'Gain'}
                 min={-40}
@@ -40,15 +40,15 @@ const Filter = props => (
                 step={0.1}
                 value={props.effectData.gain}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['gain']}
             />
-            <SelectInput 
+            <EnhancedSelectInput 
                 inputId={'rolloff'}
                 label={'Rolloff'}
                 value={props.effectData.rolloff}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 shouldConvertToFloat={true}
                 propertyPathArray={['rolloff']}
                 options={[
@@ -58,12 +58,12 @@ const Filter = props => (
                     { value: '-96', text: '-96'}
                 ]}
             />
-            <SelectInput 
+            <EnhancedSelectInput 
                 inputId={'type'}
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'lowpass', text: 'Low Pass'},
@@ -79,5 +79,11 @@ const Filter = props => (
         </div>
     </div>
 );
+
+Filter.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default Filter;

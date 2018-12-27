@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="effect__header-container"
+>
+  <h1
+    className="effect__title"
+  >
+    Chorus
+  </h1>
+</div>
+`;

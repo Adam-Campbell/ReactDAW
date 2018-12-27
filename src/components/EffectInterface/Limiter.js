@@ -1,16 +1,15 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Limiter = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Limiter'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'threshold'}
                 label={'Threshold'}
                 min={-96}
@@ -18,11 +17,17 @@ const Limiter = props => (
                 step={0.5}
                 value={props.effectData.threshold}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['threshold']}
             />
         </div>
     </div>
 );
+
+Limiter.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default Limiter;

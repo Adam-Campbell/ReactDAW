@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Layer>
+  <Rect
+    fill="#47426c"
+    height={24}
+    shadowBlur={4}
+    shadowColor="#47426c"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    width={800}
+    x={0}
+    y={576}
+  />
+  <Rect
+    dragBoundFunc={[Function]}
+    draggable={true}
+    fill="#d86597"
+    height={14}
+    onClick={[MockFunction]}
+    onDragMove={[MockFunction]}
+    onMouseDown={[MockFunction]}
+    type="scrollRect"
+    width={100}
+    x={10}
+    y={581}
+  />
+  <Rect
+    fill="#47426c"
+    height={600}
+    shadowBlur={4}
+    shadowColor="#47426c"
+    shadowOffsetX={0}
+    shadowOffsetY={0}
+    width={24}
+    x={776}
+    y={0}
+  />
+  <Rect
+    dragBoundFunc={[Function]}
+    draggable={true}
+    fill="#d86597"
+    height={100}
+    onClick={[MockFunction]}
+    onDragMove={[MockFunction]}
+    onMouseDown={[MockFunction]}
+    type="scrollRect"
+    width={14}
+    x={781}
+    y={10}
+  />
+</Layer>
+`;

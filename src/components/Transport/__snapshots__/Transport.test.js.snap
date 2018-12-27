@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`container component renders correctly 1`] = `
+<Transport
+  bpm={120}
+  editedBPM={120}
+  enterBPMEditingMode={[Function]}
+  handleBPMChange={[Function]}
+  handleTransportBarClick={[Function]}
+  inputRef={
+    Object {
+      "current": null,
+    }
+  }
+  isEditingBPM={false}
+  playTrack={[MockFunction]}
+  stopTrack={[MockFunction]}
+  transportPosition="0:0:0"
+/>
+`;
+
+exports[`presentational component renders correctly 1`] = `
+<div
+  className="transport__container"
+  onClick={[MockFunction]}
+>
+  <button
+    className="button pink"
+    onClick={[MockFunction]}
+  >
+    Play
+  </button>
+  <button
+    className="button pink"
+    onClick={[MockFunction]}
+  >
+    Stop
+  </button>
+  <span
+    className="transport__track-position"
+  >
+    1:2:3
+  </span>
+  <div
+    className="transport__bpm-container"
+  >
+    <span
+      className="transport__bpm-label"
+    >
+      BPM:
+    </span>
+    <p
+      className="transport__bpm-text"
+      onClick={[MockFunction]}
+    >
+      120
+    </p>
+  </div>
+</div>
+`;

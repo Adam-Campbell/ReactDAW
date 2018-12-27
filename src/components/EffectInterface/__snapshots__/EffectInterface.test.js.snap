@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Chorus
+  effectData={
+    Object {
+      "delayTime": 3.5,
+      "depth": 0.7,
+      "frequency": 1.5,
+      "spread": 180,
+      "type": "sine",
+      "wet": 1,
+    }
+  }
+  effectId="6156266754586526"
+  handleChange={[Function]}
+/>
+`;

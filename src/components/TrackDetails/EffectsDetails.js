@@ -1,50 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import EffectDetailItem from './EffectDetailItem';
 import { effectTypes } from '../../constants';
-
-/*
-props:
-
-effectType - string
-effectId - string
-handleOpen - callback func
-handleRemove - callback func
-*/
-
-const EffectDetail = props => (
-    <div>
-        <p className="track-details__effect-text">{props.effectType}</p>
-        <button
-            className="track-details__effect-button"
-            onClick={() => props.handleOpen(props.effectId)}
-        >Edit Settings</button>
-        <button
-            className="track-details__effect-button"
-            onClick={() => props.handleRemove(props.effectId)}
-        >Remove</button>
-    </div>
-);
-
-/*
-props:
-
-effects - array of effects
-effectTypeToAdd - string
-handleOpen - callback func
-handleRemove - callback func
-handleAdd - callback func
-handleChange - callback func
-*/
 
 const EffectsDetails = props => (
     <div className="track_details__effects-info-container">
         <h2 className="track-details__heading">Effects</h2> 
         {props.effects.map(effect => (
-            <EffectDetail 
+            <EffectDetailItem 
                 key={effect.id}
                 effectType={effect.type}
                 effectId={effect.id}
-                handleOpen={() => props.handleOpen(effect.id)}
-                handleRemove={() => props.handleRemove(effect.id)}
+                handleOpen={props.handleOpen}
+                handleRemove={props.handleRemove}
             />
         ))} 
         <div>
@@ -122,5 +90,14 @@ const EffectsDetails = props => (
         </div>
     </div>
 );
+
+EffectsDetails.propTypes = {
+    handleOpen: PropTypes.func.isRequired,
+    handleRemove: PropTypes.func.isRequired,
+    handleAdd: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    effects: PropTypes.arrayOf(PropTypes.object).isRequired,
+    effectTypeToAdd: PropTypes.string.isRequired
+};
 
 export default EffectsDetails;

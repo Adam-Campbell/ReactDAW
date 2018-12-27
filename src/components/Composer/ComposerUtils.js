@@ -1,6 +1,8 @@
 import Tone from 'tone';
-import { generateId } from '../../helpers';
-import { getWholeBarsFromString } from '../../sharedUtils';
+import { 
+    getWholeBarsFromString,
+    generateId 
+} from '../../sharedUtils';
 
 
 /**

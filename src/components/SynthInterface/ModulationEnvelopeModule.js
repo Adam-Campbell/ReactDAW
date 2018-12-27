@@ -1,11 +1,12 @@
 import React from 'react';
-import RangeInput from './RangeInput';
-import SelectInput from './SelectInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
+import EnhancedSelectInput from '../EnhancedSelectInput';
 
 const ModulationEnvelopeModule = props => (
     <div className="synth-interface__module-container">
         <h2 className="synth-interface__module-heading">Modulation Envelope</h2>
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-envelope-attack'}
             label={'Attack'}
             min={0.005}
@@ -13,15 +14,15 @@ const ModulationEnvelopeModule = props => (
             step={0.005}
             value={props.modulationEnvelopeData.attack}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attack']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'modulation-envelope-attack-curve'}
             label={'Attack Curve'}
             value={props.modulationEnvelopeData.attackCurve}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attackCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
@@ -33,7 +34,7 @@ const ModulationEnvelopeModule = props => (
                 {value: 'step', text: 'Step'}
             ]}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-envelope-decay'}
             label={'Decay'}
             min={0.005}
@@ -41,10 +42,10 @@ const ModulationEnvelopeModule = props => (
             step={0.005}
             value={props.modulationEnvelopeData.decay}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'decay']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-envelope-release'}
             label={'Release'}
             min={0.005}
@@ -52,15 +53,15 @@ const ModulationEnvelopeModule = props => (
             step={0.005}
             value={props.modulationEnvelopeData.release}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'release']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'modulation-envelope-release-curve'}
             label={'Release Curve'}
             value={props.modulationEnvelopeData.releaseCurve}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'releaseCurve']}
             options={[
                 {value: 'linear', text: 'Linear'},
@@ -72,7 +73,7 @@ const ModulationEnvelopeModule = props => (
                 {value: 'step', text: 'Step'}
             ]}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'modulation-envelope-sustain'}
             label={'Sustain'}
             min={0}
@@ -80,10 +81,17 @@ const ModulationEnvelopeModule = props => (
             step={0.005}
             value={props.modulationEnvelopeData.sustain}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'sustain']}
         />
     </div>
 );
+
+ModulationEnvelopeModule.propTypes = {
+    modulationEnvelopeData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default ModulationEnvelopeModule;

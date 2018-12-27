@@ -3,7 +3,11 @@ import {
     addOrRemoveElementFromSelection,
     getWholeBarsFromString,
     transportPositionStringToSixteenths,
-    adjustForScroll
+    adjustForScroll,
+    generateId, 
+    deepCopy,
+    updatePropAtPath,
+    deletePropFromObject
 } from './sharedUtils';
 
 describe('findOverlapAlongAxis', () => {
@@ -88,5 +92,85 @@ describe('adjustForScroll', () => {
     test('treats an undefined scroll value as 0 returns the correct value', () => {
         const result = adjustForScroll({ raw: 25, scroll: undefined });
         expect(result).toBe(25);
+    });
+});
+
+describe('generateId', () => {
+    test('returns a string', () => {
+        const result = generateId();
+        expect(typeof result).toBe('string');
+    });
+    test('returned string is 16 characters long', () => {
+        const result = generateId();
+        expect(result.length).toBe(16);
+    });
+    test('each character in the string is a number between 0 and 9', () => {
+        const result = generateId();
+        expect(result).toMatch(/^\d{16}$/);
+    });
+});
+
+describe('deepCopy', () => {
+    const object = {
+        propA: 'val A',
+        propB: {
+            propC: 'val C',
+            propD: 'val D'
+        }
+    };
+    test('returns a new object', () => {
+        const result = deepCopy(object);
+        expect(result).not.toBe(object);
+    });
+    test('the new object has all of the same properties and values as the original object', () => {
+        const result = deepCopy(object);
+        expect(result).toEqual(object);
+    });
+});
+
+describe('updatePropAtPath', () => {
+    const object = {
+        propA: 'old value',
+        propB: {
+            propA: 'old value'
+        }
+    };
+    test('updates the value of a property at a specified path', () => {
+        const result = updatePropAtPath(object, ['propB', 'propA'], 'new value');
+        expect(result).toEqual({
+            propA: 'old value',
+            propB: {
+                propA: 'new value'
+            }
+        });
+    });
+    test("doesn't affect any other props even if they have the same name", () => {
+        const result = updatePropAtPath(object, ['propB', 'propA'], 'new value');
+        expect(result).toEqual({
+            propA: 'old value',
+            propB: {
+                propA: 'new value'
+            }
+        });
+    });
+});
+
+describe('deletePropFromObject', () => {
+    const object = {
+        propA: 'val A',
+        propB: 'val B',
+        propC: 'val C'
+    };
+    test('returns a new object', () => {
+        const result = deletePropFromObject(object, 'propB');
+        expect(result).not.toBe(object);
+    });
+    test('new object has all of the same props and values as the original, except for the one that was deleted', 
+    () => {
+        const result = deletePropFromObject(object, 'propB');
+        expect(result).toEqual({
+            propA: 'val A',
+            propC: 'val C'
+        });
     });
 });

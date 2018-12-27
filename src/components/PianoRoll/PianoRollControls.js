@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import QuantizeSelect from '../QuantizeSelect';
-import CursorSelect from '../CursorSelect';
-import DurationSelect from '../DurationSelect';
 import SelectInput from '../SelectInput';
 
 const PianoRollControls = props => (

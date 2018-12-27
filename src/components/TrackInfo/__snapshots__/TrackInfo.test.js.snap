@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`container component renders correctly 1`] = `
+<TrackInfo
+  enterColorEditMode={[Function]}
+  enterNameEditMode={[Function]}
+  exitColorEditMode={[Function]}
+  handleColorSwatchClick={[Function]}
+  handleContainerClick={[Function]}
+  handleDeleteButtonClick={[Function]}
+  handleInputKeyPress={[Function]}
+  handleMuteButtonClick={[Function]}
+  handleSettingsButtonClick={[Function]}
+  handleSoloButtonClick={[Function]}
+  inputRef={
+    Object {
+      "current": null,
+    }
+  }
+  isEditingName={false}
+  isEditingTrackColor={false}
+  isSelected={false}
+  swatchNodeRef={
+    Object {
+      "current": null,
+    }
+  }
+  trackColor="#d86597"
+  trackName="Channel 1"
+  updateTrackName={[Function]}
+/>
+`;
+
+exports[`presentational component renders correctly 1`] = `
+<div
+  className="track-info false"
+  onClick={[MockFunction]}
+>
+  <div
+    className="track-info__left-block"
+  >
+    <p
+      className="track-info__track-name"
+      onClick={[MockFunction]}
+    >
+      Channel 1
+    </p>
+    <button
+      className="track-info__button"
+      onClick={[MockFunction]}
+    >
+      M
+    </button>
+    <button
+      className="track-info__button"
+      onClick={[MockFunction]}
+    >
+      S
+    </button>
+    <button
+      className="track-info__button"
+      onClick={[MockFunction]}
+    >
+      O
+    </button>
+    <button
+      className="track-info__button"
+      onClick={[MockFunction]}
+    >
+      X
+    </button>
+  </div>
+  <div
+    className="track-color-picker"
+  >
+    <span
+      className="track-color-picker__color-swatch"
+      onClick={[MockFunction]}
+      style={
+        Object {
+          "backgroundColor": "#d86597",
+          "color": "#d86597",
+        }
+      }
+    />
+  </div>
+</div>
+`;

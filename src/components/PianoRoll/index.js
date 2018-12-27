@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Konva from 'konva';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { generateId } from '../../helpers';
 import Tone from 'tone';
 import { throttle } from 'lodash';
 import PianoRoll from './PianoRoll';
@@ -31,7 +30,8 @@ import {
     addOrRemoveElementFromSelection,
     getWholeBarsFromString,
     transportPositionStringToSixteenths, 
-    adjustForScroll
+    adjustForScroll,
+    generateId
 } from '../../sharedUtils';
 
 /*

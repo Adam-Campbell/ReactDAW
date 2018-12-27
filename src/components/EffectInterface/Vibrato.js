@@ -1,16 +1,16 @@
 import React from 'react';
-import SelectInput from './SelectInput';
-import RangeInput from './RangeInput';
+import PropTypes from 'prop-types';
+import EnhancedSelectInput from '../EnhancedSelectInput';
+import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
 
 const Vibrato = props => (
     <div className="effect__container">
         <EffectHeader 
             effectTitle={'Vibrato'}
-            handleClose={props.handleClose}
         />
         <div className="effect__settings-container">
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'depth'}
                 label={'Depth'}
                 min={0}
@@ -18,10 +18,10 @@ const Vibrato = props => (
                 step={0.005}
                 value={props.effectData.depth}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['depth']}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'frequency'}
                 label={'Frequency'}
                 min={0.1}
@@ -29,15 +29,15 @@ const Vibrato = props => (
                 step={0.1}
                 value={props.effectData.frequency}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['frequency']}
             />
-            <SelectInput 
+            <EnhancedSelectInput 
                 inputId={'type'}
                 label={'Type'}
                 value={props.effectData.type}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['type']}
                 options={[
                     { value: 'sine', text: 'Sine'},
@@ -46,7 +46,7 @@ const Vibrato = props => (
                     { value: 'triangle', text: 'Triangle'}
                 ]}
             />
-            <RangeInput 
+            <EnhancedRangeInput 
                 inputId={'wet'}
                 label={'Wet'}
                 min={0}
@@ -54,11 +54,17 @@ const Vibrato = props => (
                 step={0.005}
                 value={props.effectData.wet}
                 handleChange={props.handleChange}
-                effectId={props.effectId}
+                identifier={props.effectId}
                 propertyPathArray={['wet']}
             />
         </div>
     </div>
 );
+
+Vibrato.propTypes = {
+    effectData: PropTypes.object.isRequired,
+    effectId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};
 
 export default Vibrato;

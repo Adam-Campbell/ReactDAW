@@ -1,11 +1,12 @@
 import React from 'react';
-import RangeInput from './RangeInput';
-import SelectInput from './SelectInput';
+import PropTypes from 'prop-types';
+import EnhancedRangeInput from '../EnhancedRangeInput';
+import EnhancedSelectInput from '../EnhancedSelectInput';
 
 const OscillatorModule = props => (
     <div className="synth-interface__module-container">
         <h2 className="synth-interface__module-heading">Oscillator</h2>
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'oscillator-detune'}
             label={'Detune'}
             min={-100}
@@ -13,10 +14,10 @@ const OscillatorModule = props => (
             step={1}
             value={props.oscillatorData.detune}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'oscillator', 'detune']}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'oscillator-phase'}
             label={'Phase'}
             min={0}
@@ -24,15 +25,15 @@ const OscillatorModule = props => (
             step={1}
             value={props.oscillatorData.phase}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'oscillator', 'phase']}
         />
-        <SelectInput
+        <EnhancedSelectInput
             inputId={'oscillator-type'}
             label={'Type'}
             value={props.oscillatorData.type}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'oscillator', 'type']}
             options={[
                 {value: 'sine', text: 'Sine'},
@@ -53,7 +54,7 @@ const OscillatorModule = props => (
                 {value: 'fatsawtooth', text: 'Fat Sawtooth'}
             ]}
         />
-        <RangeInput 
+        <EnhancedRangeInput 
             inputId={'oscillator-volume'}
             label={'Volume'}
             min={-80}
@@ -61,10 +62,17 @@ const OscillatorModule = props => (
             step={1}
             value={props.oscillatorData.volume}
             handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
+            identifier={props.instrumentId}
             propertyPathArray={[...props.additionalNesting, 'oscillator', 'volume']}
         />
     </div>
 );
+
+OscillatorModule.propTypes = {
+    oscillatorData: PropTypes.object.isRequired,
+    instrumentId: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default OscillatorModule;

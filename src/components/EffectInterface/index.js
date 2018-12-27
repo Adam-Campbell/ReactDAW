@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
+import PropTypes from 'prop-types';
 import FeedbackDelay from './FeedbackDelay';
 import Chorus from './Chorus';
 import Compressor from './Compressor';
@@ -19,7 +20,7 @@ import { effectTypes } from '../../constants';
 import { debounce } from 'lodash';
 
 
-class EffectInterface extends Component {
+export class EffectInterface extends Component {
     constructor(props) {
         super(props);
         this.handleChange = debounce(
@@ -47,7 +48,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose}
                 />
 
             case effectTypes.chorus:
@@ -55,7 +55,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.compressor:
@@ -63,7 +62,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.distortion:
@@ -71,15 +69,13 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.eq3:
                 return <EQ3 
                     effectData={this.effectData}
                     handleChange={this.handleChange}
-                    effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
+                    effectId={this.props.effectId} 
                 />
 
             case effectTypes.filter:
@@ -87,7 +83,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.freeverb:
@@ -95,7 +90,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.gate:
@@ -103,15 +97,13 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
             
             case effectTypes.jcReverb:
                 return <JCReverb 
                     effectData={this.effectData}
                     handleChange={this.handleChange}
-                    effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
+                    effectId={this.props.effectId} 
                 />
 
             case effectTypes.lfo:
@@ -119,7 +111,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.limiter:
@@ -127,7 +118,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.phaser:
@@ -135,7 +125,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.tremolo:
@@ -143,7 +132,6 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             case effectTypes.vibrato:
@@ -151,13 +139,16 @@ class EffectInterface extends Component {
                     effectData={this.effectData}
                     handleChange={this.handleChange}
                     effectId={this.props.effectId}
-                    handleClose={this.handleClose} 
                 />
 
             default:
                 return null;
         }
     }
+}
+
+EffectInterface.propTypes = {
+    effectId: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -168,7 +159,6 @@ export default connect(
     mapStateToProps, 
     {
         updateOneEffectSetting: ActionCreators.updateOneEffectSetting,
-        closeWindow: ActionCreators.closeWindow
     }
 )(EffectInterface);
 

@@ -1,13 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { synthTypes } from '../../constants';
-
-/*
-props:
-instrumentType
-handleChange
-handleOpen
-*/
-
 
 const InstrumentDetails = props => (
     <div className="track-details__instrument-info-container">
@@ -49,5 +42,11 @@ const InstrumentDetails = props => (
         >Edit Settings</button>
     </div>
 );
+
+InstrumentDetails.propTypes = {
+    instrumentType: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleOpen: PropTypes.func.isRequired
+};
 
 export default InstrumentDetails;

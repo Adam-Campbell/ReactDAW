@@ -1,9 +1,9 @@
 import Tone from 'tone';
-import { generateId } from '../../helpers'
 import { 
     findOverlapAlongAxis,
     getWholeBarsFromString,
-    transportPositionStringToSixteenths
+    transportPositionStringToSixteenths,
+    generateId
 } from '../../sharedUtils';
 /**
  * Creates two arrays, one holding the note objects for all currently selected notes, and the other 

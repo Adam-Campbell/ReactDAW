@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__container"
+>
+  <HeaderModule
+    synthTitle="AM Synth"
+  />
+  <EnvelopeModule
+    additionalNesting={Array []}
+    envelopeData={
+      Object {
+        "attack": 0.01,
+        "attackCurve": "linear",
+        "decay": 0.01,
+        "release": 0.5,
+        "releaseCurve": "exponential",
+        "sustain": 1,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <OscillatorModule
+    additionalNesting={Array []}
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    oscillatorData={
+      Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "triangle",
+        "volume": 0,
+      }
+    }
+  />
+  <ModulationModule
+    additionalNesting={Array []}
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    modulationData={
+      Object {
+        "detune": 0,
+        "mute": false,
+        "phase": 0,
+        "type": "square",
+        "volume": 0,
+      }
+    }
+  />
+  <ModulationEnvelopeModule
+    additionalNesting={Array []}
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+    modulationEnvelopeData={
+      Object {
+        "attack": 0.5,
+        "attackCurve": "linear",
+        "decay": 0,
+        "release": 0.5,
+        "releaseCurve": "exponential",
+        "sustain": 1,
+      }
+    }
+  />
+  <div
+    className="synth-interface__module-container"
+  >
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="detune"
+      label="Detune"
+      max={100}
+      min={-100}
+      propertyPathArray={
+        Array [
+          "detune",
+        ]
+      }
+      step={1}
+      value={0}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="harmonicity"
+      label="Harmonicity"
+      max={8}
+      min={0.25}
+      propertyPathArray={
+        Array [
+          "harmonicity",
+        ]
+      }
+      step={0.25}
+      value={3}
+    />
+    <EnhancedRangeInput
+      handleChange={[MockFunction]}
+      identifier="5542150612118159"
+      inputId="volume"
+      label="Volume"
+      max={20}
+      min={-80}
+      propertyPathArray={
+        Array [
+          "volume",
+        ]
+      }
+      step={1}
+      value={0}
+    />
+  </div>
+</div>
+`;
