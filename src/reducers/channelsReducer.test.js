@@ -20,7 +20,11 @@ test('handles ADD_CHANNEL', () => {
             channelName: 'Channel 1',
             channelColor: UIColors.pink,
             instrumentId: '4135926573495216',
-            instrumentType: instrumentTypes.default
+            instrumentType: instrumentTypes.default,
+            volume: 0,
+            isMuted: false, 
+            isSolo: false,
+            pan: 0
         }
     };
     const expectedResult = [{
@@ -29,7 +33,11 @@ test('handles ADD_CHANNEL', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(undefined, action)).toEqual(expectedResult);
 });
@@ -41,7 +49,11 @@ test('handles REMOVE_CHANNEL', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.REMOVE_CHANNEL,
@@ -59,7 +71,11 @@ test('handles UPDATE_CHANNEL_NAME', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.UPDATE_CHANNEL_NAME,
@@ -74,7 +90,11 @@ test('handles UPDATE_CHANNEL_NAME', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -86,7 +106,11 @@ test('handles UPDATE_CHANNEL_COLOR', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.UPDATE_CHANNEL_COLOR,
@@ -101,7 +125,11 @@ test('handles UPDATE_CHANNEL_COLOR', () => {
         color: UIColors.brightBlue,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -113,7 +141,11 @@ test('handles ADD_INSTRUMENT', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.ADD_INSTRUMENT,
@@ -130,7 +162,11 @@ test('handles ADD_INSTRUMENT', () => {
         color: UIColors.pink,
         instrumentId: '9432673249567328',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -142,7 +178,11 @@ test('handles ADD_EFFECT', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.ADD_EFFECT,
@@ -159,7 +199,11 @@ test('handles ADD_EFFECT', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: ['7623194623512496'],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -171,7 +215,11 @@ test('handles REMOVE_EFFECT', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: ['7623194623512496'],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.REMOVE_EFFECT,
@@ -186,7 +234,11 @@ test('handles REMOVE_EFFECT', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -198,7 +250,11 @@ test('handles ADD_SECTION', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.ADD_SECTION,
@@ -220,7 +276,11 @@ test('handles ADD_SECTION', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: ['4931623764958634']
+        sectionIds: ['4931623764958634'],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
@@ -232,7 +292,11 @@ test('handles REMOVE_SECTION', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: ['4931623764958634']
+        sectionIds: ['4931623764958634'],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
     }];
     const action = {
         type: actionTypes.REMOVE_SECTION,
@@ -247,7 +311,217 @@ test('handles REMOVE_SECTION', () => {
         color: UIColors.pink,
         instrumentId: '4135926573495216',
         effectIds: [],
-        sectionIds: []
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles UPDATE_CHANNEL_VOLUME', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.UPDATE_CHANNEL_VOLUME,
+        payload: {
+            channelId: '3425612432675942',
+            newChannelVolume: -10
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: -10,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles MUTE_CHANNEL', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.MUTE_CHANNEL,
+        payload: {
+            channelId: '3425612432675942'
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: true, 
+        isSolo: false,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles UNMUTE_CHANNEL', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: true, 
+        isSolo: false,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.UNMUTE_CHANNEL,
+        payload: {
+            channelId: '3425612432675942'
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles SOLO_CHANNEL', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.SOLO_CHANNEL,
+        payload: {
+            channelId: '3425612432675942'
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: true,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles UNSOLO_CHANNEL', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: true,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.UNSOLO_CHANNEL,
+        payload: {
+            channelId: '3425612432675942'
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    expect(reducer(state, action)).toEqual(expectedResult);
+});
+
+test('handles UPDATE_CHANNEL_PAN', () => {
+    const state = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0
+    }];
+    const action = {
+        type: actionTypes.UPDATE_CHANNEL_PAN,
+        payload: {
+            channelId: '3425612432675942',
+            newChannelPan: 0.4
+        }
+    };
+    const expectedResult = [{
+        id: '3425612432675942',
+        name: 'Channel 1',
+        color: UIColors.pink,
+        instrumentId: '4135926573495216',
+        effectIds: [],
+        sectionIds: [],
+        volume: 0,
+        isMuted: false, 
+        isSolo: false,
+        pan: 0.4
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });

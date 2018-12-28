@@ -1,11 +1,45 @@
 import Tone from 'tone';
 import Section from './Section';
 
+
+/*
+
+Before worrying about the effects chain implementation
+
+add the members:
+
+volumeNode - Tone.Volume
+soloNode - Tone.Solo
+pannerNode - Tone.Panner
+
+They need a method to connect them to each other and then to Master. 
+
+volumeNode should replace Master as the last item in the effects chain for now. 
+
+create methods to update these nodes - 
+
+setVolume
+muteTrack
+unMuteTrack
+soloTrack
+unsoloTrack
+setPanning
+
+Every time the audio engine updates its internal state it can call upon these methods to update the
+track as needed. 
+*/
+
+
 class Channel {
     constructor(channelId, instrument) {
         this.id = channelId;
+        this.volumeNode = new Tone.Volume();
+        this.soloNode = new Tone.Solo();
+        this.pannerNode = new Tone.Panner();
+        this.volumeNode.connect(this.soloNode);
+        this.soloNode.connect(this.pannerNode);
         this._instrument = instrument || new Tone.PolySynth(6, Tone.Synth);
-        this._effectChain = [this._instrument, Tone.Master];
+        this._effectChain = [this._instrument, this.volumeNode];
         this.sectionStore = {};
         this.connectEffectChain();
     }
@@ -38,12 +72,14 @@ class Channel {
         for (let i = 0, len = this._effectChain.length - 1; i < len; i++) {
             this._effectChain[i].connect(this._effectChain[i+1]);
         }
+        this.pannerNode.connect(Tone.Master);
     }
 
     disconnectEffectChain() {
         for (let i = 0, len = this._effectChain.length - 1; i < len; i++) {
             this._effectChain[i].disconnect(this._effectChain[i+1]);
         }
+        this.pannerNode.disconnect(Tone.Master);
     }
 
     addToEffectChain(effect, index) {
@@ -96,6 +132,30 @@ class Channel {
             newInstrument,
             ...this.effectChain.slice(1)
         ];
+    }
+
+    setVolume(newVolume) {
+        this.volumeNode.volume.value = newVolume;
+    }
+
+    mute() {
+        this.volumeNode.mute = true;
+    }
+
+    unmute() {
+        this.volumeNode.mute = false;
+    }
+
+    solo() {
+        this.soloNode.solo = true;
+    }
+
+    unsolo() {
+        this.soloNode.solo = false;
+    }
+
+    setPan(newPan) {
+        this.pannerNode.pan.value = newPan;
     }
     
     addSection(section, startTime) {
