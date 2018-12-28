@@ -12,7 +12,11 @@ const channelsState = [
       color: '#d86597',
       instrumentId: '1496404507349548',
       effectIds: [],
-      sectionIds: []
+      sectionIds: [],
+      isMuted: false,
+      isSolo: false,
+      volume: 0,
+      pan: 0
     },
     {
       id: '0271578528326165',
@@ -20,7 +24,11 @@ const channelsState = [
       color: '#d86597',
       instrumentId: '0446480036600608',
       effectIds: [],
-      sectionIds: []
+      sectionIds: [],
+      isMuted: false,
+      isSolo: false,
+      volume: 0,
+      pan: 0
     },
     {
       id: '9060864310622598',
@@ -28,7 +36,11 @@ const channelsState = [
       color: '#d86597',
       instrumentId: '8229538223456731',
       effectIds: [],
-      sectionIds: []
+      sectionIds: [],
+      isMuted: false,
+      isSolo: false,
+      volume: 0,
+      pan: 0
     }
 ];
 
@@ -56,6 +68,8 @@ test('presentational component renders correctly', () => {
             isSelected={false}
             isEditingName={false}
             isEditingTrackColor={false}
+            isMuted={false}
+            isSolo={false}
             trackName="Channel 1"
             trackColor={UIColors.pink}
             handleContainerClick={jest.fn()}
