@@ -1,35 +1,22 @@
 import Tone from 'tone';
 import { drumSampleURLs } from '../../constants';
-
-/*
-TODO:::
-
-Look into adding an audio node as a member of this class, and all of the individual Players
-that are used for each drum are permanently connected to that audio node. Then in my connect and
-disconnect methods I can just connect and disconnect that one audio node, rather than having to
-manually connect and disconnect each Player seperately. 
-
-Also potentiallu look at exporting some methods into a util file. At the very least move the createPitchesArray
-function from the PianoRollUtils file into the sharedUtils file, and then for this class instead of having 
-createPitchesArray as a class method just import from sharedUtils. 
-
-*/
+import { createPitchesArray } from '../../sharedUtils';
 
 class DrumKit {
     constructor() {
-        
+        this.outputNode = new Tone.Volume();
         this.drums = {
-            kick: new Tone.Player(drumSampleURLs.kick001),
-            snare: new Tone.Player(drumSampleURLs.snare001),
-            clap: new Tone.Player(drumSampleURLs.clap001),
-            closedHat: new Tone.Player(drumSampleURLs.closedHat001),
-            openHat: new Tone.Player(drumSampleURLs.openHat001),
-            crash: new Tone.Player(drumSampleURLs.crash001),
-            ride: new Tone.Player(drumSampleURLs.ride001),
-            highTom: new Tone.Player(drumSampleURLs.highTom001),
-            midTom: new Tone.Player(drumSampleURLs.midTom001),
-            lowTom: new Tone.Player(drumSampleURLs.lowTom001),
-            fx: new Tone.Player(drumSampleURLs.fx001)
+            kick: new Tone.Player(drumSampleURLs.kick001).connect(this.outputNode),
+            snare: new Tone.Player(drumSampleURLs.snare001).connect(this.outputNode),
+            clap: new Tone.Player(drumSampleURLs.clap001).connect(this.outputNode),
+            closedHat: new Tone.Player(drumSampleURLs.closedHat001).connect(this.outputNode),
+            openHat: new Tone.Player(drumSampleURLs.openHat001).connect(this.outputNode),
+            crash: new Tone.Player(drumSampleURLs.crash001).connect(this.outputNode),
+            ride: new Tone.Player(drumSampleURLs.ride001).connect(this.outputNode),
+            highTom: new Tone.Player(drumSampleURLs.highTom001).connect(this.outputNode),
+            midTom: new Tone.Player(drumSampleURLs.midTom001).connect(this.outputNode),
+            lowTom: new Tone.Player(drumSampleURLs.lowTom001).connect(this.outputNode),
+            fx: new Tone.Player(drumSampleURLs.fx001).connect(this.outputNode)
         };
         this.drums.kick.retrigger = true;
         this.drums.snare.retrigger = true;
@@ -42,20 +29,9 @@ class DrumKit {
         this.drums.midTom.retrigger = true;
         this.drums.lowTom.retrigger = true;
         this.drums.fx.retrigger = true;
-        this.pitchesArray = this.createPitchesArray();
+        this.pitchesArray = createPitchesArray();
     }
 
-    createPitchesArray() {
-        const onlyNotes = ['B', 'A#', 'A','G#', 'G', 'F#', 'F', 'E', 'D#', 'D', 'C#', 'C'];
-        const onlyOctaves = ['8', '7', '6', '5', '4', '3', '2', '1', '0'];
-        let pitchesArray = [];
-        for (let octave of onlyOctaves) {
-            for (let note of onlyNotes) {
-                pitchesArray.push(note + octave);
-            }
-        }
-        return pitchesArray;
-    }
 
     /**
      * Takes in a number between 0 and 10 (inclusive), and returns a corresponding string representing
@@ -134,9 +110,10 @@ class DrumKit {
      * @param {object} node - a valid node that can accept connections 
      */
     connect(node) {
-        for (let key in this.drums) {
-            this.drums[key].connect(node);
-        }
+        // for (let key in this.drums) {
+        //     this.drums[key].connect(node);
+        // }
+        this.outputNode.connect(node);
     }
 
     /**
@@ -144,9 +121,10 @@ class DrumKit {
      * @param {object} node - a valid node that can accept connections 
      */
     disconnect(node) {
-        for (let key in this.drums) {
-            this.drums[key].disconnect(node);
-        }
+        // for (let key in this.drums) {
+        //     this.drums[key].disconnect(node);
+        // }
+        this.outputNode.disconnect(node);
     }
 
     /**

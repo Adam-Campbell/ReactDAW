@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import FilterModule from './FilterModule';
-import { synthData } from '../../constants';
+import { instrumentData } from '../../constants';
 
-const filterData = synthData.monoSynth.filter;
+const filterData = instrumentData.monoSynth.filter;
 
 test('renders correctly', () => {
     const component = shallow(

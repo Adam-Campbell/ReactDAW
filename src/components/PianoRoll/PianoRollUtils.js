@@ -84,22 +84,6 @@ export const getTransportLineAttrs = (optionsObject) => {
 };
 
 
-/**
- * Programmaticaly create an array of all of the pitches ranging from C0 to B8.
- * @return {array} - the array of pitches.
- */
-export const createPitchesArray = () => {
-    const onlyNotes = ['B', 'A#', 'A','G#', 'G', 'F#', 'F', 'E', 'D#', 'D', 'C#', 'C'];
-    const onlyOctaves = ['8', '7', '6', '5', '4', '3', '2', '1', '0'];
-    let pitchesArray = [];
-    for (let octave of onlyOctaves) {
-        for (let note of onlyNotes) {
-            pitchesArray.push(note + octave);
-        }
-    }
-    return pitchesArray;
-};
-
 
 /**
  * Programatically creates an array of objects describing each individual grid line required by the

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SynthInterface } from './';
+import { InstrumentInterface } from './';
 import AMSynth from './AMSynth';
 import DuoSynth from './DuoSynth';
 import FMSynth from './FMSynth';
@@ -12,7 +12,7 @@ const instrumentsState = {
       id: '5542150612118159',
       channelId: '8908196355388611',
       type: 'synth',
-      synthData: {
+      instrumentData: {
         envelope: {
           attack: 0.005,
           attackCurve: 'linear',
@@ -36,7 +36,7 @@ const instrumentsState = {
       id: '8648077917817056',
       channelId: '5873553984803034',
       type: 'amSynth',
-      synthData: {
+      instrumentData: {
         detune: 0,
         envelope: {
           attack: 0.01,
@@ -77,7 +77,7 @@ const instrumentsState = {
       id: '2262175587269012',
       channelId: '0912182842906441',
       type: 'fmSynth',
-      synthData: {
+      instrumentData: {
         detune: 0,
         envelope: {
           attack: 0.01,
@@ -119,7 +119,7 @@ const instrumentsState = {
       id: '5195256613888219',
       channelId: '4291527807108257',
       type: 'duoSynth',
-      synthData: {
+      instrumentData: {
         harmonicity: 1.5,
         portamento: 0,
         vibratoAmount: 0.5,
@@ -207,7 +207,7 @@ const instrumentsState = {
       id: '9041179439617252',
       channelId: '5590500931486529',
       type: 'monoSynth',
-      synthData: {
+      instrumentData: {
         detune: 0,
         envelope: {
           attack: 0.005,
@@ -252,7 +252,7 @@ const mockedUpdateOneInstrumentSetting = jest.fn();
 
 test('renders correctly', () => {
     const component = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="5542150612118159"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
@@ -263,7 +263,7 @@ test('renders correctly', () => {
 
 test('renders the correct instrument type according to supplied props', () => {
     const withSynth = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="5542150612118159"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
@@ -271,7 +271,7 @@ test('renders the correct instrument type according to supplied props', () => {
     );
     expect(withSynth.find(Synth)).toHaveLength(1);
     const withAMSynth = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="8648077917817056"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
@@ -279,7 +279,7 @@ test('renders the correct instrument type according to supplied props', () => {
     );
     expect(withAMSynth.find(AMSynth)).toHaveLength(1);
     const withFMSynth = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="2262175587269012"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
@@ -287,7 +287,7 @@ test('renders the correct instrument type according to supplied props', () => {
     );
     expect(withFMSynth.find(FMSynth)).toHaveLength(1);
     const withDuoSynth = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="5195256613888219"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
@@ -295,7 +295,7 @@ test('renders the correct instrument type according to supplied props', () => {
     );
     expect(withDuoSynth.find(DuoSynth)).toHaveLength(1);
     const withMonoSynth = shallow(
-        <SynthInterface 
+        <InstrumentInterface 
             instruments={instrumentsState}
             instrumentId="9041179439617252"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}

@@ -1,0 +1,647 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="synth-interface__container"
+>
+  <HeaderModule
+    synthTitle="Drum Kit"
+  />
+  <div
+    className="synth-interface__module-container"
+  >
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="kick"
+      label="Kick"
+      options={
+        Array [
+          Object {
+            "text": "Kick 001",
+            "value": "drum-samples/kicks/kick_001.wav",
+          },
+          Object {
+            "text": "Kick 002",
+            "value": "drum-samples/kicks/kick_002.wav",
+          },
+          Object {
+            "text": "Kick 003",
+            "value": "drum-samples/kicks/kick_003.wav",
+          },
+          Object {
+            "text": "Kick 004",
+            "value": "drum-samples/kicks/kick_004.wav",
+          },
+          Object {
+            "text": "Kick 005",
+            "value": "drum-samples/kicks/kick_005.wav",
+          },
+          Object {
+            "text": "Kick 006",
+            "value": "drum-samples/kicks/kick_006.wav",
+          },
+          Object {
+            "text": "Kick 007",
+            "value": "drum-samples/kicks/kick_007.wav",
+          },
+          Object {
+            "text": "Kick 008",
+            "value": "drum-samples/kicks/kick_008.wav",
+          },
+          Object {
+            "text": "Kick 009",
+            "value": "drum-samples/kicks/kick_009.wav",
+          },
+          Object {
+            "text": "Kick 010",
+            "value": "drum-samples/kicks/kick_010.wav",
+          },
+          Object {
+            "text": "Kick 011",
+            "value": "drum-samples/kicks/kick_011.wav",
+          },
+          Object {
+            "text": "Kick 012",
+            "value": "drum-samples/kicks/kick_012.wav",
+          },
+          Object {
+            "text": "Kick 013",
+            "value": "drum-samples/kicks/kick_013.wav",
+          },
+          Object {
+            "text": "Kick 014",
+            "value": "drum-samples/kicks/kick_014.wav",
+          },
+          Object {
+            "text": "Kick 015",
+            "value": "drum-samples/kicks/kick_015.wav",
+          },
+          Object {
+            "text": "Kick 016",
+            "value": "drum-samples/kicks/kick_016.wav",
+          },
+          Object {
+            "text": "Kick 017",
+            "value": "drum-samples/kicks/kick_017.wav",
+          },
+          Object {
+            "text": "Kick 018",
+            "value": "drum-samples/kicks/kick_018.wav",
+          },
+          Object {
+            "text": "Kick 019",
+            "value": "drum-samples/kicks/kick_019.wav",
+          },
+          Object {
+            "text": "Kick 020",
+            "value": "drum-samples/kicks/kick_020.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "kick",
+        ]
+      }
+      value="drum-samples/kicks/kick_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="snare"
+      label="Snare"
+      options={
+        Array [
+          Object {
+            "text": "Snare 001",
+            "value": "drum-samples/snares/snare_001.wav",
+          },
+          Object {
+            "text": "Snare 002",
+            "value": "drum-samples/snares/snare_002.wav",
+          },
+          Object {
+            "text": "Snare 003",
+            "value": "drum-samples/snares/snare_003.wav",
+          },
+          Object {
+            "text": "Snare 004",
+            "value": "drum-samples/snares/snare_004.wav",
+          },
+          Object {
+            "text": "Snare 005",
+            "value": "drum-samples/snares/snare_005.wav",
+          },
+          Object {
+            "text": "Snare 006",
+            "value": "drum-samples/snares/snare_006.wav",
+          },
+          Object {
+            "text": "Snare 007",
+            "value": "drum-samples/snares/snare_007.wav",
+          },
+          Object {
+            "text": "Snare 008",
+            "value": "drum-samples/snares/snare_008.wav",
+          },
+          Object {
+            "text": "Snare 009",
+            "value": "drum-samples/snares/snare_009.wav",
+          },
+          Object {
+            "text": "Snare 010",
+            "value": "drum-samples/snares/snare_010.wav",
+          },
+          Object {
+            "text": "Snare 011",
+            "value": "drum-samples/snares/snare_011.wav",
+          },
+          Object {
+            "text": "Snare 012",
+            "value": "drum-samples/snares/snare_012.wav",
+          },
+          Object {
+            "text": "Snare 013",
+            "value": "drum-samples/snares/snare_013.wav",
+          },
+          Object {
+            "text": "Snare 014",
+            "value": "drum-samples/snares/snare_014.wav",
+          },
+          Object {
+            "text": "Snare 015",
+            "value": "drum-samples/snares/snare_015.wav",
+          },
+          Object {
+            "text": "Snare 016",
+            "value": "drum-samples/snares/snare_016.wav",
+          },
+          Object {
+            "text": "Snare 017",
+            "value": "drum-samples/snares/snare_017.wav",
+          },
+          Object {
+            "text": "Snare 018",
+            "value": "drum-samples/snares/snare_018.wav",
+          },
+          Object {
+            "text": "Snare 019",
+            "value": "drum-samples/snares/snare_019.wav",
+          },
+          Object {
+            "text": "Snare 020",
+            "value": "drum-samples/snares/snare_020.wav",
+          },
+          Object {
+            "text": "Snare 021",
+            "value": "drum-samples/snares/snare_021.wav",
+          },
+          Object {
+            "text": "Snare 022",
+            "value": "drum-samples/snares/snare_022.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "snare",
+        ]
+      }
+      value="drum-samples/snares/snare_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="clap"
+      label="Clap"
+      options={
+        Array [
+          Object {
+            "text": "Clap 001",
+            "value": "drum-samples/claps/clap_001.wav",
+          },
+          Object {
+            "text": "Clap 002",
+            "value": "drum-samples/claps/clap_002.wav",
+          },
+          Object {
+            "text": "Clap 003",
+            "value": "drum-samples/claps/clap_003.wav",
+          },
+          Object {
+            "text": "Clap 004",
+            "value": "drum-samples/claps/clap_004.wav",
+          },
+          Object {
+            "text": "Clap 005",
+            "value": "drum-samples/claps/clap_005.wav",
+          },
+          Object {
+            "text": "Clap 006",
+            "value": "drum-samples/claps/clap_006.wav",
+          },
+          Object {
+            "text": "Clap 007",
+            "value": "drum-samples/claps/clap_007.wav",
+          },
+          Object {
+            "text": "Clap 008",
+            "value": "drum-samples/claps/clap_008.wav",
+          },
+          Object {
+            "text": "Clap 009",
+            "value": "drum-samples/claps/clap_009.wav",
+          },
+          Object {
+            "text": "Clap 010",
+            "value": "drum-samples/claps/clap_010.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "clap",
+        ]
+      }
+      value="drum-samples/claps/clap_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="closed-hat"
+      label="Closed Hat"
+      options={
+        Array [
+          Object {
+            "text": "Closed Hat 001",
+            "value": "drum-samples/closed-hats/closed-hat_001.wav",
+          },
+          Object {
+            "text": "Closed Hat 002",
+            "value": "drum-samples/closed-hats/closed-hat_002.wav",
+          },
+          Object {
+            "text": "Closed Hat 003",
+            "value": "drum-samples/closed-hats/closed-hat_003.wav",
+          },
+          Object {
+            "text": "Closed Hat 004",
+            "value": "drum-samples/closed-hats/closed-hat_004.wav",
+          },
+          Object {
+            "text": "Closed Hat 005",
+            "value": "drum-samples/closed-hats/closed-hat_005.wav",
+          },
+          Object {
+            "text": "Closed Hat 006",
+            "value": "drum-samples/closed-hats/closed-hat_006.wav",
+          },
+          Object {
+            "text": "Closed Hat 007",
+            "value": "drum-samples/closed-hats/closed-hat_007.wav",
+          },
+          Object {
+            "text": "Closed Hat 008",
+            "value": "drum-samples/closed-hats/closed-hat_008.wav",
+          },
+          Object {
+            "text": "Closed Hat 009",
+            "value": "drum-samples/closed-hats/closed-hat_009.wav",
+          },
+          Object {
+            "text": "Closed Hat 010",
+            "value": "drum-samples/closed-hats/closed-hat_010.wav",
+          },
+          Object {
+            "text": "Closed Hat 011",
+            "value": "drum-samples/closed-hats/closed-hat_011.wav",
+          },
+          Object {
+            "text": "Closed Hat 012",
+            "value": "drum-samples/closed-hats/closed-hat_012.wav",
+          },
+          Object {
+            "text": "Closed Hat 013",
+            "value": "drum-samples/closed-hats/closed-hat_013.wav",
+          },
+          Object {
+            "text": "Closed Hat 014",
+            "value": "drum-samples/closed-hats/closed-hat_014.wav",
+          },
+          Object {
+            "text": "Closed Hat 015",
+            "value": "drum-samples/closed-hats/closed-hat_015.wav",
+          },
+          Object {
+            "text": "Closed Hat 016",
+            "value": "drum-samples/closed-hats/closed-hat_016.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "closedHat",
+        ]
+      }
+      value="drum-samples/closed-hats/closed-hat_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="open-hat"
+      label="Open Hat"
+      options={
+        Array [
+          Object {
+            "text": "Open Hat 001",
+            "value": "drum-samples/open-hats/open-hat_001.wav",
+          },
+          Object {
+            "text": "Open Hat 002",
+            "value": "drum-samples/open-hats/open-hat_002.wav",
+          },
+          Object {
+            "text": "Open Hat 003",
+            "value": "drum-samples/open-hats/open-hat_003.wav",
+          },
+          Object {
+            "text": "Open Hat 004",
+            "value": "drum-samples/open-hats/open-hat_004.wav",
+          },
+          Object {
+            "text": "Open Hat 005",
+            "value": "drum-samples/open-hats/open-hat_005.wav",
+          },
+          Object {
+            "text": "Open Hat 006",
+            "value": "drum-samples/open-hats/open-hat_006.wav",
+          },
+          Object {
+            "text": "Open Hat 007",
+            "value": "drum-samples/open-hats/open-hat_007.wav",
+          },
+          Object {
+            "text": "Open Hat 008",
+            "value": "drum-samples/open-hats/open-hat_008.wav",
+          },
+          Object {
+            "text": "Open Hat 009",
+            "value": "drum-samples/open-hats/open-hat_009.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "openHat",
+        ]
+      }
+      value="drum-samples/open-hats/open-hat_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="crash"
+      label="Crash"
+      options={
+        Array [
+          Object {
+            "text": "Crash 001",
+            "value": "drum-samples/crashes/crash_001.wav",
+          },
+          Object {
+            "text": "Crash 002",
+            "value": "drum-samples/crashes/crash_002.wav",
+          },
+          Object {
+            "text": "Crash 003",
+            "value": "drum-samples/crashes/crash_003.wav",
+          },
+          Object {
+            "text": "Crash 004",
+            "value": "drum-samples/crashes/crash_004.wav",
+          },
+          Object {
+            "text": "Crash 005",
+            "value": "drum-samples/crashes/crash_005.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "crash",
+        ]
+      }
+      value="drum-samples/crashes/crash_001.wav"
+    />
+  </div>
+  <div
+    className="synth-interface__module-container"
+  >
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="ride"
+      label="Ride"
+      options={
+        Array [
+          Object {
+            "text": "Ride 001",
+            "value": "drum-samples/rides/ride_001.wav",
+          },
+          Object {
+            "text": "Ride 002",
+            "value": "drum-samples/rides/ride_002.wav",
+          },
+          Object {
+            "text": "Ride 003",
+            "value": "drum-samples/rides/ride_003.wav",
+          },
+          Object {
+            "text": "Ride 004",
+            "value": "drum-samples/rides/ride_004.wav",
+          },
+          Object {
+            "text": "Ride 005",
+            "value": "drum-samples/rides/ride_005.wav",
+          },
+          Object {
+            "text": "Ride 006",
+            "value": "drum-samples/rides/ride_006.wav",
+          },
+          Object {
+            "text": "Ride 007",
+            "value": "drum-samples/rides/ride_007.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "ride",
+        ]
+      }
+      value="drum-samples/rides/ride_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="high-tom"
+      label="High Tom"
+      options={
+        Array [
+          Object {
+            "text": "High Tom 001",
+            "value": "drum-samples/high-toms/high-tom_001.wav",
+          },
+          Object {
+            "text": "High Tom 002",
+            "value": "drum-samples/high-toms/high-tom_002.wav",
+          },
+          Object {
+            "text": "High Tom 003",
+            "value": "drum-samples/high-toms/high-tom_003.wav",
+          },
+          Object {
+            "text": "High Tom 004",
+            "value": "drum-samples/high-toms/high-tom_004.wav",
+          },
+          Object {
+            "text": "High Tom 005",
+            "value": "drum-samples/high-toms/high-tom_005.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "highTom",
+        ]
+      }
+      value="drum-samples/high-toms/high-tom_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="mid-tom"
+      label="Mid Tom"
+      options={
+        Array [
+          Object {
+            "text": "Mid Tom 001",
+            "value": "drum-samples/mid-toms/mid-tom_001.wav",
+          },
+          Object {
+            "text": "Mid Tom 002",
+            "value": "drum-samples/mid-toms/mid-tom_002.wav",
+          },
+          Object {
+            "text": "Mid Tom 003",
+            "value": "drum-samples/mid-toms/mid-tom_003.wav",
+          },
+          Object {
+            "text": "Mid Tom 004",
+            "value": "drum-samples/mid-toms/mid-tom_004.wav",
+          },
+          Object {
+            "text": "Mid Tom 005",
+            "value": "drum-samples/mid-toms/mid-tom_005.wav",
+          },
+          Object {
+            "text": "Mid Tom 006",
+            "value": "drum-samples/mid-toms/mid-tom_006.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "midTom",
+        ]
+      }
+      value="drum-samples/mid-toms/mid-tom_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="low-tom"
+      label="Low Tom"
+      options={
+        Array [
+          Object {
+            "text": "Low Tom 001",
+            "value": "drum-samples/low-toms/low-tom_001.wav",
+          },
+          Object {
+            "text": "Low Tom 002",
+            "value": "drum-samples/low-toms/low-tom_002.wav",
+          },
+          Object {
+            "text": "Low Tom 003",
+            "value": "drum-samples/low-toms/low-tom_003.wav",
+          },
+          Object {
+            "text": "Low Tom 004",
+            "value": "drum-samples/low-toms/low-tom_004.wav",
+          },
+          Object {
+            "text": "Low Tom 005",
+            "value": "drum-samples/low-toms/low-tom_005.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "lowTom",
+        ]
+      }
+      value="drum-samples/low-toms/low-tom_001.wav"
+    />
+    <EnhancedSelectInput
+      handleChange={[MockFunction]}
+      identifier="4326432946537512"
+      inputId="fx"
+      label="FX"
+      options={
+        Array [
+          Object {
+            "text": "FX 001",
+            "value": "drum-samples/fx/fx_001.wav",
+          },
+          Object {
+            "text": "FX 002",
+            "value": "drum-samples/fx/fx_002.wav",
+          },
+          Object {
+            "text": "FX 003",
+            "value": "drum-samples/fx/fx_003.wav",
+          },
+          Object {
+            "text": "FX 004",
+            "value": "drum-samples/fx/fx_004.wav",
+          },
+          Object {
+            "text": "FX 005",
+            "value": "drum-samples/fx/fx_005.wav",
+          },
+          Object {
+            "text": "FX 006",
+            "value": "drum-samples/fx/fx_006.wav",
+          },
+          Object {
+            "text": "FX 007",
+            "value": "drum-samples/fx/fx_007.wav",
+          },
+          Object {
+            "text": "FX 008",
+            "value": "drum-samples/fx/fx_008.wav",
+          },
+        ]
+      }
+      propertyPathArray={
+        Array [
+          "fx",
+        ]
+      }
+      value="drum-samples/fx/fx_001.wav"
+    />
+  </div>
+</div>
+`;
