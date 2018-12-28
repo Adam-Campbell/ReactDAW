@@ -9,7 +9,11 @@ Channel schema:
     name {string} - the name of the channel
     instrumentId {string} - the id for the instrument currently associated with this channel
     effectIds [ {string} ] - array of ids for the effects currently being applied to this channel (in order)
-    sectionIds: [ {string} ] - array of ids for the sections currently residing on this channel
+    sectionIds: [ {string} ] - array of ids for the sections currently residing on this channel,
+    volume: {number} - the volume of the channel
+    isMuted: {boolean} - whether or not the channel is muted
+    isSolo: {boolean} - whether the channel is being solo'd
+    pan: {number} - the current panning value for the channel
 }
 */
 
@@ -25,7 +29,11 @@ const channels = (state=defaultState, action) => {
                     color: action.payload.channelColor,
                     instrumentId: action.payload.instrumentId,
                     effectIds: [],
-                    sectionIds: []
+                    sectionIds: [],
+                    volume: 0,
+                    isMuted: false,
+                    isSolo: false,
+                    pan: 0
                 }
             ];
 
@@ -110,6 +118,78 @@ const channels = (state=defaultState, action) => {
                     return {
                         ...channel, 
                         sectionIds: channel.sectionIds.filter(id => id !== action.payload.sectionId)
+                    };
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.UPDATE_CHANNEL_VOLUME:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel, 
+                        volume: action.payload.newChannelVolume
+                    };
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.MUTE_CHANNEL:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        isMuted: true
+                    };
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.UNMUTE_CHANNEL:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        isMuted: false
+                    };
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.SOLO_CHANNEL:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        isSolo: true
+                    };
+                } else {
+                    return channel;
+                }
+            });
+
+        case actionTypes.UNSOLO_CHANNEL:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        isSolo: false
+                    };
+                } else {
+                    return channel;
+                }
+            });
+        
+        case actionTypes.UPDATE_CHANNEL_PAN:
+            return state.map(channel => {
+                if (channel.id === action.payload.channelId) {
+                    return {
+                        ...channel,
+                        pan: action.payload.newChannelPan
                     };
                 } else {
                     return channel;

@@ -247,6 +247,14 @@ body {
   margin-left: 8px;
 }
 
+.track-info__button.active {
+  color: #d86597;
+  background-color: #201826;
+  box-shadow: 
+    0 0 4px #201826,
+    inset 0 0 2px #201826;
+}
+
 .track-info__color-swatch {
   display: inline-block;
   width: 10px;

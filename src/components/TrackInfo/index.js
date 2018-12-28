@@ -18,6 +18,10 @@ export class TrackInfoContainer extends Component {
         };
     }
 
+    get track() {
+        return this.props.channels.find(channel => channel.id === this.props.trackId);
+    }
+
     updateTrackName = (e) => {
         this.setState({
             trackName: e.target.value
@@ -53,10 +57,21 @@ export class TrackInfoContainer extends Component {
 
     handleMuteButtonClick = (e) => {
         //console.log('mute button was clicked');
+        if (this.track.isMuted) {
+            this.props.unmuteChannel(this.props.trackId);
+        } else {
+            this.props.muteChannel(this.props.trackId);
+        }
     }
 
     handleSoloButtonClick = (e) => {
         //console.log('solo button was clicked');
+        if (this.track.isSolo) {
+            this.props.unsoloChannel(this.props.trackId);
+        } else {
+            this.props.soloChannel(this.props.trackId);
+        }
+
     }
 
     handleSettingsButtonClick = (e) => {
@@ -99,8 +114,7 @@ export class TrackInfoContainer extends Component {
     }
 
     openInstrumentWindow = () => {
-        const track = this.props.channels.find(channel => channel.id === this.props.trackId);
-        this.props.openWindow(track.id, 'instrumentSettings');
+        this.props.openWindow(this.track.id, 'instrumentSettings');
     }
 
 
@@ -124,6 +138,8 @@ export class TrackInfoContainer extends Component {
             enterColorEditMode={this.enterColorEditMode}
             exitColorEditMode={this.exitColorEditMode}
             handleColorSwatchClick={this.handleColorSwatchClick}
+            isMuted={this.track.isMuted}
+            isSolo={this.track.isSolo}
         />
     }
 }
@@ -144,7 +160,11 @@ export default connect(
         updateChannelName: ActionCreators.updateChannelName,
         updateChannelColor: ActionCreators.updateChannelColor,
         removeChannel: ActionCreators.removeChannel,
-        openWindow: ActionCreators.openWindow
+        openWindow: ActionCreators.openWindow,
+        muteChannel: ActionCreators.muteChannel,
+        unmuteChannel: ActionCreators.unmuteChannel,
+        soloChannel: ActionCreators.soloChannel,
+        unsoloChannel: ActionCreators.unsoloChannel
     }
 )(TrackInfoContainer);
 

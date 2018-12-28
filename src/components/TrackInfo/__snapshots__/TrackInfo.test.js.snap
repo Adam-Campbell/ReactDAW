@@ -19,7 +19,9 @@ exports[`container component renders correctly 1`] = `
   }
   isEditingName={false}
   isEditingTrackColor={false}
+  isMuted={false}
   isSelected={false}
+  isSolo={false}
   swatchNodeRef={
     Object {
       "current": null,
@@ -46,13 +48,13 @@ exports[`presentational component renders correctly 1`] = `
       Channel 1
     </p>
     <button
-      className="track-info__button"
+      className="track-info__button "
       onClick={[MockFunction]}
     >
       M
     </button>
     <button
-      className="track-info__button"
+      className="track-info__button "
       onClick={[MockFunction]}
     >
       S

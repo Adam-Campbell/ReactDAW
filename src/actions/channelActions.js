@@ -33,3 +33,48 @@ export const updateChannelColor = (channelId, newChannelColor) => ({
         newChannelColor
     }
 });
+
+export const updateChannelVolume = (channelId, newChannelVolume) => ({
+    type: actionTypes.UPDATE_CHANNEL_VOLUME,
+    payload: {
+        channelId,
+        newChannelVolume
+    }
+});
+
+export const muteChannel = (channelId) => ({
+    type: actionTypes.MUTE_CHANNEL,
+    payload: {
+        channelId
+    }
+});
+
+export const unmuteChannel = (channelId) => ({
+    type: actionTypes.UNMUTE_CHANNEL,
+    payload: {
+        channelId
+    }
+});
+
+export const soloChannel = (channelId) => ({
+    type: actionTypes.SOLO_CHANNEL,
+    payload:{
+        channelId
+    }
+});
+
+export const unsoloChannel = (channelId) => ({
+    type: actionTypes.UNSOLO_CHANNEL,
+    payload: {
+        channelId
+    }
+});
+
+export const updateChannelPan = (channelId, newChannelPan) => ({
+    type: actionTypes.UPDATE_CHANNEL_PAN,
+    payload: {
+        channelId,
+        newChannelPan
+    }
+});
+

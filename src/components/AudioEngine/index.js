@@ -186,6 +186,28 @@ class AudioEngine extends Component {
                 channelRef.addSection(newSection, section.start);
             }
         }
+
+        // update the meta data for this channel
+        if (prevChannel.volume !== currChannel.volume) {
+            channelRef.setVolume(currChannel.volume);
+        }
+        if (prevChannel.pan !== currChannel.pan) {
+            channelRef.setPan(currChannel.pan);
+        }
+        if (prevChannel.isMuted !== currChannel.isMuted) {
+            if (currChannel.isMuted) {
+                channelRef.mute();
+            } else {
+                channelRef.unmute();
+            }
+        }
+        if (prevChannel.isSolo !== currChannel.isSolo) {
+            if (currChannel.isSolo) {
+                channelRef.solo();
+            } else {
+                channelRef.unsolo();
+            }
+        }
     }
 
     _updateSection(prevSection, currSection, sectionRef) {
@@ -242,6 +264,20 @@ class AudioEngine extends Component {
             newChannel.addSection(newSection, section.start);
         }
 
+        // set the meta data for this channel
+        newChannel.setVolume(channelData.volume);
+        newChannel.setPan(channelData.pan);
+        if (channelData.isMuted) {
+            newChannel.mute();
+        } else {
+            newChannel.unmute();
+        }
+        if (channelData.isSolo) {
+            newChannel.solo();
+        } else {
+            newChannel.unsolo();
+        }
+
         return newChannel;
 
     }
@@ -275,7 +311,11 @@ class AudioEngine extends Component {
                 id: channel.id,
                 instrument: state.instruments[channel.instrumentId],
                 effects: channel.effectIds.map(effectId => state.effects[effectId]),
-                sections: channel.sectionIds.map(sectionId => state.sections[sectionId])
+                sections: channel.sectionIds.map(sectionId => state.sections[sectionId]),
+                volume: channel.volume,
+                isMuted: channel.isMuted,
+                isSolo: channel.isSolo,
+                pan: channel.pan
             }
         });
         return tree;

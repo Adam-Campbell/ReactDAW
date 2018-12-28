@@ -24,11 +24,11 @@ const TrackInfo = props => (
                 >{props.trackName}</p>  
             }
             <button 
-                className="track-info__button" 
+                className={`track-info__button ${props.isMuted ? 'active' : ''}`}
                 onClick={props.handleMuteButtonClick}
             >M</button>
             <button 
-                className="track-info__button"
+                className={`track-info__button ${props.isSolo ? 'active' : ''}`}
                 onClick={props.handleSoloButtonClick}
             >S</button>
             <button 
@@ -73,6 +73,8 @@ TrackInfo.propTypes = {
     trackName: PropTypes.string.isRequired,
     trackColor: PropTypes.string.isRequired,
     isEditingTrackColor: PropTypes.bool.isRequired,
+    isMuted: PropTypes.bool.isRequired,
+    isSolo: PropTypes.bool.isRequired,
     // callback functions
     handleContainerClick: PropTypes.func.isRequired,
     updateTrackName: PropTypes.func.isRequired,
