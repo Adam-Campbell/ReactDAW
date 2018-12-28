@@ -42,7 +42,7 @@ const FilterModule = props => (
         <EnhancedSelectInput 
             inputId={'filter-rolloff'}
             label={'Rolloff'}
-            value={props.filterData.rolloff}
+            value={props.filterData.rolloff.toString()}
             handleChange={props.handleChange}
             identifier={props.instrumentId}
             shouldConvertToFloat={true}

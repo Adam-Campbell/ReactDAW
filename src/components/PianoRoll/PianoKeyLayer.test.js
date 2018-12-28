@@ -2,7 +2,7 @@ import React from 'react';
 import PianoKeyLayer from './PianoKeyLayer';
 import { Rect } from 'react-konva';
 import { shallow } from 'enzyme';
-import { createPitchesArray } from './PianoRollUtils';
+import { createPitchesArray } from '../../sharedUtils';
 
 const mockedHandleClick = jest.fn();
 

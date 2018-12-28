@@ -1,13 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import DuoSynth from './DuoSynth';
-import { synthData } from '../../constants';
+import FilterModule from './FilterModule';
+import { instrumentData } from '../../constants';
+
+const filterData = instrumentData.monoSynth.filter;
 
 test('renders correctly', () => {
     const component = shallow(
-        <DuoSynth 
-            instrumentData={synthData.duoSynth}
+        <FilterModule 
+            filterData={filterData}
             instrumentId="5542150612118159"
+            additionalNesting={[]}
             handleChange={jest.fn()}
         />
     );

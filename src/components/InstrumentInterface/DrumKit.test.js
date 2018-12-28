@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Synth from './Synth';
-import { synthData } from '../../constants';
+import DrumKit from './Drumkit';
+import { instrumentData } from '../../constants';
 
 test('renders correctly', () => {
     const component = shallow(
-        <Synth 
-            instrumentData={synthData.synth}
-            instrumentId="5542150612118159"
+        <DrumKit 
+            instrumentData={instrumentData.drumKit}
+            instrumentId="4326432946537512"
             handleChange={jest.fn()}
         />
     );

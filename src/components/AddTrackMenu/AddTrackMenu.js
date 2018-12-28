@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { synthTypes } from '../../constants';
+import { instrumentTypes } from '../../constants';
 
 const AddTrackMenu = props => (
     <div className="add-track-menu">
@@ -14,24 +14,28 @@ const AddTrackMenu = props => (
             <ul className="add-track-menu__list">
                 <li 
                     className="add-track-menu__menu-item"
-                    onClick={() => props.handleAddChannel(synthTypes.default)}
+                    onClick={() => props.handleAddChannel(instrumentTypes.default)}
                 >Synth</li>
                 <li 
                     className="add-track-menu__menu-item"
-                    onClick={() => props.handleAddChannel(synthTypes.am)}
+                    onClick={() => props.handleAddChannel(instrumentTypes.am)}
                 >AM Synth</li>
                 <li 
                     className="add-track-menu__menu-item"
-                    onClick={() => props.handleAddChannel(synthTypes.fm)}
+                    onClick={() => props.handleAddChannel(instrumentTypes.fm)}
                 >FM Synth</li>
                 <li 
                     className="add-track-menu__menu-item"
-                    onClick={() => props.handleAddChannel(synthTypes.duo)}
+                    onClick={() => props.handleAddChannel(instrumentTypes.duo)}
                 >Duo Synth</li>
                 <li 
                     className="add-track-menu__menu-item"
-                    onClick={() => props.handleAddChannel(synthTypes.mono)}
+                    onClick={() => props.handleAddChannel(instrumentTypes.mono)}
                 >Mono Synth</li>
+                <li 
+                    className="add-track-menu__menu-item"
+                    onClick={() => props.handleAddChannel(instrumentTypes.drumKit)}
+                >Drum Kit</li>
                 <li 
                     className="add-track-menu__menu-item"
                     onClick={props.closeMenu}

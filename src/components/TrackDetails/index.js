@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { effectTypes, synthData, effectData } from '../../constants';
+import { effectTypes, instrumentData, effectData } from '../../constants';
 import { generateId } from '../../sharedUtils';
 import InstrumentDetails from './InstrumentDetails';
 import EffectsDetails from './EffectsDetails';
@@ -30,7 +30,7 @@ export class TrackDetails extends Component {
             generateId(),
             this.track.id,
             newInstrumentType,
-            synthData[newInstrumentType]
+            instrumentData[newInstrumentType]
         );
         this.props.removeInstrument(oldInstrumentId);
     }

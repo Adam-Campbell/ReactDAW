@@ -1,12 +1,12 @@
 import * as actionTypes from '../actionTypes';
 
-export const addInstrument = (instrumentId, channelId, type, synthData) => ({
+export const addInstrument = (instrumentId, channelId, type, instrumentData) => ({
     type: actionTypes.ADD_INSTRUMENT,
     payload: {
         instrumentId,
         channelId,
         type, 
-        synthData
+        instrumentData
     }
 });
 

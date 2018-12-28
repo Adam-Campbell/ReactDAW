@@ -1,7 +1,8 @@
 import Tone from 'tone';
-import { synthTypes } from '../../constants';
+import { instrumentTypes } from '../../constants';
+import DrumKit from './DrumKit';
 
-class SynthFactory {
+class InstrumentFactory {
 
     static listTypes() {
         console.log(`
@@ -14,22 +15,25 @@ class SynthFactory {
         `);
     }
 
-    create(synthType, data) {
-        switch (synthType) {
-            case synthTypes.default:
+    create(instrumentType, data) {
+        switch (instrumentType) {
+            case instrumentTypes.default:
                 return this._createSynth(data);
 
-            case synthTypes.am:
+            case instrumentTypes.am:
                 return this._createAMSynth(data);
 
-            case synthTypes.fm:
+            case instrumentTypes.fm:
                 return this._createFMSynth(data);
 
-            case synthTypes.duo:
+            case instrumentTypes.duo:
                 return this._createDuoSynth(data);
 
-            case synthTypes.mono:
+            case instrumentTypes.mono:
                 return this._createMonoSynth(data);
+
+            case instrumentTypes.drumKit:
+                return this._createDrumKit(data);
 
             default:
                 return new Tone.PolySynth(24, Tone.Synth);
@@ -37,14 +41,11 @@ class SynthFactory {
     }
 
     _createSynth(data) {
-        console.log(data);
         const synth = new Tone.PolySynth(24, Tone.Synth);
         if (data) {
             synth.set(data);
         }
         return synth;
-        // const synth = new Synth(data);
-        // return synth;
     }
 
     _createAMSynth(data) {
@@ -79,6 +80,14 @@ class SynthFactory {
         return synth;
     }
 
+    _createDrumKit(data) {
+        const drumKit = new DrumKit();
+        if (data) {
+            drumKit.set(data);
+        }
+        return drumKit;
+    }
+
 }
 
-export default SynthFactory;
+export default InstrumentFactory;

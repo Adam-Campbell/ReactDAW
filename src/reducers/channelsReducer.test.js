@@ -2,8 +2,8 @@ import * as actionTypes from '../actionTypes';
 import reducer from './channelsReducer';
 import { 
     UIColors, 
-    synthTypes, 
-    synthData,
+    instrumentTypes, 
+    instrumentData,
     effectTypes,
     effectData
 } from '../constants';
@@ -20,7 +20,7 @@ test('handles ADD_CHANNEL', () => {
             channelName: 'Channel 1',
             channelColor: UIColors.pink,
             instrumentId: '4135926573495216',
-            instrumentType: synthTypes.default
+            instrumentType: instrumentTypes.default
         }
     };
     const expectedResult = [{
@@ -120,8 +120,8 @@ test('handles ADD_INSTRUMENT', () => {
         payload: {
             instrumentId: '9432673249567328',
             channelId: '3425612432675942',
-            type: synthTypes.fm,
-            synthData: synthData.fmSynth
+            type: instrumentTypes.fm,
+            instrumentData: instrumentData.fmSynth
         }
     };
     const expectedResult = [{

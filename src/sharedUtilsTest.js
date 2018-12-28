@@ -7,7 +7,8 @@ import {
     generateId, 
     deepCopy,
     updatePropAtPath,
-    deletePropFromObject
+    deletePropFromObject,
+    createPitchesArray
 } from './sharedUtils';
 
 describe('findOverlapAlongAxis', () => {
@@ -172,5 +173,13 @@ describe('deletePropFromObject', () => {
             propA: 'val A',
             propC: 'val C'
         });
+    });
+});
+
+describe('createPitchesArray', () => {
+    test('correctly creates the pitches array', () => {
+        const result = createPitchesArray();
+        expect(result).toHaveLength(108);
+        expect(result).toMatchSnapshot();
     });
 });

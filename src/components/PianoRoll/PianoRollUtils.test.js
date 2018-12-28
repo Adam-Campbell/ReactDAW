@@ -2,7 +2,6 @@ import Tone from 'tone';
 import {
     createSelectedAndUnselectedNoteArrays,
     getTransportLineAttrs,
-    createPitchesArray,
     createGridLinesArray,
     isValidNote,
     calculateNoteInfo,
@@ -19,7 +18,10 @@ import {
     getFirstAvailablePitchInChord
 } from './PianoRollUtils';
 
-import { transportPositionStringToSixteenths } from '../../sharedUtils';
+import { 
+    transportPositionStringToSixteenths,
+    createPitchesArray 
+} from '../../sharedUtils';
 
 jest.mock('tone');
 
@@ -123,14 +125,6 @@ describe('getTransportLineAttrs', () => {
             currentTransportPosition: '2:3:1'
         });
         expect(result).toEqual({ xPos: 312, strokeWidth: 2 });
-    });
-});
-
-describe('createPitchesArray', () => {
-    test('correctly creates the pitches array', () => {
-        const result = createPitchesArray();
-        expect(result).toHaveLength(108);
-        expect(result).toMatchSnapshot();
     });
 });
 

@@ -8,7 +8,6 @@ import PianoRoll from './PianoRoll';
 import {
     createSelectedAndUnselectedNoteArrays,
     getTransportLineAttrs,
-    createPitchesArray,
     createGridLinesArray,
     isValidNote,
     calculateNoteInfo,
@@ -31,7 +30,8 @@ import {
     getWholeBarsFromString,
     transportPositionStringToSixteenths, 
     adjustForScroll,
-    generateId
+    generateId,
+    createPitchesArray
 } from '../../sharedUtils';
 
 /*

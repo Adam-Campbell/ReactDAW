@@ -1,8 +1,8 @@
 import * as actionTypes from '../actionTypes';
 import reducer from './instrumentsReducer';
 import { 
-    synthTypes, 
-    synthData,
+    instrumentTypes, 
+    instrumentData,
     UIColors 
 } from '../constants';
 
@@ -16,16 +16,16 @@ test('handles ADD_INSTRUMENT', () => {
         payload: {
             instrumentId: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     const expectedResult = {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     expect(reducer(undefined, action)).toEqual(expectedResult);
@@ -36,8 +36,8 @@ test('handles REMOVE_INSTRUMENT', () => {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     const action = {
@@ -54,8 +54,8 @@ test('handles UPDATE_INSTRUMENT_SETTINGS', () => {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     const action = {
@@ -87,8 +87,8 @@ test('handles UPDATE_INSTRUMENT_SETTINGS', () => {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: {
+            type: instrumentTypes.default,
+            instrumentData: {
                 envelope: {
                     attack: 0.005,
                     attackCurve: 'linear',
@@ -117,8 +117,8 @@ test('handles UPDATE_ONE_INSTRUMENT_SETTING', () => {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     const action = {
@@ -133,8 +133,8 @@ test('handles UPDATE_ONE_INSTRUMENT_SETTING', () => {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: {
+            type: instrumentTypes.default,
+            instrumentData: {
                 envelope: {
                     attack: 0.005,
                     attackCurve: 'linear',
@@ -166,15 +166,15 @@ test('handles ADD_CHANNEL', () => {
             channelName: 'New channel',
             channelColor: UIColors.brightRed,
             instrumentId: '6432676162483295',
-            instrumentType: synthTypes.default
+            instrumentType: instrumentTypes.default
         }
     };
     const expectedResult = {
         '6432676162483295': {
             id: '6432676162483295',
             channelId: '7613264953265135',
-            type: synthTypes.default,
-            synthData: synthData.synth
+            type: instrumentTypes.default,
+            instrumentData: instrumentData.synth
         }
     };
     expect(reducer(undefined, action)).toEqual(expectedResult);

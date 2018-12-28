@@ -89,7 +89,7 @@ exports[`renders correctly 1`] = `
       ]
     }
     shouldConvertToFloat={true}
-    value={-24}
+    value="-24"
   />
   <EnhancedSelectInput
     handleChange={[MockFunction]}

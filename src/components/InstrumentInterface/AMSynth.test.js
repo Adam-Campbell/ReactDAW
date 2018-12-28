@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import FMSynth from './FMSynth';
-import { synthData } from '../../constants';
+import AMSynth from './AMSynth';
+import { instrumentData } from '../../constants';
 
 test('renders correctly', () => {
     const component = shallow(
-        <FMSynth 
-            instrumentData={synthData.fmSynth}
+        <AMSynth 
+            instrumentData={instrumentData.amSynth}
             instrumentId="5542150612118159"
             handleChange={jest.fn()}
         />

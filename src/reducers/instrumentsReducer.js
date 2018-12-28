@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import { synthData } from '../constants';
+import { instrumentData } from '../constants';
 import { deepCopy, updatePropAtPath, deletePropFromObject } from '../sharedUtils';
 
 const defaultState = {};
@@ -28,8 +28,8 @@ const instruments = (state=defaultState, action) => {
                     id: action.payload.instrumentId,
                     channelId: action.payload.channelId,
                     type: action.payload.instrumentType,
-                    synthData: {
-                        ...synthData[action.payload.instrumentType]
+                    instrumentData: {
+                        ...instrumentData[action.payload.instrumentType]
                     }
                 }
             }
@@ -41,7 +41,7 @@ const instruments = (state=defaultState, action) => {
                     id: action.payload.instrumentId,
                     channelId: action.payload.channelId,
                     type: action.payload.type,
-                    synthData: action.payload.synthData
+                    instrumentData: action.payload.instrumentData
                 }
             }
         
@@ -53,7 +53,7 @@ const instruments = (state=defaultState, action) => {
                 ...state,
                 [action.payload.instrumentId]: {
                     ...state[action.payload.instrumentId],
-                    synthData: action.payload.instrumentData
+                    instrumentData: action.payload.instrumentData
                 }
             };
 
@@ -62,8 +62,8 @@ const instruments = (state=defaultState, action) => {
                 ...state, 
                 [action.payload.instrumentId]: {
                     ...state[action.payload.instrumentId],
-                    synthData: updatePropAtPath(
-                        deepCopy(state[action.payload.instrumentId].synthData),
+                    instrumentData: updatePropAtPath(
+                        deepCopy(state[action.payload.instrumentId].instrumentData),
                         action.payload.propertyPathArray,
                         action.payload.newValue
                     )

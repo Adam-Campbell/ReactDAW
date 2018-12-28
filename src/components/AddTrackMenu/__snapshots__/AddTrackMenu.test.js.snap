@@ -57,6 +57,12 @@ exports[`presentational component renders correctly 1`] = `
       </li>
       <li
         className="add-track-menu__menu-item"
+        onClick={[Function]}
+      >
+        Drum Kit
+      </li>
+      <li
+        className="add-track-menu__menu-item"
         onClick={[MockFunction]}
       >
         X
