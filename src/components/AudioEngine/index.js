@@ -20,7 +20,9 @@ class AudioEngine extends Component {
         this._effectFactory = new EffectFactory();
         window.bus = this._bus;
         this.instrumentReferences = {};
+        this.meterNodeReferences = {};
         window.instrumentReferences = this.instrumentReferences;
+        window.meterNodeReferences = this.meterNodeReferences;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,6 +46,7 @@ class AudioEngine extends Component {
                 // here we remove the refernece to this channels instrument from the global
                 // instrumentReferences object. 
                 delete this.instrumentReferences[channel.id];
+                delete this.meterNodeReferences[channel.id];
             }
         }
 
@@ -277,6 +280,9 @@ class AudioEngine extends Component {
         } else {
             newChannel.unsolo();
         }
+
+        // add a reference to the method to get this channels meter signal value
+        this.meterNodeReferences[channelData.id] = newChannel.meterNode;
 
         return newChannel;
 

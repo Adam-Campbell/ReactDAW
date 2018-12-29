@@ -13,15 +13,19 @@ class Mixer extends Component {
     render() {
         return (
             <div className="mixer__container">
-               <MixerItem />
-               <MixerItem /> 
+               {this.props.channels.map(channel => (
+                    <MixerItem 
+                        trackId={channel.id}
+                        key={channel.id}
+                    />
+               ))}
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-
+    channels: state.channels
 });
 
 export default connect(mapStateToProps)(Mixer);

@@ -40,7 +40,7 @@ body {
   font-size: 16px;
   margin-right: 8px;
   margin-left: 16px;
-  text-shadow: 0 0 6px #ed90b9;
+  text-shatext-shadow: 0 0 6px #ed90b9;
 }
 
 
@@ -847,7 +847,7 @@ REUSABLE STYLES
 
 
 .slider__container {
-  border: solid green 2px;
+  border: solid green 1px;
   padding: 16px;
 }
 
@@ -870,26 +870,28 @@ REUSABLE STYLES
 }
 
 .mixer__container {
-  border: solid green 2px;
+  border: solid green 1px;
   padding: 16px;
-  min-height: 220px;
+  min-height: 260px;
   display: flex;
 }
 
 
 .mixer__item {
-  
-  border: solid red 2px;
+  border: solid red 1px;
   width: 100px;
+  text-align: center;
 }
 
-.mixer__span {
+.mixer__volume-marker-container {
   display: inline-block;
-  width: 8px;
   min-width: 8px;
-  margin-left: 16px;
+  margin-left: 8px;
   height: 120px;
-  background-color: yellow;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .range-input.range-input__mixer-volume {
@@ -902,25 +904,38 @@ REUSABLE STYLES
   transform: rotate(-90deg) translateX(-57px);
 }
 
-.mixer__meter {
+.mixer__meter-outer {
   display: inline-block;
-  background-color: #00bff3;
+  background: none;
   width: 16px;
   min-width: 16px;
   height: 120px;
   margin-right: 16px;
   margin-left: auto;
+  position: relative;
+  border: solid 1px #00bff3;
+}
+
+.mixer__meter-inner {
+  background-color: #00bff3;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
 }
 
 .mixer__slider-container {
   display: flex;
   align-items: center;
   position: relative;
-  border: solid orange 2px;
+  border: solid orange 1px;
 }
 
 .mixer__button-container {
-  border: solid blue 2px;
+  border: solid blue 1px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   display: flex;
 }
 
@@ -946,4 +961,37 @@ REUSABLE STYLES
 
 .range-input.range-input__mixer-pan {
   width: 80px;
+}
+
+.mixer__volume-marker {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #d86597;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.pan__label-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pan__label {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  margin: 0 16px;
+}
+
+.mixer__track-name {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 4px 8px;
 }
