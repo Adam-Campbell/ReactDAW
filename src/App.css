@@ -363,6 +363,10 @@ body {
   margin-bottom: 8px;
 }
 
+.range-input.range-input__vertical {
+  transform: rotate(-90deg);
+}
+
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
@@ -385,18 +389,18 @@ body {
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 16px;
-  width: 16px;
-  border-radius: 8px;
-  background: #e0e0e0;
+  width: 32px;
+  border-radius: 2px;
+  background: #d86597;
   cursor: pointer;
-  margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
 
 .range-input::-moz-range-thumb {
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #e0e0e0;
+  background: #d86597;
   cursor: pointer;
 }
 
@@ -404,15 +408,15 @@ body {
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #e0e0e0;
+  background: #d86597;
   cursor: pointer;
 }
 
 .range-input::-webkit-slider-runnable-track { 
   width: 100px;
   height: 6px;
-  background: #e0e0e0;
-  border-radius: 3px;
+  background: #47426c;
+  border-radius: 1px;
 }
 
 .range-input__label {
@@ -839,4 +843,107 @@ REUSABLE STYLES
     0 0 4px #d86597,
     inset 0 0 2px #d86597;
   text-shadow: 0 0 6px #d86597;
+}
+
+
+.slider__container {
+  border: solid green 2px;
+  padding: 16px;
+}
+
+.slider__track {
+  display: inline-block;
+  position: relative;
+  background-color: #47426c;
+  height: 100px;
+  width: 6px;
+}
+
+.slider__handle {
+  background-color: #d86597;
+  position: absolute;
+  transform: translateX(-25%);
+  left: 0;
+  height: 16px;
+  width: 10px;
+  cursor: pointer;
+}
+
+.mixer__container {
+  border: solid green 2px;
+  padding: 16px;
+  min-height: 220px;
+  display: flex;
+}
+
+
+.mixer__item {
+  
+  border: solid red 2px;
+  width: 100px;
+}
+
+.mixer__span {
+  display: inline-block;
+  width: 8px;
+  min-width: 8px;
+  margin-left: 16px;
+  height: 120px;
+  background-color: yellow;
+}
+
+.range-input.range-input__mixer-volume {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  width: 120px;
+  top: 0;
+  left: -22px;
+  transform: rotate(-90deg) translateX(-57px);
+}
+
+.mixer__meter {
+  display: inline-block;
+  background-color: #00bff3;
+  width: 16px;
+  min-width: 16px;
+  height: 120px;
+  margin-right: 16px;
+  margin-left: auto;
+}
+
+.mixer__slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: solid orange 2px;
+}
+
+.mixer__button-container {
+  border: solid blue 2px;
+  display: flex;
+}
+
+.mixer__button {
+  width: 18px;
+  height: 18px;
+  background-color: #d86597;
+  color: #201826;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.mixer__button + .mixer__button {
+  margin-left: auto;
+}
+
+.range-input.range-input__mixer-pan {
+  width: 80px;
 }

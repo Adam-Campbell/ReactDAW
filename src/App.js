@@ -12,6 +12,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import CustomDragLayer from './components/CustomDragLayer';
 import DragWrapper from './components/DragWrapper';
+import Mixer from './components/Mixer';
 
 class App extends Component {
   render() {
@@ -48,7 +49,8 @@ class App extends Component {
                 return null;
             }
           })
-        }       
+        }  
+        <Mixer />    
       </div>
     );
   }
