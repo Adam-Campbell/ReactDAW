@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import * as ActionCreators from '../../actions';
 import { connect } from 'react-redux';
 import MasterSlider from './MasterSlider';
 
-class MasterSliderContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.foo = 'bar';
-    }
+export class MasterSliderContainer extends Component {
 
     handleVolumeChange = (e) => {
         this.props.setMasterVolume(parseFloat(e.target.value));
@@ -23,9 +18,6 @@ class MasterSliderContainer extends Component {
     }
 }
 
-MasterSliderContainer.propTypes = {
-
-};
 
 const mapStateToProps = state => ({
     volume: state.playerInfo.volume

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import PropTypes from 'prop-types';
-import Meter from './Meter';
 import MixerItem from './MixerItem';
 
-class MixerItemContainer extends Component {
+export class MixerItemContainer extends Component {
     
     get track() {
         return this.props.channels.find(channel => channel.id === this.props.trackId);

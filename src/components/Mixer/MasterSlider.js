@@ -29,7 +29,9 @@ const MasterSlider = props => (
 ); 
 
 MasterSlider.propTypes = {
-    
+    volume: PropTypes.number.isRequired,
+    handleVolumeChange: PropTypes.func.isRequired,
+    trackId: PropTypes.string.isRequired
 };
 
 export default MasterSlider;

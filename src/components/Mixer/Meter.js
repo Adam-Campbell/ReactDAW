@@ -49,7 +49,8 @@ class Meter extends Component {
 }
 
 Meter.propTypes = {
-    trackId: PropTypes.string.isRequired
+    trackId: PropTypes.string.isRequired,
+    isMaster: PropTypes.any
 }
 
 export default Meter;
