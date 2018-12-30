@@ -11,6 +11,17 @@ import EffectFactory from './EffectFactory';
 
 window.Tone = Tone;
 
+/*
+
+Not urgent but should be revisited later - when adding a Tone.Meter instance via the chain() method
+on Tone.Master, the level reported by that meter is unaffected by chaing the volume via Tone.Master.volume.
+
+It may be necessary to add an instance of Tone.Volume before the Tone.Meter instance in the chain, and then
+use that to alter the master volume. 
+
+*/
+
+
 class AudioEngine extends Component {
     constructor(props) {
         super(props);
@@ -18,9 +29,14 @@ class AudioEngine extends Component {
         this._bus = new Bus();
         this._instrumentFactory = new InstrumentFactory();
         this._effectFactory = new EffectFactory();
+        this.masterMeterNode = new Tone.Meter();
         window.bus = this._bus;
         this.instrumentReferences = {};
+        this.meterNodeReferences = {};
         window.instrumentReferences = this.instrumentReferences;
+        window.meterNodeReferences = this.meterNodeReferences;
+        Tone.Master.chain(this.masterMeterNode);
+        this.meterNodeReferences['master'] = this.masterMeterNode;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,6 +60,7 @@ class AudioEngine extends Component {
                 // here we remove the refernece to this channels instrument from the global
                 // instrumentReferences object. 
                 delete this.instrumentReferences[channel.id];
+                delete this.meterNodeReferences[channel.id];
             }
         }
 
@@ -152,7 +169,7 @@ class AudioEngine extends Component {
                 );
             });
             newEffectChain.unshift(channelRef.instrument);
-            newEffectChain.push(Tone.Master);
+            newEffectChain.push(channelRef.volumeNode);
             channelRef.effectChain = newEffectChain;
             channelRef.connectEffectChain();
             // else if the only thing that has changed is settings, loop over the effects and 
@@ -278,6 +295,9 @@ class AudioEngine extends Component {
             newChannel.unsolo();
         }
 
+        // add a reference to the method to get this channels meter signal value
+        this.meterNodeReferences[channelData.id] = newChannel.meterNode;
+
         return newChannel;
 
     }
@@ -292,7 +312,7 @@ class AudioEngine extends Component {
                 note: note.pitch,
                 time: note.time,
                 duration: note.duration,
-                id: note.id,
+                id: note._id,
                 velocity: note.velocity
             });
         }

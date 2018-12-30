@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="mixer__item"
+>
+  <div
+    className="mixer__slider-container"
+  >
+    <div
+      className="mixer__volume-marker-container"
+    >
+      <p
+        className="mixer__volume-marker"
+      >
+        10
+      </p>
+      <p
+        className="mixer__volume-marker"
+      >
+        0
+      </p>
+      <p
+        className="mixer__volume-marker"
+      >
+        -10
+      </p>
+      <p
+        className="mixer__volume-marker"
+      >
+        -20
+      </p>
+      <p
+        className="mixer__volume-marker"
+      >
+        -30
+      </p>
+      <p
+        className="mixer__volume-marker"
+      >
+        -40
+      </p>
+    </div>
+    <input
+      className="range-input range-input__mixer-volume"
+      id="volume-slider"
+      max={10}
+      min={-40}
+      onChange={[MockFunction]}
+      step={0.25}
+      type="range"
+      value={0}
+    />
+    <Meter
+      trackId="2812513466104156"
+    />
+  </div>
+  <div
+    className="mixer__button-container"
+  >
+    <button
+      className="mixer__button "
+      onClick={[MockFunction]}
+    >
+      M
+    </button>
+    <button
+      className="mixer__button "
+      onClick={[MockFunction]}
+    >
+      S
+    </button>
+  </div>
+  <input
+    className="range-input range-input__mixer-pan"
+    id="panner-slider"
+    max={1}
+    min={-1}
+    onChange={[MockFunction]}
+    step={0.005}
+    type="range"
+    value={0}
+  />
+  <div
+    className="pan__label-container"
+  >
+    <p
+      className="pan__label"
+    >
+      L
+    </p>
+    <p
+      className="pan__label"
+    >
+      R
+    </p>
+  </div>
+  <p
+    className="mixer__track-name"
+  >
+    Channel 1
+  </p>
+</div>
+`;

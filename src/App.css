@@ -40,7 +40,7 @@ body {
   font-size: 16px;
   margin-right: 8px;
   margin-left: 16px;
-  text-shadow: 0 0 6px #ed90b9;
+  text-shatext-shadow: 0 0 6px #ed90b9;
 }
 
 
@@ -363,6 +363,10 @@ body {
   margin-bottom: 8px;
 }
 
+.range-input.range-input__vertical {
+  transform: rotate(-90deg);
+}
+
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
@@ -385,18 +389,18 @@ body {
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 16px;
-  width: 16px;
-  border-radius: 8px;
-  background: #e0e0e0;
+  width: 32px;
+  border-radius: 2px;
+  background: #d86597;
   cursor: pointer;
-  margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
 
 .range-input::-moz-range-thumb {
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #e0e0e0;
+  background: #d86597;
   cursor: pointer;
 }
 
@@ -404,15 +408,15 @@ body {
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #e0e0e0;
+  background: #d86597;
   cursor: pointer;
 }
 
 .range-input::-webkit-slider-runnable-track { 
   width: 100px;
   height: 6px;
-  background: #e0e0e0;
-  border-radius: 3px;
+  background: #47426c;
+  border-radius: 1px;
 }
 
 .range-input__label {
@@ -839,4 +843,240 @@ REUSABLE STYLES
     0 0 4px #d86597,
     inset 0 0 2px #d86597;
   text-shadow: 0 0 6px #d86597;
+}
+
+
+.slider__container {
+  border: solid green 1px;
+  padding: 16px;
+}
+
+.slider__track {
+  display: inline-block;
+  position: relative;
+  background-color: #47426c;
+  height: 100px;
+  width: 6px;
+}
+
+.slider__handle {
+  background-color: #d86597;
+  position: absolute;
+  transform: translateX(-25%);
+  left: 0;
+  height: 16px;
+  width: 10px;
+  cursor: pointer;
+}
+
+.mixer__container {
+  border: solid #d86597 4px;
+  box-sizing: initial;
+  min-height: 260px;
+  width: 960px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.mixer__channel-controls-container {
+  padding: 16px;
+  display: flex;
+}
+
+
+.mixer__item {
+  width: 100px;
+  text-align: center;
+}
+
+.mixer__volume-marker-container {
+  display: inline-block;
+  min-width: 8px;
+  margin-left: 8px;
+  height: 120px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.range-input.range-input__mixer-volume {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  width: 120px;
+  top: 0;
+  left: -22px;
+  transform: rotate(-90deg) translateX(-57px);
+}
+
+.mixer__meter-outer {
+  display: inline-block;
+  background: none;
+  width: 16px;
+  min-width: 16px;
+  height: 120px;
+  margin-right: 16px;
+  margin-left: auto;
+  position: relative;
+  border: solid 1px #00bff3;
+}
+
+.mixer__meter-inner {
+  background-color: #00bff3;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+}
+
+.mixer__slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.mixer__button-container {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+}
+
+.mixer__button {
+  width: 18px;
+  height: 18px;
+  background-color: #d86597;
+  color: #201826;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.mixer__button.mixer__button--active {
+  background-color: #e23340;
+  box-shadow: 
+    0 0 4px #e23340,
+    inset 0 0 2px #e23340;
+}
+
+.mixer__button + .mixer__button {
+  margin-left: auto;
+}
+
+.range-input.range-input__mixer-pan {
+  width: 80px;
+}
+
+.mixer__volume-marker {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #d86597;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.pan__label-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pan__label {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  margin: 0 16px;
+}
+
+.mixer__track-name {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #d86597;
+  text-shadow: 0 0 6px #d86597;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 4px 8px;
+}
+
+
+.mixer__master-controls-container {
+  width: 100px;
+  margin-left: auto;
+  border-left: solid #d86597 4px;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+
+
+.mixer__master-slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 24px;
+}
+
+.mixer__master-volume-marker-container {
+  display: inline-block;
+  min-width: 8px;
+  margin-left: 8px;
+  height: 200px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.mixer__master-volume-marker {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #d86597;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.range-input.range-input__mixer-master-volume {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  width: 200px;
+  top: 0;
+  left: -60px;
+  transform: rotate(-90deg) translateX(-97px);
+}
+
+.mixer__master-meter-outer {
+  display: inline-block;
+  background: none;
+  width: 16px;
+  min-width: 16px;
+  height: 200px;
+  margin-right: 16px;
+  margin-left: auto;
+  position: relative;
+  border: solid 1px #00bff3;
+}
+
+.mixer__master-meter-inner {
+  background-color: #00bff3;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
 }

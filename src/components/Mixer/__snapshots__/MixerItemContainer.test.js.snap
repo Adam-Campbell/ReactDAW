@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<MixerItem
+  handleMuteButtonClick={[Function]}
+  handlePanChange={[Function]}
+  handleSoloButtonClick={[Function]}
+  handleVolumeChange={[Function]}
+  isMuted={false}
+  isSolo={false}
+  name="Channel 1"
+  pan={0}
+  trackId="2812513466104156"
+  volume={0}
+/>
+`;

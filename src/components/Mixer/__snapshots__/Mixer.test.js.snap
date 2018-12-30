@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="mixer__container"
+>
+  <div
+    className="mixer__channel-controls-container"
+  >
+    <Connect(MixerItemContainer)
+      key="2812513466104156"
+      trackId="2812513466104156"
+    />
+    <Connect(MixerItemContainer)
+      key="3880564538936934"
+      trackId="3880564538936934"
+    />
+    <Connect(MixerItemContainer)
+      key="7214036741073003"
+      trackId="7214036741073003"
+    />
+  </div>
+  <Connect(MasterSliderContainer) />
+</div>
+`;

@@ -36,7 +36,9 @@ class Channel {
         this.volumeNode = new Tone.Volume();
         this.soloNode = new Tone.Solo();
         this.pannerNode = new Tone.Panner();
-        this.volumeNode.connect(this.soloNode);
+        this.meterNode = new Tone.Meter();
+        this.volumeNode.connect(this.meterNode);
+        this.meterNode.connect(this.soloNode)
         this.soloNode.connect(this.pannerNode);
         this._instrument = instrument || new Tone.PolySynth(6, Tone.Synth);
         this._effectChain = [this._instrument, this.volumeNode];
