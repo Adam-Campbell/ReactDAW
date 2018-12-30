@@ -870,15 +870,25 @@ REUSABLE STYLES
 }
 
 .mixer__container {
-  border: solid green 1px;
-  padding: 16px;
+  border: solid #d86597 4px;
+  box-sizing: initial;
   min-height: 260px;
+  width: 960px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+.mixer__channel-controls-container {
+  padding: 16px;
   display: flex;
 }
 
 
 .mixer__item {
-  border: solid red 1px;
   width: 100px;
   text-align: center;
 }
@@ -929,11 +939,9 @@ REUSABLE STYLES
   display: flex;
   align-items: center;
   position: relative;
-  border: solid orange 1px;
 }
 
 .mixer__button-container {
-  border: solid blue 1px;
   padding-top: 8px;
   padding-bottom: 8px;
   display: flex;
@@ -953,6 +961,13 @@ REUSABLE STYLES
     inset 0 0 2px #d86597;
   margin-left: 16px;
   margin-right: 16px;
+}
+
+.mixer__button.mixer__button--active {
+  background-color: #e23340;
+  box-shadow: 
+    0 0 4px #e23340,
+    inset 0 0 2px #e23340;
 }
 
 .mixer__button + .mixer__button {
@@ -994,4 +1009,74 @@ REUSABLE STYLES
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 4px 8px;
+}
+
+
+.mixer__master-controls-container {
+  width: 100px;
+  margin-left: auto;
+  border-left: solid #d86597 4px;
+  box-shadow: 
+    0 0 4px #d86597,
+    inset 0 0 2px #d86597;
+}
+
+
+
+.mixer__master-slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 24px;
+}
+
+.mixer__master-volume-marker-container {
+  display: inline-block;
+  min-width: 8px;
+  margin-left: 8px;
+  height: 200px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.mixer__master-volume-marker {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #d86597;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.range-input.range-input__mixer-master-volume {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  width: 200px;
+  top: 0;
+  left: -60px;
+  transform: rotate(-90deg) translateX(-97px);
+}
+
+.mixer__master-meter-outer {
+  display: inline-block;
+  background: none;
+  width: 16px;
+  min-width: 16px;
+  height: 200px;
+  margin-right: 16px;
+  margin-left: auto;
+  position: relative;
+  border: solid 1px #00bff3;
+}
+
+.mixer__master-meter-inner {
+  background-color: #00bff3;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
 }

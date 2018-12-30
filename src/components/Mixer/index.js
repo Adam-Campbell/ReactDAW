@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import * as ActionCreators from '../../actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MixerItem from './MixerItem';
+import MixerItem from './MixerItemContainer';
+import MasterSliderContainer from './MasterSliderContainer';
 
 class Mixer extends Component {
-    constructor(props) {
-        super(props);
-        this.foo = 'bar';
-    }
 
     render() {
         return (
             <div className="mixer__container">
-               {this.props.channels.map(channel => (
-                    <MixerItem 
-                        trackId={channel.id}
-                        key={channel.id}
-                    />
-               ))}
+                <div className="mixer__channel-controls-container">
+                {this.props.channels.map(channel => (
+                        <MixerItem 
+                            trackId={channel.id}
+                            key={channel.id}
+                        />
+                ))}
+               </div>
+                <MasterSliderContainer />
             </div>
         )
     }

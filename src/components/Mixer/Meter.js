@@ -38,9 +38,9 @@ class Meter extends Component {
 
     render() {
         return (
-            <div className="mixer__meter-outer">
+            <div className={this.props.isMaster ? "mixer__master-meter-outer" : "mixer__meter-outer"}>
                 <div 
-                    className="mixer__meter-inner"
+                    className={this.props.isMaster ? "mixer__master-meter-inner" : "mixer__meter-inner"}
                     ref={this.meterElementRef}
                 ></div>
             </div>
