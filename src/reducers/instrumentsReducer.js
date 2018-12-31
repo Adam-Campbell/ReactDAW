@@ -70,6 +70,9 @@ const instruments = (state=defaultState, action) => {
                 }
             };
 
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return action.payload.loadedState.instruments;
+
         default:
             return state;
 
