@@ -88,9 +88,11 @@ const sections = (state=defaultState, action) => {
                         return !action.payload.noteIds.includes(note._id);
                     })
                 }
-            }
-            
+            };
 
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return action.payload.loadedState.sections;
+            
         default:
             return state;
 

@@ -195,6 +195,9 @@ const channels = (state=defaultState, action) => {
                     return channel;
                 }
             });
+        
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return action.payload.loadedState.channels;
 
         default:
             return state;

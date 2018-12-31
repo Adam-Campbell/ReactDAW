@@ -71,6 +71,9 @@ const effects = (state=defaultState, action) => {
                 return nextState;
             }
 
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return action.payload.loadedState.effects;
+
         default: 
             return state;
     }

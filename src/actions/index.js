@@ -5,3 +5,4 @@ export * from './playerActions';
 export * from './instrumentActions';
 export * from './effectActions';
 export * from './windowActions';
+export * from './persistenceActions';

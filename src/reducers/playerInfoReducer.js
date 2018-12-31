@@ -46,6 +46,9 @@ const playerInfo = (state=defaultState, action) => {
                 bpm: action.payload.bpm
             };
 
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return action.payload.loadedState.playerInfo;
+
         default:
             return state;
 

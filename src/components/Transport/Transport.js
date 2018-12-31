@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SaveTrackModalContainer from './SaveTrackModalContainer';
+import LoadTrackModalContainer from './LoadTrackModalContainer';
 
 const Transport = props => (
     <div 
@@ -31,6 +33,16 @@ const Transport = props => (
                 >{props.bpm}</p>
             }
         </div>
+        <button 
+            className="button pink"
+            onClick={props.enterLoadingState}
+        >Load</button>
+        <button 
+            className="button pink"
+            onClick={props.enterSavingState}
+        >Save</button>
+        {props.isSaving && <SaveTrackModalContainer handleClose={props.exitSavingState} />}
+        {props.isLoading && <LoadTrackModalContainer handleClose={props.exitLoadingState} />}
     </div>
 );
 
@@ -44,7 +56,15 @@ Transport.propTypes = {
     handleBPMChange: PropTypes.func.isRequired,
     inputRef: PropTypes.object.isRequired,
     enterBPMEditingMode: PropTypes.func.isRequired,
-    bpm: PropTypes.number.isRequired
+    bpm: PropTypes.number.isRequired,
+    handleLoadState: PropTypes.func.isRequired,
+    handleSaveState: PropTypes.func.isRequired,
+    enterSavingState: PropTypes.func.isRequired,
+    exitSavingState: PropTypes.func.isRequired,
+    enterLoadingState: PropTypes.func.isRequired,
+    exitLoadingState: PropTypes.func.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 export default Transport;

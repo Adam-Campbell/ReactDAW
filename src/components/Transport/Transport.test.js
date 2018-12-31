@@ -58,6 +58,14 @@ test('presentational component renders correctly', () => {
             inputRef={React.createRef()}
             enterBPMEditingMode={jest.fn()}
             bpm={120}
+            handleLoadState={jest.fn()}
+            handleSaveState={jest.fn()}
+            enterSavingState={jest.fn()}
+            exitSavingState={jest.fn()}
+            enterLoadingState={jest.fn()}
+            exitLoadingState={jest.fn()}
+            isLoading={false}
+            isSaving={false}
         />
     );
     const trackPositionSpan = <span className="transport__track-position" >1:2:3</span>

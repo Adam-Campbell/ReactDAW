@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="modal__overlay"
+>
+  <div
+    className="modal__content-container"
+  >
+    <button
+      className="button pink"
+      onClick={[MockFunction]}
+    >
+      Close
+    </button>
+    <div>
+      <input
+        className="modal__text-input"
+        onChange={[MockFunction]}
+        placeholder="Choose a name"
+        type="text"
+        value="New Track"
+      />
+      <button
+        className="button pink"
+        onClick={[MockFunction]}
+      >
+        Save Track
+      </button>
+    </div>
+  </div>
+</div>
+`;

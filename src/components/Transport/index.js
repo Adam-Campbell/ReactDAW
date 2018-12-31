@@ -13,7 +13,9 @@ export class TransportContainer extends Component {
         this.state = {
             transportPosition: Tone.Transport.position,
             isEditingBPM: false,
-            editedBPM: this.props.bpm
+            editedBPM: this.props.bpm,
+            isSaving: false,
+            isLoading: false
         }
     }
 
@@ -76,6 +78,38 @@ export class TransportContainer extends Component {
         }
     }
 
+    handleSaveState = () => {
+        this.props.saveState('darudeSandstorm');
+    }
+
+    handleLoadState = () => {
+        this.props.loadState('darudeSandstorm');
+    }
+
+    enterSavingState = () => {
+        this.setState({
+            isSaving: true
+        });
+    }
+
+    exitSavingState = () => {
+        this.setState({
+            isSaving: false
+        });
+    }
+
+    enterLoadingState = () => {
+        this.setState({
+            isLoading: true
+        });
+    }
+
+    exitLoadingState = () => {
+        this.setState({
+            isLoading: false
+        });
+    };
+
     render() {
         return <Transport 
             handleTransportBarClick={this.handleTransportBarClick}
@@ -88,6 +122,14 @@ export class TransportContainer extends Component {
             inputRef={this.inputRef}
             enterBPMEditingMode={this.enterBPMEditingMode}
             bpm={this.props.bpm}
+            handleSaveState={this.handleSaveState}
+            handleLoadState={this.handleLoadState}
+            enterSavingState={this.enterSavingState}
+            exitSavingState={this.exitSavingState}
+            enterLoadingState={this.enterLoadingState}
+            exitLoadingState={this.exitLoadingState}
+            isSaving={this.state.isSaving}
+            isLoading={this.state.isLoading}
         />
     }
 }
@@ -104,6 +146,8 @@ export default connect(
     {
         playTrack: ActionCreators.playTrack,
         stopTrack: ActionCreators.stopTrack,
-        setBPM: ActionCreators.setBPM
+        setBPM: ActionCreators.setBPM,
+        saveState: ActionCreators.saveState,
+        loadState: ActionCreators.loadState
     }
 )(TransportContainer);
