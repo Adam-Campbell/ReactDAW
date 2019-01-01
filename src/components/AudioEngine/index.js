@@ -83,8 +83,10 @@ class AudioEngine extends Component {
      * @param {object} curr - current state tree
      */
     _updatePlayer(prev, curr) {
-        if (prev.isPlaying !== curr.isPlaying) {
-            if (curr.isPlaying) {
+        if (prev.isPlaying !== curr.isPlaying || prev.isPaused !== curr.isPaused) {
+            if (curr.isPaused) {
+                Tone.Transport.pause();
+            } else if (curr.isPlaying) {
                 Tone.Transport.start();
             } else {
                 Tone.Transport.stop();

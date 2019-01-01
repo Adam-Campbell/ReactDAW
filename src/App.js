@@ -45,12 +45,16 @@ class App extends Component {
                           <EffectInterface effectId={window.id} />
                         </DragWrapper>
 
+              case 'mixer':
+                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                          <Mixer />
+                        </DragWrapper>
+
               default:
                 return null;
             }
           })
-        }  
-        <Mixer />    
+        }     
       </div>
     );
   }

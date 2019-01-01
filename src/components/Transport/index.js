@@ -20,9 +20,13 @@ export class TransportContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isPlaying !== this.props.isPlaying) {
+        if (prevProps.isPlaying !== this.props.isPlaying || 
+            prevProps.isPaused !== this.props.isPaused
+        ) {
             if (this.props.isPlaying) {
                 requestAnimationFrame(this.getTransportPosition);
+            } else if (this.props.isPaused) {
+                cancelAnimationFrame(this.rAFRef);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.setState({
@@ -78,6 +82,10 @@ export class TransportContainer extends Component {
         }
     }
 
+    handleSkipToStart = () => {
+        Tone.Transport.position = '0:0:0';
+    }
+
     handleSaveState = () => {
         this.props.saveState('darudeSandstorm');
     }
@@ -110,11 +118,17 @@ export class TransportContainer extends Component {
         });
     };
 
+    handleOpenMixer = () => {
+        this.props.openWindow('masterMixer', 'mixer');
+    }
+
     render() {
         return <Transport 
             handleTransportBarClick={this.handleTransportBarClick}
             playTrack={this.props.playTrack}
             stopTrack={this.props.stopTrack}
+            pauseTrack={this.props.pauseTrack}
+            handleSkipToStart={this.handleSkipToStart}
             transportPosition={this.state.transportPosition}
             isEditingBPM={this.state.isEditingBPM}
             editedBPM={this.state.editedBPM}
@@ -130,12 +144,14 @@ export class TransportContainer extends Component {
             exitLoadingState={this.exitLoadingState}
             isSaving={this.state.isSaving}
             isLoading={this.state.isLoading}
+            handleOpenMixer={this.handleOpenMixer}
         />
     }
 }
 
 const mapStateToProps = state => ({
     isPlaying: state.playerInfo.isPlaying,
+    isPaused: state.playerInfo.isPaused,
     isMuted: state.playerInfo.isMuted,
     bpm: state.playerInfo.bpm,
     volume: state.playerInfo.volume
@@ -146,8 +162,10 @@ export default connect(
     {
         playTrack: ActionCreators.playTrack,
         stopTrack: ActionCreators.stopTrack,
+        pauseTrack: ActionCreators.pauseTrack,
         setBPM: ActionCreators.setBPM,
         saveState: ActionCreators.saveState,
-        loadState: ActionCreators.loadState
+        loadState: ActionCreators.loadState,
+        openWindow: ActionCreators.openWindow
     }
 )(TransportContainer);

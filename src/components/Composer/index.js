@@ -52,9 +52,24 @@ export class ComposerContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isPlaying !== this.props.isPlaying) {
+        /*
+            const isActivelyPlaying = this.props.isPlaying && !this.props.isPaused
+            if isActivelyPlaying we want to restart the raf process
+
+            else if it was previously playing but now it is paused we just want to cancel the raf process
+
+            else if it was previously playing but now it is stopped then we want to cancel the raf process
+            and force the seeker line back to the start.
+
+        */
+        if (prevProps.isPlaying !== this.props.isPlaying || 
+            prevProps.isPaused !== this.props.isPaused
+        ) {
+            
             if (this.props.isPlaying) {
                 requestAnimationFrame(this.repaintSeekerLayer);
+            } else if (this.props.isPaused) { 
+                cancelAnimationFrame(this.rAFRef);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.seekerLineRef.current.x(0);
@@ -594,7 +609,8 @@ export class ComposerContainer extends Component {
 const mapStateToProps = state => ({
     channels: state.channels,
     sections: state.sections,
-    isPlaying: state.playerInfo.isPlaying
+    isPlaying: state.playerInfo.isPlaying,
+    isPaused: state.playerInfo.isPaused
 });
 
 export default connect(

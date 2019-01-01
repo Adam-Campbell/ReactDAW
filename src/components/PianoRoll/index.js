@@ -138,9 +138,13 @@ export class PianoRollContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.isPlaying !== this.props.isPlaying) {
+        if (prevProps.isPlaying !== this.props.isPlaying || 
+            prevProps.isPaused !== this.props.isPaused
+        ) {
             if (this.props.isPlaying) {
                 requestAnimationFrame(this.repaintSeekerLayer);
+            } else if (this.props.isPaused) {
+                cancelAnimationFrame(this.rAFRef);
             } else {
                 cancelAnimationFrame(this.rAFRef);
                 this.seekerLineRef.current.strokeWidth(0);
@@ -886,7 +890,8 @@ export class PianoRollContainer extends Component {
 
 const mapStateToProps = state => ({
     sections: state.sections,
-    isPlaying: state.playerInfo.isPlaying
+    isPlaying: state.playerInfo.isPlaying,
+    isPaused: state.playerInfo.isPaused
 });
 
 
