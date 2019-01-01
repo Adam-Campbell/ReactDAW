@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 
 const defaultState = {
     isPlaying: false,
+    isPaused: false,
     isMuted: false,
     volume: 0,
     bpm: 120
@@ -13,13 +14,22 @@ const playerInfo = (state=defaultState, action) => {
         case actionTypes.PLAY_TRACK:
             return {
                 ...state,
-                isPlaying: true
+                isPlaying: true, 
+                isPaused: false
             };
 
         case actionTypes.STOP_TRACK:
             return {
                 ...state, 
-                isPlaying: false
+                isPlaying: false,
+                isPaused: false
+            };
+
+        case actionTypes.PAUSE_TRACK:
+            return {
+                ...state, 
+                isPlaying: false,
+                isPaused: true
             };
 
         case actionTypes.MUTE_MASTER:

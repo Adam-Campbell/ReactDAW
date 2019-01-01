@@ -4,6 +4,7 @@ import reducer from './playerInfoReducer';
 test('returns the default state', () => {
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 120
@@ -17,6 +18,7 @@ test('handles PLAY_TRACK', () => {
     };
     const expectedResult = {
         isPlaying: true,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 120
@@ -27,6 +29,7 @@ test('handles PLAY_TRACK', () => {
 test('handles STOP_TRACK', () => {
     const state = {
         isPlaying: true,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 120
@@ -36,6 +39,7 @@ test('handles STOP_TRACK', () => {
     };
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 120
@@ -49,6 +53,7 @@ test('handles MUTE_MASTER', () => {
     };
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: true,
         volume: 0,
         bpm: 120
@@ -59,6 +64,7 @@ test('handles MUTE_MASTER', () => {
 test('handles UNMUTE_MASTER', () => {
     const state = {
         isPlaying: false,
+        isPaused: false,
         isMuted: true,
         volume: 0,
         bpm: 120
@@ -68,6 +74,7 @@ test('handles UNMUTE_MASTER', () => {
     };
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 120
@@ -84,6 +91,7 @@ test('handles SET_MASTER_VOLUME', () => {
     };
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: false,
         volume: -10,
         bpm: 120
@@ -100,6 +108,7 @@ test('handles SET_BPM', () => {
     };
     const expectedResult = {
         isPlaying: false,
+        isPaused: false,
         isMuted: false,
         volume: 0,
         bpm: 135

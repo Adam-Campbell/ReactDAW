@@ -8,6 +8,10 @@ export const stopTrack = () => ({
     type: actionTypes.STOP_TRACK
 });
 
+export const pauseTrack = () => ({
+    type: actionTypes.PAUSE_TRACK
+});
+
 export const muteMaster = () => ({
     type: actionTypes.MUTE_MASTER
 });

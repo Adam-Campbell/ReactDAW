@@ -4,6 +4,7 @@ import TrackDetails from './TrackDetails';
 import PianoRoll from './PianoRoll';
 import InstrumentInterface from './InstrumentInterface';
 import EffectInterface from './EffectInterface';
+import Mixer from './Mixer';
 
 const DragWrapperPreview = props => (
     <div 
@@ -74,6 +75,14 @@ class CustomDragLayer extends Component {
                         y={currY}
                     >
                         <EffectInterface effectId={windowId} />
+                    </DragWrapperPreview> 
+
+                case 'mixer':
+                    return <DragWrapperPreview
+                        x={currX}
+                        y={currY}
+                    >
+                        <Mixer />
                     </DragWrapperPreview> 
 
             default:

@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SaveTrackModalContainer from './SaveTrackModalContainer';
 import LoadTrackModalContainer from './LoadTrackModalContainer';
+import { 
+    PlayIcon,
+    PauseIcon,
+    StopIcon,
+    BackIcon,
+    MixerIcon
+} from '../Icons';
 
 const Transport = props => (
     <div 
@@ -9,14 +16,32 @@ const Transport = props => (
         onClick={props.handleTransportBarClick}
     >
         <button 
-            className="button pink"
+            className="transport__button"
             onClick={props.playTrack}
-        >Play</button>
+        >
+            <PlayIcon />
+        </button>
         <button 
-            className="button pink"
+            className="transport__button"
+            onClick={props.pauseTrack}
+        >
+            <PauseIcon />
+        </button>
+        <button 
+            className="transport__button"
             onClick={props.stopTrack}
-        >Stop</button>
-        <span className="transport__track-position" >{props.transportPosition}</span>
+        >
+            <StopIcon />
+        </button>
+        <button 
+            className="transport__button"
+            onClick={props.handleSkipToStart}
+        >
+            <BackIcon />
+        </button>
+        <div className="transport__track-position-container" >
+            <p className="transport__track-position-text">{props.transportPosition}</p>
+        </div>
         <div className="transport__bpm-container">
             <span className="transport__bpm-label">BPM:</span>
             {props.isEditingBPM ? 
@@ -34,6 +59,12 @@ const Transport = props => (
             }
         </div>
         <button 
+            className="transport__button"
+            onClick={props.handleOpenMixer}
+        >
+            <MixerIcon />
+        </button>
+        <button 
             className="button pink"
             onClick={props.enterLoadingState}
         >Load</button>
@@ -50,6 +81,8 @@ Transport.propTypes = {
     handleTransportBarClick: PropTypes.func.isRequired,
     playTrack: PropTypes.func.isRequired,
     stopTrack: PropTypes.func.isRequired,
+    pauseTrack: PropTypes.func.isRequired,
+    handleSkipToStart: PropTypes.func.isRequired,
     transportPosition: PropTypes.string.isRequired,
     isEditingBPM: PropTypes.bool.isRequired,
     editedBPM: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -64,7 +97,8 @@ Transport.propTypes = {
     enterLoadingState: PropTypes.func.isRequired,
     exitLoadingState: PropTypes.func.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    handleOpenMixer: PropTypes.func.isRequired
 };
 
 export default Transport;

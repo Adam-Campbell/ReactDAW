@@ -40,7 +40,7 @@ body {
   font-size: 16px;
   margin-right: 8px;
   margin-left: 16px;
-  text-shatext-shadow: 0 0 6px #ed90b9;
+  text-shadow: 0 0 6px #ed90b9;
 }
 
 
@@ -48,7 +48,7 @@ body {
 .main-container {
   background-color: #201826;
   min-height: 100vh;
-  padding: 16px;
+  padding: 0;
 }
 
 .menu {
@@ -574,33 +574,39 @@ body {
 
 
 .transport__container {
-  width: 960px;
-  margin: 16px auto;
-  background-color: #201826;
-  color: #d86597;
+  margin: 0;
+  background-color: #47426c;
+  color: #47426c;
   border: solid 4px;
-  padding: 8px 16px;
+  padding: 0 16px;
   box-shadow: 
-    0 0 4px #d86597,
-    inset 0 0 2px #d86597;
+    0 0 4px,
+    inset 0 0 2px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .transport__button {
-  background: none;
+  background: #d86597;
   color: #d86597;
-  border: solid 2px;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
   cursor: pointer;
-  margin: 8px;
+  width: 32px;
+  height: 32px;
   box-shadow: 
     0 0 4px #d86597,
     inset 0 0 2px #d86597;
-    text-shadow: 0 0 6px #d86597;
+  text-shadow: 0 0 6px #d86597;
+}
+
+.transport__button svg {
+  fill: 201826;
+}
+
+.transport__button + .transport__button {
+  margin-left: 8px;
 }
 
 
@@ -740,29 +746,42 @@ REUSABLE STYLES
 
 
 
-.transport__track-position {
+.transport__track-position-container {
+  background-color: #201826;
+  border: none;
+  border-radius: 3px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 16px;
+  box-shadow: 
+    0 0 4px #201826,
+    inset 0 0 2px #201826;
+}
+
+.transport__track-position-text {
   font-family: 'VT323', monospace;
   font-size: 18px;
   padding: 4px 8px;
   color: #d86597;
   text-shadow: 0 0 6px #d86597;
-  background-color: #47426c;
-  border: solid 2px #47426c;
-  box-shadow: 
-    0 0 4px #47426c,
-    inset 0 0 2px #47426c;
+  margin: 0;
 }
 
 .transport__bpm-container {
   display: flex;
   align-items: center;
   margin-left: 16px;
-  background-color: #47426c;
-  border: solid 2px #47426c;
+  margin-right: 16px;
+  background-color: #201826;
+  border: none;
+  border-radius: 3px;
   padding: 4px 8px;
+  height: 32px;
   box-shadow: 
-    0 0 4px #47426c,
-    inset 0 0 2px #47426c;
+    0 0 4px #201826,
+    inset 0 0 2px #201826;
 }
 
 .transport__bpm-label {
@@ -870,6 +889,7 @@ REUSABLE STYLES
 }
 
 .mixer__container {
+  background-color: #201826;
   border: solid #d86597 4px;
   box-sizing: initial;
   min-height: 260px;

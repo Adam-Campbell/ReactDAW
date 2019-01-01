@@ -11,7 +11,9 @@ exports[`container component renders correctly 1`] = `
   exitSavingState={[Function]}
   handleBPMChange={[Function]}
   handleLoadState={[Function]}
+  handleOpenMixer={[Function]}
   handleSaveState={[Function]}
+  handleSkipToStart={[Function]}
   handleTransportBarClick={[Function]}
   inputRef={
     Object {
@@ -21,6 +23,7 @@ exports[`container component renders correctly 1`] = `
   isEditingBPM={false}
   isLoading={false}
   isSaving={false}
+  pauseTrack={[MockFunction]}
   playTrack={[MockFunction]}
   stopTrack={[MockFunction]}
   transportPosition="0:0:0"
@@ -33,22 +36,38 @@ exports[`presentational component renders correctly 1`] = `
   onClick={[MockFunction]}
 >
   <button
-    className="button pink"
+    className="transport__button"
     onClick={[MockFunction]}
   >
-    Play
+    <PlayIcon />
   </button>
   <button
-    className="button pink"
+    className="transport__button"
     onClick={[MockFunction]}
   >
-    Stop
+    <PauseIcon />
   </button>
-  <span
-    className="transport__track-position"
+  <button
+    className="transport__button"
+    onClick={[MockFunction]}
   >
-    1:2:3
-  </span>
+    <StopIcon />
+  </button>
+  <button
+    className="transport__button"
+    onClick={[MockFunction]}
+  >
+    <BackIcon />
+  </button>
+  <div
+    className="transport__track-position-container"
+  >
+    <p
+      className="transport__track-position-text"
+    >
+      1:2:3
+    </p>
+  </div>
   <div
     className="transport__bpm-container"
   >
@@ -64,6 +83,12 @@ exports[`presentational component renders correctly 1`] = `
       120
     </p>
   </div>
+  <button
+    className="transport__button"
+    onClick={[MockFunction]}
+  >
+    <MixerIcon />
+  </button>
   <button
     className="button pink"
     onClick={[MockFunction]}
