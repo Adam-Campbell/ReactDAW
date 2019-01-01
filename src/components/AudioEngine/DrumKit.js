@@ -30,6 +30,7 @@ class DrumKit {
         this.drums.lowTom.retrigger = true;
         this.drums.fx.retrigger = true;
         this.pitchesArray = createPitchesArray();
+        window.drumPlayers = this.drums;
     }
 
 
@@ -91,9 +92,21 @@ class DrumKit {
      * @param {string} time - '0:1:0' 
      * @param {number} velocity - 1 
      */
-    triggerAttackRelease(pitch, duration, time, velocity) {
+    triggerAttackRelease(pitch, duration, time=0, velocity=1) {
+        const volumeValue = this.getVolumeFromVelocity(velocity);
         const drum = this.convertPitchToDrum(pitch);
+        this.drums[drum].volume.setValueAtTime(volumeValue, time);
         this.drums[drum].start(time);
+    }
+
+    /**
+     * Takes a velocity value and maps it to a corresponding decibel level. Although this method is very simple
+     * at the moment it will likely become more complex in future, which is why it has been split into its own
+     * method. 
+     * @param {number} velocity - a number between 0 and 1 (inclusive) 
+     */
+    getVolumeFromVelocity(velocity) {
+        return velocity * 80 - 80;
     }
 
     /**

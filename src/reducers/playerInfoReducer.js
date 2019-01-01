@@ -57,7 +57,11 @@ const playerInfo = (state=defaultState, action) => {
             };
 
         case actionTypes.LOAD_STATE_SUCCESS:
-            return action.payload.loadedState.playerInfo;
+            return {
+                ...action.payload.loadedState.playerInfo,
+                isPlaying: false,
+                isPaused: false
+            };
 
         default:
             return state;
