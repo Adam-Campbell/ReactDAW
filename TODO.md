@@ -39,6 +39,11 @@ Transport bar:
 - possibly add waveform visualization to the transport bar? 
 - add saving / loading controls.
 
+__________________________________
+  TRANSPORT BAR COMPLETE FOR NOW
+__________________________________
+
+
 AudioEngine:
 - refactor the 'diffing' process that happens with every new set of props received.
 - would it be better to have each class contain its own logic for this rather than everything living in the top level component?
