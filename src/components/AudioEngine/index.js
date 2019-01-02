@@ -29,13 +29,14 @@ class AudioEngine extends Component {
         this._bus = new Bus();
         this._instrumentFactory = new InstrumentFactory();
         this._effectFactory = new EffectFactory();
+        this.masterVolumeNode = new Tone.Volume();
         this.masterMeterNode = new Tone.Meter();
         window.bus = this._bus;
         this.instrumentReferences = {};
         this.meterNodeReferences = {};
         window.instrumentReferences = this.instrumentReferences;
         window.meterNodeReferences = this.meterNodeReferences;
-        Tone.Master.chain(this.masterMeterNode);
+        Tone.Master.chain(this.masterVolumeNode, this.masterMeterNode);
         this.meterNodeReferences['master'] = this.masterMeterNode;
     }
 
@@ -44,7 +45,6 @@ class AudioEngine extends Component {
     }
 
     _updateEngineState(prevState, currState) {
-        //console.log(prevState, currState);
         const prev = this._stateToTree(prevState);
         const curr = this._stateToTree(currState);
         console.log(prev, curr);
@@ -96,7 +96,7 @@ class AudioEngine extends Component {
             Tone.Master.mute = curr.isMuted;
         }
         if (prev.volume !== curr.volume) {
-            Tone.Master.volume.value = curr.volume;
+            this.masterVolumeNode.volume.value = curr.volume;
         }
         if (prev.bpm !== curr.bpm) {
             Tone.Transport.bpm.value = curr.bpm;
@@ -229,6 +229,13 @@ class AudioEngine extends Component {
         }
     }
 
+    /**
+     * updates one section wih any differences that have occurred between the previous and current state
+     * trees.
+     * @param {object} prevSection - the previous state for the section
+     * @param {obejct} currSection - the current state for the section
+     * @param {object} sectionRef - a reference to the actual Section class instance 
+     */
     _updateSection(prevSection, currSection, sectionRef) {
         let prevNotes = prevSection.notes;
         let currNotes = currSection.notes;
@@ -304,6 +311,10 @@ class AudioEngine extends Component {
 
     }
 
+    /**
+     * Creates a brand new section from scratch according to the section state supplied.
+     * @param {object} sectionData - the state from which to construct the new Section instance.
+     */
     _createSection(sectionData) {
         // create the new section
         const newSection = new Section(sectionData.id, sectionData.start);
@@ -323,6 +334,11 @@ class AudioEngine extends Component {
 
     }
 
+    /**
+     * Takes the normalized state from redux and converts it into a tree structure resembling the class
+     * hierarchy within the audio engine. This allows all of the updating that follows to be more intuitive.
+     * @param {object} state - the normalized redux state 
+     */
     _stateToTree(state) {
         let tree = {};
         // copy playerInfo to tree
@@ -341,90 +357,6 @@ class AudioEngine extends Component {
             }
         });
         return tree;
-    }
-
-    // Still todo in this function - update the effects chain for a channel. Perhaps this should 
-    // be its own function? It is important that before touching the effects chain for a channel,
-    // we establish that it has actually changed since the last state that was passed in, because
-    // anytime we change it we have to disconnect from master and we want to minimize that. Easiest
-    // way is just to check the ids of the effects in the chain (including the order that they appear),
-    // if this is the same between the previous and current states then we don't need to do anything. 
-    ___updateChannels(prevState, currState) {
-        console.log(currState);
-        let prevChannels = prevState.channels;
-        let currChannels = currState.channels;
-        // in prev but not in curr = removeChannel
-        for (let channel of prevChannels) {
-            let isInCurrChannels = currChannels.find(el => el.id === channel.id);
-            if (!isInCurrChannels) {
-                this._bus.removeChannel(channel.id);
-            } 
-        }
-
-        // in curr but not in prev = addChannel
-        for (let channel of currChannels) {
-            let isInPrevChannels = prevChannels.find(el => el.id === channel.id);
-            if (!isInPrevChannels) {
-                this._bus.addChannel(
-                    new Channel(
-                        channel.id, 
-                        this._instrumentFactory.create(
-                            channel.instrumentId,
-                            currState.instruments[channel.instrumentId].instrumentData
-                        )
-                    )
-                );
-            }
-        }
-
-    }
-
-    // We pass in all of the sections that belong to a specific channel. Essentially taking the
-    // dictionary of sections and 'filtering' to just the ones for a given channel. Do this for
-    // prev state and current state. First add and delete sections as necessary. Then loop over  
-    // every section in curr state and call a method that will update the notes in that section.
-    //
-    ___updateChannelsSections(prevSections, currStateSections) {
-
-    }
-
-    
-
-    // _updatePlayer(prev, curr) {
-    //     if (prev.isPlaying === curr.isPlaying) {
-    //         return;
-    //     }
-    //     if (curr.isPlaying) {
-    //         Tone.Transport.start();
-    //     } else {
-    //         Tone.Transport.stop();
-    //     }
-    // }
-
-    ___updateNotes(prevNotes, currNotes) {
-        // in prev but not curr = remove
-        // in curr but not prev = add
-        
-        // this would be much more efficient if I used dictionaries, but is it premature
-        // optimisation?
-        for (let note of prevNotes) {
-            let isInCurr = currNotes.find(el => el._id === note._id);
-            if (!isInCurr) {
-               this._section.removeNote(note._id); 
-            }
-        }
-
-        for (let note of currNotes) {
-            let isInPrev = prevNotes.find(el => el._id === note._id);
-            if (!isInPrev) {
-                this._section.addNote({
-                    note: note.pitch,
-                    time: note.time,
-                    duration: note.duration,
-                    id: note._id
-                });
-            }
-        }
     }
 
     render() {
