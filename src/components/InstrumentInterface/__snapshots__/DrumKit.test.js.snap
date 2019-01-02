@@ -10,12 +10,16 @@ exports[`renders correctly 1`] = `
   <div
     className="synth-interface__module-container"
   >
-    <EnhancedSelectInput
-      handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="kick"
-      label="Kick"
-      options={
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/kicks/kick_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Kick"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Kick 001",
@@ -99,19 +103,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "kick",
-        ]
-      }
-      value="drum-samples/kicks/kick_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="kick"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="snare"
-      label="Snare"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/snares/snare_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Snare"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Snare 001",
@@ -203,19 +208,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "snare",
-        ]
-      }
-      value="drum-samples/snares/snare_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="snare"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="clap"
-      label="Clap"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/claps/clap_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Clap"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Clap 001",
@@ -259,19 +265,24 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "clap",
-        ]
-      }
-      value="drum-samples/claps/clap_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="clap"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="closed-hat"
-      label="Closed Hat"
-      options={
+      instrumentId="4326432946537512"
+    />
+  </div>
+  <div
+    className="synth-interface__module-container"
+  >
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/closed-hats/closed-hat_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Closed Hat"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Closed Hat 001",
@@ -339,19 +350,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "closedHat",
-        ]
-      }
-      value="drum-samples/closed-hats/closed-hat_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="closedHat"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="open-hat"
-      label="Open Hat"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/open-hats/open-hat_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Open Hat"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Open Hat 001",
@@ -391,19 +403,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "openHat",
-        ]
-      }
-      value="drum-samples/open-hats/open-hat_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="openHat"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="crash"
-      label="Crash"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/crashes/crash_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Crash"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Crash 001",
@@ -427,23 +440,24 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "crash",
-        ]
-      }
-      value="drum-samples/crashes/crash_001.wav"
+      drumType="crash"
+      handleChange={[MockFunction]}
+      instrumentId="4326432946537512"
     />
   </div>
   <div
     className="synth-interface__module-container"
   >
-    <EnhancedSelectInput
-      handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="ride"
-      label="Ride"
-      options={
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/rides/ride_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Ride"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Ride 001",
@@ -475,19 +489,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "ride",
-        ]
-      }
-      value="drum-samples/rides/ride_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="ride"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="high-tom"
-      label="High Tom"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/high-toms/high-tom_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="High Tom"
+      drumSampleOptions={
         Array [
           Object {
             "text": "High Tom 001",
@@ -511,19 +526,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "highTom",
-        ]
-      }
-      value="drum-samples/high-toms/high-tom_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="highTom"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="mid-tom"
-      label="Mid Tom"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/mid-toms/mid-tom_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Mid Tom"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Mid Tom 001",
@@ -551,19 +567,24 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "midTom",
-        ]
-      }
-      value="drum-samples/mid-toms/mid-tom_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="midTom"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="low-tom"
-      label="Low Tom"
-      options={
+      instrumentId="4326432946537512"
+    />
+  </div>
+  <div
+    className="synth-interface__module-container"
+  >
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/low-toms/low-tom_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="Low Tom"
+      drumSampleOptions={
         Array [
           Object {
             "text": "Low Tom 001",
@@ -587,19 +608,20 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "lowTom",
-        ]
-      }
-      value="drum-samples/low-toms/low-tom_001.wav"
-    />
-    <EnhancedSelectInput
+      drumType="lowTom"
       handleChange={[MockFunction]}
-      identifier="4326432946537512"
-      inputId="fx"
-      label="FX"
-      options={
+      instrumentId="4326432946537512"
+    />
+    <DrumModule
+      drumData={
+        Object {
+          "pan": 0,
+          "sample": "drum-samples/fx/fx_001.wav",
+          "volume": 0,
+        }
+      }
+      drumName="fx"
+      drumSampleOptions={
         Array [
           Object {
             "text": "FX 001",
@@ -635,12 +657,9 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "fx",
-        ]
-      }
-      value="drum-samples/fx/fx_001.wav"
+      drumType="fx"
+      handleChange={[MockFunction]}
+      instrumentId="4326432946537512"
     />
   </div>
 </div>

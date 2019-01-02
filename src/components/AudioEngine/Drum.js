@@ -3,12 +3,6 @@ import { drumSampleURLs } from '../../constants';
 
 class Drum {
     constructor(sampleUrl) {
-        /*
-            need to add the members:
-            player - new Tone.Player()
-            volume - new Tone.Volume()
-            panner - new Tone.Panner()
-        */
         this.playerNode = new Tone.Player(sampleUrl);
         this.pannerNode = new Tone.Panner();
         this.volumeNode = new Tone.Volume();

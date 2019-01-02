@@ -2,16 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
-import { drumSampleURLs } from '../../constants';
-
-/*
-Needs to contain: 
-A heading showing the type of drum
-A range input for the volume
-A range input for the panning
-A select input for the sample
-
-*/
 
 const DrumModule = props => (
     <div className="drum-module__container">

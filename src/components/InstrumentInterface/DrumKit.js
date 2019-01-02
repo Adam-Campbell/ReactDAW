@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeaderModule from './HeaderModule';
-import EnhancedSelectInput from '../EnhancedSelectInput';
 import { drumSampleURLs } from '../../constants';
 import DrumModule from './DrumModule';
 

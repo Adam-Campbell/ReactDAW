@@ -89,3 +89,14 @@ DrumKit
 
 - when I implement the volume control for each drum, I should add a dedicated Tone.Volume instance to handle this volume - because if I were to just set it directly on the Player instance then it would interfere with the volume being set by the hit velocity. 
 
+- volume and panning for each individual drum has now been added, and the drumkit interface in the UI has been updated to reflect these changes.
+
+
+- one final thing is to figure out a way to adjust how the drums handle velocity - it is set in db (logarithmic) but I want it to be used from the outside as a linear scale from 0 to 1. So conversions will need to happen.
+
+________________________________________
+  DRUMKIT DONE (except for last point)
+________________________________________
+
+
+

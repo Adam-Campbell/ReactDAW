@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OscillatorModule from './OscillatorModule';
-import { synthData } from '../../constants';
+import { instrumentData } from '../../constants';
 
-const oscillatorData = synthData.synth.oscillator;
+const oscillatorData = instrumentData.synth.oscillator;
 
 test('renders correctly', () => {
     const component = shallow(
