@@ -20,6 +20,7 @@ export class TransportContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        // manage the request animation frame process
         if (prevProps.isPlaying !== this.props.isPlaying || 
             prevProps.isPaused !== this.props.isPaused
         ) {
@@ -33,6 +34,16 @@ export class TransportContainer extends Component {
                     transportPosition: '0:0:0'
                 });
             }
+        }
+        // If and only if the bpm has changed between prev and current props AND the component
+        // is not in the editing bpm state, update state.editedBPM to match the bpm in props. 
+        // This prevents issues around the bpm being updated by other means, such as by loading
+        // a pre-existing compostion, and the local state becoming out of sync with props as a
+        // result. 
+        if (prevProps.bpm !== this.props.bpm && !this.state.isEditingBPM) {
+            this.setState({
+                editedBPM: this.props.bpm
+            });
         }
     }
 

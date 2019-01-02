@@ -25,12 +25,11 @@ use that to alter the master volume.
 class AudioEngine extends Component {
     constructor(props) {
         super(props);
-        this._section = new Section();
-        this._bus = new Bus();
-        this._instrumentFactory = new InstrumentFactory();
-        this._effectFactory = new EffectFactory();
         this.masterVolumeNode = new Tone.Volume();
         this.masterMeterNode = new Tone.Meter();
+        this._bus = new Bus(this.masterVolumeNode);
+        this._instrumentFactory = new InstrumentFactory();
+        this._effectFactory = new EffectFactory();
         window.bus = this._bus;
         this.instrumentReferences = {};
         this.meterNodeReferences = {};
@@ -73,8 +72,8 @@ class AudioEngine extends Component {
         const prev = this._stateToTree(prevState);
         const curr = this._stateToTree(currState);
         console.log(prev, curr);
-        this._updatePlayer(prev.playerInfo, curr.playerInfo);
-
+        //this._updatePlayer(prev.playerInfo, curr.playerInfo);
+        this._bus.reconcile(prev.playerInfo, curr.playerInfo);
         // First we loop through prev.channels, any channel that is in prev.channels
         // but not in curr.channels gets deleted.
         for (let channel of prev.channels) {
@@ -107,7 +106,7 @@ class AudioEngine extends Component {
      * @param {object} prev - previous state tree 
      * @param {object} curr - current state tree
      */
-    _updatePlayer(prev, curr) {
+    OLD__updatePlayer(prev, curr) {
         if (prev.isPlaying !== curr.isPlaying || prev.isPaused !== curr.isPaused) {
             if (curr.isPaused) {
                 Tone.Transport.pause();

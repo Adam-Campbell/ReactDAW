@@ -1,8 +1,38 @@
 import Tone from 'tone';
+import { isEqual } from 'lodash';
 
 class Bus {
-    constructor() {
+    constructor(masterVolumeNodeRef) {
         this.channels = [];
+        this.masterVolumeNodeRef = masterVolumeNodeRef;
+    }
+
+    reconcile(prev, curr) {
+        // return early if nothing in this slice of state has changed.
+        if (isEqual(prev, curr)) {
+            return;
+        }
+        // If isPlaying or isPaused have changed, work out whether the track needs to be started, 
+        // paused or stopped.
+        if (prev.isPlaying !== curr.isPlaying || prev.isPaused !== curr.isPaused) {
+            if (curr.isPaused) {
+                Tone.Transport.pause();
+            } else if (curr.isPlaying) {
+                Tone.Transport.start();
+            } else {
+                Tone.Transport.stop();
+            }
+        }
+        // if the mute, volume or bpm settings have changed, update as necessary. 
+        if (prev.isMuted !== curr.isMuted) {
+            Tone.Master.mute = curr.isMuted;
+        }
+        if (prev.volume !== curr.volume) {
+            this.masterVolumeNode.volume.value = curr.volume;
+        }
+        if (prev.bpm !== curr.bpm) {
+            Tone.Transport.bpm.value = curr.bpm;
+        }
     }
 
     addChannel(newChannel) {
