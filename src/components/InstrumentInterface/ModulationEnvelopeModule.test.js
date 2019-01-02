@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ModulationEnvelopeModule from './ModulationEnvelopeModule';
-import { synthData } from '../../constants';
+import { instrumentData } from '../../constants';
 
-const modulationEnvelopeData = synthData.fmSynth.modulationEnvelope;
+const modulationEnvelopeData = instrumentData.fmSynth.modulationEnvelope;
 
 test('renders correctly', () => {
     const component = shallow(

@@ -280,3 +280,66 @@ test('handles REMOVE_NOTES', () => {
     };
     expect(reducer(state, action)).toEqual(expectedResult);
 });
+
+test('handles LOAD_STATE_SUCCESS', () => {
+    const sectionsState = {
+        '1949453727736409': {
+            id: '1949453727736409',
+            channelId: '1898891519900540',
+            notes: [
+                {
+                    pitch: 'E4',
+                    time: '0:0:0',
+                    duration: '0:0:1',
+                    velocity: 1,
+                    _id: '3830917555872945',
+                    x: 0,
+                    y: 880,
+                    width: 24
+                },
+                {
+                    pitch: 'F#4',
+                    time: '0:1:0',
+                    duration: '0:0:1',
+                    velocity: 1,
+                    _id: '8929406947762571',
+                    x: 96,
+                    y: 848,
+                    width: 24
+                }
+            ],
+            start: '0:0:0',
+            numberOfBars: 1
+        },
+        '5300333925119662': {
+            id: '5300333925119662',
+            channelId: '1898891519900540',
+            notes: [],
+            start: '2:0:0',
+            numberOfBars: 1
+        },
+        '6301818151930923': {
+            id: '6301818151930923',
+            channelId: '1898891519900540',
+            notes: [],
+            start: '4:0:0',
+            numberOfBars: 1
+        },
+        '9236418249395768': {
+            id: '9236418249395768',
+            channelId: '1898891519900540',
+            notes: [],
+            start: '6:0:0',
+            numberOfBars: 1
+        }
+    };
+    const action = {
+        type: actionTypes.LOAD_STATE_SUCCESS,
+        payload: {
+            loadedState: { 
+                sections: sectionsState 
+            }
+        }
+    }
+    expect(reducer(undefined, action)).toEqual(sectionsState);
+});

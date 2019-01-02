@@ -24,6 +24,7 @@ import {
 export class ComposerContainer extends Component {
 
     constructor(props) {
+        //console.log(document.documentElement.clientWidth);
         super(props);
         this.stageWidth = 740;
         this.stageHeight = 300;

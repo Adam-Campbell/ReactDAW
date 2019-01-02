@@ -136,8 +136,10 @@ export const deepCopy = (original) => {
  * Solution from https://stackoverflow.com/questions/18936915/dynamically-set-property-of-nested-object
  */
 export const updatePropAtPath = (obj, pathArray, value) => {
-    const key = pathArray.pop();
-    const pointer = pathArray.reduce((accumulator, currentValue) => {
+    //const key = pathArray.pop();
+    const key = pathArray[pathArray.length-1];
+    const rest = pathArray.slice(0, pathArray.length-1);
+    const pointer = rest.reduce((accumulator, currentValue) => {
         if (accumulator[currentValue] === undefined) accumulator[currentValue] = {};
         return accumulator[currentValue];
     }, obj);

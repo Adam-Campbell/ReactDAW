@@ -392,17 +392,61 @@ export const instrumentData = {
         volume: 0
     },
     drumKit: {
-        kick: drumSampleURLs.kick001,
-        snare: drumSampleURLs.snare001,
-        openHat: drumSampleURLs.openHat001,
-        closedHat: drumSampleURLs.closedHat001,
-        clap: drumSampleURLs.clap001,
-        crash: drumSampleURLs.crash001,
-        ride: drumSampleURLs.ride001,
-        highTom: drumSampleURLs.highTom001,
-        midTom: drumSampleURLs.midTom001,
-        lowTom: drumSampleURLs.lowTom001,
-        fx: drumSampleURLs.fx001
+        kick: {
+            sample: drumSampleURLs.kick001,
+            volume: 0,
+            pan: 0
+        },
+        snare: {
+            sample: drumSampleURLs.snare001,
+            volume: 0,
+            pan: 0
+        },
+        openHat: {
+            sample: drumSampleURLs.openHat001,
+            volume: 0,
+            pan: 0
+        },
+        closedHat: {
+            sample: drumSampleURLs.closedHat001,
+            volume: 0,
+            pan: 0
+        },
+        clap: {
+            sample: drumSampleURLs.clap001,
+            volume: 0,
+            pan: 0
+        },
+        crash: {
+            sample: drumSampleURLs.crash001,
+            volume: 0,
+            pan: 0
+        },
+        ride: {
+            sample: drumSampleURLs.ride001,
+            volume: 0,
+            pan: 0
+        },
+        highTom: {
+            sample: drumSampleURLs.highTom001,
+            volume: 0,
+            pan: 0
+        },
+        midTom: {
+            sample: drumSampleURLs.midTom001,
+            volume: 0,
+            pan: 0
+        },
+        lowTom: {
+            sample: drumSampleURLs.lowTom001,
+            volume: 0,
+            pan: 0
+        },
+        fx: {
+            sample: drumSampleURLs.fx001,
+            volume: 0,
+            pan: 0
+        }
     }
 };
 

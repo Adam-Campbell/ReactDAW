@@ -525,3 +525,52 @@ test('handles UPDATE_CHANNEL_PAN', () => {
     }];
     expect(reducer(state, action)).toEqual(expectedResult);
 });
+
+test('handles LOAD_STATE_SUCCESS', () => {
+
+    const channelsState =  [
+        {
+          id: '1898891519900540',
+          name: 'Channel 1',
+          color: '#00bff3',
+          instrumentId: '9773290972781630',
+          effectIds: [],
+          sectionIds: [
+            '1949453727736409',
+            '5300333925119662',
+            '6301818151930923',
+            '9236418249395768'
+          ],
+          volume: 0,
+          isMuted: false,
+          isSolo: false,
+          pan: 0
+        },
+        {
+          id: '6632170021501903',
+          name: 'Channel 2',
+          color: '#25e452',
+          instrumentId: '3804682348295230',
+          effectIds: [],
+          sectionIds: [
+            '4831517505540843',
+            '5619513673121502',
+            '3088420498783539',
+            '7268086317608197'
+          ],
+          volume: 0,
+          isMuted: false,
+          isSolo: false,
+          pan: 0
+        }
+    ];
+    const action = {
+        type: actionTypes.LOAD_STATE_SUCCESS,
+        payload: {
+            loadedState: { 
+                channels: channelsState 
+            }
+        }
+    }
+    expect(reducer(undefined, action)).toEqual(channelsState);
+});

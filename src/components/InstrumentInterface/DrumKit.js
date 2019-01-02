@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeaderModule from './HeaderModule';
-import EnhancedSelectInput from '../EnhancedSelectInput';
 import { drumSampleURLs } from '../../constants';
+import DrumModule from './DrumModule';
 
 const DrumKit = props => (
     <div className="synth-interface__container">
         <HeaderModule synthTitle="Drum Kit" />
         <div className="synth-interface__module-container">
-            <EnhancedSelectInput 
-                inputId="kick"
-                label="Kick"
-                value={props.instrumentData.kick}
+            <DrumModule 
+                drumType="kick"
+                drumName="Kick"
+                drumData={props.instrumentData.kick}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['kick']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.kick001, text: 'Kick 001' },
                     { value: drumSampleURLs.kick002, text: 'Kick 002' },
                     { value: drumSampleURLs.kick003, text: 'Kick 003' },
@@ -38,14 +37,13 @@ const DrumKit = props => (
                     { value: drumSampleURLs.kick020, text: 'Kick 020' },
                 ]}
             />
-            <EnhancedSelectInput 
-                inputId="snare"
-                label="Snare"
-                value={props.instrumentData.snare}
+            <DrumModule 
+                drumType="snare"
+                drumName="Snare"
+                drumData={props.instrumentData.snare}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['snare']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.snare001, text: 'Snare 001' },
                     { value: drumSampleURLs.snare002, text: 'Snare 002' },
                     { value: drumSampleURLs.snare003, text: 'Snare 003' },
@@ -68,16 +66,15 @@ const DrumKit = props => (
                     { value: drumSampleURLs.snare020, text: 'Snare 020' },
                     { value: drumSampleURLs.snare021, text: 'Snare 021' },
                     { value: drumSampleURLs.snare022, text: 'Snare 022' },
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="clap"
-                label="Clap"
-                value={props.instrumentData.clap}
+            <DrumModule 
+                drumType="clap"
+                drumName="Clap"
+                drumData={props.instrumentData.clap}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['clap']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.clap001, text: 'Clap 001' },
                     { value: drumSampleURLs.clap002, text: 'Clap 002' },
                     { value: drumSampleURLs.clap003, text: 'Clap 003' },
@@ -90,14 +87,15 @@ const DrumKit = props => (
                     { value: drumSampleURLs.clap010, text: 'Clap 010' }
                 ]}
             />
-            <EnhancedSelectInput 
-                inputId="closed-hat"
-                label="Closed Hat"
-                value={props.instrumentData.closedHat}
+        </div>
+        <div className="synth-interface__module-container">
+            <DrumModule 
+                drumType="closedHat"
+                drumName="Closed Hat"
+                drumData={props.instrumentData.closedHat}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['closedHat']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.closedHat001, text: 'Closed Hat 001' },
                     { value: drumSampleURLs.closedHat002, text: 'Closed Hat 002' },
                     { value: drumSampleURLs.closedHat003, text: 'Closed Hat 003' },
@@ -114,16 +112,15 @@ const DrumKit = props => (
                     { value: drumSampleURLs.closedHat014, text: 'Closed Hat 014' },
                     { value: drumSampleURLs.closedHat015, text: 'Closed Hat 015' },
                     { value: drumSampleURLs.closedHat016, text: 'Closed Hat 016' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="open-hat"
-                label="Open Hat"
-                value={props.instrumentData.openHat}
+            <DrumModule 
+                drumType="openHat"
+                drumName="Open Hat"
+                drumData={props.instrumentData.openHat}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['openHat']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.openHat001, text: 'Open Hat 001' },
                     { value: drumSampleURLs.openHat002, text: 'Open Hat 002' },
                     { value: drumSampleURLs.openHat003, text: 'Open Hat 003' },
@@ -133,33 +130,31 @@ const DrumKit = props => (
                     { value: drumSampleURLs.openHat007, text: 'Open Hat 007' },
                     { value: drumSampleURLs.openHat008, text: 'Open Hat 008' },
                     { value: drumSampleURLs.openHat009, text: 'Open Hat 009' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="crash"
-                label="Crash"
-                value={props.instrumentData.crash}
+            <DrumModule 
+                drumType="crash"
+                drumName="Crash"
+                drumData={props.instrumentData.crash}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['crash']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.crash001, text: 'Crash 001' },
                     { value: drumSampleURLs.crash002, text: 'Crash 002' },
                     { value: drumSampleURLs.crash003, text: 'Crash 003' },
                     { value: drumSampleURLs.crash004, text: 'Crash 004' },
                     { value: drumSampleURLs.crash005, text: 'Crash 005' }
-                ]}
+                ]}   
             />
         </div>
         <div className="synth-interface__module-container">
-            <EnhancedSelectInput 
-                inputId="ride"
-                label="Ride"
-                value={props.instrumentData.ride}
+            <DrumModule 
+                drumType="ride"
+                drumName="Ride"
+                drumData={props.instrumentData.ride}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['ride']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.ride001, text: 'Ride 001' },
                     { value: drumSampleURLs.ride002, text: 'Ride 002' },
                     { value: drumSampleURLs.ride003, text: 'Ride 003' },
@@ -167,62 +162,60 @@ const DrumKit = props => (
                     { value: drumSampleURLs.ride005, text: 'Ride 005' },
                     { value: drumSampleURLs.ride006, text: 'Ride 006' },
                     { value: drumSampleURLs.ride007, text: 'Ride 007' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="high-tom"
-                label="High Tom"
-                value={props.instrumentData.highTom}
+            <DrumModule 
+                drumType="highTom"
+                drumName="High Tom"
+                drumData={props.instrumentData.highTom}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['highTom']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.highTom001, text: 'High Tom 001' },
                     { value: drumSampleURLs.highTom002, text: 'High Tom 002' },
                     { value: drumSampleURLs.highTom003, text: 'High Tom 003' },
                     { value: drumSampleURLs.highTom004, text: 'High Tom 004' },
                     { value: drumSampleURLs.highTom005, text: 'High Tom 005' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="mid-tom"
-                label="Mid Tom"
-                value={props.instrumentData.midTom}
+            <DrumModule 
+                drumType="midTom"
+                drumName="Mid Tom"
+                drumData={props.instrumentData.midTom}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['midTom']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.midTom001, text: 'Mid Tom 001' },
                     { value: drumSampleURLs.midTom002, text: 'Mid Tom 002' },
                     { value: drumSampleURLs.midTom003, text: 'Mid Tom 003' },
                     { value: drumSampleURLs.midTom004, text: 'Mid Tom 004' },
                     { value: drumSampleURLs.midTom005, text: 'Mid Tom 005' },
                     { value: drumSampleURLs.midTom006, text: 'Mid Tom 006' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="low-tom"
-                label="Low Tom"
-                value={props.instrumentData.lowTom}
+        </div>
+        <div className="synth-interface__module-container">
+            <DrumModule 
+                drumType="lowTom"
+                drumName="Low Tom"
+                drumData={props.instrumentData.lowTom}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['lowTom']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.lowTom001, text: 'Low Tom 001' },
                     { value: drumSampleURLs.lowTom002, text: 'Low Tom 002' },
                     { value: drumSampleURLs.lowTom003, text: 'Low Tom 003' },
                     { value: drumSampleURLs.lowTom004, text: 'Low Tom 004' },
                     { value: drumSampleURLs.lowTom005, text: 'Low Tom 005' }
-                ]}
+                ]}   
             />
-            <EnhancedSelectInput 
-                inputId="fx"
-                label="FX"
-                value={props.instrumentData.fx}
+            <DrumModule 
+                drumType="fx"
+                drumName="fx"
+                drumData={props.instrumentData.fx}
+                instrumentId={props.instrumentId}
                 handleChange={props.handleChange}
-                identifier={props.instrumentId}
-                propertyPathArray={['fx']}
-                options={[
+                drumSampleOptions={[
                     { value: drumSampleURLs.fx001, text: 'FX 001' },
                     { value: drumSampleURLs.fx002, text: 'FX 002' },
                     { value: drumSampleURLs.fx003, text: 'FX 003' },
@@ -231,7 +224,7 @@ const DrumKit = props => (
                     { value: drumSampleURLs.fx006, text: 'FX 006' },
                     { value: drumSampleURLs.fx007, text: 'FX 007' },
                     { value: drumSampleURLs.fx008, text: 'FX 008' },
-                ]}
+                ]}   
             />
         </div>
     </div>

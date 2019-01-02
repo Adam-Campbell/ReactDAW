@@ -115,3 +115,22 @@ test('handles SET_BPM', () => {
     };
     expect(reducer(undefined, action)).toEqual(expectedResult);
 });
+
+test('handles LOAD_STATE_SUCCESS', () => {
+    const playerState = {
+        isPlaying: false,
+        isPaused: false,
+        isMuted: false,
+        volume: 0,
+        bpm: 120
+    };
+    const action = {
+        type: actionTypes.LOAD_STATE_SUCCESS,
+        payload: {
+            loadedState: { 
+                playerInfo: playerState 
+            }
+        }
+    };
+    expect(reducer(undefined, action)).toEqual(playerState);
+});

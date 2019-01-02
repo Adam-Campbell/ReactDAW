@@ -51,6 +51,12 @@ exports[`renders correctly 1`] = `
     >
       Mono
     </option>
+    <option
+      className="track-details__instrument-select-option"
+      value="drumKit"
+    >
+      Drum Kit
+    </option>
   </select>
   <button
     className="track-details__instrument-settings-button"

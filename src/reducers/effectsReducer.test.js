@@ -124,3 +124,30 @@ test('handles UPDATE_ONE_EFFECT_SETTING', () => {
     };
     expect(reducer(state, action)).toEqual(expectedResult);
 });
+
+test('handles LOAD_STATE_SUCCESS', () => {
+    const effectsState = {
+        '5947817643792241': {
+            id: '5947817643792241',
+            type: 'chorus',
+            channelId: '1898891519900540',
+            effectData: {
+                delayTime: 3.5,
+                depth: 0.7,
+                frequency: 1.5,
+                spread: 180,
+                type: 'sine',
+                wet: 1
+            }
+        }
+    };
+    const action = {
+        type: actionTypes.LOAD_STATE_SUCCESS,
+        payload: {
+            loadedState: { 
+                effects: effectsState 
+            }
+        }
+    };
+    expect(reducer(undefined, action)).toEqual(effectsState);
+})

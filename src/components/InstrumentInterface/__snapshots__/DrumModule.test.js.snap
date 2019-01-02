@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="drum-module__container"
+>
+  <p
+    className="drum-module__title"
+  >
+    Kick
+  </p>
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="4626753126497532"
+    inputId="kick-volume"
+    label="Volume"
+    max={10}
+    min={-40}
+    propertyPathArray={
+      Array [
+        "kick",
+        "volume",
+      ]
+    }
+    step={0.25}
+    value={0}
+  />
+  <EnhancedRangeInput
+    handleChange={[MockFunction]}
+    identifier="4626753126497532"
+    inputId="kick-panning"
+    label="Panning"
+    max={1}
+    min={-1}
+    propertyPathArray={
+      Array [
+        "kick",
+        "pan",
+      ]
+    }
+    step={0.005}
+    value={0}
+  />
+  <EnhancedSelectInput
+    handleChange={[MockFunction]}
+    identifier="4626753126497532"
+    inputId="kick-sample"
+    label="Sample"
+    options={
+      Array [
+        Object {
+          "text": "Kick 001",
+          "value": "drum-samples/kicks/kick_001.wav",
+        },
+        Object {
+          "text": "Kick 002",
+          "value": "drum-samples/kicks/kick_002.wav",
+        },
+        Object {
+          "text": "Kick 003",
+          "value": "drum-samples/kicks/kick_003.wav",
+        },
+        Object {
+          "text": "Kick 004",
+          "value": "drum-samples/kicks/kick_004.wav",
+        },
+        Object {
+          "text": "Kick 005",
+          "value": "drum-samples/kicks/kick_005.wav",
+        },
+      ]
+    }
+    propertyPathArray={
+      Array [
+        "kick",
+        "sample",
+      ]
+    }
+    value="drum-samples/kicks/kick_001.wav"
+  />
+</div>
+`;

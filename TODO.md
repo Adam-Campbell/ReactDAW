@@ -31,6 +31,9 @@ _____________________________________
 
 
 
+
+
+
 Transport bar:
 - rebuild to be full width and fixed at top of screen.
 - add additional buttons, pause, skip to start of track etc.
@@ -39,11 +42,27 @@ Transport bar:
 - possibly add waveform visualization to the transport bar? 
 - add saving / loading controls.
 
+__________________________________
+  TRANSPORT BAR COMPLETE FOR NOW
+__________________________________
+
+
+
+
+
+
+
+
 AudioEngine:
 - refactor the 'diffing' process that happens with every new set of props received.
 - would it be better to have each class contain its own logic for this rather than everything living in the top level component?
 - investigate issue with master volume not affecting the readings from the meter node attached to the master. Possibly I will have to add a volume node in the chain before the meter node, and use this volume node to alter the master volume rather than updating the value of Tone.Master.volume directly.
 - still improvements to be made with how the Channel class handles its effects chains. 
+
+
+
+
+
 
 UI improvements:
 - create SVG icons for all buttons throughout the app.
@@ -54,7 +73,30 @@ UI improvements:
 - investigate adding resize functionality to all of the components - so they resize on window resize. Will be the most challenging in the canvas based components. Will be necessary if the composer component is made full screen. 
 - consider improvements to the instrument and effect interfaces. At the moment they are somewhat utalitarian, their is definate room for improvement. 
 
+
+
+
+
+
 DrumKit
 - convert the wav files to mp3 files. 
 - consider the best approach to use for the drums going forward. At the least I want seperate volume controls for each drum, do I also want the ability to add effects to each drum seperately? I will have to consider the best way to facilitate this both in the AudioEngine and in the UI as well. 
 - additionally, investigate ways to add 'velocity' controls to the drums. It will most likely involve manipulating the volume of the player, but if possible I would like to make it behave from the outside the same way that velocity behaves in synth based instruments. 
+
+
+
+- basic hit velocity has been added to drumkit. Currently it takes velocity value (0 to 1 inclusive) and maps it to a decibel value in the range -80db to 0db.
+
+- when I implement the volume control for each drum, I should add a dedicated Tone.Volume instance to handle this volume - because if I were to just set it directly on the Player instance then it would interfere with the volume being set by the hit velocity. 
+
+- volume and panning for each individual drum has now been added, and the drumkit interface in the UI has been updated to reflect these changes.
+
+
+- one final thing is to figure out a way to adjust how the drums handle velocity - it is set in db (logarithmic) but I want it to be used from the outside as a linear scale from 0 to 1. So conversions will need to happen.
+
+________________________________________
+  DRUMKIT DONE (except for last point)
+________________________________________
+
+
+
