@@ -60,6 +60,29 @@ AudioEngine:
 - still improvements to be made with how the Channel class handles its effects chains. 
 
 
+Should all of the updating logic be in the AudioEngine class? 
+
+What if instead I gave each of the child classes its own reconciliation method that could be called with the previous and current states and it just updates itself? So the Bus gets called - Bus.reconcile(prevState, currState)
+and it updates things like the playing status, volume, bpm etc. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

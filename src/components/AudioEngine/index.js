@@ -44,6 +44,31 @@ class AudioEngine extends Component {
         this._updateEngineState(prevProps, this.props);
     }
 
+    /**
+     * Takes the normalized state from redux and converts it into a tree structure resembling the class
+     * hierarchy within the audio engine. This allows all of the updating that follows to be more intuitive.
+     * @param {object} state - the normalized redux state 
+     */
+    _stateToTree(state) {
+        let tree = {};
+        // copy playerInfo to tree
+        tree.playerInfo = { ...state.playerInfo };
+        // loop over the channels
+        tree.channels = state.channels.map(channel => {
+            return {
+                id: channel.id,
+                instrument: state.instruments[channel.instrumentId],
+                effects: channel.effectIds.map(effectId => state.effects[effectId]),
+                sections: channel.sectionIds.map(sectionId => state.sections[sectionId]),
+                volume: channel.volume,
+                isMuted: channel.isMuted,
+                isSolo: channel.isSolo,
+                pan: channel.pan
+            }
+        });
+        return tree;
+    }
+
     _updateEngineState(prevState, currState) {
         const prev = this._stateToTree(prevState);
         const curr = this._stateToTree(currState);
@@ -163,23 +188,21 @@ class AudioEngine extends Component {
         }
         // if it has changed, disconnect the effects chain, build the new one, and connect it.
         if (hasChanged) {
-            channelRef.disconnectEffectChain();
+            //channelRef.disconnectEffectChain();
             const newEffectChain = currChannel.effects.map(effect => {
                 return this._effectFactory.create(
                     effect.type,
                     effect.effectData
                 );
             });
-            newEffectChain.unshift(channelRef.instrument);
-            newEffectChain.push(channelRef.volumeNode);
             channelRef.effectChain = newEffectChain;
-            channelRef.connectEffectChain();
+            //channelRef.connectEffectChain();
             // else if the only thing that has changed is settings, loop over the effects and 
             // supply the new settings. 
         } else {
-            for (let i = 0; i < currChannel.effects.length; i++) {
-                channelRef.effectChain[i+1].set(currChannel.effects[i].effectData);
-            }
+            currChannel.effects.forEach((effect, i) => {
+                channelRef.effectChain[i].set(effect.effectData);
+            });
         }
 
         // Update the sections for this channel. 
@@ -280,10 +303,10 @@ class AudioEngine extends Component {
         const newChannel = new Channel(channelData.id, instrument);
 
         // Create the effects chain for this channel.
-        channelData.effects.forEach((effect, index) => {
-            const newEffect = this._effectFactory.create(effect.type, effect.data);
-            newChannel.addToEffectChain(newEffect, index);
+        newChannel.effectChain = channelData.effects.map(effect => {
+            return this._effectFactory.create(effect.type, effect.data);
         });
+        
         // Create the sections for this channel. 
         for (let section of channelData.sections) {
             const newSection = this._createSection(section);
@@ -332,31 +355,6 @@ class AudioEngine extends Component {
 
         return newSection;
 
-    }
-
-    /**
-     * Takes the normalized state from redux and converts it into a tree structure resembling the class
-     * hierarchy within the audio engine. This allows all of the updating that follows to be more intuitive.
-     * @param {object} state - the normalized redux state 
-     */
-    _stateToTree(state) {
-        let tree = {};
-        // copy playerInfo to tree
-        tree.playerInfo = { ...state.playerInfo };
-        // loop over the channels
-        tree.channels = state.channels.map(channel => {
-            return {
-                id: channel.id,
-                instrument: state.instruments[channel.instrumentId],
-                effects: channel.effectIds.map(effectId => state.effects[effectId]),
-                sections: channel.sectionIds.map(sectionId => state.sections[sectionId]),
-                volume: channel.volume,
-                isMuted: channel.isMuted,
-                isSolo: channel.isSolo,
-                pan: channel.pan
-            }
-        });
-        return tree;
     }
 
     render() {
