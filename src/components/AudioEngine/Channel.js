@@ -1,8 +1,14 @@
 import Tone from 'tone';
 import Section from './Section';
-import { isEqual, isEqualWith, differenceWith, intersectionWith } from 'lodash';
 import InstrumentFactory from './InstrumentFactory';
 import EffectFactory from './EffectFactory';
+import { 
+    isEqual, 
+    isEqualWith, 
+    differenceWith, 
+    intersectionWith,
+    cloneDeep
+} from 'lodash';
 
 const channelSkeletonData = {
     id: '',
@@ -42,7 +48,9 @@ class Channel {
         this.meterNodeReferences[this.id] = this.meterNode;
     }
 
-    reconcile(prev=channelSkeletonData, curr) {
+    reconcile(prevState=channelSkeletonData, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         this.reconcileInstrument(prev.instrument, curr.instrument);
         this.reconcileEffects(prev.effects, curr.effects);
         this.reconcileSections(prev.sections, curr.sections);
@@ -50,7 +58,9 @@ class Channel {
         return this;
     }
 
-    reconcileInstrument(prev, curr) {
+    reconcileInstrument(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         // return early if nothing has changed
         if (isEqual(prev, curr)) {
             return this;
@@ -66,14 +76,19 @@ class Channel {
         }
     }
 
-    reconcileEffects(prev, curr) {
+    reconcileEffects(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
+        //console.log('prev effects: ', prev);
+        //console.log('curr effects: ', curr);
         // if absolutely nothing has changed, just return early.
         if (isEqual(prev, curr)) {
             return;
         }
         // if only the settings of effects have changed, then just go through and update the settings for each
         // effect in the chain. 
-        const onlySettingsHaveChanged = isEqualWith(prev, curr, (a, b) => a.id === b.id);
+        const onlySettingsHaveChanged = prev.length === curr.length && 
+                                        isEqualWith(prev, curr, (a, b) => a.id === b.id);
         if (onlySettingsHaveChanged) {
             curr.forEach((effect, i) => {
                 this.effectChain[i].set(effect.effectData);
@@ -90,7 +105,9 @@ class Channel {
     }
 
 
-    reconcileSections(prev, curr) {
+    reconcileSections(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         if (isEqual(prev, curr)) {
             return;
         }
@@ -115,7 +132,7 @@ class Channel {
 
         // update the necessary sections
         sectionsToPotentiallyUpdate.forEach(sectionData => {
-            const prevSectionData = prev.find(el => el.id = sectionData.id);
+            const prevSectionData = prev.find(el => el.id === sectionData.id);
             if (isEqual(prevSectionData, sectionData)) {
                 return;
             } 
@@ -124,7 +141,9 @@ class Channel {
         });
     }
 
-    reconcileChannelSettings(prev, curr) {
+    reconcileChannelSettings(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         if (prev.volume !== curr.volume) {
             this.setVolume(curr.volume);
         }

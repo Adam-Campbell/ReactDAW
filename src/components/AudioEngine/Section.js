@@ -1,5 +1,5 @@
 import Tone from 'tone';
-import { isEqual, isEqualWith, differenceWith, intersectionWith } from 'lodash';
+import { differenceWith, cloneDeep } from 'lodash';
 
 window.t = Tone.Transport;
 
@@ -27,18 +27,22 @@ export default class Section {
         //this._part.loopEnd = "4:0:0";
     }
 
-    reconcile(prev=[], curr) {
-        if (isEqual(prev, curr)) {
-            return this;
-        }
+    reconcile(prevState=[], currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
+        // if (isEqual(prev, curr)) {
+        //     return this;
+        // }
 
-        // Will return the notes that are only in prev state and therefore need to be removed.
         const notesToRemove = differenceWith(prev, curr, (a, b) => a._id === b._id);
-        // Will return the channels that are only in curr state and therefore need to be added.
         const notesToAdd = differenceWith(curr, prev, (a, b) => a._id === b._id);
-        
-        // remove the necessary notes
         notesToRemove.forEach(noteData => this.removeNote(noteData._id));
+        //console.log(prev, curr);
+
+        // if (notesToAdd.length) {
+        //     console.log(`section ${this._id} had a note added!`);
+        //     console.log(prev, curr);
+        // }
 
         // add the necessary notes
         notesToAdd.forEach(noteData => {
@@ -81,7 +85,9 @@ export default class Section {
     }
 
     removeNote(noteId) {
+        console.log(`removeNote was called with noteId: ${noteId}`);
         const noteRef = this.noteStore[noteId];
+        //console.log(noteRef);
         if (noteRef) {
             this._part.remove(noteRef.time, noteRef);
             delete this.noteStore[noteId];

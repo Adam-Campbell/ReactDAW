@@ -8,6 +8,7 @@ import Tone from 'tone';
 import { instrumentTypes, effectTypes } from '../../constants';
 import InstrumentFactory from './InstrumentFactory';
 import EffectFactory from './EffectFactory';
+import { cloneDeep } from 'lodash';
 
 window.Tone = Tone;
 
@@ -37,6 +38,8 @@ class AudioEngine extends Component {
         window.meterNodeReferences = this.meterNodeReferences;
         Tone.Master.chain(this.masterVolumeNode, this.masterMeterNode);
         this.meterNodeReferences['master'] = this.masterMeterNode;
+        this.stateArrays = [];
+        window.stateArrays = this.stateArrays;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -48,8 +51,13 @@ class AudioEngine extends Component {
      * hierarchy within the audio engine. This allows all of the updating that follows to be more intuitive.
      * @param {object} state - the normalized redux state 
      */
-    _stateToTree(state) {
+    _stateToTree(originalState) {
+        //this.stateArrays.push(originalState);
+        //console.log(originalState);
         let tree = {};
+        //const stringifiedState = JSON.stringify(originalState);
+        //const state = JSON.parse(stringifiedState);
+        const state = cloneDeep(originalState);
         // copy playerInfo to tree
         tree.playerInfo = { ...state.playerInfo };
         // loop over the channels

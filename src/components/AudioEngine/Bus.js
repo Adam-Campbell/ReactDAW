@@ -1,6 +1,11 @@
 import Tone from 'tone';
 import Channel from './Channel';
-import { isEqual, differenceWith, intersectionWith } from 'lodash';
+import { 
+    isEqual, 
+    differenceWith, 
+    intersectionWith, 
+    cloneDeep 
+} from 'lodash';
 
 class Bus {
     constructor(masterVolumeNodeRef, instrumentReferences, meterNodeReferences) {
@@ -10,12 +15,16 @@ class Bus {
         this.meterNodeReferences = meterNodeReferences;
     }
 
-    reconcile(prev, curr) {
+    reconcile(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         this.reconcilePlayer(prev.playerInfo, curr.playerInfo);
         this.reconcileChannels(prev.channels, curr.channels);
     }
 
-    reconcilePlayer(prev, curr) {
+    reconcilePlayer(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         // return early if nothing in this slice of state has changed.
         if (isEqual(prev, curr)) {
             return;
@@ -43,7 +52,9 @@ class Bus {
         }
     }
 
-    reconcileChannels(prev, curr) {
+    reconcileChannels(prevState, currState) {
+        const prev = cloneDeep(prevState);
+        const curr = cloneDeep(currState);
         if (isEqual(prev, curr)) {
             return;
         }
