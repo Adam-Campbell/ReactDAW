@@ -43,7 +43,6 @@ class Channel {
     }
 
     reconcile(prev=channelSkeletonData, curr) {
-        console.log('reconcile channel happened');
         this.reconcileInstrument(prev.instrument, curr.instrument);
         this.reconcileEffects(prev.effects, curr.effects);
         this.reconcileSections(prev.sections, curr.sections);
@@ -92,8 +91,6 @@ class Channel {
 
 
     reconcileSections(prev, curr) {
-        console.log('prev sections are: ', prev);
-        console.log('curr sections are: ', curr);
         if (isEqual(prev, curr)) {
             return;
         }

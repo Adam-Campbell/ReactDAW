@@ -34,12 +34,22 @@ const sections = (state=defaultState, action) => {
     switch (action.type) {
 
         case actionTypes.ADD_SECTION:
-            return {
+            const copiedState = { ...state };
+            const newState = {
                 ...state,
                 [action.payload.sectionId]: {
                     ...action.payload.sectionObject
                 }
             };
+            
+            console.log(copiedState, newState, action);
+            return newState;
+            // return {
+            //     ...state,
+            //     [action.payload.sectionId]: {
+            //         ...action.payload.sectionObject
+            //     }
+            // };
 
         case actionTypes.REMOVE_SECTION:
             return deletePropFromObject(state, action.payload.sectionId);

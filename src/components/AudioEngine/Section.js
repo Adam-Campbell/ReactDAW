@@ -13,7 +13,7 @@ const sectionSkeletonData = {
 
 export default class Section {
     constructor(id, start) {
-        console.log(`section contstructor called with id ${id} and start ${start}`);
+        //console.log(`section contstructor called with id ${id} and start ${start}`);
         this._part = new Tone.Part();
         this._id = id;
         this._instrument = new Tone.PolySynth(12, Tone.Synth);
@@ -28,8 +28,6 @@ export default class Section {
     }
 
     reconcile(prev=[], curr) {
-        console.log('prev notes are: ', prev);
-        console.log('curr notes are: ', curr);
         if (isEqual(prev, curr)) {
             return this;
         }

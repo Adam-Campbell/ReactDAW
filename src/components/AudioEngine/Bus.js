@@ -5,7 +5,7 @@ import { isEqual, differenceWith, intersectionWith } from 'lodash';
 class Bus {
     constructor(masterVolumeNodeRef, instrumentReferences, meterNodeReferences) {
         this.channels = [];
-        this.masterVolumeNodeRef = masterVolumeNodeRef;
+        this.masterVolumeNode = masterVolumeNodeRef;
         this.instrumentReferences = instrumentReferences;
         this.meterNodeReferences = meterNodeReferences;
     }
