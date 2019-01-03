@@ -1,13 +1,21 @@
 import Tone from 'tone';
-import { isEqual } from 'lodash';
+import Channel from './Channel';
+import { isEqual, differenceWith, intersectionWith } from 'lodash';
 
 class Bus {
-    constructor(masterVolumeNodeRef) {
+    constructor(masterVolumeNodeRef, instrumentReferences, meterNodeReferences) {
         this.channels = [];
         this.masterVolumeNodeRef = masterVolumeNodeRef;
+        this.instrumentReferences = instrumentReferences;
+        this.meterNodeReferences = meterNodeReferences;
     }
 
     reconcile(prev, curr) {
+        this.reconcilePlayer(prev.playerInfo, curr.playerInfo);
+        this.reconcileChannels(prev.channels, curr.channels);
+    }
+
+    reconcilePlayer(prev, curr) {
         // return early if nothing in this slice of state has changed.
         if (isEqual(prev, curr)) {
             return;
@@ -34,6 +42,42 @@ class Bus {
             Tone.Transport.bpm.value = curr.bpm;
         }
     }
+
+    reconcileChannels(prev, curr) {
+        if (isEqual(prev, curr)) {
+            return;
+        }
+        // Will return the channels that are only in prev state and therefore need to be removed.
+        const channelsToRemove = differenceWith(prev, curr, (a, b) => a.id === b.id);
+        // Will return the channels that are only in curr state and therefore need to be added.
+        const channelsToAdd = differenceWith(curr, prev, (a, b) => a.id === b.id);
+        // Will return the channels that are in both the prev and curr states, and so potentially may
+        // need to be updated. The channel data included will be the data from the curr state, so the
+        // data the engine needs to be in sync with. 
+        const channelsToPotentiallyUpdate = intersectionWith(curr, prev, (a, b) => a.id === b.id);
+        
+        channelsToRemove.forEach(channelData => {
+            this.removeChannel(channelData.id);
+            delete this.instrumentReferences[channelData.id];
+            delete this.meterNodeReferences[channelData.id];
+        });
+
+        channelsToAdd.forEach(channelData => {
+            const newChannel = new Channel(channelData.id, this.instrumentReferences, this.meterNodeReferences)
+                                          .reconcile(undefined, channelData);
+            this.addChannel(newChannel);
+        });
+
+        channelsToPotentiallyUpdate.forEach(channelData => {
+            const prevChannelData = prev.find(el => el.id === channelData.id);
+            if (isEqual(channelData, prevChannelData)) {
+                return;
+            }
+            const channelInstance = this.channels.find(el => el.id === channelData.id);
+            channelInstance.reconcile(prevChannelData, channelData);
+        });
+    }
+
 
     addChannel(newChannel) {
         this.channels.push(newChannel);

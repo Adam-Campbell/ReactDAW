@@ -27,12 +27,12 @@ class AudioEngine extends Component {
         super(props);
         this.masterVolumeNode = new Tone.Volume();
         this.masterMeterNode = new Tone.Meter();
-        this._bus = new Bus(this.masterVolumeNode);
+        this.instrumentReferences = {};
+        this.meterNodeReferences = {};
+        this._bus = new Bus(this.masterVolumeNode, this.instrumentReferences, this.meterNodeReferences);
         this._instrumentFactory = new InstrumentFactory();
         this._effectFactory = new EffectFactory();
         window.bus = this._bus;
-        this.instrumentReferences = {};
-        this.meterNodeReferences = {};
         window.instrumentReferences = this.instrumentReferences;
         window.meterNodeReferences = this.meterNodeReferences;
         Tone.Master.chain(this.masterVolumeNode, this.masterMeterNode);
@@ -73,7 +73,8 @@ class AudioEngine extends Component {
         const curr = this._stateToTree(currState);
         console.log(prev, curr);
         //this._updatePlayer(prev.playerInfo, curr.playerInfo);
-        this._bus.reconcile(prev.playerInfo, curr.playerInfo);
+        this._bus.reconcile(prev, curr);
+        return;
         // First we loop through prev.channels, any channel that is in prev.channels
         // but not in curr.channels gets deleted.
         for (let channel of prev.channels) {
@@ -106,7 +107,7 @@ class AudioEngine extends Component {
      * @param {object} prev - previous state tree 
      * @param {object} curr - current state tree
      */
-    OLD__updatePlayer(prev, curr) {
+    _updatePlayer(prev, curr) {
         if (prev.isPlaying !== curr.isPlaying || prev.isPaused !== curr.isPaused) {
             if (curr.isPaused) {
                 Tone.Transport.pause();
