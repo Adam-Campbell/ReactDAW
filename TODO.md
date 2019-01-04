@@ -60,6 +60,62 @@ AudioEngine:
 - still improvements to be made with how the Channel class handles its effects chains. 
 
 
+Should all of the updating logic be in the AudioEngine class? 
+
+What if instead I gave each of the child classes its own reconciliation method that could be called with the previous and current states and it just updates itself? So the Bus gets called - Bus.reconcile(prevState, currState)
+and it updates things like the playing status, volume, bpm etc. 
+
+
+
+Bus.reconcile()
+This will reconcile all player related things - it will start, stop or pause the master as needed, mute or unmute
+the master as needed, as well as update the volume and bpm. 
+
+
+Channel.reconcile()
+This will reconcile all channel related things besides the sections, so it will reconcile the instrument, effects
+chain, volume, panning, and solo and mute status of the channel. 
+
+Section.reconcile()
+This will reconcile all section related things. 
+
+
+
+Have implemented a basic reconcile function on the bus, only updates player related things, but is fully 
+functional. 
+
+Using the 'difference' function from lodash may help making some of the channels and sections logic a bit
+easier. To determine which channels need to be deleted, use difference(oldChannels, newChannels) which will 
+filter it down into channels that are only in oldChannels. Then use difference(newChannels, oldChannels) to
+get the ones that only appear in new channels and thus need to be updated. 
+
+Then to get the ones that are in both oldChannels and newChannels, you can use difference with newChannels and
+the result of our previous difference(newChannels, oldChannels) call. Or, you can just the intersection method
+from lodash, giving it oldChannels and newChannels as its inputs, which will return only the channels that are
+in both. 
+
+Although this talks about channels specifically, it should also work for other things such as notes etc. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

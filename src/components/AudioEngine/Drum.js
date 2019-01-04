@@ -1,5 +1,4 @@
 import Tone from 'tone';
-import { drumSampleURLs } from '../../constants';
 
 class Drum {
     constructor(sampleUrl) {

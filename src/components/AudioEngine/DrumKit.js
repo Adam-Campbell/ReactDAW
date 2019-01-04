@@ -20,7 +20,6 @@ class DrumKit {
             fx: new Drum(drumSampleURLs.fx001).connect(this.outputNode)
         };
         this.pitchesArray = createPitchesArray();
-        window.drumPlayers = this.drums;
     }
 
     /**

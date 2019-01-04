@@ -32,7 +32,7 @@ function removePropsWithId(obj, id) {
 
 const sections = (state=defaultState, action) => {
     switch (action.type) {
-
+        
         case actionTypes.ADD_SECTION:
             return {
                 ...state,

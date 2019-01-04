@@ -3,31 +3,6 @@ import { effectTypes } from '../../constants';
 
 class EffectFactory {
 
-    static listTypes() {
-        console.log(`
-            Effect types available are:
-            Autofilter
-            Bitcrusher
-            Chorus
-            Compressor
-            Distortion
-            EQ3
-            Feedback Delay
-            Filter
-            Freeverb
-            Gate
-            JC Reverb
-            LFO
-            Limiter
-            Multiband Compressor
-            Phaser
-            Ping Pong Delay
-            Pitch Shift
-            Tremolo
-            Vibrato
-        `);
-    }
-
     create(effectType, data) {
         switch(effectType) {
             case effectTypes.autoFilter:

@@ -4,17 +4,6 @@ import DrumKit from './DrumKit';
 
 class InstrumentFactory {
 
-    static listTypes() {
-        console.log(`
-            Synth types available are:
-            Synth
-            AM Synth
-            FM Synth
-            Duo Synth
-            Mono Synth
-        `);
-    }
-
     create(instrumentType, data) {
         switch (instrumentType) {
             case instrumentTypes.default:
