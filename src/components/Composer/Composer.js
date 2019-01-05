@@ -24,7 +24,10 @@ const Composer = props => (
             updateDurationValue={props.updateDurationValue}
         />
         <div className="composer__row">
-            <div className="composer__track-info-container-outer">
+            <div 
+                className="composer__track-info-container-outer"
+                style={{ height: props.stageHeight }}
+            >
                 <AddTrackMenu />
                 <div className="composer__track-info-scroll-outer">
                     <div 
@@ -51,8 +54,8 @@ const Composer = props => (
                     onMouseDown={props.handleStageMouseDown}
                     onMouseUp={props.handleStageMouseUp}
                     ref={props.stageRef}
-                    width={740} 
-                    height={300} 
+                    width={props.stageWidth} 
+                    height={props.stageHeight} 
                 >
                     <GridLayer 
                         gridLayerRef={props.gridLayerRef}
@@ -75,6 +78,7 @@ const Composer = props => (
                         seekerLayerRef={props.seekerLayerRef}
                         seekerLineRef={props.seekerLineRef}
                         canvasHeight={props.canvasHeight}
+                        stageHeight={props.stageHeight}
                     />
                     <ScrollBarLayer 
                         stageHeight={props.stageHeight}

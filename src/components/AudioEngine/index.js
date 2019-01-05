@@ -75,7 +75,6 @@ class AudioEngine extends Component {
     _updateEngineState(prevState, currState) {
         const prev = normalizedStateToTree(prevState);  
         const curr = normalizedStateToTree(currState);
-        console.log(prev, curr);
         this._bus.reconcile(prev, curr);
     }
 

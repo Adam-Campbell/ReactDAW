@@ -7,7 +7,7 @@ const SeekerLayer = props => (
     <Layer ref={props.seekerLayerRef}>
         <Line
             ref={props.seekerLineRef}
-            points={[0, 0, 0, props.canvasHeight]}
+            points={[0, 0, 0, props.stageHeight]}
             listening={false}
             stroke={UIColors.offWhite}
             strokeWidth={2}
