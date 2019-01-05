@@ -68,97 +68,154 @@ class EffectFactory {
     }
 
     _createAutoFilter(data) {
-        const effect = new Tone.AutoFilter(data);
+        const effect = new Tone.AutoFilter();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createBitCrusher(data) {
-        const effect = new Tone.BitCrusher(data);
+        const effect = new Tone.BitCrusher();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createChorus(data) {
-        const effect = new Tone.Chorus(data);
+        const effect = new Tone.Chorus();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createCompressor(data) {
-        const effect = new Tone.Compressor(data);
+        const effect = new Tone.Compressor();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createDistortion(data) {
-        const effect = new Tone.Distortion(data);
+        const effect = new Tone.Distortion();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createEQ3(data) {
-        const effect = new Tone.EQ3(data);
+        const effect = new Tone.EQ3();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createFeedbackDelay(data) {
-        const effect = new Tone.FeedbackDelay(data);
+        const effect = new Tone.FeedbackDelay();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createFilter(data) {
-        const effect = new Tone.Filter(data);
+        const effect = new Tone.Filter();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createFreeverb(data) {
-        const effect = new Tone.Freeverb(data);
+        const effect = new Tone.Freeverb();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createGate(data) {
-        const effect = new Tone.Gate(data);
+        const effect = new Tone.Gate();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createJCReverb(data) {
-        const effect = new Tone.JCReverb(data);
+        const effect = new Tone.JCReverb();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createLFO(data) {
-        const effect = new Tone.LFO(data);
+        const effect = new Tone.LFO();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createLimiter(data) {
-        const effect = new Tone.Limiter(data);
+        const effect = new Tone.Limiter();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createMultibandCompressor(data) {
-        const effect = new Tone.MultibandCompressor(data);
+        const effect = new Tone.MultibandCompressor();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createPhaser(data) {
-        const effect = new Tone.Phaser(data);
+        const effect = new Tone.Phaser();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createPingPongDelay(data) {
-        const effect = new Tone.PingPongDelay(data);
+        const effect = new Tone.PingPongDelay();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createPitchShift(data) {
-        const effect = new Tone.PitchShift(data);
+        const effect = new Tone.PitchShift();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createTremolo(data) {
-        const effect = new Tone.Tremolo(data);
+        const effect = new Tone.Tremolo();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 
     _createVibrato(data) {
-        const effect = new Tone.Vibrato(data);
+        const effect = new Tone.Vibrato();
+        if (data) {
+            effect.set(data);
+        }
         return effect;
     }
 

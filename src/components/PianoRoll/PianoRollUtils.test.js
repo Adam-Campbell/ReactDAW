@@ -129,16 +129,6 @@ describe('getTransportLineAttrs', () => {
 });
 
 describe('createGridLinesArray', () => {
-    Tone.Ticks.mockImplementation((input) => {
-        switch (input) {
-            case '16n':
-                return 48;
-            case '8n':
-                return 96;
-            default:
-                return 48;
-        }
-    });
     test('correctly creates the array of grid lines data objects', () => {
         const result = createGridLinesArray({
             sectionBars: 4,
@@ -160,15 +150,6 @@ describe('createGridLinesArray', () => {
 });
 
 describe('isValidNote', () => {
-    Tone.Time.mockImplementation(input => {
-        const toBBS = transportPositionStringToSixteenths(input);
-        return {
-            BBSValue: toBBS,
-            toTicks: function() {
-                return this.BBSValue * 48
-            }
-        }
-    });
     const allSectionNotes = [
         {
             pitch: 'G5',

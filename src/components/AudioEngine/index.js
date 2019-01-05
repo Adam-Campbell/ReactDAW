@@ -9,6 +9,7 @@ import { instrumentTypes, effectTypes } from '../../constants';
 import InstrumentFactory from './InstrumentFactory';
 import EffectFactory from './EffectFactory';
 import { cloneDeep } from 'lodash';
+import { normalizedStateToTree } from './AudioEngineUtils';
 
 window.Tone = Tone;
 
@@ -72,8 +73,9 @@ class AudioEngine extends Component {
      * @param {object} currState - the normalized current state 
      */
     _updateEngineState(prevState, currState) {
-        const prev = this._stateToTree(prevState);  
-        const curr = this._stateToTree(currState);
+        const prev = normalizedStateToTree(prevState);  
+        const curr = normalizedStateToTree(currState);
+        console.log(prev, curr);
         this._bus.reconcile(prev, curr);
     }
 
