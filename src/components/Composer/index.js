@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { throttle } from 'lodash';
+import { throttle, debounce } from 'lodash';
 import Tone from 'tone';
 import Composer from './Composer';
 import { 
@@ -24,10 +24,14 @@ import {
 export class ComposerContainer extends Component {
 
     constructor(props) {
-        //console.log(document.documentElement.clientWidth);
         super(props);
-        this.stageWidth = 740;
-        this.stageHeight = 300;
+        const windowWidth = document.documentElement.clientWidth;
+        const windowHeight = document.documentElement.clientHeight;
+        console.log(windowWidth, windowHeight);
+        //this.stageWidth = 740;
+        this.stageWidth = windowWidth - 220;
+        //this.stageHeight = 300;
+        this.stageHeight = windowHeight - 104;
         this.scrollPadding = 10;
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
@@ -38,6 +42,7 @@ export class ComposerContainer extends Component {
         this.rAFRef = null;
         this.horizontalDragMove = throttle(this.horizontalDragMove, 16);
         this.verticalDragMove = throttle(this.verticalDragMove, 16);
+        this.updateStageDimensions = debounce(this._updateStageDimensions, 50);
         this.state = {
             sectionDuration: 4,
             currentlySelectedChannel: null,
@@ -48,8 +53,14 @@ export class ComposerContainer extends Component {
             mouseDownPosY: 0,
             pencilActive: false,
             trackInfoMenuTopScroll: 0,
-            transportPosition: 0
+            transportPosition: 0,
+            stageWidth: windowWidth - 220,
+            stageHeight: windowHeight - 104
         };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateStageDimensions);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -77,6 +88,15 @@ export class ComposerContainer extends Component {
                 this.seekerLayerRef.current.batchDraw();
             }
         }
+    }
+
+    _updateStageDimensions = () => {
+        const windowWidth = document.documentElement.clientWidth;
+        const windowHeight = document.documentElement.clientHeight;
+        this.setState({
+            stageWidth: windowWidth - 220,
+            stageHeight: windowHeight - 104
+        });
     }
 
     get canvasHeight() {
@@ -580,8 +600,8 @@ export class ComposerContainer extends Component {
             seekerLineRef={this.seekerLineRef}
             canvasWidth={this.canvasWidth}
             canvasHeight={this.canvasHeight}
-            stageWidth={this.stageWidth}
-            stageHeight={this.stageHeight}
+            stageWidth={this.state.stageWidth}
+            stageHeight={this.state.stageHeight}
             scrollPadding={this.scrollPadding}
             gridLinesArray={gridLinesArray}
             sectionRectsArray={sectionRectsArray}

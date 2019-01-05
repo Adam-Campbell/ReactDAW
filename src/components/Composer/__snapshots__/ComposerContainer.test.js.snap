@@ -1303,13 +1303,13 @@ exports[`renders correctly 1`] = `
       "current": null,
     }
   }
-  stageHeight={300}
+  stageHeight={-104}
   stageRef={
     Object {
       "current": null,
     }
   }
-  stageWidth={740}
+  stageWidth={-220}
   trackInfoMenuTopScroll={0}
   transportLayerRef={
     Object {

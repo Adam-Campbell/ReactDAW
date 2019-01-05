@@ -6,10 +6,10 @@ import { UIColors } from '../../constants';
 const ScrollBarLayer = props => (
     <Layer>
         <Rect 
-            x={716}
+            x={props.stageWidth - 24}
             y={0}
             width={24}
-            height={300}
+            height={props.stageHeight}
             fill={UIColors.lightPurple}
             shadowColor={UIColors.lightPurple}
             shadowBlur={4}
@@ -17,7 +17,7 @@ const ScrollBarLayer = props => (
             shadowOffsetY={0}
         />
         <Rect 
-            x={721}
+            x={props.stageWidth - 19}
             y={10}
             width={14}
             height={100}
@@ -29,7 +29,7 @@ const ScrollBarLayer = props => (
                 // minus height of scroll slider
                 const highBound = props.stageHeight - 24 - 100;
                 pos.y = Math.min(Math.max(props.scrollPadding, currY), highBound);
-                pos.x = 721;
+                pos.x = props.stageWidth - 19;
                 return pos;
             }}
             onDragMove={props.verticalDragMove}
@@ -38,8 +38,8 @@ const ScrollBarLayer = props => (
         />
         <Rect 
             x={0}
-            y={276}
-            width={740}
+            y={props.stageHeight - 24}
+            width={props.stageWidth}
             height={24}
             fill={UIColors.lightPurple}
             shadowColor={UIColors.lightPurple}
@@ -49,7 +49,7 @@ const ScrollBarLayer = props => (
         />
         <Rect 
             x={10}
-            y={281}
+            y={props.stageHeight - 19}
             width={100}
             height={14}
             fill={UIColors.pink}
@@ -58,7 +58,7 @@ const ScrollBarLayer = props => (
                 const currX = pos.x;
                 const highBound = props.stageWidth - 24 - 100;
                 pos.x = Math.min(Math.max(currX, props.scrollPadding), highBound);
-                pos.y = 281;
+                pos.y = props.stageHeight - 19;
                 return pos;
             }}
             onDragMove={props.horizontalDragMove}

@@ -9,7 +9,7 @@ exports[`renders correctly 1`] = `
         0,
         0,
         0,
-        320,
+        undefined,
       ]
     }
     stroke="#e0e0e0"

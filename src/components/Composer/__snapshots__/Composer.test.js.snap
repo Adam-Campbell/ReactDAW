@@ -22,6 +22,11 @@ exports[`renders correctly 1`] = `
   >
     <div
       className="composer__track-info-container-outer"
+      style={
+        Object {
+          "height": 300,
+        }
+      }
     >
       <Connect(AddTrackMenuContainer) />
       <div
@@ -1347,6 +1352,7 @@ exports[`renders correctly 1`] = `
               "current": null,
             }
           }
+          stageHeight={300}
         />
         <ScrollBarLayer
           handleScrollBarClickEvents={[MockFunction]}

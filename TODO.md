@@ -96,8 +96,9 @@ in both.
 
 Although this talks about channels specifically, it should also work for other things such as notes etc. 
 
-
-
+____________________________________
+  AUDIO ENGINE COMPLETE AND TESTED
+____________________________________
 
 
 
@@ -127,7 +128,11 @@ UI improvements:
 - investigate the issue where the custom drag layer is disappearing behind other windows when multiple windows are open simultaneously.
 - make the composer component full screen, and everything else will open 'floating' in front of it. 
 - investigate adding resize functionality to all of the components - so they resize on window resize. Will be the most challenging in the canvas based components. Will be necessary if the composer component is made full screen. 
-- consider improvements to the instrument and effect interfaces. At the moment they are somewhat utalitarian, their is definate room for improvement. 
+- consider improvements to the instrument and effect interfaces. At the moment they are somewhat utalitarian, their is definite room for improvement. 
+
+
+
+- composer component has been made full screen and also resizes on window resize. There are still some visual improvements to make but I will make those when I revamp the looks of the rest of the app. 
 
 
 
