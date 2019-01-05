@@ -25,6 +25,582 @@ exports[`renders correctly 1`] = `
       },
       Object {
         "points": Array [
+          24,
+          0,
+          24,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          48,
+          0,
+          48,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          72,
+          0,
+          72,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          96,
+          0,
+          96,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          120,
+          0,
+          120,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          144,
+          0,
+          144,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          168,
+          0,
+          168,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          192,
+          0,
+          192,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          216,
+          0,
+          216,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          240,
+          0,
+          240,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          264,
+          0,
+          264,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          288,
+          0,
+          288,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          312,
+          0,
+          312,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          336,
+          0,
+          336,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          360,
+          0,
+          360,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          384,
+          0,
+          384,
+          1728,
+        ],
+        "strokeWidth": 2,
+      },
+      Object {
+        "points": Array [
+          408,
+          0,
+          408,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          432,
+          0,
+          432,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          456,
+          0,
+          456,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          480,
+          0,
+          480,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          504,
+          0,
+          504,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          528,
+          0,
+          528,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          552,
+          0,
+          552,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          576,
+          0,
+          576,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          600,
+          0,
+          600,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          624,
+          0,
+          624,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          648,
+          0,
+          648,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          672,
+          0,
+          672,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          696,
+          0,
+          696,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          720,
+          0,
+          720,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          744,
+          0,
+          744,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          768,
+          0,
+          768,
+          1728,
+        ],
+        "strokeWidth": 2,
+      },
+      Object {
+        "points": Array [
+          792,
+          0,
+          792,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          816,
+          0,
+          816,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          840,
+          0,
+          840,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          864,
+          0,
+          864,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          888,
+          0,
+          888,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          912,
+          0,
+          912,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          936,
+          0,
+          936,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          960,
+          0,
+          960,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          984,
+          0,
+          984,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1008,
+          0,
+          1008,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1032,
+          0,
+          1032,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1056,
+          0,
+          1056,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          1080,
+          0,
+          1080,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1104,
+          0,
+          1104,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1128,
+          0,
+          1128,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1152,
+          0,
+          1152,
+          1728,
+        ],
+        "strokeWidth": 2,
+      },
+      Object {
+        "points": Array [
+          1176,
+          0,
+          1176,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1200,
+          0,
+          1200,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1224,
+          0,
+          1224,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1248,
+          0,
+          1248,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          1272,
+          0,
+          1272,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1296,
+          0,
+          1296,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1320,
+          0,
+          1320,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1344,
+          0,
+          1344,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          1368,
+          0,
+          1368,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1392,
+          0,
+          1392,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1416,
+          0,
+          1416,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1440,
+          0,
+          1440,
+          1728,
+        ],
+        "strokeWidth": 1,
+      },
+      Object {
+        "points": Array [
+          1464,
+          0,
+          1464,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1488,
+          0,
+          1488,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1512,
+          0,
+          1512,
+          1728,
+        ],
+        "strokeWidth": 0.5,
+      },
+      Object {
+        "points": Array [
+          1536,
+          0,
+          1536,
+          1728,
+        ],
+        "strokeWidth": 2,
+      },
+      Object {
+        "points": Array [
           0,
           0,
           1536,
@@ -1254,6 +1830,582 @@ exports[`renders correctly 2`] = `
                 0,
                 0,
                 0,
+                1728,
+              ],
+              "strokeWidth": 2,
+            },
+            Object {
+              "points": Array [
+                24,
+                0,
+                24,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                48,
+                0,
+                48,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                72,
+                0,
+                72,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                96,
+                0,
+                96,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                120,
+                0,
+                120,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                144,
+                0,
+                144,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                168,
+                0,
+                168,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                192,
+                0,
+                192,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                216,
+                0,
+                216,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                240,
+                0,
+                240,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                264,
+                0,
+                264,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                288,
+                0,
+                288,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                312,
+                0,
+                312,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                336,
+                0,
+                336,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                360,
+                0,
+                360,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                384,
+                0,
+                384,
+                1728,
+              ],
+              "strokeWidth": 2,
+            },
+            Object {
+              "points": Array [
+                408,
+                0,
+                408,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                432,
+                0,
+                432,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                456,
+                0,
+                456,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                480,
+                0,
+                480,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                504,
+                0,
+                504,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                528,
+                0,
+                528,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                552,
+                0,
+                552,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                576,
+                0,
+                576,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                600,
+                0,
+                600,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                624,
+                0,
+                624,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                648,
+                0,
+                648,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                672,
+                0,
+                672,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                696,
+                0,
+                696,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                720,
+                0,
+                720,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                744,
+                0,
+                744,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                768,
+                0,
+                768,
+                1728,
+              ],
+              "strokeWidth": 2,
+            },
+            Object {
+              "points": Array [
+                792,
+                0,
+                792,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                816,
+                0,
+                816,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                840,
+                0,
+                840,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                864,
+                0,
+                864,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                888,
+                0,
+                888,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                912,
+                0,
+                912,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                936,
+                0,
+                936,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                960,
+                0,
+                960,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                984,
+                0,
+                984,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1008,
+                0,
+                1008,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1032,
+                0,
+                1032,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1056,
+                0,
+                1056,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                1080,
+                0,
+                1080,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1104,
+                0,
+                1104,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1128,
+                0,
+                1128,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1152,
+                0,
+                1152,
+                1728,
+              ],
+              "strokeWidth": 2,
+            },
+            Object {
+              "points": Array [
+                1176,
+                0,
+                1176,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1200,
+                0,
+                1200,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1224,
+                0,
+                1224,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1248,
+                0,
+                1248,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                1272,
+                0,
+                1272,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1296,
+                0,
+                1296,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1320,
+                0,
+                1320,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1344,
+                0,
+                1344,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                1368,
+                0,
+                1368,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1392,
+                0,
+                1392,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1416,
+                0,
+                1416,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1440,
+                0,
+                1440,
+                1728,
+              ],
+              "strokeWidth": 1,
+            },
+            Object {
+              "points": Array [
+                1464,
+                0,
+                1464,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1488,
+                0,
+                1488,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1512,
+                0,
+                1512,
+                1728,
+              ],
+              "strokeWidth": 0.5,
+            },
+            Object {
+              "points": Array [
+                1536,
+                0,
+                1536,
                 1728,
               ],
               "strokeWidth": 2,

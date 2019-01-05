@@ -5,14 +5,6 @@ import { createGridLinesArray } from './PianoRollUtils';
 import Tone from 'tone';
 
 jest.mock('tone');
-Tone.Ticks.mockImplementation(input => {
-    switch (input) {
-        case '16n':
-            return 48;
-        default:
-            return 48;
-    }
-});
 
 const gridLinesArray = createGridLinesArray({
     sectionBars: 4,

@@ -1,3 +1,5 @@
+import { transportPositionStringToSixteenths } from '../../src/sharedUtils';
+
 /*
 
 The mocked Tone needs to be able to create the following classes: 
@@ -76,7 +78,26 @@ const Tone = {
     MonoSynth,
     Chorus,
     FeedbackDelay,
-    Distortion
+    Distortion,
+    Time: (input) => {
+      const toBBS = transportPositionStringToSixteenths(input);
+        return {
+            BBSValue: toBBS,
+            toTicks: function() {
+                return this.BBSValue * 48
+            }
+        }
+    },
+    Ticks: (input) => {
+      switch (input) {
+          case '16n':
+              return 48;
+          case '8n':
+              return 96;
+          default:
+              return 48;
+      }
+  }
 };
 
 export default Tone;
