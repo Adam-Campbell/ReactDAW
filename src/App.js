@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import 'normalize.css';
 import './App.css';
+import './scss/style.scss';
 import { connect } from 'react-redux';
 import PianoRoll from './components/PianoRoll';
 import AudioEngine from './components/AudioEngine';

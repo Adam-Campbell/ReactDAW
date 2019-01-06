@@ -7,7 +7,7 @@ const TrackInfo = props => (
         className={`track-info ${props.isSelected && 'selected'}`} 
         onClick={props.handleContainerClick}
     >
-        <div className="track-info__left-block">
+        <div>
             {props.isEditingName ?
                 <input 
                     ref={props.inputRef}
@@ -40,25 +40,25 @@ const TrackInfo = props => (
                 onClick={props.handleDeleteButtonClick}
             >X</button>
         </div>
-        <div className="track-color-picker">
-        <span 
-            className="track-color-picker__color-swatch"
-            onClick={props.enterColorEditMode}
-            ref={props.swatchNodeRef}
-            style={{
-                backgroundColor: props.trackColor,
-                color: props.trackColor
-            }}
-        ></span>
-        {
-            props.isEditingTrackColor && (
-                <TrackColorSwatch 
-                    handleColorSwatchClick={props.handleColorSwatchClick}
-                    nodeRef={props.swatchNodeRef.current}
-                    exitColorEditMode={props.exitColorEditMode}
-                />
-            )
-        }
+        <div className="track-info__color-picker">
+            <span 
+                className="track-info__color-swatch"
+                onClick={props.enterColorEditMode}
+                ref={props.swatchNodeRef}
+                style={{
+                    backgroundColor: props.trackColor,
+                    color: props.trackColor
+                }}
+            ></span>
+            {
+                props.isEditingTrackColor && (
+                    <TrackColorSwatch 
+                        handleColorSwatchClick={props.handleColorSwatchClick}
+                        nodeRef={props.swatchNodeRef.current}
+                        exitColorEditMode={props.exitColorEditMode}
+                    />
+                )
+            }
         </div>
     </div>
 );

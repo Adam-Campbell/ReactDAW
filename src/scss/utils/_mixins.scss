@@ -1,0 +1,10 @@
+@mixin boxShadow($shadowColor: $color--pink) {
+    box-shadow: 
+        0 0 4px $shadowColor,
+        inset 0 0 2px $shadowColor;
+}
+
+@mixin textShadow($shadowColor: $color--pink) {
+    text-shadow: 0 0 6px $shadowColor;
+}
+

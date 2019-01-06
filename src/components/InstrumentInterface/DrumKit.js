@@ -5,9 +5,9 @@ import { drumSampleURLs } from '../../constants';
 import DrumModule from './DrumModule';
 
 const DrumKit = props => (
-    <div className="synth-interface__container">
-        <HeaderModule synthTitle="Drum Kit" />
-        <div className="synth-interface__module-container">
+    <div className="instrument-interface__container">
+        <HeaderModule instrumentTitle="Drum Kit" />
+        <div className="instument-interface__module-container">
             <DrumModule 
                 drumType="kick"
                 drumName="Kick"
@@ -88,7 +88,7 @@ const DrumKit = props => (
                 ]}
             />
         </div>
-        <div className="synth-interface__module-container">
+        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="closedHat"
                 drumName="Closed Hat"
@@ -147,7 +147,7 @@ const DrumKit = props => (
                 ]}   
             />
         </div>
-        <div className="synth-interface__module-container">
+        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="ride"
                 drumName="Ride"
@@ -194,7 +194,7 @@ const DrumKit = props => (
                 ]}   
             />
         </div>
-        <div className="synth-interface__module-container">
+        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="lowTom"
                 drumName="Low Tom"

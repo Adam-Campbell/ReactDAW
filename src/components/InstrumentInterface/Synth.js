@@ -5,8 +5,8 @@ import OscillatorModule from './OscillatorModule';
 import EnvelopeModule from './EnvelopeModule';
 
 const Synth = props => (
-    <div className="synth-interface__container synth-interface__container--small">
-        <HeaderModule synthTitle="Synth" />
+    <div className="instrument-interface__container instrument-interface__container--small">
+        <HeaderModule instrumentTitle="Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}

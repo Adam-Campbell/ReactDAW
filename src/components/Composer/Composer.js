@@ -47,7 +47,7 @@ const Composer = props => (
                     </div>
                 </div>
             </div>
-            <div className="composer__canvas-container" id="composer-canvas-container">
+            <div id="composer-canvas-container">
                 <Stage
                     container={'composer-canvas-container'}
                     onClick={props.handleStageClick}

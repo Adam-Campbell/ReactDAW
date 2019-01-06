@@ -7,8 +7,8 @@ import FilterModule from './FilterModule';
 import FilterEnvelopeModule from './FilterEnvelopeModule';
 
 const MonoSynth = props => (
-    <div className="synth-interface__container">
-        <HeaderModule synthTitle="Mono Synth" />
+    <div className="instrument-interface__container">
+        <HeaderModule instrumentTitle="Mono Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}

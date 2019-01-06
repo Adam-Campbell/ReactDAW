@@ -32,7 +32,7 @@ class TrackColorSwatch extends Component {
                 }}
             >
                 <span 
-                    className="track-color-picker__color-swatch"
+                    className="track-info__color-swatch"
                     onClick={() =>this.props.handleColorSwatchClick(UIColors.pink)}
                     style={{
                         backgroundColor: UIColors.pink,
@@ -40,7 +40,7 @@ class TrackColorSwatch extends Component {
                     }}
                 ></span>
                 <span 
-                    className="track-color-picker__color-swatch"
+                    className="track-info__color-swatch"
                     onClick={() =>this.props.handleColorSwatchClick(UIColors.brightBlue)}
                     style={{
                         backgroundColor: UIColors.brightBlue,
@@ -48,7 +48,7 @@ class TrackColorSwatch extends Component {
                     }}
                 ></span>
                 <span 
-                    className="track-color-picker__color-swatch"
+                    className="track-info__color-swatch"
                     onClick={() =>this.props.handleColorSwatchClick(UIColors.brightYellow)}
                     style={{
                         backgroundColor: UIColors.brightYellow,
@@ -56,7 +56,7 @@ class TrackColorSwatch extends Component {
                     }}
                 ></span>
                 <span 
-                    className="track-color-picker__color-swatch"
+                    className="track-info__color-swatch"
                     onClick={() =>this.props.handleColorSwatchClick(UIColors.brightRed)}
                     style={{
                         backgroundColor: UIColors.brightRed,
@@ -64,7 +64,7 @@ class TrackColorSwatch extends Component {
                     }}
                 ></span>
                 <span 
-                    className="track-color-picker__color-swatch"
+                    className="track-info__color-swatch"
                     onClick={() =>this.props.handleColorSwatchClick(UIColors.brightGreen)}
                     style={{
                         backgroundColor: UIColors.brightGreen,

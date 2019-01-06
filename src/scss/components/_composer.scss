@@ -1,0 +1,33 @@
+.composer {
+    &__container {
+        box-sizing: initial;
+        background-color: $color--deep-purple;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
+    }
+    &__controls-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        background-color: $color--deep-purple;
+        border-bottom: solid 4px $color--pink;
+        @include boxShadow($color--pink);
+    }
+    &__row {
+        display: flex;
+    }
+    &__track-info-container-outer {
+        width: 220px;
+        position: relative;
+        background-color: $color--light-purple;
+    }
+    &__track-info-scroll-outer {
+        overflow-y: hidden;
+    }
+    &__track-info-scroll-inner {
+        position: relative;
+    }
+}

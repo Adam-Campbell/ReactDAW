@@ -1,0 +1,45 @@
+.add-track-menu {
+    position: relative;
+    &__item-container {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        z-index: 2000;
+        background-color: $color--deep-purple;
+        border: solid 2px $color--pink;
+        @include boxShadow($color--pink);
+        &.show-menu {
+            display: initial;
+        }
+    }
+    &__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+    &__menu-item {
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        background-color: $color--deep-purple;
+        color: $color--pink;
+        font-family: $font--primary;
+        font-size: 24px;
+        cursor: pointer;
+        border: solid 2px $color--pink;
+        @include boxShadow($color--pink);
+    }
+    &__button {
+        width: 220px;
+        height: 40px;
+        background-color: $color--pink;
+        color: $color--deep-purple;
+        font-family: $font--primary;
+        font-size: 24px;
+        border: none;
+        @include boxShadow($color--pink);
+    }
+}
