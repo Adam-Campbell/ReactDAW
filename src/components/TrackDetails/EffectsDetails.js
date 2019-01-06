@@ -4,7 +4,7 @@ import EffectDetailItem from './EffectDetailItem';
 import { effectTypes } from '../../constants';
 
 const EffectsDetails = props => (
-    <div className="track_details__effects-info-container">
+    <div>
         <h2 className="track-details__heading">Effects</h2> 
         {props.effects.map(effect => (
             <EffectDetailItem 

@@ -12,7 +12,7 @@ import ScrollBarLayer from './ScrollBarLayer';
 
 const PianoRoll = props => (
     <div 
-        className="piano-roll-container" 
+        className="piano-roll__container" 
         tabIndex="0" 
         onKeyDown={props.handleKeyDown}
         style={{outline: 'none'}}
@@ -26,7 +26,7 @@ const PianoRoll = props => (
             cursorValue={props.cursorValue}
             updateCursorValue={props.updateCursorValue}
         />
-        <div className="canvas-container" id="piano-roll-canvas-container">
+        <div className="piano-roll__canvas-container" id="piano-roll-canvas-container">
             <Stage 
                 container={'piano-roll-canvas-container'}
                 ref={props.stageRef}

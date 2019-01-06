@@ -1,0 +1,19 @@
+.select-input {
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+    padding: 4px 8px;
+    background: none;
+    border: solid 2px;
+    @include boxShadow();
+    @include textShadow();
+    &__label {
+        font-family: $font--primary;
+        font-size: 16px;
+        display: block;
+        @include textShadow();
+    }
+    &__option {
+        background-color: $color--off-white;
+        color: $color--deep-purple;
+    }
+}

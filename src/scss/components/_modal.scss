@@ -1,0 +1,49 @@
+.modal {
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(17,17,17,0.8);
+    }
+    &__content-container {
+        width: 320px;
+        min-height: 220px;
+        background-color: $color--deep-purple;
+        color: $color--pink;
+        border: solid 2px;
+        padding: 16px;
+        @include boxShadow($color--pink);
+    }
+    &__text-input {
+        width: 100%;
+        background-color: $color--light-purple;
+        color: $color--pink;
+        padding: 8px 16px;
+        border: solid 2px;
+        font-family: $font--primary;
+        font-size: 16px;
+        @include textShadow($color--pink);
+        @include boxShadow($color--pink);
+        &::placeholder {
+            color: $color--bright-yellow;
+        }
+    }
+    &__list {
+        list-style: none;
+        padding-left: 0;
+    }
+    &__list-item {
+        font-family: $font--primary;
+        font-size: 18px;
+        @include textShadow($color--pink);
+        padding: 4px 8px;
+        cursor: pointer;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+}

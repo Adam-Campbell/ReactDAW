@@ -1,0 +1,158 @@
+.mixer {
+    &__container {
+        background-color: $color--deep-purple;
+        border: solid 4px $color--pink;
+        box-sizing: initial;
+        min-height: 260px;
+        width: 960px;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        @include boxShadow($color--pink);
+    }
+    &__channel-controls-container {
+        padding: 16px;
+        display: flex;
+    }
+    &__item {
+        width: 100px;
+        text-align: center;
+    }
+    &__volume-marker-container {
+        display: inline-block;
+        min-width: 8px;
+        margin-left: 8px;
+        height: 120px;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    &__meter-outer {
+        display: inline-block;
+        background: none;
+        width: 16px;
+        min-width: 16px;
+        height: 120px;
+        margin-right: 16px;
+        margin-left: auto;
+        position: relative;
+        border: solid 1px $color--bright-blue;
+    }
+    &__meter-inner {
+        background-color: $color--bright-blue;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+    }
+    &__slider-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    &__button-container {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        display: flex;
+    }
+    &__button {
+        width: 18px;
+        height: 18px;
+        background-color: $color--pink;
+        color: $color--deep-purple;
+        font-family: $font--primary;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        @include boxShadow($color--pink);
+        margin-left: 16px;
+        margin-right: 16px;
+        &.mixer__button--active {
+            background-color: $color--bright-red;
+            @include boxShadow($color--bright-red);
+        }
+        & + & {
+            margin-left: auto;
+        }
+    }
+    &__volume-marker {
+        margin-top: 0;
+        margin-bottom: 0;
+        color: $color--pink;
+        font-family: $font--primary;
+        font-size: 14px;
+        @include textShadow($color--pink);
+    }
+    &__pan-label-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__pan-label {
+        font-family: $font--primary;
+        font-size: 14px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+        margin: 0 16px;
+    }
+    &__track-name {
+        font-family: $font--primary;
+        font-size: 16px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 4px 8px;
+    }
+    &__master-controls-container {
+        width: 100px;
+        margin-left: auto;
+        border-left: solid 4px $color--pink;
+        @include boxShadow($color--pink);
+    }
+    &__master-slider-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-top: 24px;
+    }
+    &__master-volume-marker-container {
+        display: inline-block;
+        min-width: 8px;
+        margin-left: 8px;
+        height: 200px;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    &__master-volume-marker {
+        margin-top: 0;
+        margin-bottom: 0;
+        color: $color--pink;
+        font-family: $font--primary;
+        font-size: 14px;
+        @include textShadow($color--pink);
+    }
+    &__master-meter-outer {
+        display: inline-block;
+        background: none;
+        width: 16px;
+        min-width: 16px;
+        height: 200px;
+        margin-right: 16px;
+        margin-left: auto;
+        position: relative;
+        border: solid 1px $color--bright-blue;
+    }
+    &__master-meter-inner {
+        background-color: $color--bright-blue;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+    }
+}

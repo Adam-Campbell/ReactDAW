@@ -4,8 +4,8 @@ import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const DrumModule = props => (
-    <div className="drum-module__container">
-        <p className="drum-module__title">{props.drumName}</p>
+    <div className="instrument-interface__drum-module-container">
+        <p className="instrument-interface__drum-module-title">{props.drumName}</p>
         <EnhancedRangeInput 
             inputId={`${props.drumType}-volume`}
             label="Volume"
