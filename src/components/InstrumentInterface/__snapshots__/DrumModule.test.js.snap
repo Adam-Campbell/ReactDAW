@@ -2,10 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="drum-module__container"
+  className="instrument-interface__drum-module-container"
 >
   <p
-    className="drum-module__title"
+    className="instrument-interface__drum-module-title"
   >
     Kick
   </p>

@@ -2,10 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="synth-interface__container"
+  className="instrument-interface__container"
 >
   <HeaderModule
-    synthTitle="Mono Synth"
+    instrumentTitle="Mono Synth"
   />
   <EnvelopeModule
     additionalNesting={Array []}

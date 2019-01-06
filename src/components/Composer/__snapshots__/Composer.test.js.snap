@@ -50,7 +50,6 @@ exports[`renders correctly 1`] = `
       </div>
     </div>
     <div
-      className="composer__canvas-container"
       id="composer-canvas-container"
     >
       <ForwardRef

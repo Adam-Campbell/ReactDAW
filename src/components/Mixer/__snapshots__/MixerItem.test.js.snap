@@ -82,15 +82,15 @@ exports[`renders correctly 1`] = `
     value={0}
   />
   <div
-    className="pan__label-container"
+    className="mixer__pan-label-container"
   >
     <p
-      className="pan__label"
+      className="mixer__pan-label"
     >
       L
     </p>
     <p
-      className="pan__label"
+      className="mixer__pan-label"
     >
       R
     </p>

@@ -5,7 +5,7 @@ import HeaderModule from './HeaderModule';
 test('renders correctly', () => {
     const component = shallow(
         <HeaderModule 
-            synthTitle="Synth"
+            instrumentTitle="Synth"
         />
     );
     expect(component).toMatchSnapshot();
