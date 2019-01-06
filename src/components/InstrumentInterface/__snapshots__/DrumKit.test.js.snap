@@ -2,13 +2,13 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="synth-interface__container"
+  className="instrument-interface__container"
 >
   <HeaderModule
-    synthTitle="Drum Kit"
+    instrumentTitle="Drum Kit"
   />
   <div
-    className="synth-interface__module-container"
+    className="instument-interface__module-container"
   >
     <DrumModule
       drumData={
@@ -271,7 +271,7 @@ exports[`renders correctly 1`] = `
     />
   </div>
   <div
-    className="synth-interface__module-container"
+    className="instrument-interface__module-container"
   >
     <DrumModule
       drumData={
@@ -446,7 +446,7 @@ exports[`renders correctly 1`] = `
     />
   </div>
   <div
-    className="synth-interface__module-container"
+    className="instrument-interface__module-container"
   >
     <DrumModule
       drumData={
@@ -573,7 +573,7 @@ exports[`renders correctly 1`] = `
     />
   </div>
   <div
-    className="synth-interface__module-container"
+    className="instrument-interface__module-container"
   >
     <DrumModule
       drumData={

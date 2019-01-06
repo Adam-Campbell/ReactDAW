@@ -1,0 +1,28 @@
+.effect {
+    &__container {
+        width: 350px;
+        background-color: $color--deep-purple;
+        color: $color--pink;
+        border: solid 4px;
+        padding: 16px;
+        @include boxShadow();
+        &--large {
+            width: 500px;
+        }
+    }
+    &__header-container {
+        display: flex;
+        align-items: center;
+    }
+    &__title {
+        font-family: $font--primary;
+        font-size: 36px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+    }
+    &__settings-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

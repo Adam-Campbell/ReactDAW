@@ -8,8 +8,8 @@ import ModulationEnvelopeModule from './ModulationEnvelopeModule';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const AMSynth = props => (
-    <div className="synth-interface__container">
-        <HeaderModule synthTitle="AM Synth" />
+    <div className="instrument-interface__container">
+        <HeaderModule instrumentTitle="AM Synth" />
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
@@ -34,7 +34,7 @@ const AMSynth = props => (
             instrumentId={props.instrumentId}
             additionalNesting={[]}
         />
-        <div className="synth-interface__module-container">
+        <div className="instrument-interface__module-container">
             <EnhancedRangeInput 
                 inputId={'detune'}
                 label={'Detune'}

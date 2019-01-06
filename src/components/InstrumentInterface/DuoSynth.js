@@ -31,8 +31,8 @@ class DuoSynth extends Component {
     renderVoiceAControls() {
         return (
             <React.Fragment>
-                <div className="synth-interface__seperator">
-                    <h2 className="synth-interface__module-heading">Voice A</h2>
+                <div className="instrument-interface__seperator">
+                    <h2 className="instrument-interface__module-heading">Voice A</h2>
                 </div>
                 <EnvelopeModule 
                     envelopeData={this.props.instrumentData.voice0.envelope}
@@ -65,8 +65,8 @@ class DuoSynth extends Component {
     renderVoiceBControls() {
         return (
             <React.Fragment>
-                <div className="synth-interface__seperator">
-                    <h2 className="synth-interface__module-heading">Voice B</h2>
+                <div className="instrument-interface__seperator">
+                    <h2 className="instrument-interface__module-heading">Voice B</h2>
                 </div>
                 <EnvelopeModule 
                     envelopeData={this.props.instrumentData.voice1.envelope}
@@ -99,9 +99,9 @@ class DuoSynth extends Component {
     render() {
 
         return (
-            <div className="synth-interface__container">
-                <HeaderModule synthTitle="Duo Synth" />
-                <div className="synth-interface__module-container">
+            <div className="instrument-interface__container">
+                <HeaderModule instrumentTitle="Duo Synth" />
+                <div className="instrument-interface__module-container">
                     <EnhancedRangeInput 
                         inputId={'harmonicity'}
                         label={'Harmonicity'}

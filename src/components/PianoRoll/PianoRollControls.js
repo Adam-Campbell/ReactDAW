@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectInput from '../SelectInput';
 
 const PianoRollControls = props => (
-    <div className="piano-roll-controls-container">
+    <div className="piano-roll__controls-container">
         <SelectInput 
             value={props.quantizeValue}
             handleChange={props.updateQuantizeValue}

@@ -45,9 +45,9 @@ const MixerItem = props => (
             value={props.pan}
             onChange={props.handlePanChange}
         ></input>
-        <div className="pan__label-container">
-            <p className="pan__label">L</p>
-            <p className="pan__label">R</p>
+        <div className="mixer__pan-label-container">
+            <p className="mixer__pan-label">L</p>
+            <p className="mixer__pan-label">R</p>
         </div>
         <p className="mixer__track-name">{props.name}</p>
     </div>

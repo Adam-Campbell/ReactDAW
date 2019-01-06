@@ -1,0 +1,60 @@
+.instrument-interface {
+    &__container {
+        padding: 16px;
+        background-color: $color--deep-purple;
+        color: $color--pink;
+        width: 960px;
+        display: flex;
+        flex-wrap: wrap;
+        border: solid 4px;
+        @include boxShadow($color--pink);
+        &--small {
+            width: 600px;
+        }
+    }
+    &__module-container {
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-grow: 1;
+    }
+    &__module-heading {
+        font-family: $font--primary;
+        font-size: 24px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+    }
+    &__header-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0 16px;
+    }
+    &__seperator {
+        padding: 8px 16px;
+        width: 100%;
+    }
+    &__title {
+        font-family: $font--primary;
+        font-size: 36px;
+        color: $color--pink;
+        @include textShadow($color--pink)
+    }
+    &__drum-module-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    &__drum-module-title {
+        color: #d86597;
+        font-family: $font--primary;
+        font-size: 24px;
+        @include textShadow($color--pink);
+        margin-top: 8px;
+        margin-bottom: 8px;
+        text-transform: capitalize;
+    }
+}

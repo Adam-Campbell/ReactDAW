@@ -177,6 +177,6 @@ export default connect(
         setBPM: ActionCreators.setBPM,
         saveState: ActionCreators.saveState,
         loadState: ActionCreators.loadState,
-        openWindow: ActionCreators.openWindow
+        openWindow: ActionCreators.openWindow,
     }
 )(TransportContainer);

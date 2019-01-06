@@ -2,10 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="synth-interface__module-container"
+  className="instrument-interface__module-container"
 >
   <h2
-    className="synth-interface__module-heading"
+    className="instrument-interface__module-heading"
   >
     Filter
   </h2>

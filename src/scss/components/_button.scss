@@ -1,0 +1,11 @@
+.button {
+    background: none;
+    border: solid 2px;
+    font-family: $font--primary;
+    font-size: 18px;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin: 8px;
+    @include boxShadow();
+    @include textShadow();
+}

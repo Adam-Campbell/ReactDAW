@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { instrumentTypes } from '../../constants';
 
 const InstrumentDetails = props => (
-    <div className="track-details__instrument-info-container">
+    <div>
         <h2 className="track-details__heading">Instrument</h2>
         <label 
             htmlFor="instrument-select" 

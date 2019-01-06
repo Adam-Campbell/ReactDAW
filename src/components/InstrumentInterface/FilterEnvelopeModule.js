@@ -4,8 +4,8 @@ import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 
 const FilterEnvelopeModule = props => (
-    <div className="synth-interface__module-container">
-        <h2 className="synth-interface__module-heading">Filter Envelope</h2>
+    <div className="instrument-interface__module-container">
+        <h2 className="instrument-interface__module-heading">Filter Envelope</h2>
         <EnhancedRangeInput 
             inputId={'filter-envelope-attack'}
             label={'Attack'}

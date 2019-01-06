@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
-  className="track-details__instrument-info-container"
->
+<div>
   <h2
     className="track-details__heading"
   >

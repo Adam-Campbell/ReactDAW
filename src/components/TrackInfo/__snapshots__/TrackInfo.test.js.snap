@@ -38,9 +38,7 @@ exports[`presentational component renders correctly 1`] = `
   className="track-info false"
   onClick={[MockFunction]}
 >
-  <div
-    className="track-info__left-block"
-  >
+  <div>
     <p
       className="track-info__track-name"
       onClick={[MockFunction]}
@@ -73,10 +71,10 @@ exports[`presentational component renders correctly 1`] = `
     </button>
   </div>
   <div
-    className="track-color-picker"
+    className="track-info__color-picker"
   >
     <span
-      className="track-color-picker__color-swatch"
+      className="track-info__color-swatch"
       onClick={[MockFunction]}
       style={
         Object {

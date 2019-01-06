@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="piano-roll-controls-container"
+  className="piano-roll__controls-container"
 >
   <SelectInput
     handleChange={[MockFunction]}

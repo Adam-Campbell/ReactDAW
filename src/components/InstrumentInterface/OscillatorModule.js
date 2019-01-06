@@ -4,8 +4,8 @@ import EnhancedRangeInput from '../EnhancedRangeInput';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 
 const OscillatorModule = props => (
-    <div className="synth-interface__module-container">
-        <h2 className="synth-interface__module-heading">Oscillator</h2>
+    <div className="instrument-interface__module-container">
+        <h2 className="instrument-interface__module-heading">Oscillator</h2>
         <EnhancedRangeInput 
             inputId={'oscillator-detune'}
             label={'Detune'}

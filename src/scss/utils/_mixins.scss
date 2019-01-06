@@ -1,0 +1,20 @@
+@mixin boxShadow($shadowColor: null) {
+    @if ($shadowColor) {
+        box-shadow: 
+            0 0 4px $shadowColor,
+            inset 0 0 2px $shadowColor;
+    } @else {
+        box-shadow:
+            0 0 4px,
+            inset 0 0 2px
+    }  
+}
+
+@mixin textShadow($shadowColor: null) {
+    @if ($shadowColor) {
+        text-shadow: 0 0 6px $shadowColor;
+    } @else {
+        text-shadow: 0 0 6px;
+    }
+}
+

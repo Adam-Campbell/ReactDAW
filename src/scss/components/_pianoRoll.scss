@@ -1,0 +1,22 @@
+.piano-roll {
+    &__container {
+        height: 650px;
+        width: 800px; 
+        border: solid 2px $color--pink;
+        box-sizing: content-box;
+        @include boxShadow($color--pink);
+    }
+    &__canvas-container {
+        height: 600px;
+        overflow: auto;
+        background-color: $color--deep-purple;
+    }
+    &__controls-container {
+        height: 50px;
+        background-color: $color--deep-purple;
+        border: solid 2px $color--pink;
+        display: flex;
+        align-items: center;
+        @include boxShadow($color--pink);
+    }
+}

@@ -1,0 +1,67 @@
+.track-info {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 70px;
+    background-color: $color--deep-purple;
+    border: solid 4px $color--pink;
+    @include boxShadow($color--pink);
+    &.selected {
+        background-color: $color--light-purple;
+    }
+    &__track-name {
+        font-family: $font--primary;
+        font-size: 18px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+        margin-top: 0;
+        margin-bottom: 4px;
+    }
+    &__track-name-input {
+        background: none;
+        border: none;
+        border-bottom: solid 2px;
+        display: block;
+        font-family: $font--primary;
+        font-size: 18px;
+        color: $color--pink;
+        @include textShadow($color--pink);
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+    &__button {
+        width: 18px;
+        height: 18px;
+        background-color: $color--pink;
+        color: $color--deep-purple;
+        font-family: $font--primary;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        @include boxShadow($color--pink);
+        & + & {
+            margin-left: 8px;
+        }
+        &.active {
+            color: $color--pink;
+            background-color: $color--deep-purple;
+            @include boxShadow($color--deep-purple);
+        }
+    }
+    &__color-picker {
+        position: absolute;
+        left: 190px;
+        display: flex;
+        z-index: 1000;
+    }
+    &__color-swatch {
+        width: 16px;
+        height: 40px;
+        display: inline-block;
+        cursor: pointer;
+        box-shadow: 
+            0 0 4px,
+            inset 0 0 2px
+    }
+}

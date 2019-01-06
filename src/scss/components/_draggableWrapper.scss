@@ -1,0 +1,26 @@
+.draggable-wrapper {
+    position: absolute;
+    z-index: 5000;
+    top: 30px;
+    left: 30px;
+    &__header {
+        background-color: $color--pink;
+        border: solid 4px $color--pink;
+        border-bottom: none;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        @include boxShadow($color--pink);
+    }
+    &__button {
+        background: $color--deep-purple;
+        color: $color--pink;
+        border: solid 2px;
+        font-family: $font--primary;
+        font-size: 18px;
+        padding: 4px 8px;
+        cursor: pointer;
+        @include boxShadow($color--pink);
+        @include textShadow($color--pink);
+    }
+}
