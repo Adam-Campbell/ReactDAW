@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders closed state correctly 1`] = `
+<div
+  className="menu__container"
+  onClick={[MockFunction]}
+>
+  <p
+    className="menu__label"
+  >
+    File
+  </p>
+  <ul
+    className="menu__list "
+  >
+    <li
+      className="menu__item"
+      onClick={[Function]}
+    >
+      <p
+        className="menu__item-text"
+      >
+        Open
+      </p>
+    </li>
+    <li
+      className="menu__item"
+    >
+      <p
+        className="menu__item-text"
+      >
+        Save
+      </p>
+    </li>
+    <li
+      className="menu__item"
+      onClick={[Function]}
+    >
+      <p
+        className="menu__item-text"
+      >
+        Save As
+      </p>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`renders open state correctly 1`] = `
+<div
+  className="menu__container"
+  onClick={[MockFunction]}
+>
+  <p
+    className="menu__label"
+  >
+    File
+  </p>
+  <ul
+    className="menu__list menu__list--visible"
+  >
+    <li
+      className="menu__item"
+      onClick={[Function]}
+    >
+      <p
+        className="menu__item-text"
+      >
+        Open
+      </p>
+    </li>
+    <li
+      className="menu__item"
+    >
+      <p
+        className="menu__item-text"
+      >
+        Save
+      </p>
+    </li>
+    <li
+      className="menu__item"
+      onClick={[Function]}
+    >
+      <p
+        className="menu__item-text"
+      >
+        Save As
+      </p>
+    </li>
+  </ul>
+</div>
+`;

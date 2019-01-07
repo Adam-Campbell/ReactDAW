@@ -15,6 +15,7 @@ import { DragDropContext } from 'react-dnd';
 import CustomDragLayer from './components/CustomDragLayer';
 import DragWrapper from './components/DragWrapper';
 import Mixer from './components/Mixer';
+import Modal from './components/Modal';
 
 class App extends Component {
   render() {
@@ -56,7 +57,8 @@ class App extends Component {
                 return null;
             }
           })
-        }     
+        }  
+        <Modal />   
       </div>
     );
   }
