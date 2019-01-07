@@ -6,3 +6,4 @@ export * from './effectActionTypes';
 export *  from './windowActionTypes';
 export * from './persistenceActionTypes';
 export * from './modalActionTypes';
+export * from './compositionActionTypes';

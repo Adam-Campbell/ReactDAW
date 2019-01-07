@@ -5,6 +5,16 @@ import * as ActionCreators from '../../actions';
 import { modalTypes } from '../../constants';
 
 export const FileMenu = props => {
+
+    const handleSave = () => {
+        if (props.saveName) {
+            const namespacedSaveName = `[track_name] ${props.saveName}`;
+            props.saveState(namespacedSaveName);
+        } else {
+            props.openModal(modalTypes.saveAs);
+        }
+    }
+
     return (
         <div 
             className="menu__container" 
@@ -23,7 +33,10 @@ export const FileMenu = props => {
                 >
                     <p className="menu__item-text">Open</p>
                 </li>
-                <li className="menu__item">
+                <li 
+                    className="menu__item"
+                    onClick={handleSave}
+                >
                     <p className="menu__item-text">Save</p>
                 </li>
                 <li 
@@ -43,7 +56,14 @@ FileMenu.propTypes = {
     containerRef: PropTypes.object.isRequired
 }
 
+const mapStateToProps =  state => ({
+    saveName: state.composition.saveName
+});
+
 export default connect(
-    undefined,
-    { openModal: ActionCreators.openModal }
+    mapStateToProps,
+    { 
+        openModal: ActionCreators.openModal,
+        saveState: ActionCreators.saveState
+    }
 )(FileMenu);

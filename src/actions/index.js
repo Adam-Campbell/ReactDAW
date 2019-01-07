@@ -7,3 +7,4 @@ export * from './effectActions';
 export * from './windowActions';
 export * from './persistenceActions';
 export * from './modalActions';
+export * from './compositionActions';

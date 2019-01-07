@@ -20,6 +20,7 @@ class SaveModalContainer extends Component {
     handleSave = () => {
         const { saveName } = this.state;
         const namespacedSaveName = `[track_name] ${saveName}`;
+        this.props.setCompositionSaveName(saveName);
         this.props.saveState(namespacedSaveName);
         this.props.closeModal();
     }
@@ -38,6 +39,7 @@ export default connect(
     undefined, 
     {
         saveState: ActionCreators.saveState,
-        closeModal: ActionCreators.closeModal
+        closeModal: ActionCreators.closeModal,
+        setCompositionSaveName: ActionCreators.setCompositionSaveName
     }
 )(SaveModalContainer)
