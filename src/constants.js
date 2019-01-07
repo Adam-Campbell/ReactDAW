@@ -1,12 +1,3 @@
-export const instrumentTypes = {
-    default: 'synth',
-    am: 'amSynth',
-    fm: 'fmSynth',
-    duo: 'duoSynth',
-    mono: 'monoSynth',
-    drumKit: 'drumKit'
-};
-
 export const UIColors = {
     deepPurple: '#201826',
     lightPurple: '#47426c',
@@ -17,6 +8,21 @@ export const UIColors = {
     brightRed: '#e23340',
     brightGreen: '#25e452',
     darkGrey: '#222222'
+};
+
+export const modalTypes = {
+    open: 'Open',
+    saveAs: 'Save As',
+    help: 'help'
+}
+
+export const instrumentTypes = {
+    default: 'synth',
+    am: 'amSynth',
+    fm: 'fmSynth',
+    duo: 'duoSynth',
+    mono: 'monoSynth',
+    drumKit: 'drumKit'
 };
 
 export const effectTypes = {

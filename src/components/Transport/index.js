@@ -97,38 +97,6 @@ export class TransportContainer extends Component {
         Tone.Transport.position = '0:0:0';
     }
 
-    handleSaveState = () => {
-        this.props.saveState('darudeSandstorm');
-    }
-
-    handleLoadState = () => {
-        this.props.loadState('darudeSandstorm');
-    }
-
-    enterSavingState = () => {
-        this.setState({
-            isSaving: true
-        });
-    }
-
-    exitSavingState = () => {
-        this.setState({
-            isSaving: false
-        });
-    }
-
-    enterLoadingState = () => {
-        this.setState({
-            isLoading: true
-        });
-    }
-
-    exitLoadingState = () => {
-        this.setState({
-            isLoading: false
-        });
-    };
-
     handleOpenMixer = () => {
         this.props.openWindow('masterMixer', 'mixer');
     }
@@ -147,14 +115,6 @@ export class TransportContainer extends Component {
             inputRef={this.inputRef}
             enterBPMEditingMode={this.enterBPMEditingMode}
             bpm={this.props.bpm}
-            handleSaveState={this.handleSaveState}
-            handleLoadState={this.handleLoadState}
-            enterSavingState={this.enterSavingState}
-            exitSavingState={this.exitSavingState}
-            enterLoadingState={this.enterLoadingState}
-            exitLoadingState={this.exitLoadingState}
-            isSaving={this.state.isSaving}
-            isLoading={this.state.isLoading}
             handleOpenMixer={this.handleOpenMixer}
         />
     }
@@ -175,8 +135,6 @@ export default connect(
         stopTrack: ActionCreators.stopTrack,
         pauseTrack: ActionCreators.pauseTrack,
         setBPM: ActionCreators.setBPM,
-        saveState: ActionCreators.saveState,
-        loadState: ActionCreators.loadState,
         openWindow: ActionCreators.openWindow,
     }
 )(TransportContainer);

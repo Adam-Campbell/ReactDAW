@@ -5,6 +5,7 @@ import activeWindows from './activeWindowsReducer';
 import sections from './sectionsReducer';
 import instruments from './instrumentsReducer';
 import effects from './effectsReducer';
+import modals from './modalsReducer';
 
 export default combineReducers({
     playerInfo,
@@ -12,6 +13,7 @@ export default combineReducers({
     channels,
     sections,
     instruments,
-    effects
+    effects,
+    modals
 });
 

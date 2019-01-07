@@ -3,12 +3,12 @@
         margin: 0;
         background-color: $color--light-purple;
         color: $color--light-purple;
-        border: solid 4px;
         padding: 0 16px;
         @include boxShadow($color--light-purple);
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: wrap;
     }
     &__button {
         background: $color--pink;

@@ -1,0 +1,49 @@
+.menu {
+    &__container {
+        position: relative;
+        cursor: pointer;
+        margin-right: 8px;
+        align-self: stretch;
+    }
+    &__label {
+        font-family: $font--primary;
+        color: $color--pink;
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 0;
+        border: solid 2px $color--pink;
+        padding: 4px 8px;
+        @include textShadow();
+        @include boxShadow();
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    &__list {
+        display: none;
+        list-style: none;
+        padding-left: 0;
+        position: absolute;
+        margin-top: 0;
+        width: 120px;
+        &.menu__list--visible {
+            display: inline-block;
+            z-index: 5000;
+        }
+    }
+    &__item {
+        padding: 8px 16px;
+        background-color: $color--off-white;
+        transition: background 0.25s ease-in-out;
+        &:hover {
+            background-color: #ccc9c9;
+        }
+    }
+    &__item-text {
+        font-family: $font--primary;
+        color: $color--deep-purple;
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
