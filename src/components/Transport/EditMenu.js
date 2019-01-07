@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { modalTypes } from '../../constants';
 
-export const FileMenu = props => {
+export const EditMenu = props => {
     return (
         <div 
             className="menu__container" 
@@ -13,37 +12,27 @@ export const FileMenu = props => {
         >
             <p 
                 className="menu__label"
-            >File</p>
+            >Edit</p>
             <ul 
                 className={`menu__list ${props.isOpen ? 'menu__list--visible' : ''}`}
             >
                 <li 
                     className="menu__item"
-                    onClick={() => props.openModal(modalTypes.open)}
                 >
-                    <p className="menu__item-text">Open</p>
+                    <p className="menu__item-text">Undo</p>
                 </li>
                 <li className="menu__item">
-                    <p className="menu__item-text">Save</p>
-                </li>
-                <li 
-                    className="menu__item"
-                    onClick={() => props.openModal(modalTypes.saveAs)}
-                >
-                    <p className="menu__item-text">Save As</p>
+                    <p className="menu__item-text">Redo</p>
                 </li>
             </ul>
         </div>
     );
 }
 
-FileMenu.propTypes = {
+EditMenu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggleMenu: PropTypes.func.isRequired,
     containerRef: PropTypes.object.isRequired
 }
 
-export default connect(
-    undefined,
-    { openModal: ActionCreators.openModal }
-)(FileMenu);
+export default connect(undefined)(EditMenu);

@@ -7,14 +7,26 @@ import {
     BackIcon,
     MixerIcon
 } from '../Icons';
+import ToggleMenu from '../ToggleMenu';
 import FileMenu from './FileMenu';
+import EditMenu from './EditMenu';
+import ViewMenu from './ViewMenu';
 
 const Transport = props => (
     <div 
         className="transport__container"
         onClick={props.handleTransportBarClick}
     >
-        <FileMenu />
+        <ToggleMenu>
+            {(props) => <FileMenu {...props} />}
+        </ToggleMenu>
+        <ToggleMenu>
+            {(props) => <EditMenu {...props} />}
+        </ToggleMenu>
+        <ToggleMenu>
+            {(props) => <ViewMenu {...props} />}
+        </ToggleMenu>
+
         <button 
             className="transport__button"
             onClick={props.playTrack}
