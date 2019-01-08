@@ -26,7 +26,11 @@ export const saveState = (saveName) => (dispatch, getState) => {
     dispatch(saveStateAttempt(saveName))
     const currentState = getState();
     try {
-        const serializedState = JSON.stringify(currentState);
+        const trimmedState = {
+            playerStatus: currentState.playerStatus,
+            main: currentState.main.present
+        };
+        const serializedState = JSON.stringify(trimmedState);
         window.localStorage.setItem(saveName, serializedState);
         dispatch(saveStateSuccess(saveName));
     } catch (error) {
@@ -70,3 +74,7 @@ export const loadState = (saveName) => (dispatch) => {
         dispatch(loadStateFailed(saveName, error));
     }
 }
+
+export const openNewProject = () => ({
+    type: actionTypes.OPEN_NEW_PROJECT
+});

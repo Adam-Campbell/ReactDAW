@@ -92,7 +92,10 @@ const sections = (state=defaultState, action) => {
             };
 
         case actionTypes.LOAD_STATE_SUCCESS:
-            return action.payload.loadedState.sections;
+            return action.payload.loadedState.main.sections;
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
             
         default:
             return state;

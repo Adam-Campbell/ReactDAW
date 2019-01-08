@@ -22,10 +22,11 @@ const playerInfo = (state=defaultState, action) => {
 
         case actionTypes.LOAD_STATE_SUCCESS:
             return {
-                ...action.payload.loadedState.playerInfo,
-                isPlaying: false,
-                isPaused: false
+                ...action.payload.loadedState.main.playerInfo,
             };
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
 
         default:
             return state;

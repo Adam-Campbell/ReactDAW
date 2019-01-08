@@ -72,7 +72,10 @@ const effects = (state=defaultState, action) => {
             }
 
         case actionTypes.LOAD_STATE_SUCCESS:
-            return action.payload.loadedState.effects;
+            return action.payload.loadedState.main.effects;
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
 
         default: 
             return state;

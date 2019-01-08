@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
@@ -27,6 +27,12 @@ export const FileMenu = props => {
             <ul 
                 className={`menu__list ${props.isOpen ? 'menu__list--visible' : ''}`}
             >
+                <li 
+                    className="menu__item"
+                    onClick={props.openNewProject}
+                >
+                    <p className="menu__item-text">New</p>
+                </li>
                 <li 
                     className="menu__item"
                     onClick={() => props.openModal(modalTypes.open)}
@@ -64,6 +70,7 @@ export default connect(
     mapStateToProps,
     { 
         openModal: ActionCreators.openModal,
-        saveState: ActionCreators.saveState
+        saveState: ActionCreators.saveState,
+        openNewProject: ActionCreators.openNewProject
     }
 )(FileMenu);

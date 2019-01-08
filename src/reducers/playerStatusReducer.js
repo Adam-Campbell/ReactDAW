@@ -44,10 +44,13 @@ const playerStatus = (state=defaultState, action) => {
 
         case actionTypes.LOAD_STATE_SUCCESS:
             return {
-                ...action.payload.loadedState.playerInfo,
+                ...action.payload.loadedState.playerStatus,
                 isPlaying: false,
                 isPaused: false
             };
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
 
         default:
             return state;

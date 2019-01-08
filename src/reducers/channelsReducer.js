@@ -198,7 +198,10 @@ const channels = (state=defaultState, action) => {
             });
         
         case actionTypes.LOAD_STATE_SUCCESS:
-            return action.payload.loadedState.channels;
+            return action.payload.loadedState.main.channels;
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
 
         default:
             return state;

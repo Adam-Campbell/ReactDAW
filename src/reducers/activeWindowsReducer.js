@@ -23,6 +23,12 @@ const activeWindows = (state=defaultState, action) => {
         case actionTypes.CLOSE_WINDOW:
             return state.filter(window => window.id !== action.payload.windowId);
 
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return defaultState;
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
+
         default: 
             return state;
     }
