@@ -55,7 +55,7 @@ MixerItemContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    channels: state.channels
+    channels: state.main.present.channels
 });
 
 

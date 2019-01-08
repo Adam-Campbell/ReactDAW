@@ -41,8 +41,8 @@ class Modal extends Component {
 }
 
 const mapStateToProps = state => ({
-    modalType: state.modals.modalType,
-    modalProps: state.modals.modalProps
+    modalType: state.main.present.modals.modalType,
+    modalProps: state.main.present.modals.modalProps
 });
 
 export default connect(

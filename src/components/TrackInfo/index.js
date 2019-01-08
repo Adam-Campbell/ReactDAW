@@ -18,6 +18,16 @@ export class TrackInfoContainer extends Component {
         };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const oldTrack = prevProps.channels.find(channel => channel.id === prevProps.trackId);
+        const newTrack = this.props.channels.find(channel => channel.id === this.props.trackId);
+        if (!this.state.isEditingName && oldTrack.name !== newTrack.name) {
+            this.setState({
+                trackName: newTrack.name
+            });
+        }
+    }
+
     get track() {
         return this.props.channels.find(channel => channel.id === this.props.trackId);
     }
@@ -151,7 +161,7 @@ TrackInfoContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    channels: state.channels
+    channels: state.main.present.channels
 });
 
 export default connect(

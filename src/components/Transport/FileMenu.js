@@ -57,7 +57,7 @@ FileMenu.propTypes = {
 }
 
 const mapStateToProps =  state => ({
-    saveName: state.composition.saveName
+    saveName: state.main.present.composition.saveName
 });
 
 export default connect(

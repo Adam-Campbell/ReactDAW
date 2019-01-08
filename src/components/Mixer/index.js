@@ -20,7 +20,7 @@ export const Mixer = props => (
 );
 
 const mapStateToProps = state => ({
-    channels: state.channels
+    channels: state.main.present.channels
 });
 
 export default connect(mapStateToProps)(Mixer);

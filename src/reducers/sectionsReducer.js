@@ -1,4 +1,5 @@
 import * as actionTypes from '../actionTypes';
+import undoable from 'redux-undo';
 
 const defaultState = {};
 
@@ -98,5 +99,7 @@ const sections = (state=defaultState, action) => {
 
     }
 }
+
+const undoableSections = undoable(sections);
 
 export default sections;

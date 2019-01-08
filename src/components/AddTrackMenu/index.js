@@ -47,7 +47,7 @@ export class AddTrackMenuContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    numberOfChannels: state.channels.length
+    numberOfChannels: state.main.present.channels.length
 });
 
 export default connect(

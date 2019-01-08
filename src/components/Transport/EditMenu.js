@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
+import { ActionCreators as undoableActions } from 'redux-undo'; 
 
 export const EditMenu = props => {
     return (
@@ -18,10 +19,14 @@ export const EditMenu = props => {
             >
                 <li 
                     className="menu__item"
+                    onClick={props.undo}
                 >
                     <p className="menu__item-text">Undo</p>
                 </li>
-                <li className="menu__item">
+                <li 
+                    className="menu__item"
+                    onClick={props.redo}
+                >
                     <p className="menu__item-text">Redo</p>
                 </li>
             </ul>
@@ -35,4 +40,10 @@ EditMenu.propTypes = {
     containerRef: PropTypes.object.isRequired
 }
 
-export default connect(undefined)(EditMenu);
+export default connect(
+    undefined, 
+    {
+        undo: undoableActions.undo,
+        redo: undoableActions.redo
+    }
+)(EditMenu);

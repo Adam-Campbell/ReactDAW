@@ -13,7 +13,7 @@ import ScrollBarLayer from './ScrollBarLayer';
 const Composer = props => (
     <div 
         className="composer__container"
-        tabIndex="0"
+        tabIndex="-1"
         onKeyDown={props.handleKeyDown}
         style={{outline: 'none'}}
     >

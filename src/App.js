@@ -65,7 +65,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  activeWindows: state.activeWindows
+  activeWindows: state.main.present.activeWindows
 });
 
 const withDnD = DragDropContext(HTML5Backend)(App);

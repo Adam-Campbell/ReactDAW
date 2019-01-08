@@ -88,7 +88,7 @@ InstrumentInterface.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    instruments: state.instruments
+    instruments: state.main.present.instruments
 });
 
 export default connect(

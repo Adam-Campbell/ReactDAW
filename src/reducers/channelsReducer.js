@@ -1,4 +1,5 @@
 import * as actionTypes from '../actionTypes';
+import undoable, { includeAction } from 'redux-undo';
 
 const defaultState = [];
 
@@ -203,5 +204,7 @@ const channels = (state=defaultState, action) => {
             return state;
     }
 };
+
+const undoableChannels = undoable(channels);
 
 export default channels;

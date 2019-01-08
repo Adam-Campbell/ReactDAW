@@ -628,10 +628,10 @@ export class ComposerContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    channels: state.channels,
-    sections: state.sections,
-    isPlaying: state.playerInfo.isPlaying,
-    isPaused: state.playerInfo.isPaused
+    channels: state.main.present.channels,
+    sections: state.main.present.sections,
+    isPlaying: state.playerStatus.isPlaying,
+    isPaused: state.playerStatus.isPaused
 });
 
 export default connect(
