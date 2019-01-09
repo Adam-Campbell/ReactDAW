@@ -15,6 +15,7 @@ const Composer = props => (
         className="composer__container"
         tabIndex="-1"
         onKeyDown={props.handleKeyDown}
+        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
     >
         <ComposerControls 
@@ -69,6 +70,9 @@ const Composer = props => (
                         currentlySelectedSections={props.currentlySelectedSections}
                         handleSectionClick={props.handleSectionClick}
                         handleSectionDoubleClick={props.handleSectionDoubleClick}
+                        canvasWidth={props.canvasWidth}
+                        canvasHeight={props.canvasHeight}
+                        shiftKeyPressed={props.shiftKeyPressed}
                     />
                     <TransportLayer 
                         transportLayerRef={props.transportLayerRef}
@@ -111,11 +115,13 @@ Composer.propTypes = {
     // constructed arrays
     gridLinesArray: PropTypes.arrayOf(PropTypes.array).isRequired,
     sectionRectsArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // input values
+    // values from state
     cursorValue: PropTypes.string.isRequired,
     durationValue: PropTypes.number.isRequired,
+    shiftKeyPressed: PropTypes.bool.isRequired,
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
+    handleKeyUp: PropTypes.func.isRequired,
     updateCursorValue: PropTypes.func.isRequired,
     updateDurationValue: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,

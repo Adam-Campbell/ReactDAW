@@ -189,3 +189,24 @@ MISC
 
 
 
+
+VISIBLE SELECTION OVERLAY
+
+- should be its own layer on the canvas
+
+- needs to know the origin point of the selection and the current end of the selection. We can call those selectionStart and selectionEnd?
+
+- what are the conditions for a selection rect to be rendered? Shift + click enters selection mode?
+
+
+
+- in the components state, have shiftKeyPressed and mouseIsDown properties. shiftKeyPressed is set to true when shift key is pressed, and then set to false again when shift key is released. mouseIsDown is set to true onMouseDown and then set to false onMouseUp.
+
+
+
+- I will need to add incorporate the selection overlay into the notes layer. So I should turn this into a class based component and move over the necessary logic from the selection overlay layer I was previously working on. 
+
+
+
+
+

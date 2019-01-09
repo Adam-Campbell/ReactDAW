@@ -1583,7 +1583,9 @@ exports[`renders correctly 1`] = `
     ]
   }
   handleKeyDown={[Function]}
+  handleKeyUp={[Function]}
   handleMouseDown={[Function]}
+  handleMouseMove={[Function]}
   handleMouseUp={[Function]}
   handleNoteClick={[Function]}
   handlePianoKeyClick={[Function]}
@@ -1740,6 +1742,7 @@ exports[`renders correctly 1`] = `
     }
   }
   selectedNotes={Array []}
+  shiftKeyPressed={false}
   stageHeight={600}
   stageRef={
     Object {
@@ -1789,6 +1792,7 @@ exports[`renders correctly 2`] = `
 <div
   className="piano-roll__container"
   onKeyDown={[Function]}
+  onKeyUp={[Function]}
   style={
     Object {
       "outline": "none",
@@ -1813,6 +1817,7 @@ exports[`renders correctly 2`] = `
       height={600}
       onClick={[Function]}
       onMouseDown={[Function]}
+      onMouseMove={[Function]}
       onMouseUp={[Function]}
       width={800}
     >
@@ -3395,6 +3400,8 @@ exports[`renders correctly 2`] = `
         }
       />
       <NoteLayer
+        canvasHeight={1768}
+        canvasWidth={1536}
         currentlySelectedNotes={Array []}
         handleNoteClick={[Function]}
         noteLayerRef={
@@ -3403,6 +3410,7 @@ exports[`renders correctly 2`] = `
           }
         }
         sectionNotes={Array []}
+        shiftKeyPressed={false}
       />
       <VelocityLayer
         canvasWidth={1536}

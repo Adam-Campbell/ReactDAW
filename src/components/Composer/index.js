@@ -55,7 +55,8 @@ export class ComposerContainer extends Component {
             trackInfoMenuTopScroll: 0,
             transportPosition: 0,
             stageWidth: windowWidth - 220,
-            stageHeight: windowHeight - 104
+            stageHeight: windowHeight - 104,
+            shiftKeyPressed: false
         };
     }
 
@@ -452,6 +453,14 @@ export class ComposerContainer extends Component {
         //console.log(e);
         e.stopPropagation();
 
+        if (e.key === 'Shift') {
+            if (!this.state.shiftKeyPressed) {
+                this.setState({
+                    shiftKeyPressed: true
+                });
+            }
+        }
+
         // handle deletion
         if (e.key === 'Delete') {
             this.handleSectionDeletion();
@@ -470,6 +479,17 @@ export class ComposerContainer extends Component {
         // handle clearing selection
         if (e.key === 'd' && e.ctrlKey) {
             this.clearCurrentSelection();
+        }
+    }
+
+    handleKeyUp = e => {
+        e.stopPropagation();
+        if (e.key === 'Shift') {
+            if (this.state.shiftKeyPressed) {
+                this.setState({
+                    shiftKeyPressed: false
+                });
+            }
         }
     }
 
@@ -608,6 +628,7 @@ export class ComposerContainer extends Component {
             cursorValue={this.state.pencilActive ? 'pencil' : 'pointer'}
             durationValue={this.state.sectionDuration}
             handleKeyDown={this.handleKeyDown}
+            handleKeyUp={this.handleKeyUp}
             updateCursorValue={this.updateCursorValue}
             updateDurationValue={this.updateSectionDurationValue}
             handleStageClick={this.handleStageClick}
@@ -623,6 +644,7 @@ export class ComposerContainer extends Component {
             currentlySelectedChannel={this.state.currentlySelectedChannel}
             updateSelectedChannel={this.updateSelectedChannel}
             handleScrollBarClickEvents={this.handleScrollBarClickEvents}
+            shiftKeyPressed={this.state.shiftKeyPressed}
         />
     }
 }

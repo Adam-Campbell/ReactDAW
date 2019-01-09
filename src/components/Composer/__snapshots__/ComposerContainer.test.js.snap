@@ -1268,6 +1268,7 @@ exports[`renders correctly 1`] = `
     ]
   }
   handleKeyDown={[Function]}
+  handleKeyUp={[Function]}
   handleScrollBarClickEvents={[Function]}
   handleSectionClick={[Function]}
   handleSectionDoubleClick={[Function]}
@@ -1303,6 +1304,7 @@ exports[`renders correctly 1`] = `
       "current": null,
     }
   }
+  shiftKeyPressed={false}
   stageHeight={-104}
   stageRef={
     Object {

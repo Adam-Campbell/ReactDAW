@@ -1,7 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Layer>
+<Layer
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onMouseUp={[Function]}
+>
+  <Rect
+    height={320}
+    width={1200}
+    x={0}
+    y={0}
+  />
   <Rect
     fill="#d86597"
     height={70}
@@ -15,6 +25,11 @@ exports[`renders correctly 1`] = `
     width={192}
     x={0}
     y={40}
+  />
+  <Rect
+    cornerRadius={3}
+    fill="#08b5d3"
+    opacity={0.4}
   />
 </Layer>
 `;

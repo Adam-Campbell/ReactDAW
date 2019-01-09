@@ -133,6 +133,9 @@ test('renders correctly', () => {
             handleNoteClick={jest.fn()}
             sectionNotes={notesState}
             currentlySelectedNotes={[]}
+            canvasHeight={600}
+            canvasWidth={650}
+            shiftKeyPressed={false}
         />
     );
     expect(component).toMatchSnapshot();
@@ -145,6 +148,9 @@ test('renders selected notes with a different fill color', () => {
             handleNoteClick={jest.fn()}
             sectionNotes={notesState}
             currentlySelectedNotes={['5675315161385905']}
+            canvasHeight={600}
+            canvasWidth={650}
+            shiftKeyPressed={false}
         />
     );
     const selectedNoteWrapper = component.find({ _id: '5675315161385905' });

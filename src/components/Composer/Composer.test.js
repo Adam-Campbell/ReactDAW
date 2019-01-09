@@ -59,6 +59,7 @@ test('renders correctly', () => {
             cursorValue={'pointer'}
             durationValue={4}
             handleKeyDown={jest.fn()}
+            handleKeyUp={jest.fn()}
             updateCursorValue={jest.fn()}
             updateDurationValue={jest.fn()}
             handleStageClick={jest.fn()}
@@ -74,6 +75,7 @@ test('renders correctly', () => {
             channels={channelsState}
             currentlySelectedSections={[]}
             currentlySelectedChannel='6984087700822156'
+            shiftKeyPressed={false}
         />
     );
     expect(component).toMatchSnapshot();

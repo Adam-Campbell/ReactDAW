@@ -15,6 +15,7 @@ const PianoRoll = props => (
         className="piano-roll__container" 
         tabIndex="-1" 
         onKeyDown={props.handleKeyDown}
+        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
         ref={props.outerContainerRef}
     >
@@ -25,6 +26,8 @@ const PianoRoll = props => (
             updateDurationValue={props.updateDurationValue}
             cursorValue={props.cursorValue}
             updateCursorValue={props.updateCursorValue}
+            currentMousePosX={props.currentMousePosX}
+            currentMousePosY={props.currentMousePosY}
         />
         <div className="piano-roll__canvas-container" id="piano-roll-canvas-container">
             <Stage 
@@ -35,6 +38,7 @@ const PianoRoll = props => (
                 onClick={props.handleStageClick}
                 onMouseDown={props.handleMouseDown} 
                 onMouseUp={props.handleMouseUp}
+                onMouseMove={props.handleMouseMove}
             >
                 <GridLayer 
                     gridLayerRef={props.gridLayerRef}
@@ -46,6 +50,9 @@ const PianoRoll = props => (
                     sectionNotes={props.section.notes}
                     currentlySelectedNotes={props.currentlySelectedNotes}
                     handleNoteClick={props.handleNoteClick}
+                    canvasWidth={props.canvasWidth}
+                    canvasHeight={props.canvasHeight}
+                    shiftKeyPressed={props.shiftKeyPressed}
                 />
                 <VelocityLayer 
                     stageHeight={props.stageHeight}
@@ -107,18 +114,21 @@ PianoRoll.propTypes = {
     unselectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     pitchesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     transportBarNumbersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // input values
+    // values from state
     quantizeValue: PropTypes.string.isRequired,
     durationValue: PropTypes.string.isRequired,
     cursorValue: PropTypes.string.isRequired,
+    shiftKeyPressed: PropTypes.bool.isRequired,
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
+    handleKeyUp: PropTypes.func.isRequired,
     updateQuantizeValue: PropTypes.func.isRequired,
     updateDurationValue: PropTypes.func.isRequired,
     updateCursorValue: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleMouseDown: PropTypes.func.isRequired,
     handleMouseUp: PropTypes.func.isRequired,
+    handleMouseMove: PropTypes.func.isRequired,
     handleNoteClick: PropTypes.func.isRequired,
     handleVelocityLayerClick: PropTypes.func.isRequired,
     handlePianoKeyClick: PropTypes.func.isRequired,
@@ -127,6 +137,7 @@ PianoRoll.propTypes = {
     handleScrollBarClickEvents: PropTypes.func.isRequired,
     // reference to the section object from redux store
     section: PropTypes.object.isRequired  
+
 };
 
 export default PianoRoll;
