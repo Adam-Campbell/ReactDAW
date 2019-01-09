@@ -8,37 +8,35 @@ import SaveModal from '../SaveModal';
 
 ReactModal.setAppElement('#root');
 
-class Modal extends Component {
+export const getModalContent = modalType => {
+    switch (modalType) {
+        case modalTypes.open:
+            return <LoadModal />;
 
+        case modalTypes.saveAs:
+            return <SaveModal />;
 
-    renderModalContent() {
-        switch (this.props.modalType) {
+        case modalTypes.help:
+            return null;
 
-            case modalTypes.open:
-                return <LoadModal />;
-
-            case modalTypes.saveAs:
-                return <SaveModal />;
-
-            case modalTypes.help:
-                return null;
-
-            default: 
-                return null;
-        }
+        default: 
+            return null;
     }
-    render() {
-        return <ReactModal 
-            isOpen={this.props.modalType ? true : false}
-            className="modal__content-container"
-            overlayClassName="modal__overlay"
-            shouldCloseOnEscape={true}
-            onRequestClose={this.props.closeModal}
-        >
-            {this.renderModalContent()}
-        </ReactModal>
-    }
-}
+};
+
+
+export const Modal = props => (
+    <ReactModal 
+        isOpen={props.modalType ? true : false}
+        className="modal__content-container"
+        overlayClassName="modal__overlay"
+        shouldCloseOnEscape={true}
+        onRequestClose={props.closeModal}
+    >
+        {getModalContent(props.modalType)}
+    </ReactModal>
+);
+
 
 const mapStateToProps = state => ({
     modalType: state.main.present.modals.modalType,

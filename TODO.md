@@ -168,6 +168,15 @@ ________________________________________
 MISC
 
 - implement undo redo - see the redux docs for more information on this. 
+- undo/redo has now been implemented, however I need to update the tests as a lot of them will now be failing due to changes made. I also need to create some new tests for new things that were added. Also, ideally I would like the active windows part of state not to be in the main undoable part of state, so that the windows opening and closing is not affected by undo/redo. However I will need to come up with a solution for the eventuality that a window gets opened, and then the thing that that window represents gets deleted as part of an undo action, and then we have an open window with no entity for it to display. Should the activeWindows reducer listen to all of the other actions and remove an item from its array when the corresponding entity no longer exists? Or should I just keep the window open but have an error state saying that the entity that corresponds to this window has been deleted?
+
+- after some investigation I believe the best solution to the problem above would be to utilise error boundaries to catch the error when an entity is deleted whilst its window is still active. This stops the error from affecting the rest of the program, a fallback UI can be displayed to let the user know what happened and then they can just close the window. At the moment I have implemented the error boundary in the PianoRoll component, perhaps I can implement it in the DragWrapper component and that can cover an error occurring in any component that is currently inside the drag wrapper?
+
+- have now moved the activeWindows reducer out of the main undoable part of state. However, I still need to work out exactly how error handling will work. 
+
+
+
+
 
 - review the tools usage throughout the composer and piano roll components. Does the pencil tool need to be seperate or could it be integrated into the main tool?
 

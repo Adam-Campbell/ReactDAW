@@ -253,7 +253,7 @@ const mockedUpdateOneInstrumentSetting = jest.fn();
 test('renders correctly', () => {
     const component = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["5542150612118159"]}
             instrumentId="5542150612118159"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />
@@ -264,7 +264,7 @@ test('renders correctly', () => {
 test('renders the correct instrument type according to supplied props', () => {
     const withSynth = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["5542150612118159"]}
             instrumentId="5542150612118159"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />
@@ -272,7 +272,7 @@ test('renders the correct instrument type according to supplied props', () => {
     expect(withSynth.find(Synth)).toHaveLength(1);
     const withAMSynth = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["8648077917817056"]}
             instrumentId="8648077917817056"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />
@@ -280,7 +280,7 @@ test('renders the correct instrument type according to supplied props', () => {
     expect(withAMSynth.find(AMSynth)).toHaveLength(1);
     const withFMSynth = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["2262175587269012"]}
             instrumentId="2262175587269012"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />
@@ -288,7 +288,7 @@ test('renders the correct instrument type according to supplied props', () => {
     expect(withFMSynth.find(FMSynth)).toHaveLength(1);
     const withDuoSynth = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["5195256613888219"]}
             instrumentId="5195256613888219"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />
@@ -296,7 +296,7 @@ test('renders the correct instrument type according to supplied props', () => {
     expect(withDuoSynth.find(DuoSynth)).toHaveLength(1);
     const withMonoSynth = shallow(
         <InstrumentInterface 
-            instruments={instrumentsState}
+            instrument={instrumentsState["9041179439617252"]}
             instrumentId="9041179439617252"
             updateOneInstrumentSetting={mockedUpdateOneInstrumentSetting}
         />

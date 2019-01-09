@@ -62,7 +62,6 @@ const customGroupingLogic = (action, currentState, previousHistory) => {
 const undoableSlice = combineReducers({
     playerInfo,
     composition,
-    activeWindows,
     channels,
     sections,
     instruments,
@@ -84,7 +83,9 @@ const main = undoable(
             actionTypes.LOAD_STATE_FAILED,
             actionTypes.PLAY_TRACK,
             actionTypes.PAUSE_TRACK,
-            actionTypes.STOP_TRACK
+            actionTypes.STOP_TRACK,
+            actionTypes.OPEN_WINDOW,
+            actionTypes.CLOSE_WINDOW
         ]),
         // groupBy: groupByActionTypes([
         //     actionTypes.UPDATE_CHANNEL_VOLUME,
@@ -100,7 +101,8 @@ const main = undoable(
 );
 
 const combinedState = combineReducers({
-    playerStatus, 
+    playerStatus,
+    activeWindows, 
     main
 });
 

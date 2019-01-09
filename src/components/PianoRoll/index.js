@@ -108,7 +108,7 @@ export class PianoRollContainer extends Component {
             stageHeight: 600,
             scrollBarActive: false,
             currentlySelectedNotes: [],
-            currentlyCopiedNotes: null
+            currentlyCopiedNotes: null,
         };
     }
 
@@ -134,7 +134,9 @@ export class PianoRollContainer extends Component {
         if (this.rAFRef) {
             cancelAnimationFrame(this.rAFRef);
         }
-        this.stageRef.current.content = null;
+        if (this.stageRef.current) {
+            this.stageRef.current.content = null;
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

@@ -568,7 +568,9 @@ test('handles LOAD_STATE_SUCCESS', () => {
         type: actionTypes.LOAD_STATE_SUCCESS,
         payload: {
             loadedState: { 
-                channels: channelsState 
+                main: {
+                    channels: channelsState
+                } 
             }
         }
     }

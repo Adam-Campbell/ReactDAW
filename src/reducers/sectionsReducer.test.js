@@ -337,7 +337,9 @@ test('handles LOAD_STATE_SUCCESS', () => {
         type: actionTypes.LOAD_STATE_SUCCESS,
         payload: {
             loadedState: { 
-                sections: sectionsState 
+                main: {
+                    sections: sectionsState 
+                }
             }
         }
     }

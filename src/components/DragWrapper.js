@@ -34,7 +34,18 @@ class DragWrapper extends Component {
     constructor(props) {
         super(props);
         this.setContainerRef = element => this.containerRef = element;
+        this.state = {
+            hasError: false
+        }
     }
+
+    static getDerivedStateFromError(error) {
+        return {
+            hasError: true
+        }
+    }
+
+    
 
     componentDidMount() {
         const { connectDragPreview } = this.props;
@@ -48,11 +59,33 @@ class DragWrapper extends Component {
     }
 
     render() {
+
+        if (this.state.hasError) {
+            return (
+                <div 
+                    className="error-ui__container"
+                    ref={this.setContainerRef}
+                    style={{
+                        position: 'absolute',
+                        zIndex: 5000
+                    }}
+                >
+                    <h1 className="error-ui__title">An error occurred within an active window</h1>
+                    <p className="error-ui__text">An error occurred within one of the currently active windows. It is likely that the entity the window was displaying got deleted, either manually or through an undo operation. The error has been contained and you can safely close this window without affecting the rest of the program.</p>
+                    <button 
+                        className="error-ui__button"
+                        onClick={this.handleClose}
+                    >Close</button>
+                </div>
+            );
+        }
+
         const { 
             isDragging,
             connectDragSource,
             connectDragPreview 
         } = this.props;
+
         return (
             <div
                 ref={this.setContainerRef}
