@@ -121,11 +121,11 @@ export class TransportContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    isPlaying: state.playerInfo.isPlaying,
-    isPaused: state.playerInfo.isPaused,
-    isMuted: state.playerInfo.isMuted,
-    bpm: state.playerInfo.bpm,
-    volume: state.playerInfo.volume
+    isPlaying: state.playerStatus.isPlaying,
+    isPaused: state.playerStatus.isPaused,
+    isMuted: state.playerStatus.isMuted,
+    bpm: state.main.present.playerInfo.bpm,
+    volume: state.main.present.playerInfo.volume
 });
 
 export default connect(

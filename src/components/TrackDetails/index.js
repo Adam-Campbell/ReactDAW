@@ -89,9 +89,9 @@ TrackDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    channels: state.channels,
-    instruments: state.instruments,
-    effects: state.effects
+    channels: state.main.present.channels,
+    instruments: state.main.present.instruments,
+    effects: state.main.present.effects
 });
 
 export default connect(

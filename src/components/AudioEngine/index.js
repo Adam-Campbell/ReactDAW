@@ -84,12 +84,14 @@ class AudioEngine extends Component {
 }
 
 const mapStateToProps = state => ({
-    sectionInfo: state.sectionInfo,
-    playerInfo: state.playerInfo,
-    channels: state.channels,
-    sections: state.sections,
-    instruments: state.instruments,
-    effects: state.effects
+    playerInfo: {
+        ...state.playerStatus,
+        ...state.main.present.playerInfo
+    },
+    channels: state.main.present.channels,
+    sections: state.main.present.sections,
+    instruments: state.main.present.instruments,
+    effects: state.main.present.effects
 });
 
 export default connect(

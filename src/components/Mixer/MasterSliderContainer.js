@@ -20,7 +20,7 @@ export class MasterSliderContainer extends Component {
 
 
 const mapStateToProps = state => ({
-    volume: state.playerInfo.volume
+    volume: state.main.present.playerInfo.volume
 });
 
 export default connect(

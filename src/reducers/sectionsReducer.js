@@ -1,4 +1,5 @@
 import * as actionTypes from '../actionTypes';
+import undoable from 'redux-undo';
 
 const defaultState = {};
 
@@ -91,12 +92,17 @@ const sections = (state=defaultState, action) => {
             };
 
         case actionTypes.LOAD_STATE_SUCCESS:
-            return action.payload.loadedState.sections;
+            return action.payload.loadedState.main.sections;
+
+        case actionTypes.OPEN_NEW_PROJECT:
+            return defaultState;
             
         default:
             return state;
 
     }
 }
+
+const undoableSections = undoable(sections);
 
 export default sections;

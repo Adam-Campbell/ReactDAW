@@ -152,7 +152,7 @@ EffectInterface.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    effects: state.effects
+    effects: state.main.present.effects
 });
 
 export default connect(

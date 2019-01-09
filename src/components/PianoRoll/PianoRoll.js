@@ -13,7 +13,7 @@ import ScrollBarLayer from './ScrollBarLayer';
 const PianoRoll = props => (
     <div 
         className="piano-roll__container" 
-        tabIndex="0" 
+        tabIndex="-1" 
         onKeyDown={props.handleKeyDown}
         style={{outline: 'none'}}
         ref={props.outerContainerRef}

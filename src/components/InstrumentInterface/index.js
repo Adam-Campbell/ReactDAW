@@ -15,10 +15,10 @@ export class InstrumentInterface extends Component {
     constructor(props) {
         super(props);
         this.handleChange = debounce(this.props.updateOneInstrumentSetting, 16, {leading: true, trailing: true}).bind(this);
-        const instrument = this.props.instruments[this.props.instrumentId];
-        this.state = {
-            ...instrument
-        };
+        // const instrument = this.props.instruments[this.props.instrumentId];
+        // this.state = {
+        //     ...instrument
+        // };
     }
 
     get instrumentData() {
@@ -31,47 +31,45 @@ export class InstrumentInterface extends Component {
 
     render() {
 
-        const instrumentType = this.props.instruments[this.props.instrumentId].type;
-
-        switch (instrumentType) {
+        switch (this.props.instrument.type) {
             case instrumentTypes.default:
                 return <Synth 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
 
             case instrumentTypes.am:
                 return <AMSynth 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
 
             case instrumentTypes.fm:
                 return <FMSynth 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
 
             case instrumentTypes.duo:
                 return <DuoSynth 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
 
             case instrumentTypes.mono:
                 return <MonoSynth 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
 
             case instrumentTypes.drumKit:
                 return <DrumKit 
-                    instrumentData={this.instrumentData}
+                    instrumentData={this.props.instrument.instrumentData}
                     instrumentId={this.props.instrumentId}
                     handleChange={this.handleChange}
                 />
@@ -87,8 +85,8 @@ InstrumentInterface.propTypes = {
     instrumentId: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state) => ({
-    instruments: state.instruments
+const mapStateToProps = (state, ownProps) => ({
+    instrument: state.main.present.instruments[ownProps.instrumentId]
 });
 
 export default connect(

@@ -9,7 +9,7 @@ exports[`renders correctly 1`] = `
       "outline": "none",
     }
   }
-  tabIndex="0"
+  tabIndex="-1"
 >
   <ComposerControls
     cursorValue="pointer"

@@ -145,7 +145,9 @@ test('handles LOAD_STATE_SUCCESS', () => {
         type: actionTypes.LOAD_STATE_SUCCESS,
         payload: {
             loadedState: { 
-                effects: effectsState 
+                main: {
+                    effects: effectsState 
+                }
             }
         }
     };

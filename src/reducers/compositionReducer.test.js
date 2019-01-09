@@ -1,38 +1,22 @@
 import * as actionTypes from '../actionTypes';
-import reducer from './playerInfoReducer';
+import reducer from './compositionReducer';
 
 test('returns default state', () => {
     const expectedResult = {
-        volume: 0,
-        bpm: 120
+        saveName: ''
     };
     expect(reducer(undefined, {})).toEqual(expectedResult);
 });
 
-test('handles SET_MASTER_VOLUME', () => {
+test('handles SET_COMPOSITION_SAVE_NAME', () => {
     const action = {
-        type: actionTypes.SET_MASTER_VOLUME,
+        type: actionTypes.SET_COMPOSITION_SAVE_NAME,
         payload: {
-            volume: -10
+            newSaveName: 'New name'
         }
     };
     const expectedResult = {
-        volume: -10,
-        bpm: 120
-    };
-    expect(reducer(undefined, action)).toEqual(expectedResult);
-});
-
-test('handles SET_BPM', () => {
-    const action = {
-        type: actionTypes.SET_BPM,
-        payload: {
-            bpm: 135
-        }
-    };
-    const expectedResult = {
-        volume: 0,
-        bpm: 135
+        saveName: 'New name'
     };
     expect(reducer(undefined, action)).toEqual(expectedResult);
 });
@@ -43,17 +27,25 @@ test('handles LOAD_STATE_SUCCESS', () => {
         payload: {
             loadedState: {
                 main: {
-                    playerInfo: {
-                        volume: -5,
-                        bpm: 130
+                    composition: {
+                        saveName: 'Loaded track'
                     }
                 }
             }
         }
     };
     const expectedResult = {
-        volume: -5,
-        bpm: 130
+        saveName: 'Loaded track'
+    };
+    expect(reducer(undefined, action)).toEqual(expectedResult);
+});
+
+test('handles OPEN_NEW_PROJECT', () => {
+    const action = {
+        type: actionTypes.OPEN_NEW_PROJECT
+    };
+    const expectedResult = {
+        saveName: ''
     };
     expect(reducer(undefined, action)).toEqual(expectedResult);
 });

@@ -3,7 +3,7 @@ import { modalTypes } from '../constants';
 
 const defaultState = {
     modalType: null,
-    modalProps: {}
+    optionalModalProps: {}
 };
 
 const modals = (state=defaultState, action) => {
@@ -12,10 +12,16 @@ const modals = (state=defaultState, action) => {
         case actionTypes.OPEN_MODAL:
             return {
                 modalType: action.payload.modalType,
-                modalProps: action.payload.optionalProps
+                optionalModalProps: action.payload.optionalModalProps
             };
 
         case actionTypes.CLOSE_MODAL:
+            return defaultState;
+
+        case actionTypes.LOAD_STATE_SUCCESS:
+            return defaultState;
+
+        case actionTypes.OPEN_NEW_PROJECT:
             return defaultState;
 
         default:
