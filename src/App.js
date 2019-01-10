@@ -16,6 +16,7 @@ import CustomDragLayer from './components/CustomDragLayer';
 import DragWrapper from './components/DragWrapper';
 import Mixer from './components/Mixer';
 import Modal from './components/Modal';
+import Dial from './components/Dial';
 
 class App extends Component {
   render() {
@@ -23,7 +24,7 @@ class App extends Component {
       <div className="main-container">
         <AudioEngine />
         <Transport />
-        <Composer />
+        <Dial />
         <CustomDragLayer /> 
         {
           this.props.activeWindows.map((window) => {
