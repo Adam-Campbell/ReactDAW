@@ -4,6 +4,7 @@ exports[`renders correctly 1`] = `
 <div
   className="composer__container"
   onKeyDown={[MockFunction]}
+  onKeyUp={[MockFunction]}
   style={
     Object {
       "outline": "none",
@@ -1309,7 +1310,14 @@ exports[`renders correctly 1`] = `
             ]
           }
         />
-        <SectionsLayer
+        <SelectionOverlayEnhancer
+          canvasHeight={320}
+          canvasWidth={9600}
+          childLayerRef={
+            Object {
+              "current": null,
+            }
+          }
           currentlySelectedSections={Array []}
           handleSectionClick={[MockFunction]}
           handleSectionDoubleClick={[MockFunction]}
@@ -1330,7 +1338,10 @@ exports[`renders correctly 1`] = `
               "current": null,
             }
           }
-        />
+          shiftKeyPressed={false}
+        >
+          <Component />
+        </SelectionOverlayEnhancer>
         <TransportLayer
           canvasWidth={9600}
           transportLayerRef={

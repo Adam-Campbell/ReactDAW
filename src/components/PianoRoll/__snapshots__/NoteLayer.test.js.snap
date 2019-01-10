@@ -2,9 +2,18 @@
 
 exports[`renders correctly 1`] = `
 <Layer
+  onMouseDown={[MockFunction]}
+  onMouseMove={[MockFunction]}
+  onMouseUp={[MockFunction]}
   x={48}
   y={40}
 >
+  <Rect
+    height={600}
+    width={650}
+    x={0}
+    y={0}
+  />
   <Rect
     _id="5675315161385905"
     fill="#ed90b9"
@@ -232,6 +241,11 @@ exports[`renders correctly 1`] = `
     width={240}
     x={528}
     y={864}
+  />
+  <Rect
+    cornerRadius={3}
+    fill="#08b5d3"
+    opacity={0.4}
   />
 </Layer>
 `;

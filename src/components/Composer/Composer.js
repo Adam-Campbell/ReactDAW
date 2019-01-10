@@ -9,12 +9,14 @@ import SectionsLayer from './SectionsLayer';
 import TransportLayer from './TransportLayer';
 import SeekerLayer from './SeekerLayer';
 import ScrollBarLayer from './ScrollBarLayer';
+import SelectionOverlayEnhancer from '../SelectionOverlayEnhancer'
 
 const Composer = props => (
     <div 
         className="composer__container"
         tabIndex="-1"
         onKeyDown={props.handleKeyDown}
+        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
     >
         <ComposerControls 
@@ -63,13 +65,19 @@ const Composer = props => (
                         canvasHeight={props.canvasHeight}
                         gridLinesArray={props.gridLinesArray}
                     />
-                    <SectionsLayer 
+                    <SelectionOverlayEnhancer
+                        childLayerRef={props.sectionsLayerRef}
+                        shiftKeyPressed={props.shiftKeyPressed}
                         sectionsLayerRef={props.sectionsLayerRef}
                         sectionRectsArray={props.sectionRectsArray}
                         currentlySelectedSections={props.currentlySelectedSections}
                         handleSectionClick={props.handleSectionClick}
                         handleSectionDoubleClick={props.handleSectionDoubleClick}
-                    />
+                        canvasWidth={props.canvasWidth}
+                        canvasHeight={props.canvasHeight}
+                    >
+                        {props => <SectionsLayer {...props} />}
+                    </SelectionOverlayEnhancer>
                     <TransportLayer 
                         transportLayerRef={props.transportLayerRef}
                         canvasWidth={props.canvasWidth}
@@ -111,11 +119,13 @@ Composer.propTypes = {
     // constructed arrays
     gridLinesArray: PropTypes.arrayOf(PropTypes.array).isRequired,
     sectionRectsArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // input values
+    // values from state
     cursorValue: PropTypes.string.isRequired,
     durationValue: PropTypes.number.isRequired,
+    shiftKeyPressed: PropTypes.bool.isRequired,
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
+    handleKeyUp: PropTypes.func.isRequired,
     updateCursorValue: PropTypes.func.isRequired,
     updateDurationValue: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,

@@ -180,11 +180,31 @@ MISC
 
 - review the tools usage throughout the composer and piano roll components. Does the pencil tool need to be seperate or could it be integrated into the main tool?
 
-- add a visual effect when selecting a range via dragging - a tinted overlay should appear over the area covered by the drag. 
 
 - begin to think about better components for the instrument and effects interfaces. A dial would probably be better than using range inputs. It should also have an accompanying text input where the user can manually type in the new value, and also shift clicking (or alt clicking) the dial should reset it to a default value. To calculate the value will probably involve determining the angle the dial is turned to, via the pythagorean theorem and trigonometric functions. 
 
 - think about ways in which the controls used for the instruments and effects interfaces can be made highly reuseable. Ideally I'd like them to be completely composable, so for each instrument or effect they can be mixed and match depending on the control requirements for that particular instance, with a good degree of control over the layout. 
+
+
+
+
+
+VISIBLE SELECTION OVERLAY
+
+- should be its own layer on the canvas
+
+- needs to know the origin point of the selection and the current end of the selection. We can call those selectionStart and selectionEnd?
+
+- what are the conditions for a selection rect to be rendered? Shift + click enters selection mode?
+
+
+
+- in the components state, have shiftKeyPressed and mouseIsDown properties. shiftKeyPressed is set to true when shift key is pressed, and then set to false again when shift key is released. mouseIsDown is set to true onMouseDown and then set to false onMouseUp.
+
+
+
+- I will need to add incorporate the selection overlay into the notes layer. So I should turn this into a class based component and move over the necessary logic from the selection overlay layer I was previously working on. 
+
 
 
 

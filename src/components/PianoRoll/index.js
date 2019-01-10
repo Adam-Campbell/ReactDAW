@@ -103,12 +103,16 @@ export class PianoRollContainer extends Component {
             duration: '16n',
             mouseDownPosX: 0,
             mouseDownPosY: 0,
+            currentMousePosX: 0,
+            currentMousePosY : 0,
             pencilActive: false,
             stageWidth: 800,
             stageHeight: 600,
             scrollBarActive: false,
             currentlySelectedNotes: [],
             currentlyCopiedNotes: null,
+            shiftKeyPressed: false,
+            mouseIsDown: false
         };
     }
 
@@ -235,10 +239,11 @@ export class PianoRollContainer extends Component {
             this.setState({ scrollBarActive: false });
             return;
         }
+
         // if a note was clicked on just return, the onClick handler already contains all of the
         // logic for that. 
         if (e.target.attrs.type && e.target.attrs.type === 'noteRect') {
-            return;
+            //return;
         }
         // As long as the mouse down event occurred on the main part of the canvas, update mouseDownPosX and
         // mouseDownPosY with values derived from the event. If the event occurred on the transport section
@@ -275,6 +280,15 @@ export class PianoRollContainer extends Component {
         }
     }
 
+    handleMouseMove = e => {
+        if (this.state.mouseIsDown && this.state.shiftKeyPressed) {
+            this.setState({
+                currentMousePosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
+                currentMousePosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y })
+            });
+        }
+    }
+
     /**
      * The main function for handling keyDown events on this component, delegates to other functions
      * as necessary.
@@ -283,6 +297,14 @@ export class PianoRollContainer extends Component {
     handleKeyDown = e => {
         e.preventDefault();
         e.stopPropagation();
+
+        if (e.key === 'Shift') {
+            if (!this.state.shiftKeyPressed) {
+                this.setState({
+                    shiftKeyPressed: true
+                });
+            }
+        }
 
         // handle deletion
         if (e.key === 'Delete') {
@@ -334,6 +356,21 @@ export class PianoRollContainer extends Component {
         // handle clearing selection
         if (e.key === 'd' && e.ctrlKey) {
             this.clearCurrentSelection();
+        }
+
+
+    }
+
+    handleKeyUp = e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (e.key === 'Shift') {
+            if (this.state.shiftKeyPressed) {
+                this.setState({
+                    shiftKeyPressed: false
+                });
+            }
         }
     }
 
@@ -846,6 +883,7 @@ export class PianoRollContainer extends Component {
 
         return <PianoRoll 
             handleKeyDown={this.handleKeyDown}
+            handleKeyUp={this.handleKeyUp}
             outerContainerRef={this.outerContainerRef}
             quantizeValue={this.state.quantize}
             updateQuantizeValue={this.updateQuantizeValue.bind(this)}
@@ -857,6 +895,7 @@ export class PianoRollContainer extends Component {
             handleStageClick={this.handleStageClick}
             handleMouseDown={this.handleMouseDown}
             handleMouseUp={this.handleMouseUp}
+            handleMouseMove={this.handleMouseMove}
             gridLayerRef={this.gridLayerRef}
             canvasWidth={this.canvasWidth}
             canvasHeight={this.canvasHeight}
@@ -882,6 +921,7 @@ export class PianoRollContainer extends Component {
             horizontalDragMove={this.horizontalDragMove}
             verticalDragMove={this.verticalDragMove}
             handleScrollBarClickEvents={this.handleScrollBarClickEvents}
+            shiftKeyPressed={this.state.shiftKeyPressed}
         />
     }
 

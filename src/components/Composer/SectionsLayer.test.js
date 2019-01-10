@@ -40,6 +40,12 @@ test('renders correctly', () => {
             handleSectionDoubleClick={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={[]}
+            canvasHeight={320}
+            canvasWidth={1200}
+            handleMouseDown={jest.fn()}
+            handleMouseUp={jest.fn()}
+            handleMouseMove={jest.fn()}
+            overlayRectRef={React.createRef()}
         />
     );
     expect(component).toMatchSnapshot();
@@ -53,6 +59,12 @@ test('renders selected and unselected sections with different fill colors', () =
             handleSectionDoubleClick={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={[]}
+            canvasHeight={320}
+            canvasWidth={1200}
+            handleMouseDown={jest.fn()}
+            handleMouseUp={jest.fn()}
+            handleMouseMove={jest.fn()}
+            overlayRectRef={React.createRef()}
         />
     );
     const withSelection = shallow(
@@ -62,6 +74,12 @@ test('renders selected and unselected sections with different fill colors', () =
             handleSectionDoubleClick={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={['7009247242625234']}
+            canvasHeight={320}
+            canvasWidth={1200}
+            handleMouseDown={jest.fn()}
+            handleMouseUp={jest.fn()}
+            handleMouseMove={jest.fn()}
+            overlayRectRef={React.createRef()}
         />
     );
     expect(noSelection.find({ sectionId: '7009247242625234' }).props().fill)
