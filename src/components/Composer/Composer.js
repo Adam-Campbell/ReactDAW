@@ -9,6 +9,7 @@ import SectionsLayer from './SectionsLayer';
 import TransportLayer from './TransportLayer';
 import SeekerLayer from './SeekerLayer';
 import ScrollBarLayer from './ScrollBarLayer';
+import SelectionOverlayEnhancer from '../SelectionOverlayEnhancer'
 
 const Composer = props => (
     <div 
@@ -64,7 +65,9 @@ const Composer = props => (
                         canvasHeight={props.canvasHeight}
                         gridLinesArray={props.gridLinesArray}
                     />
-                    <SectionsLayer 
+                    <SelectionOverlayEnhancer
+                        childLayerRef={props.sectionsLayerRef}
+                        shiftKeyPressed={props.shiftKeyPressed}
                         sectionsLayerRef={props.sectionsLayerRef}
                         sectionRectsArray={props.sectionRectsArray}
                         currentlySelectedSections={props.currentlySelectedSections}
@@ -72,8 +75,9 @@ const Composer = props => (
                         handleSectionDoubleClick={props.handleSectionDoubleClick}
                         canvasWidth={props.canvasWidth}
                         canvasHeight={props.canvasHeight}
-                        shiftKeyPressed={props.shiftKeyPressed}
-                    />
+                    >
+                        {props => <SectionsLayer {...props} />}
+                    </SelectionOverlayEnhancer>
                     <TransportLayer 
                         transportLayerRef={props.transportLayerRef}
                         canvasWidth={props.canvasWidth}

@@ -3399,9 +3399,14 @@ exports[`renders correctly 2`] = `
           ]
         }
       />
-      <NoteLayer
+      <SelectionOverlayEnhancer
         canvasHeight={1768}
         canvasWidth={1536}
+        childLayerRef={
+          Object {
+            "current": null,
+          }
+        }
         currentlySelectedNotes={Array []}
         handleNoteClick={[Function]}
         noteLayerRef={
@@ -3411,7 +3416,9 @@ exports[`renders correctly 2`] = `
         }
         sectionNotes={Array []}
         shiftKeyPressed={false}
-      />
+      >
+        <Component />
+      </SelectionOverlayEnhancer>
       <VelocityLayer
         canvasWidth={1536}
         handleVelocityLayerClick={[Function]}

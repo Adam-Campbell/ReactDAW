@@ -1310,9 +1310,14 @@ exports[`renders correctly 1`] = `
             ]
           }
         />
-        <SectionsLayer
+        <SelectionOverlayEnhancer
           canvasHeight={320}
           canvasWidth={9600}
+          childLayerRef={
+            Object {
+              "current": null,
+            }
+          }
           currentlySelectedSections={Array []}
           handleSectionClick={[MockFunction]}
           handleSectionDoubleClick={[MockFunction]}
@@ -1334,7 +1339,9 @@ exports[`renders correctly 1`] = `
             }
           }
           shiftKeyPressed={false}
-        />
+        >
+          <Component />
+        </SelectionOverlayEnhancer>
         <TransportLayer
           canvasWidth={9600}
           transportLayerRef={

@@ -130,12 +130,15 @@ test('renders correctly', () => {
     const component = shallow(
         <NoteLayer 
             noteLayerRef={React.createRef()}
-            handleNoteClick={jest.fn()}
             sectionNotes={notesState}
             currentlySelectedNotes={[]}
+            handleNoteClick={jest.fn()}
             canvasHeight={600}
             canvasWidth={650}
-            shiftKeyPressed={false}
+            handleMouseDown={jest.fn()}
+            handleMouseUp={jest.fn()}
+            handleMouseMove={jest.fn()}
+            overlayRectRef={React.createRef()}
         />
     );
     expect(component).toMatchSnapshot();
@@ -150,7 +153,10 @@ test('renders selected notes with a different fill color', () => {
             currentlySelectedNotes={['5675315161385905']}
             canvasHeight={600}
             canvasWidth={650}
-            shiftKeyPressed={false}
+            handleMouseDown={jest.fn()}
+            handleMouseUp={jest.fn()}
+            handleMouseMove={jest.fn()}
+            overlayRectRef={React.createRef()}
         />
     );
     const selectedNoteWrapper = component.find({ _id: '5675315161385905' });

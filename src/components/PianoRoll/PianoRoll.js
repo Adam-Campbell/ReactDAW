@@ -9,6 +9,7 @@ import PianoKeyLayer from './PianoKeyLayer';
 import TransportLayer from './TransportLayer';
 import SeekerLayer from './SeekerLayer';
 import ScrollBarLayer from './ScrollBarLayer';
+import SelectionOverlayEnhancer from '../SelectionOverlayEnhancer'
 
 const PianoRoll = props => (
     <div 
@@ -45,15 +46,19 @@ const PianoRoll = props => (
                     canvasWidth={props.canvasWidth}
                     gridLinesArray={props.gridLinesArray}
                 />
-                <NoteLayer 
+                
+                <SelectionOverlayEnhancer
+                    childLayerRef={props.noteLayerRef}
+                    shiftKeyPressed={props.shiftKeyPressed}
                     noteLayerRef={props.noteLayerRef}
                     sectionNotes={props.section.notes}
                     currentlySelectedNotes={props.currentlySelectedNotes}
                     handleNoteClick={props.handleNoteClick}
                     canvasWidth={props.canvasWidth}
                     canvasHeight={props.canvasHeight}
-                    shiftKeyPressed={props.shiftKeyPressed}
-                />
+                >
+                    {props => <NoteLayer {...props} />}
+                </SelectionOverlayEnhancer>
                 <VelocityLayer 
                     stageHeight={props.stageHeight}
                     velocityLayerRef={props.velocityLayerRef}

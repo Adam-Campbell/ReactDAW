@@ -180,7 +180,6 @@ MISC
 
 - review the tools usage throughout the composer and piano roll components. Does the pencil tool need to be seperate or could it be integrated into the main tool?
 
-- add a visual effect when selecting a range via dragging - a tinted overlay should appear over the area covered by the drag. 
 
 - begin to think about better components for the instrument and effects interfaces. A dial would probably be better than using range inputs. It should also have an accompanying text input where the user can manually type in the new value, and also shift clicking (or alt clicking) the dial should reset it to a default value. To calculate the value will probably involve determining the angle the dial is turned to, via the pythagorean theorem and trigonometric functions. 
 

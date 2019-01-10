@@ -2,9 +2,9 @@
 
 exports[`renders correctly 1`] = `
 <Layer
-  onMouseDown={[Function]}
-  onMouseMove={[Function]}
-  onMouseUp={[Function]}
+  onMouseDown={[MockFunction]}
+  onMouseMove={[MockFunction]}
+  onMouseUp={[MockFunction]}
   x={48}
   y={40}
 >
