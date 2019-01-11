@@ -44,12 +44,7 @@ export const calculateAngleRelativeToPositiveXAxis = (optionsObject) => {
     const deltaX = eventX - midX;
     const deltaY = midY - eventY;
     const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-    //console.log(angle);
-    return angle;
-    //return angle < 0 ? 360 + angle : angle;
-}
-
-export const convertTo360 = (angle) => {
+    //return angle;
     return angle < 0 ? 360 + angle : angle;
 }
 
@@ -60,7 +55,7 @@ export const convertTo360 = (angle) => {
  * @param {number} range - the distance covered by the range
  * @returns {object} - and object with start and end degrees for the range.
  */
-export const getStartAndEnd = (optionsObject) => {
+function getStartAndEnd(optionsObject) {
     const { start, range } = optionsObject;
     const end = start - range >= 0 ?
                 start - range :
@@ -80,7 +75,7 @@ export const getStartAndEnd = (optionsObject) => {
  * @returns {object} - an object with the adjusted start and end degrees, and also the diff - that is, the
  * amount that the degrees had to be altered by. 
  */
-export const getAdjustedStartAndEnd = (optionsObject) => {
+function getAdjustedStartAndEnd(optionsObject) {
     const { start, end } = optionsObject;
     const adjustedStart = start - end >= 0 ?
   	                      start - end :
@@ -99,7 +94,7 @@ export const getAdjustedStartAndEnd = (optionsObject) => {
  * @param {number} diff - the diff to alter the degree by
  * @returns {number} - the altered degree
  */
-export const adjustDegree = (optionsObject) => {
+function adjustDegree(optionsObject) {
     const { degree, diff } = optionsObject
     return degree - diff >= 0 ?
   		   degree - diff :
@@ -107,16 +102,73 @@ export const adjustDegree = (optionsObject) => {
 };
 
 
-export const checkIfAngleAllowed = (optionsObject) => {
-    const {
-        angleToCheck,
-        startOfRange,
-        rangeDistance
-    } = optionsObject;
-    if (rangeDistance === 360) return true;
+function adjustFigures(angle, startOffset, range) {
     const { start, end, diff } = getAdjustedStartAndEnd(
-        getStartAndEnd({ start: startOfRange, range: rangeDistance })
+        getStartAndEnd({ start: startOffset, range })
     );
-    const adjustedAngle = adjustDegree({ degree: angleToCheck, diff });
-    return adjustedAngle <= start && adjustedAngle >= end;
+    const adjustedAngle = adjustDegree({ degree: angle, diff });
+    return {
+        adjustedStart: start,
+        adjustedEnd: end,
+        adjustedAngle
+    }
 };
+
+export const checkIfAngleAllowed = (angle, startOffset, range) => {
+    if (range === 360) return true;
+    const {
+        adjustedStart, 
+        adjustedEnd,
+        adjustedAngle
+    } = adjustFigures(angle, startOffset, range);
+    return adjustedAngle <= adjustedStart && adjustedAngle >= adjustedEnd;
+}
+
+export const getProgressWithinRangeAsDecimal = (angle, startOffset, range) => {
+    const {
+        adjustedStart, 
+        adjustedEnd,
+        adjustedAngle
+    } = adjustFigures(angle, startOffset, range);
+    return (adjustedStart - adjustedAngle) / adjustedStart;
+}
+
+export const mapProgressDecimalToDataRange = (progressDecimal, dataMin, dataMax) => {
+    const dataRange = dataMax - dataMin;
+    return dataMin + (dataRange * progressDecimal);
+}
+
+export const convertIncomingValueToDialPosition = (optionsObject) => {
+    const {
+        value,
+        dataMin,
+        dataMax,
+        dialRangeOffset,
+        dialRange
+    } = optionsObject;
+    const dataRange = dataMax - dataMin;
+    const valueAsDecimal = value / dataRange;
+
+    const progressWithinDialRange = dialRange * valueAsDecimal;
+    const dialPosition = dialRangeOffset - progressWithinDialRange >= 0 ?
+                         dialRangeOffset - progressWithinDialRange :
+                         360 + (dialRangeOffset - progressWithinDialRange);
+    return dialPosition;
+}
+
+/*
+
+Break the outgoing process down into stages:
+
+1. Use the event details to determine the raw angle.
+
+2. Ensure that the angle is within the accepted range, as specified by props.
+
+3. Convert its position within the range to a decimal. 
+
+4. Map that decimal to a point within the data range. 
+
+5. Dispatch action / call callback func with new value.
+
+
+*/

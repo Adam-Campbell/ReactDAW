@@ -14,6 +14,7 @@ import undoable, {
     groupByActionTypes 
 } from 'redux-undo';
 import { updateEffectSettings } from '../actions/index';
+import dial from './dialReducer';
 
 const customGroupingLogic = (action, currentState, previousHistory) => {
     /*
@@ -103,6 +104,7 @@ const main = undoable(
 const combinedState = combineReducers({
     playerStatus,
     activeWindows, 
+    dial,
     main
 });
 

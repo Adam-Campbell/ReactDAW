@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as ActionCreators from '../../actions';
 import {
     calculateMidPointOfElement,
     calculateAngleRelativeToPositiveXAxis,
-    convertTo360,
-    getStartAndEnd,
-    getAdjustedStartAndEnd,
-    adjustDegree,
-    checkIfAngleAllowed
+    checkIfAngleAllowed,
+    getProgressWithinRangeAsDecimal,
+    mapProgressDecimalToDataRange,
+    convertIncomingValueToDialPosition
 } from './DialUtils';
 import { throttle } from 'lodash';
 
@@ -46,15 +47,26 @@ range - the range of motion in degrees.
 
 Solely based off of the startOffset and range values, I need to calculate the allowed values. 
 
+Needs to be controlled, so it  needs to accept a value, and also an onChange callback
+
 */
 
 
 
 class Dial extends Component {
 
+    // doesn't work when visualRange is 360, investigate why
     static defaultProps = {
         startOffset: 225,
-        range: 270
+        dialRange: 270,
+        dataMin: 0,
+        dataMax: 100,
+        value: 0
+    }
+
+    static propTypes = {
+        value: PropTypes.number,
+        handleChange: PropTypes.func
     }
 
     constructor(props) {
@@ -100,14 +112,28 @@ class Dial extends Component {
             let event = e.hasOwnProperty('touches') ?
                     e.touches[0] :
                     e;
+            const sanitisedDialRange = this.props.dialRange > 359 && this.props.dialRange <= 360 ?
+                                       359.99999 :
+                                       this.props.dialRange;
+            console.log(sanitisedDialRange);
             const relativeAngle = this.calculateAngle(event);
-            const isAllowed = checkIfAngleAllowed({
-                angleToCheck: relativeAngle,
-                startOfRange: this.props.startOffset,
-                rangeDistance: this.props.range
-            });
+            const isAllowed = checkIfAngleAllowed(
+                relativeAngle,
+                this.props.startOffset,
+                sanitisedDialRange
+            );
             if (isAllowed) {
-                this.setState({ relativeAngle });
+                const progressDecimal = getProgressWithinRangeAsDecimal(
+                    relativeAngle,
+                    this.props.startOffset,
+                    sanitisedDialRange
+                );
+                const locationInDataRange = mapProgressDecimalToDataRange(
+                    progressDecimal, 
+                    this.props.dataMin,
+                    this.props.dataMax
+                );
+                this.props.updateDial(locationInDataRange);
             }
         }
     }
@@ -120,18 +146,24 @@ class Dial extends Component {
         const { midX, midY } = calculateMidPointOfElement(
             this.dialRef.current.getBoundingClientRect()
         );
-        const relativeAngleAs180 = calculateAngleRelativeToPositiveXAxis({
+        const relativeAngle = calculateAngleRelativeToPositiveXAxis({
             eventX: clientX,
             eventY: clientY,
             midX,
             midY
         });
-        const relativeAngleAs360 = convertTo360(relativeAngleAs180);
-        return relativeAngleAs360;
+        return relativeAngle;
     }
 
     transformAngle = (relativeAngle) => {
-        return -relativeAngle;
+        const rawAngle = convertIncomingValueToDialPosition({
+            value: this.props.value,
+            dataMin: this.props.dataMin,
+            dataMax: this.props.dataMax,
+            dialRangeOffset: this.props.startOffset,
+            dialRange: this.props.dialRange
+        });
+        return -rawAngle;
     }
 
     render() {
@@ -166,8 +198,13 @@ class Dial extends Component {
     }
 }
 
-Dial.propTypes = {
+const mapStateToProps = state => ({
+    value: state.dial.value
+});
 
-}
-
-export default Dial;
+export default connect(
+    mapStateToProps,
+    { 
+        updateDial: ActionCreators.updateDial
+    }
+)(Dial);
