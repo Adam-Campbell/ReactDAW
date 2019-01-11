@@ -43,6 +43,65 @@ export const calculateAngleRelativeToPositiveXAxis = (optionsObject) => {
     } = optionsObject;
     const deltaX = eventX - midX;
     const deltaY = midY - eventY;
-    return Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    //console.log(angle);
+    return angle;
+    //return angle < 0 ? 360 + angle : angle;
 }
 
+export const convertTo360 = (angle) => {
+    return angle < 0 ? 360 + angle : angle;
+}
+
+/**
+ * Takes the starting degree of the sliders range, and the total degrees covered by the range, and returns
+ * an object with start and end degrees of the range. 
+ * @param {number} start - the starting degree of the sliders range
+ * @param {number} range - the distance covered by the range
+ * @returns {object} - and object with start and end degrees for the range.
+ */
+export const getStartAndEnd = (optionsObject) => {
+    const { start, range } = optionsObject;
+    const end = start - range >= 0 ?
+                start - range :
+                360 + (start - range);
+    return {
+  	    start,
+        end
+    };
+}
+
+/**
+ * Given the start and end degrees of a range, adjust it so that the end is 0, and the start is some degree
+ * between 0 and 360 such that the distance between the start and end is the same as it was before the 
+ * adjustment took place. 
+ * @param {number} start - the starting degree of the range
+ * @param {number} end - the ending degree of the range
+ * @returns {object} - an object with the adjusted start and end degrees, and also the diff - that is, the
+ * amount that the degrees had to be altered by. 
+ */
+export const getAdjustedStartAndEnd = (optionsObject) => {
+    const { start, end } = optionsObject;
+    const adjustedStart = start - end >= 0 ?
+  	                      start - end :
+                          360 + (start - end);
+    return {
+  	    start: adjustedStart,
+        end: 0,
+        diff: end
+    };
+}
+
+/**
+ * Takes a degree subtracts a diff from it. If this results in a figure less than 0 it carries on descending 
+ * from 360 instead. 
+ * @param {number} degree - the degree to be altered
+ * @param {number} diff - the diff to alter the degree by
+ * @returns {number} - the altered degree
+ */
+export const adjustDegree = (optionsObject) => {
+    const { degree, diff } = optionsObject
+    return degree - diff >= 0 ?
+  		   degree - diff :
+           360 + (degree - diff);
+};
