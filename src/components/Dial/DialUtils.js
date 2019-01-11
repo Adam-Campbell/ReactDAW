@@ -105,3 +105,18 @@ export const adjustDegree = (optionsObject) => {
   		   degree - diff :
            360 + (degree - diff);
 };
+
+
+export const checkIfAngleAllowed = (optionsObject) => {
+    const {
+        angleToCheck,
+        startOfRange,
+        rangeDistance
+    } = optionsObject;
+    if (rangeDistance === 360) return true;
+    const { start, end, diff } = getAdjustedStartAndEnd(
+        getStartAndEnd({ start: startOfRange, range: rangeDistance })
+    );
+    const adjustedAngle = adjustDegree({ degree: angleToCheck, diff });
+    return adjustedAngle <= start && adjustedAngle >= end;
+};

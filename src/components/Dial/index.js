@@ -6,7 +6,8 @@ import {
     convertTo360,
     getStartAndEnd,
     getAdjustedStartAndEnd,
-    adjustDegree
+    adjustDegree,
+    checkIfAngleAllowed
 } from './DialUtils';
 import { throttle } from 'lodash';
 
@@ -52,26 +53,18 @@ Solely based off of the startOffset and range values, I need to calculate the al
 class Dial extends Component {
 
     static defaultProps = {
-        relativeAngle: 0,
-        upperBound: null,
-        lowerBound: null
+        startOffset: 225,
+        range: 270
     }
 
     constructor(props) {
         super(props);
         this.dialRef = React.createRef();
         this.throttledUpdateInteraction = throttle(this.updateInteraction, 16).bind(this);
-        const startOffset = 270;
-        const range = 90;
         this.state = {
             tempInternalValue: 25,
             dragInProgress: false,
-            dragStartPosX: null,
-            dragStartPosY: null,
-            relativeAngle: startOffset,
-            upperBound: startOffset,
-            lowerBound: startOffset - range,
-            range: range
+            relativeAngle: this.props.startOffset,
         };
     }
 
@@ -81,30 +74,37 @@ class Dial extends Component {
         });
     }
 
+    /**
+     * Began an interaction with the dial, either through a touch event or a mouse event.
+     */
     startInteraction = (e) => {
         this.setState({
             dragInProgress: true
         });
     }
 
+    /**
+     * End an interaction with the dial, either through a touch event or a mouse event.
+     */
     endInteraction = (e) => {
         this.setState({
             dragInProgress: false
         });
     }
 
+    /**
+     * Update the current interaction, responds to mouse and touch events.
+     */
     updateInteraction = (e) => {
         if (this.state.dragInProgress) {
             let event = e.hasOwnProperty('touches') ?
                     e.touches[0] :
                     e;
             const relativeAngle = this.calculateAngle(event);
-            //console.log(this.state.range - relativeAngle);
-            //console.log(relativeAngle)
-            const isAllowed = this.checkIfAllowed({
+            const isAllowed = checkIfAngleAllowed({
                 angleToCheck: relativeAngle,
-                startOfRange: this.state.upperBound,
-                rangeDistance: this.state.range
+                startOfRange: this.props.startOffset,
+                rangeDistance: this.props.range
             });
             if (isAllowed) {
                 this.setState({ relativeAngle });
@@ -112,6 +112,9 @@ class Dial extends Component {
         }
     }
 
+    /**
+     * Calculate an angle based on the event object from the most recent interaction update.
+     */
     calculateAngle = (e) => {
         const { clientX, clientY } = e;
         const { midX, midY } = calculateMidPointOfElement(
@@ -124,32 +127,13 @@ class Dial extends Component {
             midY
         });
         const relativeAngleAs360 = convertTo360(relativeAngleAs180);
-        const { upperBound, lowerBound } = this.state;
-        //return Math.min(Math.max(relativeAngleAs360, lowerBound), upperBound);
         return relativeAngleAs360;
     }
 
     transformAngle = (relativeAngle) => {
-        //return this.state.range - relativeAngle;
-        //return 180 - relativeAngle;
         return -relativeAngle;
     }
 
-    checkIfAllowed = (optionsObject) => {
-        const {
-            angleToCheck,
-            startOfRange,
-            rangeDistance
-        } = optionsObject;
-        if (rangeDistance === 360) return true;
-        const { start, end, diff } = getAdjustedStartAndEnd(
-            getStartAndEnd({ start: startOfRange, range: rangeDistance })
-        );
-        //console.log(start, end, diff);
-        const adjustedAngle = adjustDegree({ degree: angleToCheck, diff });
-        return adjustedAngle <= start && adjustedAngle >= end;
-
-    };
     render() {
         return (
             <div 
