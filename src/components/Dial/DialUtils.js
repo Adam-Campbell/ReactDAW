@@ -1,119 +1,73 @@
 /**
- * Calculate the midpoint of a DOM element, based off of its x (left) and y (top) positions, and its width
- * and height. The names used within the function are the same as the names provided by getBoundingClientRect, 
- * so you can either pass in a manually constructed object with these properties, or simply pass in the result
- * of calling getBoundingClientRect on the element. 
- * @param {number} top - the top offset of the element
- * @param {number} left - the left offset of the element
- * @param {number} width - the width of the element
- * @param {number} height - the height of the element
- * @returns {object} - an object with midX and midY properties, describing the x and y coords of the midpoint of
- * the element.
+ * Calculate an angle based off of the x and y coords of the midpoint of the dial and the x and y coords
+ * of an event. 
+ * @param {Object} optionsObject 
+ * @param {Number} optionsObject.clientX - the x coord of the event that fired
+ * @param {Number} optionsObject.clientY - the y coord of the event that fired
+ * @param {Object} optionsObject.dialNodeRect - the bounding client rect of the dial node in the DOM.
+ * @returns {Number} - the calculated angle.
  */
-export const calculateMidPointOfElement = (optionsObject) => {
+export const calculateAngle = (optionsObject) => {
     const {
-        top,
-        left,
-        width,
-        height
+        clientX, 
+        clientY, 
+        dialNodeRect
     } = optionsObject;
+    // Destructure the boundingClientRect to get the necessary properties.
+    const { top, left, width, height } = dialNodeRect;
+    // Use the client rect informatin to determine x and y coords for midpoint of dial node.
     const midX = left + (width/2);
     const midY = top + (height/2);
-    return {
-        midX,
-        midY
-    };
+    // Determine the length of opposite and adjacent sides and use inverse tan to determine the angle,
+    // convert from radians to degrees.
+    const deltaX = clientX - midX;
+    const deltaY = midY - clientY;
+    const angleAs180 = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    // Math.atan2 only uses 180deg, both negative and positive. Convert this into standard 360 degrees and
+    // return the result.
+    const angleAs360 = angleAs180 < 0 ? 360 + angleAs180 : angleAs180;
+    return angleAs360;
+}
+
+/**
+ * Subtracts subtrahend from minuend, but constrains result of the subtraction to the 0 - 360 range. If the
+ * subtraction operation results in a figure less than 0, instead of becoming negative it starts subtracting 
+ * from 360 instead. So subtracting 70 from 60 will give a result of 350.
+ * @param {number} minuend - the number being subtracted from
+ * @param {number} subtrahend - the number that is being subtracted
+ * @returns {number} - the result of subtracting subtrahend from minuend and constraining to the 0-360 range.
+ */
+export const subtractWith360Constraint = (minuend, subtrahend) => {
+    return minuend - subtrahend >= 0 ?
+           minuend - subtrahend :
+           360 + (minuend - subtrahend);
 };
 
 /**
- * Given the coordinates of the midpoint of an element, and the coordinates of some event, works out the angle
- * of the point described by the event coordinates, in relation to the positive x axis. 
- * @param {number} eventX - the x coord of the event
- * @param {number} eventY - the y coord of the event
- * @param {number} midX - the x coord of the midpoint of the dial element
- * @param {number} midY - the y coord of the midpoint of the dial element
- * @returns {number} - an angle relative to the positive x axis. 
+ * Takes the dials current angle, its start offset and its range, and adjusts them such that the end of the 
+ * dials range is 0 (the positive x axis), the start of the dials range is some positive number > 0 && < 360,
+ * and the dials angle is adjusted such that it remains the same in proportion to the new adjusted range.
+ * @param {Number} angle - the current dial angle 
+ * @param {Number} startOffset - the dials start offset
+ * @param {Number} range - the dials total range
  */
-export const calculateAngleRelativeToPositiveXAxis = (optionsObject) => {
-    const {
-        eventX,
-        eventY,
-        midX,
-        midY
-    } = optionsObject;
-    const deltaX = eventX - midX;
-    const deltaY = midY - eventY;
-    const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-    //return angle;
-    return angle < 0 ? 360 + angle : angle;
-}
-
-/**
- * Takes the starting degree of the sliders range, and the total degrees covered by the range, and returns
- * an object with start and end degrees of the range. 
- * @param {number} start - the starting degree of the sliders range
- * @param {number} range - the distance covered by the range
- * @returns {object} - and object with start and end degrees for the range.
- */
-function getStartAndEnd(optionsObject) {
-    const { start, range } = optionsObject;
-    const end = start - range >= 0 ?
-                start - range :
-                360 + (start - range);
+export const adjustFigures = (angle, startOffset, range) => {
+    const end = subtractWith360Constraint(startOffset, range);
+    const adjustedStartOffset = subtractWith360Constraint(startOffset, end);
+    const adjustedAngle = subtractWith360Constraint(angle, end);
     return {
-  	    start,
-        end
-    };
-}
-
-/**
- * Given the start and end degrees of a range, adjust it so that the end is 0, and the start is some degree
- * between 0 and 360 such that the distance between the start and end is the same as it was before the 
- * adjustment took place. 
- * @param {number} start - the starting degree of the range
- * @param {number} end - the ending degree of the range
- * @returns {object} - an object with the adjusted start and end degrees, and also the diff - that is, the
- * amount that the degrees had to be altered by. 
- */
-function getAdjustedStartAndEnd(optionsObject) {
-    const { start, end } = optionsObject;
-    const adjustedStart = start - end >= 0 ?
-  	                      start - end :
-                          360 + (start - end);
-    return {
-  	    start: adjustedStart,
-        end: 0,
-        diff: end
-    };
-}
-
-/**
- * Takes a degree subtracts a diff from it. If this results in a figure less than 0 it carries on descending 
- * from 360 instead. 
- * @param {number} degree - the degree to be altered
- * @param {number} diff - the diff to alter the degree by
- * @returns {number} - the altered degree
- */
-function adjustDegree(optionsObject) {
-    const { degree, diff } = optionsObject
-    return degree - diff >= 0 ?
-  		   degree - diff :
-           360 + (degree - diff);
-};
-
-
-function adjustFigures(angle, startOffset, range) {
-    const { start, end, diff } = getAdjustedStartAndEnd(
-        getStartAndEnd({ start: startOffset, range })
-    );
-    const adjustedAngle = adjustDegree({ degree: angle, diff });
-    return {
-        adjustedStart: start,
-        adjustedEnd: end,
+        adjustedStart: adjustedStartOffset,
+        adjustedEnd: 0,
         adjustedAngle
-    }
+    };
 };
 
+/**
+ * Returns true if the supplied angle falls within the allowed range of the dial, else returns false.
+ * @param {Number} angle - the dials angle
+ * @param {Number} startOffset - the start offset
+ * @param {Number} range - the dials total range
+ */
 export const checkIfAngleAllowed = (angle, startOffset, range) => {
     if (range === 360) return true;
     const {
@@ -124,51 +78,64 @@ export const checkIfAngleAllowed = (angle, startOffset, range) => {
     return adjustedAngle <= adjustedStart && adjustedAngle >= adjustedEnd;
 }
 
-export const getProgressWithinRangeAsDecimal = (angle, startOffset, range) => {
-    const {
+/**
+ * Takes the current angle of the dial, and maps that to a point within the data range controlled by the 
+ * dial.
+ * @param {Object} optionsObject 
+ * @param {Number} optionsObject.dialAngle - the current angle of the dial.
+ * @param {Number} optionsObject.dialStartOffset - the start offset of the dial.
+ * @param {Number} optionsObject.dialRange - the total range of allowed movement for the dial.
+ * @param {Number} optionsObject.dataMin - the minimum value in the data range controlled by the dial.
+ * @param {Number} optionsObject.dataMax - the maximum value in the data range controlled by the dial.
+ */
+export const mapAngleToPointInDataRange = (optionsObject) => {
+    const { 
+        dialAngle, 
+        dialStartOffset, 
+        dialRange, 
+        dataMin, 
+        dataMax 
+    } = optionsObject;
+    const { 
         adjustedStart, 
-        adjustedEnd,
-        adjustedAngle
-    } = adjustFigures(angle, startOffset, range);
-    return (adjustedStart - adjustedAngle) / adjustedStart;
-}
-
-export const mapProgressDecimalToDataRange = (progressDecimal, dataMin, dataMax) => {
+        adjustedEnd, 
+        adjustedAngle 
+    } = adjustFigures(dialAngle, dialStartOffset, dialRange);
+    // Convert the dials angle to a decimal representing its location within the dials range.
+    const dialProgressDecimal = (adjustedStart - adjustedAngle) / adjustedStart;
+    // Determine the data range.
     const dataRange = dataMax - dataMin;
-    return dataMin + (dataRange * progressDecimal);
-}
+    // Map the decimal value to a point within the data range.
+    return dataMin + (dataRange * dialProgressDecimal);
+};
 
+/**
+ * Takes an incoming value and converts it into a position for the dial to render. 
+ * @param {Object} optionsObject 
+ * @param {Number} optionsObject.value - current value of the datapoint that the dial controls.
+ * @param {Number} optionsObject.dataMin - the minimum value of the datarange
+ * @param {Number} optionsObject.dataMax - the maximum value of the datarange
+ * @param {Number} optionsObject.dialStartOffset - the offset value for the start of the dial controls range
+ * of movement.
+ * @param {Number} optionsObject.dialRange - the dial controls range of movement
+ * @returns {Number} - a new position for the dial to be rendered at. 
+ */
 export const convertIncomingValueToDialPosition = (optionsObject) => {
     const {
         value,
         dataMin,
         dataMax,
-        dialRangeOffset,
+        dialStartOffset,
         dialRange
     } = optionsObject;
+
+    // Derive data range from the max and min points, and get values position within that range
+    // as a decimal.
     const dataRange = dataMax - dataMin;
     const valueAsDecimal = value / dataRange;
-
+    // Map the decimal value to a point within the dials range, and using the dials start offset, 
+    // determine the correct position for the dial.
     const progressWithinDialRange = dialRange * valueAsDecimal;
-    const dialPosition = dialRangeOffset - progressWithinDialRange >= 0 ?
-                         dialRangeOffset - progressWithinDialRange :
-                         360 + (dialRangeOffset - progressWithinDialRange);
+    const dialPosition = subtractWith360Constraint(dialStartOffset, progressWithinDialRange);
     return dialPosition;
-}
-
-/*
-
-Break the outgoing process down into stages:
-
-1. Use the event details to determine the raw angle.
-
-2. Ensure that the angle is within the accepted range, as specified by props.
-
-3. Convert its position within the range to a decimal. 
-
-4. Map that decimal to a point within the data range. 
-
-5. Dispatch action / call callback func with new value.
-
-
-*/
+};

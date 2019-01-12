@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import {
-    calculateMidPointOfElement,
-    calculateAngleRelativeToPositiveXAxis,
+    calculateAngle,
     checkIfAngleAllowed,
-    getProgressWithinRangeAsDecimal,
-    mapProgressDecimalToDataRange,
+    mapAngleToPointInDataRange,
     convertIncomingValueToDialPosition
 } from './DialUtils';
 import { throttle } from 'lodash';
@@ -74,16 +72,8 @@ class Dial extends Component {
         this.dialRef = React.createRef();
         this.throttledUpdateInteraction = throttle(this.updateInteraction, 16).bind(this);
         this.state = {
-            tempInternalValue: 25,
-            dragInProgress: false,
-            relativeAngle: this.props.startOffset,
+            interactionInProgress: false
         };
-    }
-
-    tempCallback  = (newValue) => {
-        this.setState({
-            tempInternalValue: newValue
-        });
     }
 
     /**
@@ -91,7 +81,7 @@ class Dial extends Component {
      */
     startInteraction = (e) => {
         this.setState({
-            dragInProgress: true
+            interactionInProgress: true
         });
     }
 
@@ -100,7 +90,7 @@ class Dial extends Component {
      */
     endInteraction = (e) => {
         this.setState({
-            dragInProgress: false
+            interactionInProgress: false
         });
     }
 
@@ -108,59 +98,42 @@ class Dial extends Component {
      * Update the current interaction, responds to mouse and touch events.
      */
     updateInteraction = (e) => {
-        if (this.state.dragInProgress) {
-            let event = e.hasOwnProperty('touches') ?
-                    e.touches[0] :
-                    e;
+        if (this.state.interactionInProgress) {
+            let event = e.hasOwnProperty('touches') ? e.touches[0] : e;
             const sanitisedDialRange = this.props.dialRange > 359 && this.props.dialRange <= 360 ?
                                        359.99999 :
                                        this.props.dialRange;
-            console.log(sanitisedDialRange);
-            const relativeAngle = this.calculateAngle(event);
+            const { clientX, clientY } = event;
+            const dialNodeRect = this.dialRef.current.getBoundingClientRect();
+            const newDialAngle = calculateAngle({
+                clientX,
+                clientY,
+                dialNodeRect
+            });
             const isAllowed = checkIfAngleAllowed(
-                relativeAngle,
+                newDialAngle,
                 this.props.startOffset,
                 sanitisedDialRange
             );
             if (isAllowed) {
-                const progressDecimal = getProgressWithinRangeAsDecimal(
-                    relativeAngle,
-                    this.props.startOffset,
-                    sanitisedDialRange
-                );
-                const locationInDataRange = mapProgressDecimalToDataRange(
-                    progressDecimal, 
-                    this.props.dataMin,
-                    this.props.dataMax
-                );
-                this.props.updateDial(locationInDataRange);
+                const newDataValue = mapAngleToPointInDataRange({
+                    dialAngle: newDialAngle,
+                    dialStartOffset: this.props.startOffset,
+                    dialRange: sanitisedDialRange,
+                    dataMin: this.props.dataMin,
+                    dataMax: this.props.dataMax
+                });
+                this.props.updateDial(newDataValue);
             }
         }
     }
 
-    /**
-     * Calculate an angle based on the event object from the most recent interaction update.
-     */
-    calculateAngle = (e) => {
-        const { clientX, clientY } = e;
-        const { midX, midY } = calculateMidPointOfElement(
-            this.dialRef.current.getBoundingClientRect()
-        );
-        const relativeAngle = calculateAngleRelativeToPositiveXAxis({
-            eventX: clientX,
-            eventY: clientY,
-            midX,
-            midY
-        });
-        return relativeAngle;
-    }
-
-    transformAngle = (relativeAngle) => {
+    transformAngle = () => {
         const rawAngle = convertIncomingValueToDialPosition({
             value: this.props.value,
             dataMin: this.props.dataMin,
             dataMax: this.props.dataMax,
-            dialRangeOffset: this.props.startOffset,
+            dialStartOffset: this.props.startOffset,
             dialRange: this.props.dialRange
         });
         return -rawAngle;
@@ -188,7 +161,7 @@ class Dial extends Component {
                     className="dial" 
                     ref={this.dialRef}
                     style={{
-                        transform: `rotate(${this.transformAngle(this.state.relativeAngle)}deg)`
+                        transform: `rotate(${this.transformAngle()}deg)`
                     }}
                 >
                     <span className="dial__marker"></span>
