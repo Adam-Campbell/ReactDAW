@@ -3,6 +3,7 @@ import 'normalize.css';
 import './App.css';
 import './scss/style.scss';
 import { connect } from 'react-redux';
+import * as ActionCreators from './actions';
 import PianoRoll from './components/PianoRoll';
 import AudioEngine from './components/AudioEngine';
 import Composer from './components/Composer';
@@ -17,14 +18,31 @@ import DragWrapper from './components/DragWrapper';
 import Mixer from './components/Mixer';
 import Modal from './components/Modal';
 import Dial from './components/Dial';
+import ExampleConsumer from './components/Dial/ExampleConsumer';
+import { throttle } from 'lodash';
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.throttledUpdateDial = throttle(this.props.updateDial, 16).bind(this);
+  }
+
   render() {
     return (
       <div className="main-container">
         <AudioEngine />
         <Transport />
-        <Dial />
+        <Dial
+          updateValue={this.throttledUpdateDial}
+          dataMin={0}
+          dataMax={300}
+          stepSize={0.25}
+          startOffset={180}
+          dialRange={180}
+        >
+          {(props) => <ExampleConsumer {...props} />}
+        </Dial>
         <CustomDragLayer /> 
         {
           this.props.activeWindows.map((window) => {
@@ -66,9 +84,15 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  activeWindows: state.activeWindows
+  activeWindows: state.activeWindows,
+  dialValue: state.dial.value
 });
 
 const withDnD = DragDropContext(HTML5Backend)(App);
 
-export default connect(mapStateToProps)(withDnD);
+export default connect(
+  mapStateToProps,
+  { 
+    updateDial: ActionCreators.updateDial
+  }
+)(withDnD);

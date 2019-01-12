@@ -139,3 +139,24 @@ export const convertIncomingValueToDialPosition = (optionsObject) => {
     const dialPosition = subtractWith360Constraint(dialStartOffset, progressWithinDialRange);
     return dialPosition;
 };
+
+/**
+ * Takes a value and 'snaps' it to steps of a specified size.
+ * @param {Object} optionsObject 
+ * @param {Number} optionsObject.value - the value to adjust.
+ * @param {Number} optionsObject.stepSize - the size of the steps to snap the value to.
+ * @param {Number} optionsObject.dataMin - the minimum value of the data range controlled by the dial.
+ * @param {Number} optionsObject.dataMax - the maximum value of the data range controlled by the dial.
+ * @returns {Number} - the adjusted value.
+ */
+export const snapValueToSteps = (optionsObject) => {
+    const { 
+        value, 
+        stepSize, 
+        dataMin, 
+        dataMax
+     } = optionsObject;
+     const numberOfSteps = Math.round(value / stepSize);
+     const adjustedValue = stepSize * numberOfSteps;
+     return Math.max(Math.min(dataMax, adjustedValue), dataMin);
+};
