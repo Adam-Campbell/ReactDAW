@@ -2,32 +2,61 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EnhancedSelectInput from '../EnhancedSelectInput';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const OscillatorModule = props => (
-    <div className="instrument-interface__module-container">
+    <div className="instrument-interface__module-container instrument-interface__module-container--horizontal">
         <h2 className="instrument-interface__module-heading">Oscillator</h2>
-        <EnhancedRangeInput 
-            inputId={'oscillator-detune'}
-            label={'Detune'}
-            min={-100}
-            max={100}
-            step={1}
+        <Dial
+            dataMin={-100}
+            dataMax={100}
+            stepSize={0.25}
+            snapToStep={true}
             value={props.oscillatorData.detune}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'oscillator', 'detune']}
-        />
-        <EnhancedRangeInput 
-            inputId={'oscillator-phase'}
-            label={'Phase'}
-            min={0}
-            max={360}
-            step={1}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'oscillator', 'detune'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Detune" />}
+        </Dial>
+        <Dial
+            dataMin={0}
+            dataMax={360}
+            stepSize={0.25}
+            snapToStep={true}
             value={props.oscillatorData.phase}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'oscillator', 'phase']}
-        />
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'oscillator', 'phase'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Phase" />}
+        </Dial>
+        <Dial
+            dataMin={-80}
+            dataMax={20}
+            stepSize={0.25}
+            snapToStep={true}
+            value={props.oscillatorData.volume}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'oscillator', 'volume'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Volume" />}
+        </Dial>
+        
         <EnhancedSelectInput
             inputId={'oscillator-type'}
             label={'Type'}
@@ -53,17 +82,6 @@ const OscillatorModule = props => (
                 {value: 'fmsawtooth', text: 'FM Sawtooth'},
                 {value: 'fatsawtooth', text: 'Fat Sawtooth'}
             ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'oscillator-volume'}
-            label={'Volume'}
-            min={-80}
-            max={20}
-            step={1}
-            value={props.oscillatorData.volume}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'oscillator', 'volume']}
         />
     </div>
 );

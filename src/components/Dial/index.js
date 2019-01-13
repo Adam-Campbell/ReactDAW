@@ -24,7 +24,6 @@ class Dial extends Component {
         dialRange: 180,
         dataMin: 0,
         dataMax: 100,
-        value: 0,
         stepSize: 1,
         snapToSteps: true
     };
@@ -154,7 +153,7 @@ class Dial extends Component {
 }
 
 const mapStateToProps = state => ({
-    value: state.dial.value
+    
 });
 
 export default connect(

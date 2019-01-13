@@ -1,17 +1,17 @@
 .dial {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     position: relative;
     border: solid 4px $color--pink;
-    border-radius: 60px;
+    border-radius: 40px;
     @include boxShadow($color--pink);
     cursor: pointer;
     &__container {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
         &:focus {
             border: solid 2px rgba(7,119,150,0.45);
             border-radius: 3px;
@@ -20,17 +20,39 @@
         }
     }
     &__outer-container {
-        
+        width: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     &__marker {
         display: inline-block;
         position: absolute;
-        top: 54px;
+        top: 34px;
         right: 12px;
         width: 12px;
         height: 12px;
         background-color: $color--pink;
         border-radius: 6px;
         @include boxShadow($color--pink);
+    }
+    &__number-input {
+        color: $color--pink;
+        background: none;
+        font-family: $font--primary;
+        border: solid 2px;
+        border-radius: 3px;
+        text-indent: 8px;
+        width: 80px;
+        @include textShadow();
+        @include boxShadow();
+    }
+    &__label {
+        color: $color--pink;
+        font-family: $font--primary;
+        font-size: 18px;
+        margin-top: 0;
+        margin-bottom: 4px;
+        @include textShadow();
     }
 }

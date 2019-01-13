@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ExampleConsumer = props => (
+const SmallDial = props => (
     <div className="dial__outer-container">
         <div 
             className="dial__container" 
@@ -48,4 +48,4 @@ const ExampleConsumer = props => (
     </div>
 );
 
-export default ExampleConsumer;
+export default SmallDial;

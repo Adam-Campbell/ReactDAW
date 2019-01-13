@@ -17,10 +17,25 @@ import CustomDragLayer from './components/CustomDragLayer';
 import DragWrapper from './components/DragWrapper';
 import Mixer from './components/Mixer';
 import Modal from './components/Modal';
-import Dial from './components/Dial';
-import ExampleConsumer from './components/Dial/ExampleConsumer';
+//import Dial from './components/Dial';
+//import ExampleConsumer from './components/Dial/ExampleConsumer';
 import { throttle } from 'lodash';
 
+
+/*
+<Dial
+          updateValueCallback={this.throttledUpdateDial}
+          dataMin={0}
+          dataMax={300}
+          stepSize={0.25}
+          dialStartOffset={225}
+          dialRange={270}
+          defaultValue={1.5}
+        >
+          {(props) => <ExampleConsumer {...props} label="Volume" />}
+        </Dial>
+        <CustomDragLayer />
+*/
 
 class App extends Component {
   constructor(props) {
@@ -33,18 +48,8 @@ class App extends Component {
       <div className="main-container">
         <AudioEngine />
         <Transport />
-        <Dial
-          updateValueCallback={this.throttledUpdateDial}
-          dataMin={0}
-          dataMax={300}
-          stepSize={0.25}
-          dialStartOffset={225}
-          dialRange={270}
-          defaultValue={1.5}
-        >
-          {(props) => <ExampleConsumer {...props} />}
-        </Dial>
-        <CustomDragLayer /> 
+        <Composer />
+        <CustomDragLayer />
         {
           this.props.activeWindows.map((window) => {
             switch (window.type) {

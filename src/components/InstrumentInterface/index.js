@@ -15,6 +15,7 @@ export class InstrumentInterface extends Component {
     constructor(props) {
         super(props);
         this.handleChange = debounce(this.props.updateOneInstrumentSetting, 16, {leading: true, trailing: true}).bind(this);
+        //this.handleChange = this.props.updateOneInstrumentSetting.bind(this);
         // const instrument = this.props.instruments[this.props.instrumentId];
         // this.state = {
         //     ...instrument

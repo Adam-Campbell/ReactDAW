@@ -127,7 +127,8 @@ export const convertIncomingValueToDialPosition = (optionsObject) => {
     // Derive data range from the max and min points, and get values position within that range
     // as a decimal.
     const dataRange = dataMax - dataMin;
-    const valueAsDecimal = value / dataRange;
+    const distanceFromMin = Math.abs(value - dataMin);
+    const valueAsDecimal = distanceFromMin / dataRange;
     // Map the decimal value to a point within the dials range, and using the dials start offset, 
     // determine the correct position for the dial.
     const progressWithinDialRange = dialRange * valueAsDecimal;
