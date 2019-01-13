@@ -34,7 +34,7 @@ const ExampleConsumer = props => (
             value={props.value}
             onChange={(e) => {
                 let val = e.target.value ? parseFloat(e.target.value) : props.value;
-                props.updateValue(val);
+                props.updateValueCallback(val);
             }}
             min={props.dataMin}
             max={props.dataMax}

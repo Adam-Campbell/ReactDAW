@@ -34,12 +34,12 @@ class App extends Component {
         <AudioEngine />
         <Transport />
         <Dial
-          updateValue={this.throttledUpdateDial}
+          updateValueCallback={this.throttledUpdateDial}
           dataMin={0}
           dataMax={300}
           stepSize={0.25}
-          startOffset={180}
-          dialRange={180}
+          dialStartOffset={225}
+          dialRange={270}
         >
           {(props) => <ExampleConsumer {...props} />}
         </Dial>

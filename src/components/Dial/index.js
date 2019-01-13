@@ -4,17 +4,15 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import {
     calculateAngle,
-    checkIfAngleAllowed,
     mapAngleToPointInDataRange,
     convertIncomingValueToDialPosition,
     snapValueToSteps
 } from './DialUtils';
-import { throttle } from 'lodash';
 
 class Dial extends Component {
-    // doesn't work when visualRange is 360, investigate why
+
     static defaultProps = {
-        startOffset: 180,
+        dialStartOffset: 180,
         dialRange: 180,
         dataMin: 0,
         dataMax: 100,
@@ -25,7 +23,13 @@ class Dial extends Component {
 
     static propTypes = {
         value: PropTypes.number.isRequired,
-        updateValue: PropTypes.func.isRequired
+        updateValueCallback: PropTypes.func.isRequired,
+        dialStartOffset: PropTypes.number,
+        dialRange: PropTypes.number,
+        dataMin: PropTypes.number,
+        dataMax: PropTypes.number,
+        stepSize: PropTypes.number,
+        snapToSteps: PropTypes.bool
     };
 
     constructor(props) {
@@ -70,29 +74,22 @@ class Dial extends Component {
                 clientY,
                 dialNodeRect
             });
-            const isAllowed = checkIfAngleAllowed(
-                newDialAngle,
-                this.props.startOffset,
-                sanitisedDialRange
-            );
-            if (isAllowed) {
-                let newDataValue = mapAngleToPointInDataRange({
-                    dialAngle: newDialAngle,
-                    dialStartOffset: this.props.startOffset,
-                    dialRange: sanitisedDialRange,
+            let newDataValue = mapAngleToPointInDataRange({
+                dialAngle: newDialAngle,
+                dialStartOffset: this.props.dialStartOffset,
+                dialRange: sanitisedDialRange,
+                dataMin: this.props.dataMin,
+                dataMax: this.props.dataMax
+            });
+            if (this.props.snapToSteps) {
+                newDataValue = snapValueToSteps({
+                    value: newDataValue,
+                    stepSize: this.props.stepSize,
                     dataMin: this.props.dataMin,
-                    dataMax: this.props.dataMax
+                    dataMax: this.props.dataMax,
                 });
-                if (this.props.snapToSteps) {
-                    newDataValue = snapValueToSteps({
-                        value: newDataValue,
-                        stepSize: this.props.stepSize,
-                        dataMin: this.props.dataMin,
-                        dataMax: this.props.dataMax,
-                    });
-                }
-                this.props.updateValue(newDataValue);
             }
+            this.props.updateValueCallback(newDataValue);
         }
     }
 
@@ -101,7 +98,7 @@ class Dial extends Component {
             value: this.props.value,
             dataMin: this.props.dataMin,
             dataMax: this.props.dataMax,
-            dialStartOffset: this.props.startOffset,
+            dialStartOffset: this.props.dialStartOffset,
             dialRange: this.props.dialRange
         });
         return -rawAngle;
@@ -117,7 +114,7 @@ class Dial extends Component {
             dialRef: this.dialRef,
             angle: transformedAngle,
             value: this.props.value,
-            updateValue: this.props.updateValue,
+            updateValueCallback: this.props.updateValueCallback,
             dataMin: this.props.dataMin,
             dataMax: this.props.dataMax,
             stepSize: this.props.stepSize

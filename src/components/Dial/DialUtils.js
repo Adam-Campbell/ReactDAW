@@ -62,21 +62,6 @@ export const adjustFigures = (angle, startOffset, range) => {
     };
 };
 
-/**
- * Returns true if the supplied angle falls within the allowed range of the dial, else returns false.
- * @param {Number} angle - the dials angle
- * @param {Number} startOffset - the start offset
- * @param {Number} range - the dials total range
- */
-export const checkIfAngleAllowed = (angle, startOffset, range) => {
-    if (range === 360) return true;
-    const {
-        adjustedStart, 
-        adjustedEnd,
-        adjustedAngle
-    } = adjustFigures(angle, startOffset, range);
-    return adjustedAngle <= adjustedStart && adjustedAngle >= adjustedEnd;
-}
 
 /**
  * Takes the current angle of the dial, and maps that to a point within the data range controlled by the 
@@ -101,6 +86,16 @@ export const mapAngleToPointInDataRange = (optionsObject) => {
         adjustedEnd, 
         adjustedAngle 
     } = adjustFigures(dialAngle, dialStartOffset, dialRange);
+    
+    // First deal with the case where the angle provided falls outside of the accepted dial range. If it
+    // is closer to the start of the range just return dataMin, if it is closer to the end of the range then
+    // return dataMax. 
+    if (adjustedAngle > adjustedStart) {
+        const diffFromStart = Math.abs(adjustedAngle - adjustedStart);
+        const diffFrom360 = Math.abs(360 - adjustedAngle);
+        return diffFromStart > diffFrom360 ? dataMax : dataMin;
+    }
+
     // Convert the dials angle to a decimal representing its location within the dials range.
     const dialProgressDecimal = (adjustedStart - adjustedAngle) / adjustedStart;
     // Determine the data range.
