@@ -40,6 +40,7 @@ class App extends Component {
           stepSize={0.25}
           dialStartOffset={225}
           dialRange={270}
+          defaultValue={1.5}
         >
           {(props) => <ExampleConsumer {...props} />}
         </Dial>

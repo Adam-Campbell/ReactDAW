@@ -5,6 +5,9 @@ const ExampleConsumer = props => (
     <div className="dial__outer-container">
         <div 
             className="dial__container" 
+            tabIndex="0"
+            onClick={props.handleClick}
+            onKeyDown={props.handleKeyDown}
             onMouseDown={props.startInteraction}
             onMouseUp={props.endInteraction}
             onMouseMove={(e) => {

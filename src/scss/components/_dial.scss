@@ -2,16 +2,22 @@
     width: 120px;
     height: 120px;
     position: relative;
-    background-color: yellow;
+    border: solid 4px $color--pink;
     border-radius: 60px;
+    @include boxShadow($color--pink);
     cursor: pointer;
     &__container {
         display: flex;
         justify-content: center;
         align-items: center;
-        border: solid pink 2px;
         width: 150px;
         height: 150px;
+        &:focus {
+            border: solid 2px rgba(7,119,150,0.45);
+            border-radius: 3px;
+            @include boxShadow(rgba(7,119,150,0.45));
+            outline: none;
+        }
     }
     &__outer-container {
         
@@ -23,7 +29,8 @@
         right: 12px;
         width: 12px;
         height: 12px;
-        background-color: brown;
+        background-color: $color--pink;
         border-radius: 6px;
+        @include boxShadow($color--pink);
     }
 }

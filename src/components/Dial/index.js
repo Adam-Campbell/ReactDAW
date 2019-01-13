@@ -9,6 +9,14 @@ import {
     snapValueToSteps
 } from './DialUtils';
 
+/*
+
+TODO:
+
+Investigate aria concerns.
+
+*/
+
 class Dial extends Component {
 
     static defaultProps = {
@@ -17,7 +25,7 @@ class Dial extends Component {
         dataMin: 0,
         dataMax: 100,
         value: 0,
-        stepSize: 0.5,
+        stepSize: 1,
         snapToSteps: true
     };
 
@@ -29,7 +37,8 @@ class Dial extends Component {
         dataMin: PropTypes.number,
         dataMax: PropTypes.number,
         stepSize: PropTypes.number,
-        snapToSteps: PropTypes.bool
+        snapToSteps: PropTypes.bool,
+        defaultValue: PropTypes.number
     };
 
     constructor(props) {
@@ -104,6 +113,26 @@ class Dial extends Component {
         return -rawAngle;
     }
 
+    handleKeyDown = (e) => {
+        const { key } = e;
+        if (key === 'ArrowUp' || key === 'ArrowRight') {
+            // move upwards through range
+            const newValue = Math.min(this.props.dataMax, this.props.value + this.props.stepSize);
+            this.props.updateValueCallback(newValue);
+        } else if (key === 'ArrowDown' || key === 'ArrowLeft') {
+            // move downwards through range
+            const newValue = Math.max(this.props.dataMin, this.props.value - this.props.stepSize);
+            this.props.updateValueCallback(newValue);
+        }
+        
+    }
+
+    handleClick = (e) => {
+        if (e.shiftKey && this.props.defaultValue) {
+            this.props.updateValueCallback(this.props.defaultValue);
+        }
+    }
+
     render() {
         const { children } = this.props;
         const transformedAngle = this.transformAngle();
@@ -117,7 +146,9 @@ class Dial extends Component {
             updateValueCallback: this.props.updateValueCallback,
             dataMin: this.props.dataMin,
             dataMax: this.props.dataMax,
-            stepSize: this.props.stepSize
+            stepSize: this.props.stepSize,
+            handleKeyDown: this.handleKeyDown,
+            handleClick: this.handleClick
         });
     }
 }
