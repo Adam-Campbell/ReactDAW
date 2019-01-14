@@ -12,6 +12,19 @@
             width: 700px;
         }
     }
+    &__main-section {
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__aside-section {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        background-color: $color--light-purple;
+        border-radius: 3px;
+    }
     &__module-container {
         padding: 8px 16px;
         display: flex;
@@ -83,18 +96,43 @@
     border-radius: 3px;
 }
 
-.oscillator-type-switch__radio-button {
+.switch__radio-button {
     width: 0;
     height: 0;
     position: absolute;
     left: -9999px;
 }
 
-.oscillator-type-switch__label {
-    .oscillator-type-switch__radio-button:checked + & {
-        color: green;
+.switch__label {
+    font-family: $font--primary;
+    font-size: 16px;
+    color: $color--pink;
+    background: none;
+    flex-basis: 25%;
+    padding: 8px;
+    text-align: center;
+    transition: all ease-in-out 0.25s;
+    cursor: pointer;
+    .switch__radio-button:hover + & { 
+        background-color: $color--light-purple;
     }
-    .oscillator-type-switch__radio-button:hover + & { 
-        color: blue;
+    .switch__radio-button:checked + & {
+        background-color: $color--pink;
+        color: $color--deep-purple;
     }
+}
+
+.switch__row {
+    color: $color--pink;
+    border: solid 2px;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.switch__row-description {
+    font-family: $font--primary;
+    font-size: 14px;
+    margin-bottom: 0;
 }

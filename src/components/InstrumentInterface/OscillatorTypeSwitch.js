@@ -61,68 +61,70 @@ class OscillatorTypeSwitch extends Component {
     render() {
         const valuesObj = this.parseIncomingValue(this.props.value);
         return (
-            <div>
-                <fieldset>
+            <React.Fragment>
+                <p className="switch__row-description">Oscillator type</p>
+                <div className="switch__row">
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="sine" name="oscillator-type" value="sine" 
                         ref={this.sineButtonRef} onChange={this.handleChange}
                         checked={valuesObj.osc === 'sine'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="sine">Sine</label>
+                    <label className="switch__label" htmlFor="sine">Sine</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="square" name="oscillator-type" value="square"
                         ref={this.squareButtonRef} onChange={this.handleChange}
                         checked={valuesObj.osc === 'square'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="square">Square</label>
+                    <label className="switch__label" htmlFor="square">Square</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="triangle" name="oscillator-type" value="triangle"
                         ref={this.triangleButtonRef} onChange={this.handleChange}
                         checked={valuesObj.osc === 'triangle'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="triangle">Triangle</label>
+                    <label className="switch__label" htmlFor="triangle">Triangle</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="sawtooth" name="oscillator-type" value="sawtooth"
                         ref={this.sawtoothButtonRef} onChange={this.handleChange}
                         checked={valuesObj.osc === 'sawtooth'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="sawtooth">Sawtooth</label>
-                </fieldset>
-                <fieldset>
+                    <label className="switch__label" htmlFor="sawtooth">Sawtooth</label>
+                </div>
+                <p className="switch__row-description">Modifier</p>
+                <div className="switch__row">
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="none" name="oscillator-modifier" value=""
                         ref={this.noneButtonRef} onChange={this.handleChange}
                         checked={valuesObj.mod === ''}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="none">None</label>
+                    <label className="switch__label" htmlFor="none">None</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="am" name="oscillator-modifier" value="am"
                         ref={this.amButtonRef} onChange={this.handleChange}
                         checked={valuesObj.mod === 'am'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="am">AM</label>
+                    <label className="switch__label" htmlFor="am">AM</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="fm" name="oscillator-modifier" value="fm"
                         ref={this.fmButtonRef} onChange={this.handleChange}
                         checked={valuesObj.mod === 'fm'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="fm">FM</label>
+                    <label className="switch__label" htmlFor="fm">FM</label>
                     <input 
-                        className="oscillator-type-switch__radio-button" 
+                        className="switch__radio-button" 
                         type="radio" id="fat" name="oscillator-modifier" value="fat"
                         ref={this.fatButtonRef} onChange={this.handleChange}
                         checked={valuesObj.mod === 'fat'}
                     ></input>
-                    <label className="oscillator-type-switch__label" htmlFor="fat">Fat</label>
-                </fieldset>
-            </div>
+                    <label className="switch__label" htmlFor="fat">Fat</label>
+                </div>
+            </React.Fragment>
         )
     }
 }
