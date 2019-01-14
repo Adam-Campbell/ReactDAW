@@ -6,7 +6,10 @@ import Dial from '../Dial';
 import SmallDial from '../SmallDial';
 
 const EnvelopeModule = props => (
-    <div className="instrument-interface__module-container instrument-interface__module-container--horizontal">
+    <div className={
+        `instrument-interface__module-container instrument-interface__module-container--horizontal
+        ${props.dblCol ? 'instrument-interface__module-container--dbl-col' : ''}`
+    }>
         <h2 className="instrument-interface__module-heading">Envelope</h2>
         <Dial
             dataMin={0.005}
@@ -79,7 +82,8 @@ EnvelopeModule.propTypes = {
     envelopeData: PropTypes.object.isRequired,
     instrumentId: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
-    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired,
+    dblCol: PropTypes.bool
 };
 
 export default EnvelopeModule;

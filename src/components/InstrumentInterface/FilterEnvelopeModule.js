@@ -2,121 +2,127 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const FilterEnvelopeModule = props => (
-    <div className="instrument-interface__module-container">
+    <div className={
+        `instrument-interface__module-container instrument-interface__module-container--horizontal
+        ${props.dblCol ? 'instrument-interface__module-container--dbl-col' : ''}`
+    }>
         <h2 className="instrument-interface__module-heading">Filter Envelope</h2>
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-attack'}
-            label={'Attack'}
-            min={0.005}
-            max={1}
-            step={0.005}
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.filterEnvelopeData.attack}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'attack']}
-        />
-        <EnhancedSelectInput
-            inputId={'filter-envelope-attack-curve'}
-            label={'Attack Curve'}
-            value={props.filterEnvelopeData.attackCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'attackCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-base-frequency'}
-            label={'Base Frequency'}
-            min={50}
-            max={16000}
-            step={25}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'attack'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Attack" />}
+        </Dial>
+        <Dial
+            dataMin={40}
+            dataMax={16000}
+            stepSize={5}
+            snapToStep={true}
             value={props.filterEnvelopeData.baseFrequency}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'baseFrequency']}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-decay'}
-            label={'Decay'}
-            min={0}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'baseFrequency'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Base Frequency" />}
+        </Dial>
+        <Dial
+            dataMin={0}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.filterEnvelopeData.decay}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'decay']}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-exponent'}
-            label={'Exponent'}
-            min={1}
-            max={10}
-            step={1}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'decay'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Decay" />}
+        </Dial>
+        <Dial
+            dataMin={1}
+            dataMax={10}
+            stepSize={1}
+            snapToStep={true}
             value={props.filterEnvelopeData.exponent}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'exponent']}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-octaves'}
-            label={'Octaves'}
-            min={0}
-            max={10}
-            step={1}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'exponent'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Exponent" />}
+        </Dial>
+        <Dial
+            dataMin={0}
+            dataMax={10}
+            stepSize={1}
+            snapToStep={true}
             value={props.filterEnvelopeData.octaves}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'octaves']}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-release'}
-            label={'Release'}
-            min={0.005}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'octaves'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Octaves" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.filterEnvelopeData.release}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'release']}
-        />
-        <EnhancedSelectInput
-            inputId={'filter-envelope-release-curve'}
-            label={'Release Curve'}
-            value={props.filterEnvelopeData.releaseCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'releaseCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'filter-envelope-sustain'}
-            label={'Sustain'}
-            min={0}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'release'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Release" />}
+        </Dial>
+        <Dial
+            dataMin={0}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.filterEnvelopeData.sustain}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'filterEnvelope', 'sustain']}
-        />
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'filterEnvelope', 'sustain'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Sustain" />}
+        </Dial>
     </div>
 );
 

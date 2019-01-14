@@ -22,6 +22,9 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
+        &.instrument-interface__module-container--dbl-col {
+            width: 50%;
+        }
     }
     &__module-heading {
         font-family: $font--primary;
@@ -61,5 +64,9 @@
         margin-top: 8px;
         margin-bottom: 8px;
         text-transform: capitalize;
+    }
+    &__select-input-container {
+        align-self: center;
+        padding: 8px;
     }
 }
