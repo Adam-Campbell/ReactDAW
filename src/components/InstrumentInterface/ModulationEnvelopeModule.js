@@ -2,88 +2,79 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EnhancedSelectInput from '../EnhancedSelectInput';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const ModulationEnvelopeModule = props => (
-    <div className="instrument-interface__module-container">
+    <div className={
+        `instrument-interface__module-container instrument-interface__module-container--horizontal
+        ${props.dblCol ? 'instrument-interface__module-container--dbl-col' : ''}`
+    }>
         <h2 className="instrument-interface__module-heading">Modulation Envelope</h2>
-        <EnhancedRangeInput 
-            inputId={'modulation-envelope-attack'}
-            label={'Attack'}
-            min={0.005}
-            max={1}
-            step={0.005}
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.modulationEnvelopeData.attack}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attack']}
-        />
-        <EnhancedSelectInput
-            inputId={'modulation-envelope-attack-curve'}
-            label={'Attack Curve'}
-            value={props.modulationEnvelopeData.attackCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'attackCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'modulation-envelope-decay'}
-            label={'Decay'}
-            min={0.005}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'modulationEnvelope', 'attack'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Attack" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.modulationEnvelopeData.decay}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'decay']}
-        />
-        <EnhancedRangeInput 
-            inputId={'modulation-envelope-release'}
-            label={'Release'}
-            min={0.005}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'modulationEnvelope', 'decay'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Decay" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.modulationEnvelopeData.release}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'release']}
-        />
-        <EnhancedSelectInput
-            inputId={'modulation-envelope-release-curve'}
-            label={'Release Curve'}
-            value={props.modulationEnvelopeData.releaseCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'releaseCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'modulation-envelope-sustain'}
-            label={'Sustain'}
-            min={0}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'modulationEnvelope', 'release'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Release" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.modulationEnvelopeData.sustain}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'modulationEnvelope', 'sustain']}
-        />
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'modulationEnvelope', 'sustain'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Sustain" />}
+        </Dial>
     </div>
 );
 

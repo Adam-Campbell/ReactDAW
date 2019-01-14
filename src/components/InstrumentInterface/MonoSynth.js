@@ -14,12 +14,14 @@ const MonoSynth = props => (
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}
+            dblCol
         />
         <OscillatorModule 
             oscillatorData={props.instrumentData.oscillator}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}
+            dblCol
         />
         <FilterModule 
             filterData={props.instrumentData.filter}

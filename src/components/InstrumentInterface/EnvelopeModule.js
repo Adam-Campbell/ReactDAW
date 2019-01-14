@@ -2,89 +2,79 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const EnvelopeModule = props => (
-    <div className="instrument-interface__module-container">
+    <div className={
+        `instrument-interface__module-container instrument-interface__module-container--horizontal
+        ${props.dblCol ? 'instrument-interface__module-container--dbl-col' : ''}`
+    }>
         <h2 className="instrument-interface__module-heading">Envelope</h2>
-        <EnhancedRangeInput 
-            inputId={'envelope-attack'}
-            label={'Attack'}
-            min={0.005}
-            max={1}
-            step={0.005}
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.envelopeData.attack}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'attack']}
-        />
-        <EnhancedSelectInput
-            inputId={'envelope-attack-curve'}
-            label={'Attack Curve'}
-            value={props.envelopeData.attackCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'attackCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-        />
-        <EnhancedRangeInput 
-            inputId={'envelope-decay'}
-            label={'Decay'}
-            min={0.005}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'envelope', 'attack'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Attack" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.envelopeData.decay}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'decay']}
-        />
-        <EnhancedRangeInput 
-            inputId={'envelope-release'}
-            label={'Release'}
-            min={0.005}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'envelope', 'decay'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Decay" />}
+        </Dial>
+        <Dial
+            dataMin={0.005}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.envelopeData.release}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'release']}
-        />
-        <EnhancedSelectInput
-            inputId={'envelope-release-curve'}
-            label={'Release Curve'}
-            value={props.envelopeData.releaseCurve}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'releaseCurve']}
-            options={[
-                {value: 'linear', text: 'Linear'},
-                {value: 'exponential', text: 'Exponential'},
-                {value: 'sine', text: 'Sine'},
-                {value: 'cosine', text: 'Cosine'},
-                {value: 'bounce', text: 'Bounce'},
-                {value: 'ripple', text: 'Ripple'},
-                {value: 'step', text: 'Step'}
-            ]}
-
-        />
-        <EnhancedRangeInput 
-            inputId={'envelope-sustain'}
-            label={'Sustain'}
-            min={0}
-            max={1}
-            step={0.005}
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'envelope', 'release'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Release" />}
+        </Dial>
+        <Dial
+            dataMin={0}
+            dataMax={1}
+            stepSize={0.005}
+            snapToStep={true}
             value={props.envelopeData.sustain}
-            handleChange={props.handleChange}
-            identifier={props.instrumentId}
-            propertyPathArray={[...props.additionalNesting, 'envelope', 'sustain']}
-        />
+            dialStartOffset={225}
+            dialRange={270}
+            updateValueCallback={(newVal) => props.handleChange(
+                props.instrumentId,
+                [...props.additionalNesting, 'envelope', 'sustain'],
+                newVal
+            )}
+        >
+            {(props) => <SmallDial {...props} label="Sustain" />}
+        </Dial>
     </div>
 );
 
@@ -92,7 +82,8 @@ EnvelopeModule.propTypes = {
     envelopeData: PropTypes.object.isRequired,
     instrumentId: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
-    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired
+    additionalNesting: PropTypes.arrayOf(PropTypes.string).isRequired,
+    dblCol: PropTypes.bool
 };
 
 export default EnvelopeModule;

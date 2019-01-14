@@ -6,7 +6,8 @@ import OscillatorModule from './OscillatorModule';
 import FilterModule from './FilterModule';
 import FilterEnvelopeModule from './FilterEnvelopeModule';
 import EnhancedRangeInput from '../EnhancedRangeInput';
-
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 class DuoSynth extends Component {
     constructor(props) {
@@ -39,12 +40,14 @@ class DuoSynth extends Component {
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
+                    dblCol
                 />
                 <OscillatorModule 
                     oscillatorData={this.props.instrumentData.voice0.oscillator}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
+                    dblCol
                 />
                 <FilterModule 
                     filterData={this.props.instrumentData.voice0.filter}
@@ -73,12 +76,14 @@ class DuoSynth extends Component {
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice1']}
+                    dblCol
                 />
                 <OscillatorModule 
                     oscillatorData={this.props.instrumentData.voice1.oscillator}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice1']}
+                    dblCol
                 />
                 <FilterModule 
                     filterData={this.props.instrumentData.voice1.filter}
@@ -101,51 +106,75 @@ class DuoSynth extends Component {
         return (
             <div className="instrument-interface__container">
                 <HeaderModule instrumentTitle="Duo Synth" />
-                <div className="instrument-interface__module-container">
-                    <EnhancedRangeInput 
-                        inputId={'harmonicity'}
-                        label={'Harmonicity'}
-                        min={0.25}
-                        max={8}
-                        step={0.25}
+                <div className={
+                    `instrument-interface__module-container 
+                    instrument-interface__module-container--horizontal
+                    instrument-interface__module-container--dbl-col`
+                }>
+                    <Dial
+                        dataMin={0.25}
+                        dataMax={8}
+                        stepSize={0.05}
+                        snapToStep={true}
                         value={this.props.instrumentData.harmonicity}
-                        handleChange={this.props.handleChange}
-                        identifier={this.props.instrumentId}
-                        propertyPathArray={['harmonicity']}
-                    />
-                    <EnhancedRangeInput 
-                        inputId={'vibrato-amount'}
-                        label={'Vibrato Amount'}
-                        min={0}
-                        max={5}
-                        step={0.2}
+                        dialStartOffset={225}
+                        dialRange={270}
+                        updateValueCallback={(newVal) => this.props.handleChange(
+                            this.props.instrumentId,
+                            ['harmonicity'],
+                            newVal
+                        )}
+                    >
+                        {(props) => <SmallDial {...props} label="Harmonicity" />}
+                    </Dial>
+                    <Dial
+                        dataMin={0}
+                        dataMax={5}
+                        stepSize={0.05}
+                        snapToStep={true}
                         value={this.props.instrumentData.vibratoAmount}
-                        handleChange={this.props.handleChange}
-                        identifier={this.props.instrumentId}
-                        propertyPathArray={['vibratoAmount']}
-                    />
-                    <EnhancedRangeInput 
-                        inputId={'vibrato-rate'}
-                        label={'Vibrato Rate'}
-                        min={5}
-                        max={1000}
-                        step={5}
+                        dialStartOffset={225}
+                        dialRange={270}
+                        updateValueCallback={(newVal) => this.props.handleChange(
+                            this.props.instrumentId,
+                            ['vibratoAmount'],
+                            newVal
+                        )}
+                    >
+                        {(props) => <SmallDial {...props} label="Vibrato Amount" />}
+                    </Dial>
+                    <Dial
+                        dataMin={5}
+                        dataMax={1000}
+                        stepSize={5}
+                        snapToStep={true}
                         value={this.props.instrumentData.vibratoRate}
-                        handleChange={this.props.handleChange}
-                        identifier={this.props.instrumentId}
-                        propertyPathArray={['vibratoRate']}
-                    />
-                    <EnhancedRangeInput 
-                        inputId={'volume'}
-                        label={'Volume'}
-                        min={-80}
-                        max={20}
-                        step={1}
+                        dialStartOffset={225}
+                        dialRange={270}
+                        updateValueCallback={(newVal) => this.props.handleChange(
+                            this.props.instrumentId,
+                            ['vibratoRate'],
+                            newVal
+                        )}
+                    >
+                        {(props) => <SmallDial {...props} label="Vibrato Rate" />}
+                    </Dial>
+                    <Dial
+                        dataMin={-80}
+                        dataMax={20}
+                        stepSize={0.25}
+                        snapToStep={true}
                         value={this.props.instrumentData.volume}
-                        handleChange={this.props.handleChange}
-                        identifier={this.props.instrumentId}
-                        propertyPathArray={['volume']}
-                    />
+                        dialStartOffset={225}
+                        dialRange={270}
+                        updateValueCallback={(newVal) => this.props.handleChange(
+                            this.props.instrumentId,
+                            ['volume'],
+                            newVal
+                        )}
+                    >
+                        {(props) => <SmallDial {...props} label="Volume" />}
+                    </Dial>
                 </div>
                 <div>
                     <button 
