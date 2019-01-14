@@ -9,22 +9,17 @@
         border: solid 4px;
         @include boxShadow($color--pink);
         &--small {
-            width: 600px;
+            width: 700px;
         }
     }
     &__module-container {
         padding: 8px 16px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         align-items: flex-start;
         flex-grow: 1;
-        &.instrument-interface__module-container--horizontal {
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-        &.instrument-interface__module-container--dbl-col {
-            width: 50%;
-        }
+        width: 50%;
     }
     &__module-heading {
         font-family: $font--primary;
@@ -32,6 +27,8 @@
         width: 100%;
         color: $color--pink;
         @include textShadow($color--pink);
+        margin-top: 0;
+        margin-bottom: 8px;
     }
     &__header-container {
         display: flex;
@@ -47,7 +44,9 @@
         font-family: $font--primary;
         font-size: 36px;
         color: $color--pink;
-        @include textShadow($color--pink)
+        @include textShadow($color--pink);
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
     &__drum-module-container {
         display: flex;
@@ -68,5 +67,34 @@
     &__select-input-container {
         align-self: center;
         padding: 8px;
+    }
+    &__dial-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+
+.adsr-placeholder {
+    background-color: $color--light-purple;
+    width: 100%;
+    height: 120px;
+    border-radius: 3px;
+}
+
+.oscillator-type-switch__radio-button {
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -9999px;
+}
+
+.oscillator-type-switch__label {
+    .oscillator-type-switch__radio-button:checked + & {
+        color: green;
+    }
+    .oscillator-type-switch__radio-button:hover + & { 
+        color: blue;
     }
 }

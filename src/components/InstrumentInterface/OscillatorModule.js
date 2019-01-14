@@ -4,6 +4,7 @@ import EnhancedRangeInput from '../EnhancedRangeInput';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import Dial from '../Dial';
 import SmallDial from '../SmallDial';
+import OscillatorTypeSwitch from './OscillatorTypeSwitch';
 
 const OscillatorModule = props => (
     <div className={
@@ -85,6 +86,16 @@ const OscillatorModule = props => (
                     {value: 'fmsawtooth', text: 'FM Sawtooth'},
                     {value: 'fatsawtooth', text: 'Fat Sawtooth'}
                 ]}
+            />
+            <OscillatorTypeSwitch 
+                value={props.oscillatorData.type}
+                handleChangeCallback={(newVal) => {
+                    props.handleChange(
+                        props.instrumentId,
+                        [...props.additionalNesting, 'oscillator', 'type'],
+                        newVal
+                    );
+                }}
             />
         </div>
     </div>
