@@ -4,11 +4,18 @@ import EnhancedRangeInput from '../EnhancedRangeInput';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import Dial from '../Dial';
 import XSDial from '../XSDial';
+import ADSRDisplay from '../ADSRDisplay';
 
 const ModulationEnvelopeModule = props => (
     <div className="instrument-interface__module-container">
         <h2 className="instrument-interface__module-heading">Modulation Envelope</h2>
-        <div className="adsr-placeholder"></div>
+        <ADSRDisplay 
+            attack={props.modulationEnvelopeData.attack}
+            decay={props.modulationEnvelopeData.decay}
+            sustain={props.modulationEnvelopeData.sustain}
+            release={props.modulationEnvelopeData.release}
+            id="modulation-envelope-adsr-display"
+        />
         <div className="instrument-interface__dial-row">
             <Dial
                 dataMin={0.005}

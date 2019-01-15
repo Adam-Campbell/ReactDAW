@@ -1,26 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-/*
-
-What does this component need? 
-
-An array of all of the different radio buttons it needs to render. 
-[
-    {
-        id: {String},
-        name: {String},
-        value: {String},
-        text: {String}
-    }
-]
-
-value - the current value
-handleChange - a callback to call onChange
-rowDescription - the description that will appear above the row of radio buttons
-
-*/
-
 const Switch = props => (
     <React.Fragment>
         <p className="switch__row-description">{props.rowDescription}</p>
