@@ -119,6 +119,9 @@
     padding: 8px;
     text-align: center;
     transition: all ease-in-out 0.25s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     .switch__radio-button:hover + & { 
         background-color: $color--light-purple;

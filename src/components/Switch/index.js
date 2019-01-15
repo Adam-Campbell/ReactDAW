@@ -32,7 +32,12 @@ Switch.propTypes = {
     value: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
     rowDescription: PropTypes.string.isRequired,
-    optionsData: PropTypes.arrayOf(PropTypes.object).isRequired 
+    optionsData: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        value: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired
+    })).isRequired 
 }
 
 export default Switch;

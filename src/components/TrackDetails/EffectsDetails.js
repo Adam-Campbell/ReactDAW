@@ -63,10 +63,6 @@ const EffectsDetails = props => (
                     className="track-details__effect-select-option"
                 >JC Reverb</option>
                 <option 
-                    value={effectTypes.lfo}
-                    className="track-details__effect-select-option"
-                >LFO</option>
-                <option 
                     value={effectTypes.limiter}
                     className="track-details__effect-select-option"
                 >Limiter</option>

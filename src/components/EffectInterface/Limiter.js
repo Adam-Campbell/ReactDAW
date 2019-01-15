@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const Limiter = props => (
     <div className="effect__container">
@@ -9,17 +11,24 @@ const Limiter = props => (
             effectTitle={'Limiter'}
         />
         <div className="effect__settings-container">
-            <EnhancedRangeInput 
-                inputId={'threshold'}
-                label={'Threshold'}
-                min={-96}
-                max={10}
-                step={0.5}
-                value={props.effectData.threshold}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['threshold']}
-            />
+            <div className="effect__dial-row">
+                <Dial
+                    dataMin={-96}
+                    dataMax={0}
+                    stepSize={0.25}
+                    snapToStep={true}
+                    value={props.effectData.threshold}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['threshold'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Threshold" />}
+                </Dial>
+            </div>
         </div>
     </div>
 );

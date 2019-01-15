@@ -70,10 +70,10 @@ const ModulationModule = props => (
             }}
             rowDescription="Waveform"
             optionsData={[
-                { id: 'modulationTypeSine', name: 'sine', value: 'sine', text: 'Sine' },
-                { id: 'modulationTypeSquare', name: 'square', value: 'square', text: 'Square' },
-                { id: 'modulationTypeTriangle', name: 'triangle', value: 'triangle', text: 'Triangle' },
-                { id: 'modulationTypeSawtooth', name: 'sawtooth', value: 'sawtooth', text: 'Sawtooth' },
+                { id: 'modulation-type-sine', name: 'modulation-type', value: 'sine', text: 'Sine' },
+                { id: 'modulation-type-square', name: 'modulation-type', value: 'square', text: 'Square' },
+                { id: 'modulation-type-triangle', name: 'modulation-type', value: 'triangle', text: 'Triangle' },
+                { id: 'modulation-type-sawtooth', name: 'modulation-type', value: 'sawtooth', text: 'Sawtooth' },
             ]}
         />
     </div>
