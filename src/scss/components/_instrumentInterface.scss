@@ -7,6 +7,8 @@
         display: flex;
         flex-wrap: wrap;
         border: solid 4px;
+        max-height: 650px;
+        overflow-y: auto;
         @include boxShadow($color--pink);
         &--small {
             width: 700px;
@@ -24,6 +26,7 @@
         justify-content: space-around;
         background-color: $color--light-purple;
         border-radius: 3px;
+        padding: 8px;
     }
     &__module-container {
         padding: 8px 16px;
@@ -85,6 +88,9 @@
         width: 100%;
         display: flex;
         justify-content: space-around;
+        & + & {
+            margin-top: 16px;
+        }
     }
 }
 
@@ -109,6 +115,7 @@
     color: $color--pink;
     background: none;
     flex-basis: 25%;
+    flex-grow: 1;
     padding: 8px;
     text-align: center;
     transition: all ease-in-out 0.25s;
