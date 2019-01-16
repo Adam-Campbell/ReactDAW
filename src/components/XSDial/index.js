@@ -51,4 +51,20 @@ const XSDial = props => (
     </div>
 );
 
+XSDial.propTypes = {
+    label: PropTypes.string.isRequired,
+    startInteraction: PropTypes.func.isRequired,
+    updateInteraction: PropTypes.func.isRequired,
+    endInteraction: PropTypes.func.isRequired,
+    dialRef: PropTypes.object.isRequired,
+    angle: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+    updateValueCallback: PropTypes.func.isRequired,
+    dataMin: PropTypes.number.isRequired,
+    dataMax: PropTypes.number.isRequired,
+    stepSize: PropTypes.number.isRequired,
+    handleKeyDown: PropTypes.func.isRequired,
+    handleClick: PropTypes.func.isRequired
+};
+
 export default XSDial;

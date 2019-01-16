@@ -72,3 +72,92 @@ describe('adjustFigures', () => {
             });
     });
 });
+
+describe('mapAngleToPointInDataRange', () => {
+    test(`if the angle falls outside of the dials range, but is closer to the start of the dials range
+          than the end, then the function returns the minimum value from the data range`,
+        () => {
+            expect(mapAngleToPointInDataRange({
+                dialAngle: 190,
+                dialStartOffset: 180,
+                dialRange: 180,
+                dataMin: 0,
+                dataMax: 100
+            })).toBe(0);
+    });
+    test(`if the angle falls outside of the dials range, but is closer to the end of the dials range
+          than the start, then the function returns the maximum value from the data range`,
+        () => {
+            expect(mapAngleToPointInDataRange({
+                dialAngle: 350,
+                dialStartOffset: 180,
+                dialRange: 180,
+                dataMin: 0,
+                dataMax: 100
+            })).toBe(100)
+    });
+    test(`if the angle falls within the dials range, then the function returns a value from the data
+          range that is proportional to the angles position within the dials range`, 
+        () => {
+            expect(mapAngleToPointInDataRange({
+                dialAngle: 90,
+                dialStartOffset: 180,
+                dialRange: 180,
+                dataMin: 0,
+                dataMax: 100
+            })).toBe(50)
+    });
+});
+
+describe('convertIncomingValueToDialPosition', () => {
+    test(`calculates the current values position with the data range as a decimal, and returns
+          an angle from the dials range corresponding with that decimal`, 
+        () => {
+            expect(convertIncomingValueToDialPosition({
+                value: 50,
+                dataMin: 0,
+                dataMax: 100,
+                dialStartOffset: 180,
+                dialRange: 180
+            })).toBe(90)
+    });
+});
+
+describe('snapValueToSteps', () => {
+    test(`snaps the value to some multiple of a predefined step value, either rounding up or
+          down depending on which is closer`, 
+        () => {
+            expect(snapValueToSteps({
+                value: 12,
+                stepSize: 5,
+                dataMin: 0,
+                dataMax: 25
+            })).toBe(10)
+            expect(snapValueToSteps({
+                value: 13,
+                stepSize: 5,
+                dataMin: 0,
+                dataMax: 25
+            })).toBe(15)
+    });
+    test(`if the rounding would cause a value to be returned that is higher than the accepted value
+          range, then the maximum value from the accepted range is returned instead`, 
+        () => {
+            expect(snapValueToSteps({
+                value: 56,
+                stepSize: 10,
+                dataMin: 27,
+                dataMax: 57
+            })).toBe(57)
+    });
+    test(`if the rounding would cause a value to be returned that is lower than the accepted value
+          range, then the minimum value from the accepted range is returned instead`, 
+        () => {
+            expect(snapValueToSteps({
+                value: 23,
+                stepSize: 10,
+                dataMin: 22,
+                dataMax: 52
+            })).toBe(22)
+    });
+});

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 import SaveModal from './SaveModal';
 
-class SaveModalContainer extends Component {
+export class SaveModalContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
