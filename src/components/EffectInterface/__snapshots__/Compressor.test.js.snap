@@ -10,81 +10,70 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="attack"
-      label="Attack"
-      max={0.5}
-      min={0.001}
-      propertyPathArray={
-        Array [
-          "attack",
-        ]
-      }
-      step={0.001}
-      value={0.003}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="knee"
-      label="Knee"
-      max={55}
-      min={5}
-      propertyPathArray={
-        Array [
-          "knee",
-        ]
-      }
-      step={1}
-      value={30}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="ratio"
-      label="Ratio"
-      max={60}
-      min={1}
-      propertyPathArray={
-        Array [
-          "ratio",
-        ]
-      }
-      step={0.25}
-      value={12}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="release"
-      label="Release"
-      max={0.5}
-      min={0.001}
-      propertyPathArray={
-        Array [
-          "release",
-        ]
-      }
-      step={0.001}
-      value={0.25}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="threshold"
-      label="threshold"
-      max={0}
-      min={-96}
-      propertyPathArray={
-        Array [
-          "threshold",
-        ]
-      }
-      step={0.5}
-      value={-24}
-    />
+    <div
+      className="effect__dial-row"
+    >
+      <Connect(Dial)
+        dataMax={0.5}
+        dataMin={0.001}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.001}
+        updateValueCallback={[Function]}
+        value={0.003}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={55}
+        dataMin={5}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.25}
+        updateValueCallback={[Function]}
+        value={30}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={60}
+        dataMin={1}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.25}
+        updateValueCallback={[Function]}
+        value={12}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={0.5}
+        dataMin={0.001}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.001}
+        updateValueCallback={[Function]}
+        value={0.25}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={0}
+        dataMin={-96}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.25}
+        updateValueCallback={[Function]}
+        value={-24}
+      >
+        <Component />
+      </Connect(Dial)>
+    </div>
   </div>
 </div>
 `;

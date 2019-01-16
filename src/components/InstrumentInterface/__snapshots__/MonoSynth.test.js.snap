@@ -36,20 +36,6 @@ exports[`renders correctly 1`] = `
       }
     }
   />
-  <FilterModule
-    additionalNesting={Array []}
-    filterData={
-      Object {
-        "Q": 6,
-        "frequency": 350,
-        "gain": 0,
-        "rolloff": -24,
-        "type": "lowpass",
-      }
-    }
-    handleChange={[MockFunction]}
-    instrumentId="5542150612118159"
-  />
   <FilterEnvelopeModule
     additionalNesting={Array []}
     filterEnvelopeData={
@@ -63,6 +49,20 @@ exports[`renders correctly 1`] = `
         "release": 2,
         "releaseCurve": "exponential",
         "sustain": 0.5,
+      }
+    }
+    handleChange={[MockFunction]}
+    instrumentId="5542150612118159"
+  />
+  <FilterModule
+    additionalNesting={Array []}
+    filterData={
+      Object {
+        "Q": 6,
+        "frequency": 350,
+        "gain": 0,
+        "rolloff": -24,
+        "type": "lowpass",
       }
     }
     handleChange={[MockFunction]}

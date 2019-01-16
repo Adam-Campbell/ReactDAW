@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ADSRDisplay renders correctly 1`] = `
+<div
+  id="adsr-display"
+>
+  <ForwardRef
+    container="adsr-display"
+    height={120}
+    width={300}
+  >
+    <Layer>
+      <Rect
+        fill="#47426c"
+        height={120}
+        width={300}
+        x={0}
+        y={0}
+      />
+    </Layer>
+    <Layer
+      x={30}
+      y={10}
+    >
+      <Line
+        listening={false}
+        points={
+          Array [
+            0,
+            100,
+            60,
+            0,
+          ]
+        }
+        stroke="#e0e0e0"
+        strokeWidth={3}
+      />
+      <Line
+        listening={false}
+        points={
+          Array [
+            60,
+            0,
+            90,
+            50,
+          ]
+        }
+        stroke="#e0e0e0"
+        strokeWidth={3}
+      />
+      <Line
+        listening={false}
+        points={
+          Array [
+            90,
+            50,
+            150,
+            50,
+          ]
+        }
+        stroke="#e0e0e0"
+        strokeWidth={3}
+      />
+      <Line
+        listening={false}
+        points={
+          Array [
+            150,
+            50,
+            210,
+            100,
+          ]
+        }
+        stroke="#e0e0e0"
+        strokeWidth={3}
+      />
+    </Layer>
+  </ForwardRef>
+</div>
+`;

@@ -10,6 +10,79 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
+    <div
+      className="effect__dial-row"
+    >
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={0.1}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={20}
+        dataMin={0.1}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.05}
+        updateValueCallback={[Function]}
+        value={5}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Connect(Dial)>
+    </div>
+    <Switch
+      handleChange={[Function]}
+      optionsData={
+        Array [
+          Object {
+            "id": "vibrato-type-sine",
+            "name": "vibrato-wave-type",
+            "text": "Sine",
+            "value": "sine",
+          },
+          Object {
+            "id": "vibrato-type-square",
+            "name": "vibrato-wave-type",
+            "text": "Square",
+            "value": "square",
+          },
+          Object {
+            "id": "vibrato-type-triangle",
+            "name": "vibrato-wave-type",
+            "text": "Triangle",
+            "value": "triangle",
+          },
+          Object {
+            "id": "vibrato-type-sawtooth",
+            "name": "vibrato-wave-type",
+            "text": "Sawtooth",
+            "value": "sawtooth",
+          },
+        ]
+      }
+      rowDescription="Waveform"
+      value="sine"
+    />
     <EnhancedRangeInput
       handleChange={[MockFunction]}
       identifier="6156266754586526"

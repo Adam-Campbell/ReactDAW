@@ -26,7 +26,7 @@ points for r = [ah+dh+60, sv, ah+dh+60+rg, 0]
 
 */
 
-const calculateLinePoints = (attack, decay, sustain, release) => {
+export const calculateLinePoints = (attack, decay, sustain, release) => {
     const aW = (attack / 0.995) * 60;
     const dW = (decay / 0.995) * 60;
     const sH = 100 - ((sustain / 0.995) * 100);

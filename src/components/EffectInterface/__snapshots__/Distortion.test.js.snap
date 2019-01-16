@@ -10,63 +10,60 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="distortion"
-      label="Distortion"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "distortion",
-        ]
-      }
-      step={0.005}
-      value={0.4}
-    />
-    <EnhancedSelectInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="oversample"
-      label="Oversample"
-      options={
+    <div
+      className="effect__dial-row"
+    >
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={0.4}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Connect(Dial)>
+    </div>
+    <Switch
+      handleChange={[Function]}
+      optionsData={
         Array [
           Object {
+            "id": "distortion-none",
+            "name": "distortion-oversample",
             "text": "None",
             "value": "none",
           },
           Object {
+            "id": "distortion-2x",
+            "name": "distortion-oversample",
             "text": "2x",
             "value": "2x",
           },
           Object {
+            "id": "distortion-4x",
+            "name": "distortion-oversample",
             "text": "4x",
             "value": "4x",
           },
         ]
       }
-      propertyPathArray={
-        Array [
-          "oversample",
-        ]
-      }
+      rowDescription="Oversample"
       value="none"
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="wet"
-      label="Wet"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "wet",
-        ]
-      }
-      step={0.005}
-      value={1}
     />
   </div>
 </div>

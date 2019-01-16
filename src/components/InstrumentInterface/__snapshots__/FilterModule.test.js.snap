@@ -9,135 +9,143 @@ exports[`renders correctly 1`] = `
   >
     Filter
   </h2>
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="filter-q"
-    label="Q"
-    max={20}
-    min={0}
-    propertyPathArray={
-      Array [
-        "filter",
-        "Q",
-      ]
-    }
-    step={0.5}
-    value={6}
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="filter-frequency"
-    label="Frequency"
-    max={16000}
-    min={40}
-    propertyPathArray={
-      Array [
-        "filter",
-        "frequency",
-      ]
-    }
-    step={5}
-    value={350}
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="filter-gain"
-    label="Gain"
-    max={10}
-    min={-40}
-    propertyPathArray={
-      Array [
-        "filter",
-        "gain",
-      ]
-    }
-    step={0.1}
-    value={0}
-  />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="filter-rolloff"
-    label="Rolloff"
-    options={
+  <div
+    className="instrument-interface__dial-row"
+  >
+    <Connect(Dial)
+      dataMax={20}
+      dataMin={0}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToStep={true}
+      stepSize={0.05}
+      updateValueCallback={[Function]}
+      value={6}
+    >
+      <Component />
+    </Connect(Dial)>
+    <Connect(Dial)
+      dataMax={16000}
+      dataMin={40}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToStep={true}
+      stepSize={5}
+      updateValueCallback={[Function]}
+      value={350}
+    >
+      <Component />
+    </Connect(Dial)>
+    <Connect(Dial)
+      dataMax={10}
+      dataMin={-40}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToStep={true}
+      stepSize={0.05}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Connect(Dial)>
+  </div>
+  <Switch
+    handleChange={[Function]}
+    optionsData={
       Array [
         Object {
+          "id": "rolloff-12",
+          "name": "filter-rolloff",
           "text": "-12",
           "value": "-12",
         },
         Object {
+          "id": "rolloff-24",
+          "name": "filter-rolloff",
           "text": "-24",
           "value": "-24",
         },
         Object {
+          "id": "rolloff-48",
+          "name": "filter-rolloff",
           "text": "-48",
           "value": "-48",
         },
         Object {
+          "id": "rolloff-96",
+          "name": "filter-rolloff",
           "text": "-96",
           "value": "-96",
         },
       ]
     }
-    propertyPathArray={
-      Array [
-        "filter",
-        "rolloff",
-      ]
-    }
-    shouldConvertToFloat={true}
+    rowDescription="Rolloff"
     value="-24"
   />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="filter-type"
-    label="Type"
-    options={
+  <Switch
+    handleChange={[Function]}
+    optionsData={
       Array [
         Object {
+          "id": "filterTypeLowpass",
+          "name": "filter-type",
           "text": "Low Pass",
           "value": "lowpass",
         },
         Object {
+          "id": "filterTypeHighpass",
+          "name": "filter-type",
           "text": "High Pass",
           "value": "highpass",
         },
         Object {
+          "id": "filterTypeBandpass",
+          "name": "filter-type",
           "text": "Band Pass",
           "value": "bandpass",
         },
         Object {
+          "id": "filterTypesAllpass",
+          "name": "filter-type",
+          "text": "All Pass",
+          "value": "allpass",
+        },
+      ]
+    }
+    rowDescription="Filter Type"
+    value="lowpass"
+  />
+  <Switch
+    handleChange={[Function]}
+    optionsData={
+      Array [
+        Object {
+          "id": "filterTypeLowshelf",
+          "name": "filter-type",
           "text": "Low Shelf",
           "value": "lowshelf",
         },
         Object {
+          "id": "filterTypeHighshelf",
+          "name": "filter-type",
           "text": "High Shelf",
           "value": "highshelf",
         },
         Object {
+          "id": "filterTypeNotch",
+          "name": "filter-type",
           "text": "Notch",
           "value": "notch",
         },
         Object {
-          "text": "All Pass",
-          "value": "allpass",
-        },
-        Object {
+          "id": "filterTypesPeaking",
+          "name": "filter-type",
           "text": "Peaking",
           "value": "peaking",
         },
       ]
     }
-    propertyPathArray={
-      Array [
-        "filter",
-        "type",
-      ]
-    }
+    rowDescription="Filter Type"
     value="lowpass"
   />
 </div>

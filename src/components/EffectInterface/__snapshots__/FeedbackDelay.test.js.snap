@@ -10,116 +10,126 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedSelectInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="delay-time"
-      label="Delay Time"
-      options={
-        Array [
-          Object {
-            "text": "32n",
-            "value": "32n",
-          },
-          Object {
-            "text": "32t",
-            "value": "32t",
-          },
-          Object {
-            "text": "32d",
-            "value": "32n.",
-          },
-          Object {
-            "text": "16n",
-            "value": "16n",
-          },
-          Object {
-            "text": "16t",
-            "value": "16t",
-          },
-          Object {
-            "text": "16d",
-            "value": "16n.",
-          },
-          Object {
-            "text": "8n",
-            "value": "8n",
-          },
-          Object {
-            "text": "8t",
-            "value": "8t",
-          },
-          Object {
-            "text": "8d",
-            "value": "8n.",
-          },
-          Object {
-            "text": "4n",
-            "value": "4n",
-          },
-          Object {
-            "text": "4t",
-            "value": "4t",
-          },
-          Object {
-            "text": "4d",
-            "value": "4n.",
-          },
-          Object {
-            "text": "2n",
-            "value": "2n",
-          },
-          Object {
-            "text": "2t",
-            "value": "2t",
-          },
-          Object {
-            "text": "2d",
-            "value": "2n.",
-          },
-          Object {
-            "text": "1m",
-            "value": "1m",
-          },
-        ]
+    <div
+      className="effect__dial-row"
+    >
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={0.125}
+      >
+        <Component />
+      </Connect(Dial)>
+      <Connect(Dial)
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToStep={true}
+        stepSize={0.004}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Connect(Dial)>
+    </div>
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "column",
+          "marginTop": "16px",
+          "width": "100%",
+        }
       }
-      propertyPathArray={
-        Array [
-          "delayTime",
-        ]
-      }
-      value="8n"
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="feedback"
-      label="Feedback"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "feedback",
-        ]
-      }
-      step={0.005}
-      value={0.125}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="wet"
-      label="Wet"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "wet",
-        ]
-      }
-      step={0.005}
-      value={1}
-    />
+    >
+      <EnhancedSelectInput
+        handleChange={[MockFunction]}
+        identifier="6156266754586526"
+        inputId="delay-time"
+        label="Delay Time"
+        options={
+          Array [
+            Object {
+              "text": "32n",
+              "value": "32n",
+            },
+            Object {
+              "text": "32t",
+              "value": "32t",
+            },
+            Object {
+              "text": "32d",
+              "value": "32n.",
+            },
+            Object {
+              "text": "16n",
+              "value": "16n",
+            },
+            Object {
+              "text": "16t",
+              "value": "16t",
+            },
+            Object {
+              "text": "16d",
+              "value": "16n.",
+            },
+            Object {
+              "text": "8n",
+              "value": "8n",
+            },
+            Object {
+              "text": "8t",
+              "value": "8t",
+            },
+            Object {
+              "text": "8d",
+              "value": "8n.",
+            },
+            Object {
+              "text": "4n",
+              "value": "4n",
+            },
+            Object {
+              "text": "4t",
+              "value": "4t",
+            },
+            Object {
+              "text": "4d",
+              "value": "4n.",
+            },
+            Object {
+              "text": "2n",
+              "value": "2n",
+            },
+            Object {
+              "text": "2t",
+              "value": "2t",
+            },
+            Object {
+              "text": "2d",
+              "value": "2n.",
+            },
+            Object {
+              "text": "1m",
+              "value": "1m",
+            },
+          ]
+        }
+        propertyPathArray={
+          Array [
+            "delayTime",
+          ]
+        }
+        value="8n"
+      />
+    </div>
   </div>
 </div>
 `;
