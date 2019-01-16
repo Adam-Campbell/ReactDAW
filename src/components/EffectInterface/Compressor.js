@@ -16,7 +16,7 @@ const Compressor = props => (
                     dataMin={0.001}
                     dataMax={0.5}
                     stepSize={0.001}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.attack}
                     dialStartOffset={225}
                     dialRange={270}
@@ -32,7 +32,7 @@ const Compressor = props => (
                     dataMin={5}
                     dataMax={55}
                     stepSize={0.25}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.knee}
                     dialStartOffset={225}
                     dialRange={270}
@@ -48,7 +48,7 @@ const Compressor = props => (
                     dataMin={1}
                     dataMax={60}
                     stepSize={0.25}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.ratio}
                     dialStartOffset={225}
                     dialRange={270}
@@ -64,7 +64,7 @@ const Compressor = props => (
                     dataMin={0.001}
                     dataMax={0.5}
                     stepSize={0.001}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.release}
                     dialStartOffset={225}
                     dialRange={270}
@@ -80,7 +80,7 @@ const Compressor = props => (
                     dataMin={-96}
                     dataMax={0}
                     stepSize={0.25}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.threshold}
                     dialStartOffset={225}
                     dialRange={270}

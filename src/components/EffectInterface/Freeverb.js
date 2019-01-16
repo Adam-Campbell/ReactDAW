@@ -16,7 +16,7 @@ const Freeverb = props => (
                     dataMin={40}
                     dataMax={16000}
                     stepSize={5}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.dampening}
                     dialStartOffset={225}
                     dialRange={270}
@@ -32,7 +32,7 @@ const Freeverb = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.roomSize}
                     dialStartOffset={225}
                     dialRange={270}
@@ -48,7 +48,7 @@ const Freeverb = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.wet}
                     dialStartOffset={225}
                     dialRange={270}

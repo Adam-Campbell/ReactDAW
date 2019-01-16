@@ -43,7 +43,7 @@ const FMSynth = props => (
                 dataMin={-100}
                 dataMax={100}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.detune}
                 dialStartOffset={225}
                 dialRange={270}
@@ -59,7 +59,7 @@ const FMSynth = props => (
                 dataMin={0.25}
                 dataMax={8}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.harmonicity}
                 dialStartOffset={225}
                 dialRange={270}
@@ -75,7 +75,7 @@ const FMSynth = props => (
                 dataMin={0}
                 dataMax={20}
                 stepSize={0.1}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.modulationIndex}
                 dialStartOffset={225}
                 dialRange={270}
@@ -91,7 +91,7 @@ const FMSynth = props => (
                 dataMin={-80}
                 dataMax={20}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.volume}
                 dialStartOffset={225}
                 dialRange={270}

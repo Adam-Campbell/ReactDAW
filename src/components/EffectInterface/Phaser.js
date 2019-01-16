@@ -16,7 +16,7 @@ const Phaser = props => (
                     dataMin={0}
                     dataMax={20}
                     stepSize={0.05}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.Q}
                     dialStartOffset={225}
                     dialRange={270}
@@ -32,7 +32,7 @@ const Phaser = props => (
                     dataMin={40}
                     dataMax={16000}
                     stepSize={5}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.baseFrequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -48,7 +48,7 @@ const Phaser = props => (
                     dataMin={0.1}
                     dataMax={20}
                     stepSize={0.05}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.frequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -64,7 +64,7 @@ const Phaser = props => (
                     dataMin={0}
                     dataMax={7}
                     stepSize={1}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.octaves}
                     dialStartOffset={225}
                     dialRange={270}
@@ -80,7 +80,7 @@ const Phaser = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.wet}
                     dialStartOffset={225}
                     dialRange={270}

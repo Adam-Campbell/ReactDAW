@@ -19,94 +19,94 @@ exports[`renders correctly 1`] = `
   <div
     className="instrument-interface__dial-row"
   >
-    <Connect(Dial)
+    <Dial
       dataMax={1}
       dataMin={0.005}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.005}
       updateValueCallback={[Function]}
       value={0.06}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={1}
       dataMin={0}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.005}
       updateValueCallback={[Function]}
       value={0.2}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={1}
       dataMin={0}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.005}
       updateValueCallback={[Function]}
       value={0.5}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={1}
       dataMin={0.005}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.005}
       updateValueCallback={[Function]}
       value={2}
     >
       <Component />
-    </Connect(Dial)>
+    </Dial>
   </div>
   <div
     className="instrument-interface__dial-row"
   >
-    <Connect(Dial)
+    <Dial
       dataMax={16000}
       dataMin={40}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={5}
       updateValueCallback={[Function]}
       value={200}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={10}
       dataMin={1}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={1}
       updateValueCallback={[Function]}
       value={2}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={10}
       dataMin={0}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={1}
       updateValueCallback={[Function]}
       value={7}
     >
       <Component />
-    </Connect(Dial)>
+    </Dial>
   </div>
 </div>
 `;

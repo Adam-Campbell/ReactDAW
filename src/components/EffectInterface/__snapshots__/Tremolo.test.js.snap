@@ -13,54 +13,54 @@ exports[`renders correctly 1`] = `
     <div
       className="effect__dial-row"
     >
-      <Connect(Dial)
+      <Dial
         dataMax={1}
         dataMin={0}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.005}
         updateValueCallback={[Function]}
         value={0.5}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={20}
         dataMin={0.1}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.05}
         updateValueCallback={[Function]}
         value={10}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={180}
         dataMin={0}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.5}
         updateValueCallback={[Function]}
         value={180}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={1}
         dataMin={0}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.005}
         updateValueCallback={[Function]}
         value={1}
       >
         <Component />
-      </Connect(Dial)>
+      </Dial>
     </div>
     <Switch
       handleChange={[Function]}

@@ -18,7 +18,7 @@ const Chorus = props => (
                     dataMin={2}
                     dataMax={20}
                     stepSize={0.05}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.delayTime}
                     dialStartOffset={225}
                     dialRange={270}
@@ -34,7 +34,7 @@ const Chorus = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.depth}
                     dialStartOffset={225}
                     dialRange={270}
@@ -50,7 +50,7 @@ const Chorus = props => (
                     dataMin={0.1}
                     dataMax={10}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.frequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -66,7 +66,7 @@ const Chorus = props => (
                     dataMin={0}
                     dataMax={180}
                     stepSize={0.5}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.spread}
                     dialStartOffset={225}
                     dialRange={270}
@@ -82,7 +82,7 @@ const Chorus = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.wet}
                     dialStartOffset={225}
                     dialRange={270}

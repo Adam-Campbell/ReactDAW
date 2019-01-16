@@ -21,7 +21,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={0.005}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.attack}
                 dialStartOffset={225}
                 dialRange={270}
@@ -37,7 +37,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={0}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.decay}
                 dialStartOffset={225}
                 dialRange={270}
@@ -53,7 +53,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={0}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.sustain}
                 dialStartOffset={225}
                 dialRange={270}
@@ -69,7 +69,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={0.005}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.release}
                 dialStartOffset={225}
                 dialRange={270}
@@ -87,7 +87,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={40}
                 dataMax={16000}
                 stepSize={5}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.baseFrequency}
                 dialStartOffset={225}
                 dialRange={270}
@@ -104,7 +104,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={1}
                 dataMax={10}
                 stepSize={1}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.exponent}
                 dialStartOffset={225}
                 dialRange={270}
@@ -120,7 +120,7 @@ const FilterEnvelopeModule = props => (
                 dataMin={0}
                 dataMax={10}
                 stepSize={1}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.filterEnvelopeData.octaves}
                 dialStartOffset={225}
                 dialRange={270}

@@ -16,7 +16,7 @@ const EQ3 = props => (
                     dataMin={-40}
                     dataMax={10}
                     stepSize={0.1}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.high}
                     dialStartOffset={225}
                     dialRange={270}
@@ -32,7 +32,7 @@ const EQ3 = props => (
                     dataMin={1200}
                     dataMax={6000}
                     stepSize={25}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.highFrequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -48,7 +48,7 @@ const EQ3 = props => (
                     dataMin={-40}
                     dataMax={10}
                     stepSize={0.1}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.low}
                     dialStartOffset={225}
                     dialRange={270}
@@ -64,7 +64,7 @@ const EQ3 = props => (
                     dataMin={200}
                     dataMax={800}
                     stepSize={5}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.lowFrequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -80,7 +80,7 @@ const EQ3 = props => (
                     dataMin={-40}
                     dataMax={10}
                     stepSize={0.1}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.mid}
                     dialStartOffset={225}
                     dialRange={270}

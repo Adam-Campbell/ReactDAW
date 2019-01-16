@@ -12,42 +12,42 @@ exports[`renders correctly 1`] = `
   <div
     className="instrument-interface__dial-row"
   >
-    <Connect(Dial)
+    <Dial
       dataMax={20}
       dataMin={0}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.05}
       updateValueCallback={[Function]}
       value={6}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={16000}
       dataMin={40}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={5}
       updateValueCallback={[Function]}
       value={350}
     >
       <Component />
-    </Connect(Dial)>
-    <Connect(Dial)
+    </Dial>
+    <Dial
       dataMax={10}
       dataMin={-40}
       dialRange={270}
       dialStartOffset={225}
-      snapToStep={true}
+      snapToSteps={true}
       stepSize={0.05}
       updateValueCallback={[Function]}
       value={0}
     >
       <Component />
-    </Connect(Dial)>
+    </Dial>
   </div>
   <Switch
     handleChange={[Function]}

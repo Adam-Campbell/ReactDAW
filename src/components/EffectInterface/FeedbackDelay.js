@@ -18,7 +18,7 @@ const FeedbackDelay = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.005}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.feedback}
                     dialStartOffset={225}
                     dialRange={270}
@@ -34,7 +34,7 @@ const FeedbackDelay = props => (
                     dataMin={0}
                     dataMax={1}
                     stepSize={0.004}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.wet}
                     dialStartOffset={225}
                     dialRange={270}

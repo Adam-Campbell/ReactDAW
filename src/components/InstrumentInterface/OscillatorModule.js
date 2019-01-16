@@ -17,7 +17,7 @@ const OscillatorModule = props => (
                 dataMin={-100}
                 dataMax={100}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.oscillatorData.detune}
                 dialStartOffset={225}
                 dialRange={270}
@@ -33,7 +33,7 @@ const OscillatorModule = props => (
                 dataMin={0}
                 dataMax={360}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.oscillatorData.phase}
                 dialStartOffset={225}
                 dialRange={270}
@@ -49,7 +49,7 @@ const OscillatorModule = props => (
                 dataMin={-80}
                 dataMax={20}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.oscillatorData.volume}
                 dialStartOffset={225}
                 dialRange={270}

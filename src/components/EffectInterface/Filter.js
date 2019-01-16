@@ -18,7 +18,7 @@ const Filter = props => (
                     dataMin={0}
                     dataMax={20}
                     stepSize={0.05}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.Q}
                     dialStartOffset={225}
                     dialRange={270}
@@ -34,7 +34,7 @@ const Filter = props => (
                     dataMin={40}
                     dataMax={16000}
                     stepSize={5}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.frequency}
                     dialStartOffset={225}
                     dialRange={270}
@@ -50,7 +50,7 @@ const Filter = props => (
                     dataMin={-40}
                     dataMax={10}
                     stepSize={0.1}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.gain}
                     dialStartOffset={225}
                     dialRange={270}

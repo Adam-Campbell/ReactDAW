@@ -13,66 +13,66 @@ exports[`renders correctly 1`] = `
     <div
       className="effect__dial-row"
     >
-      <Connect(Dial)
+      <Dial
         dataMax={0.5}
         dataMin={0.001}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.001}
         updateValueCallback={[Function]}
         value={0.003}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={55}
         dataMin={5}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.25}
         updateValueCallback={[Function]}
         value={30}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={60}
         dataMin={1}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.25}
         updateValueCallback={[Function]}
         value={12}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={0.5}
         dataMin={0.001}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.001}
         updateValueCallback={[Function]}
         value={0.25}
       >
         <Component />
-      </Connect(Dial)>
-      <Connect(Dial)
+      </Dial>
+      <Dial
         dataMax={0}
         dataMin={-96}
         dialRange={270}
         dialStartOffset={225}
-        snapToStep={true}
+        snapToSteps={true}
         stepSize={0.25}
         updateValueCallback={[Function]}
         value={-24}
       >
         <Component />
-      </Connect(Dial)>
+      </Dial>
     </div>
   </div>
 </div>

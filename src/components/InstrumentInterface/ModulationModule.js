@@ -14,7 +14,7 @@ const ModulationModule = props => (
                 dataMin={-100}
                 dataMax={100}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.modulationData.detune}
                 dialStartOffset={225}
                 dialRange={270}
@@ -30,7 +30,7 @@ const ModulationModule = props => (
                 dataMin={0}
                 dataMax={360}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.modulationData.phase}
                 dialStartOffset={225}
                 dialRange={270}
@@ -46,7 +46,7 @@ const ModulationModule = props => (
                 dataMin={-80}
                 dataMax={20}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.modulationData.volume}
                 dialStartOffset={225}
                 dialRange={270}

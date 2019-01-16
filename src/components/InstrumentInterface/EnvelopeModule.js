@@ -21,7 +21,7 @@ const EnvelopeModule = props => (
                 dataMin={0.005}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.envelopeData.attack}
                 dialStartOffset={225}
                 dialRange={270}
@@ -37,7 +37,7 @@ const EnvelopeModule = props => (
                 dataMin={0.005}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.envelopeData.decay}
                 dialStartOffset={225}
                 dialRange={270}
@@ -53,7 +53,7 @@ const EnvelopeModule = props => (
                 dataMin={0.005}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.envelopeData.release}
                 dialStartOffset={225}
                 dialRange={270}
@@ -69,7 +69,7 @@ const EnvelopeModule = props => (
                 dataMin={0}
                 dataMax={1}
                 stepSize={0.005}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.envelopeData.sustain}
                 dialStartOffset={225}
                 dialRange={270}

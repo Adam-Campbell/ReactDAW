@@ -118,7 +118,7 @@ class DuoSynth extends Component {
                         dataMin={0.25}
                         dataMax={8}
                         stepSize={0.05}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.harmonicity}
                         dialStartOffset={225}
                         dialRange={270}
@@ -134,7 +134,7 @@ class DuoSynth extends Component {
                         dataMin={0}
                         dataMax={5}
                         stepSize={0.05}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.vibratoAmount}
                         dialStartOffset={225}
                         dialRange={270}
@@ -150,7 +150,7 @@ class DuoSynth extends Component {
                         dataMin={5}
                         dataMax={1000}
                         stepSize={5}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.vibratoRate}
                         dialStartOffset={225}
                         dialRange={270}
@@ -166,7 +166,7 @@ class DuoSynth extends Component {
                         dataMin={-80}
                         dataMax={20}
                         stepSize={0.25}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.volume}
                         dialStartOffset={225}
                         dialRange={270}

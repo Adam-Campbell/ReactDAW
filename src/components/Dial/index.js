@@ -152,13 +152,4 @@ class Dial extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    
-});
-
-export default connect(
-    mapStateToProps,
-    { 
-        updateDial: ActionCreators.updateDial
-    }
-)(Dial);
+export default Dial;

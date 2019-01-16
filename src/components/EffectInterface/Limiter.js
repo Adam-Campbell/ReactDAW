@@ -16,7 +16,7 @@ const Limiter = props => (
                     dataMin={-96}
                     dataMax={0}
                     stepSize={0.25}
-                    snapToStep={true}
+                    snapToSteps={true}
                     value={props.effectData.threshold}
                     dialStartOffset={225}
                     dialRange={270}
