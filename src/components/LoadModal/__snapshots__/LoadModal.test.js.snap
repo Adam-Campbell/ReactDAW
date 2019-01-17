@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`LoadModal renders correctly 1`] = `
 <Fragment>
   <button
     className="button pink"
