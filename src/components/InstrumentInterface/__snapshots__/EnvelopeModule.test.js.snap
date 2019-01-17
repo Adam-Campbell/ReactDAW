@@ -9,159 +9,64 @@ exports[`renders correctly 1`] = `
   >
     Envelope
   </h2>
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-attack"
-    label="Attack"
-    max={1}
-    min={0.005}
-    propertyPathArray={
-      Array [
-        "envelope",
-        "attack",
-      ]
-    }
-    step={0.005}
-    value={0.005}
+  <ADSRDisplay
+    attack={0.005}
+    decay={0.1}
+    id="envelope-adsr-display"
+    release={1}
+    sustain={0.3}
   />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-attack-curve"
-    label="Attack Curve"
-    options={
-      Array [
-        Object {
-          "text": "Linear",
-          "value": "linear",
-        },
-        Object {
-          "text": "Exponential",
-          "value": "exponential",
-        },
-        Object {
-          "text": "Sine",
-          "value": "sine",
-        },
-        Object {
-          "text": "Cosine",
-          "value": "cosine",
-        },
-        Object {
-          "text": "Bounce",
-          "value": "bounce",
-        },
-        Object {
-          "text": "Ripple",
-          "value": "ripple",
-        },
-        Object {
-          "text": "Step",
-          "value": "step",
-        },
-      ]
-    }
-    propertyPathArray={
-      Array [
-        "envelope",
-        "attackCurve",
-      ]
-    }
-    value="linear"
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-decay"
-    label="Decay"
-    max={1}
-    min={0.005}
-    propertyPathArray={
-      Array [
-        "envelope",
-        "decay",
-      ]
-    }
-    step={0.005}
-    value={0.1}
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-release"
-    label="Release"
-    max={1}
-    min={0.005}
-    propertyPathArray={
-      Array [
-        "envelope",
-        "release",
-      ]
-    }
-    step={0.005}
-    value={1}
-  />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-release-curve"
-    label="Release Curve"
-    options={
-      Array [
-        Object {
-          "text": "Linear",
-          "value": "linear",
-        },
-        Object {
-          "text": "Exponential",
-          "value": "exponential",
-        },
-        Object {
-          "text": "Sine",
-          "value": "sine",
-        },
-        Object {
-          "text": "Cosine",
-          "value": "cosine",
-        },
-        Object {
-          "text": "Bounce",
-          "value": "bounce",
-        },
-        Object {
-          "text": "Ripple",
-          "value": "ripple",
-        },
-        Object {
-          "text": "Step",
-          "value": "step",
-        },
-      ]
-    }
-    propertyPathArray={
-      Array [
-        "envelope",
-        "releaseCurve",
-      ]
-    }
-    value="exponential"
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="envelope-sustain"
-    label="Sustain"
-    max={1}
-    min={0}
-    propertyPathArray={
-      Array [
-        "envelope",
-        "sustain",
-      ]
-    }
-    step={0.005}
-    value={0.3}
-  />
+  <div
+    className="instrument-interface__dial-row"
+  >
+    <Dial
+      dataMax={1}
+      dataMin={0.005}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.005}
+      updateValueCallback={[Function]}
+      value={0.005}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={1}
+      dataMin={0.005}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.005}
+      updateValueCallback={[Function]}
+      value={0.1}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={1}
+      dataMin={0.005}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.005}
+      updateValueCallback={[Function]}
+      value={1}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={1}
+      dataMin={0}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.005}
+      updateValueCallback={[Function]}
+      value={0.3}
+    >
+      <Component />
+    </Dial>
+  </div>
 </div>
 `;

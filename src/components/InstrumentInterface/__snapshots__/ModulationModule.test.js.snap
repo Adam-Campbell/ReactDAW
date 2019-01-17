@@ -9,86 +9,78 @@ exports[`renders correctly 1`] = `
   >
     Modulation
   </h2>
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="modulation-detune"
-    label="Detune"
-    max={100}
-    min={-100}
-    propertyPathArray={
-      Array [
-        "modulation",
-        "detune",
-      ]
-    }
-    step={1}
-    value={0}
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="modulation-phase"
-    label="Phase"
-    max={360}
-    min={0}
-    propertyPathArray={
-      Array [
-        "modulation",
-        "phase",
-      ]
-    }
-    step={1}
-    value={0}
-  />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="modulation-type"
-    label="Type"
-    options={
+  <div
+    className="instrument-interface__dial-row"
+  >
+    <Dial
+      dataMax={100}
+      dataMin={-100}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={360}
+      dataMin={0}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={20}
+      dataMin={-80}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+  </div>
+  <Switch
+    handleChange={[Function]}
+    optionsData={
       Array [
         Object {
+          "id": "modulation-type-sine",
+          "name": "modulation-type",
           "text": "Sine",
           "value": "sine",
         },
         Object {
+          "id": "modulation-type-square",
+          "name": "modulation-type",
           "text": "Square",
           "value": "square",
         },
         Object {
+          "id": "modulation-type-triangle",
+          "name": "modulation-type",
           "text": "Triangle",
           "value": "triangle",
         },
         Object {
+          "id": "modulation-type-sawtooth",
+          "name": "modulation-type",
           "text": "Sawtooth",
           "value": "sawtooth",
         },
       ]
     }
-    propertyPathArray={
-      Array [
-        "modulation",
-        "type",
-      ]
-    }
+    rowDescription="Waveform"
     value="square"
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="modulation-volume"
-    label="Volume"
-    max={20}
-    min={-80}
-    propertyPathArray={
-      Array [
-        "modulation",
-        "volume",
-      ]
-    }
-    step={1}
-    value={0}
   />
 </div>
 `;

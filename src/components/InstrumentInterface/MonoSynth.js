@@ -14,23 +14,21 @@ const MonoSynth = props => (
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}
-            dblCol
         />
         <OscillatorModule 
             oscillatorData={props.instrumentData.oscillator}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}
-            dblCol
         />
-        <FilterModule 
-            filterData={props.instrumentData.filter}
+        <FilterEnvelopeModule 
+            filterEnvelopeData={props.instrumentData.filterEnvelope}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}
         />
-        <FilterEnvelopeModule 
-            filterEnvelopeData={props.instrumentData.filterEnvelope}
+        <FilterModule 
+            filterData={props.instrumentData.filter}
             handleChange={props.handleChange}
             instrumentId={props.instrumentId}
             additionalNesting={[]}

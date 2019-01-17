@@ -2,141 +2,57 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="instrument-interface__module-container"
+  className="instrument-interface__module-container instrument-interface__module-container--horizontal
+        "
 >
   <h2
     className="instrument-interface__module-heading"
   >
     Oscillator
   </h2>
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="oscillator-detune"
-    label="Detune"
-    max={100}
-    min={-100}
-    propertyPathArray={
-      Array [
-        "oscillator",
-        "detune",
-      ]
-    }
-    step={1}
-    value={0}
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="oscillator-phase"
-    label="Phase"
-    max={360}
-    min={0}
-    propertyPathArray={
-      Array [
-        "oscillator",
-        "phase",
-      ]
-    }
-    step={1}
-    value={0}
-  />
-  <EnhancedSelectInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="oscillator-type"
-    label="Type"
-    options={
-      Array [
-        Object {
-          "text": "Sine",
-          "value": "sine",
-        },
-        Object {
-          "text": "AM Sine",
-          "value": "amsine",
-        },
-        Object {
-          "text": "FM Sine",
-          "value": "fmsine",
-        },
-        Object {
-          "text": "Fat Sine",
-          "value": "fatsine",
-        },
-        Object {
-          "text": "Square",
-          "value": "square",
-        },
-        Object {
-          "text": "AM Square",
-          "value": "amsquare",
-        },
-        Object {
-          "text": "FM Square",
-          "value": "fmsquare",
-        },
-        Object {
-          "text": "Fat Square",
-          "value": "fatsquare",
-        },
-        Object {
-          "text": "Triangle",
-          "value": "triangle",
-        },
-        Object {
-          "text": "AM Triangle",
-          "value": "amtriangle",
-        },
-        Object {
-          "text": "FM Triangle",
-          "value": "fmtriangle",
-        },
-        Object {
-          "text": "Fat Triangle",
-          "value": "fattriangle",
-        },
-        Object {
-          "text": "Sawtooth",
-          "value": "sawtooth",
-        },
-        Object {
-          "text": "AM Sawtooth",
-          "value": "amsawtooth",
-        },
-        Object {
-          "text": "FM Sawtooth",
-          "value": "fmsawtooth",
-        },
-        Object {
-          "text": "Fat Sawtooth",
-          "value": "fatsawtooth",
-        },
-      ]
-    }
-    propertyPathArray={
-      Array [
-        "oscillator",
-        "type",
-      ]
-    }
+  <div
+    className="instrument-interface__dial-row"
+  >
+    <Dial
+      dataMax={100}
+      dataMin={-100}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={360}
+      dataMin={0}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={20}
+      dataMin={-80}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+  </div>
+  <OscillatorTypeSwitch
+    handleChangeCallback={[Function]}
     value="triangle"
-  />
-  <EnhancedRangeInput
-    handleChange={[MockFunction]}
-    identifier="5542150612118159"
-    inputId="oscillator-volume"
-    label="Volume"
-    max={20}
-    min={-80}
-    propertyPathArray={
-      Array [
-        "oscillator",
-        "volume",
-      ]
-    }
-    step={1}
-    value={0}
   />
 </div>
 `;

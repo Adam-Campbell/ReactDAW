@@ -10,81 +10,70 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="q"
-      label="Q"
-      max={20}
-      min={0}
-      propertyPathArray={
-        Array [
-          "Q",
-        ]
-      }
-      step={0.5}
-      value={10}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="base-frequency"
-      label="Base Frequency"
-      max={16000}
-      min={40}
-      propertyPathArray={
-        Array [
-          "baseFrequency",
-        ]
-      }
-      step={25}
-      value={350}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="frequency"
-      label="Frequency"
-      max={20}
-      min={0.1}
-      propertyPathArray={
-        Array [
-          "frequency",
-        ]
-      }
-      step={0.1}
-      value={0.5}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="octaves"
-      label="Octaves"
-      max={7}
-      min={0}
-      propertyPathArray={
-        Array [
-          "octaves",
-        ]
-      }
-      step={1}
-      value={3}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="wet"
-      label="Wet"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "wet",
-        ]
-      }
-      step={0.005}
-      value={1}
-    />
+    <div
+      className="effect__dial-row"
+    >
+      <Dial
+        dataMax={20}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.05}
+        updateValueCallback={[Function]}
+        value={10}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={16000}
+        dataMin={40}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={5}
+        updateValueCallback={[Function]}
+        value={350}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={20}
+        dataMin={0.1}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.05}
+        updateValueCallback={[Function]}
+        value={0.5}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={7}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={1}
+        updateValueCallback={[Function]}
+        value={3}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Dial>
+    </div>
   </div>
 </div>
 `;

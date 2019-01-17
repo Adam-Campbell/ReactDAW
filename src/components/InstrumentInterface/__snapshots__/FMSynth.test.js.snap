@@ -7,127 +7,119 @@ exports[`renders correctly 1`] = `
   <HeaderModule
     instrumentTitle="FM Synth"
   />
-  <EnvelopeModule
-    additionalNesting={Array []}
-    envelopeData={
-      Object {
-        "attack": 0.01,
-        "attackCurve": "linear",
-        "decay": 0.01,
-        "release": 0.5,
-        "releaseCurve": "exponential",
-        "sustain": 1,
-      }
-    }
-    handleChange={[MockFunction]}
-    instrumentId="5542150612118159"
-  />
-  <OscillatorModule
-    additionalNesting={Array []}
-    handleChange={[MockFunction]}
-    instrumentId="5542150612118159"
-    oscillatorData={
-      Object {
-        "detune": 0,
-        "mute": false,
-        "phase": 0,
-        "type": "triangle",
-        "volume": 0,
-      }
-    }
-  />
-  <ModulationModule
-    additionalNesting={Array []}
-    handleChange={[MockFunction]}
-    instrumentId="5542150612118159"
-    modulationData={
-      Object {
-        "detune": 0,
-        "mute": false,
-        "phase": 0,
-        "type": "square",
-        "volume": 0,
-      }
-    }
-  />
-  <ModulationEnvelopeModule
-    additionalNesting={Array []}
-    handleChange={[MockFunction]}
-    instrumentId="5542150612118159"
-    modulationEnvelopeData={
-      Object {
-        "attack": 0.5,
-        "attackCurve": "linear",
-        "decay": 0,
-        "release": 0.5,
-        "releaseCurve": "exponential",
-        "sustain": 1,
-      }
-    }
-  />
   <div
-    className="instrument-interface__module-container"
+    className="instrument-interface__main-section"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="5542150612118159"
-      inputId="detune"
-      label="Detune"
-      max={100}
-      min={-100}
-      propertyPathArray={
-        Array [
-          "detune",
-        ]
+    <EnvelopeModule
+      additionalNesting={Array []}
+      envelopeData={
+        Object {
+          "attack": 0.01,
+          "attackCurve": "linear",
+          "decay": 0.01,
+          "release": 0.5,
+          "releaseCurve": "exponential",
+          "sustain": 1,
+        }
       }
-      step={1}
-      value={0}
+      handleChange={[MockFunction]}
+      instrumentId="5542150612118159"
     />
-    <EnhancedRangeInput
+    <OscillatorModule
+      additionalNesting={Array []}
       handleChange={[MockFunction]}
-      identifier="5542150612118159"
-      inputId="harmonicity"
-      label="Harmonicity"
-      max={8}
-      min={0.25}
-      propertyPathArray={
-        Array [
-          "harmonicity",
-        ]
+      instrumentId="5542150612118159"
+      oscillatorData={
+        Object {
+          "detune": 0,
+          "mute": false,
+          "phase": 0,
+          "type": "triangle",
+          "volume": 0,
+        }
       }
-      step={0.25}
+    />
+    <ModulationEnvelopeModule
+      additionalNesting={Array []}
+      handleChange={[MockFunction]}
+      instrumentId="5542150612118159"
+      modulationEnvelopeData={
+        Object {
+          "attack": 0.5,
+          "attackCurve": "linear",
+          "decay": 0,
+          "release": 0.5,
+          "releaseCurve": "exponential",
+          "sustain": 1,
+        }
+      }
+    />
+    <ModulationModule
+      additionalNesting={Array []}
+      handleChange={[MockFunction]}
+      instrumentId="5542150612118159"
+      modulationData={
+        Object {
+          "detune": 0,
+          "mute": false,
+          "phase": 0,
+          "type": "square",
+          "volume": 0,
+        }
+      }
+    />
+  </div>
+  <div
+    className="instrument-interface__aside-section"
+  >
+    <Dial
+      dataMax={100}
+      dataMin={-100}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={8}
+      dataMin={0.25}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
       value={3}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="5542150612118159"
-      inputId="volume"
-      label="Volume"
-      max={20}
-      min={-80}
-      propertyPathArray={
-        Array [
-          "volume",
-        ]
-      }
-      step={1}
-      value={0}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="5542150612118159"
-      inputId="modulation-index"
-      label="Modulation Index"
-      max={20}
-      min={0}
-      propertyPathArray={
-        Array [
-          "modulationIndex",
-        ]
-      }
-      step={0.5}
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={20}
+      dataMin={0}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.1}
+      updateValueCallback={[Function]}
       value={10}
-    />
+    >
+      <Component />
+    </Dial>
+    <Dial
+      dataMax={20}
+      dataMin={-80}
+      dialRange={270}
+      dialStartOffset={225}
+      snapToSteps={true}
+      stepSize={0.25}
+      updateValueCallback={[Function]}
+      value={0}
+    >
+      <Component />
+    </Dial>
   </div>
 </div>
 `;

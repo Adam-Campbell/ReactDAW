@@ -10,51 +10,46 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="dampening"
-      label="Dampening"
-      max={16000}
-      min={40}
-      propertyPathArray={
-        Array [
-          "dampening",
-        ]
-      }
-      step={5}
-      value={3000}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="room-size"
-      label="Room Size"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "roomSize",
-        ]
-      }
-      step={0.005}
-      value={0.7}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="wet"
-      label="Wet"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "wet",
-        ]
-      }
-      step={0.005}
-      value={1}
-    />
+    <div
+      className="effect__dial-row"
+    >
+      <Dial
+        dataMax={16000}
+        dataMin={40}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={5}
+        updateValueCallback={[Function]}
+        value={3000}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={0.7}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Dial>
+    </div>
   </div>
 </div>
 `;

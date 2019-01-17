@@ -10,21 +10,22 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="threshold"
-      label="Threshold"
-      max={10}
-      min={-96}
-      propertyPathArray={
-        Array [
-          "threshold",
-        ]
-      }
-      step={0.5}
-      value={-12}
-    />
+    <div
+      className="effect__dial-row"
+    >
+      <Dial
+        dataMax={0}
+        dataMin={-96}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.25}
+        updateValueCallback={[Function]}
+        value={-12}
+      >
+        <Component />
+      </Dial>
+    </div>
   </div>
 </div>
 `;

@@ -50,6 +50,7 @@ export const subtractWith360Constraint = (minuend, subtrahend) => {
  * @param {Number} angle - the current dial angle 
  * @param {Number} startOffset - the dials start offset
  * @param {Number} range - the dials total range
+ * @returns {Object} - an object with the adjusted figures on it
  */
 export const adjustFigures = (angle, startOffset, range) => {
     const end = subtractWith360Constraint(startOffset, range);

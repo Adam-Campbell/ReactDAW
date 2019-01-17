@@ -10,97 +10,90 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="depth"
-      label="Depth"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "depth",
-        ]
-      }
-      step={0.005}
-      value={0.5}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="frequency"
-      label="Frequency"
-      max={20}
-      min={0.1}
-      propertyPathArray={
-        Array [
-          "frequency",
-        ]
-      }
-      step={0.1}
-      value={10}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="spread"
-      label="Spread"
-      max={180}
-      min={0}
-      propertyPathArray={
-        Array [
-          "spread",
-        ]
-      }
-      step={1}
-      value={180}
-    />
-    <EnhancedSelectInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="type"
-      label="Type"
-      options={
+    <div
+      className="effect__dial-row"
+    >
+      <Dial
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={0.5}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={20}
+        dataMin={0.1}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.05}
+        updateValueCallback={[Function]}
+        value={10}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={180}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.5}
+        updateValueCallback={[Function]}
+        value={180}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={1}
+        dataMin={0}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.005}
+        updateValueCallback={[Function]}
+        value={1}
+      >
+        <Component />
+      </Dial>
+    </div>
+    <Switch
+      handleChange={[Function]}
+      optionsData={
         Array [
           Object {
+            "id": "tremolo-type-sine",
+            "name": "tremolo-wave-type",
             "text": "Sine",
             "value": "sine",
           },
           Object {
+            "id": "tremolo-type-square",
+            "name": "tremolo-wave-type",
             "text": "Square",
             "value": "square",
           },
           Object {
-            "text": "Sawtooth",
-            "value": "sawtooth",
-          },
-          Object {
+            "id": "tremolo-type-triangle",
+            "name": "tremolo-wave-type",
             "text": "Triangle",
             "value": "triangle",
           },
+          Object {
+            "id": "tremolo-type-sawtooth",
+            "name": "tremolo-wave-type",
+            "text": "Sawtooth",
+            "value": "sawtooth",
+          },
         ]
       }
-      propertyPathArray={
-        Array [
-          "type",
-        ]
-      }
+      rowDescription="Waveform"
       value="sine"
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="wet"
-      label="Wet"
-      max={1}
-      min={0}
-      propertyPathArray={
-        Array [
-          "wet",
-        ]
-      }
-      step={0.005}
-      value={1}
     />
   </div>
 </div>

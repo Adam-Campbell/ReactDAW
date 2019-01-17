@@ -10,51 +10,46 @@ exports[`renders correctly 1`] = `
   <div
     className="effect__settings-container"
   >
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="attack"
-      label="Attack"
-      max={0.5}
-      min={0.001}
-      propertyPathArray={
-        Array [
-          "attack",
-        ]
-      }
-      step={0.001}
-      value={0.1}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="release"
-      label="Release"
-      max={0.5}
-      min={0.001}
-      propertyPathArray={
-        Array [
-          "release",
-        ]
-      }
-      step={0.001}
-      value={0.1}
-    />
-    <EnhancedRangeInput
-      handleChange={[MockFunction]}
-      identifier="6156266754586526"
-      inputId="threshold"
-      label="threshold"
-      max={0}
-      min={-96}
-      propertyPathArray={
-        Array [
-          "threshold",
-        ]
-      }
-      step={0.5}
-      value={-39.99999999999999}
-    />
+    <div
+      className="effect__dial-row"
+    >
+      <Dial
+        dataMax={0.5}
+        dataMin={0.001}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.001}
+        updateValueCallback={[Function]}
+        value={0.1}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={0.5}
+        dataMin={0.001}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.001}
+        updateValueCallback={[Function]}
+        value={0.1}
+      >
+        <Component />
+      </Dial>
+      <Dial
+        dataMax={0}
+        dataMin={-96}
+        dialRange={270}
+        dialStartOffset={225}
+        snapToSteps={true}
+        stepSize={0.25}
+        updateValueCallback={[Function]}
+        value={-39.99999999999999}
+      >
+        <Component />
+      </Dial>
+    </div>
   </div>
 </div>
 `;

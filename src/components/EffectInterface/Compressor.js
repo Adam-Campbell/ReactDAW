@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
 
 const Compressor = props => (
     <div className="effect__container">
@@ -9,61 +11,88 @@ const Compressor = props => (
             effectTitle={'Compressor'}
         />
         <div className="effect__settings-container">
-            <EnhancedRangeInput 
-                inputId={'attack'}
-                label={'Attack'}
-                min={0.001}
-                max={0.5}
-                step={0.001}
-                value={props.effectData.attack}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['attack']}
-            />
-            <EnhancedRangeInput 
-                inputId={'knee'}
-                label={'Knee'}
-                min={5}
-                max={55}
-                step={1}
-                value={props.effectData.knee}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['knee']}
-            />
-            <EnhancedRangeInput 
-                inputId={'ratio'}
-                label={'Ratio'}
-                min={1}
-                max={60}
-                step={0.25}
-                value={props.effectData.ratio}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['ratio']}
-            />
-            <EnhancedRangeInput 
-                inputId={'release'}
-                label={'Release'}
-                min={0.001}
-                max={0.5}
-                step={0.001}
-                value={props.effectData.release}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['release']}
-            />
-            <EnhancedRangeInput 
-                inputId={'threshold'}
-                label={'threshold'}
-                min={-96}
-                max={0}
-                step={0.5}
-                value={props.effectData.threshold}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['threshold']}
-            />
+            <div className="effect__dial-row">
+                <Dial
+                    dataMin={0.001}
+                    dataMax={0.5}
+                    stepSize={0.001}
+                    snapToSteps={true}
+                    value={props.effectData.attack}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['attack'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Attack" />}
+                </Dial>
+                <Dial
+                    dataMin={5}
+                    dataMax={55}
+                    stepSize={0.25}
+                    snapToSteps={true}
+                    value={props.effectData.knee}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['knee'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Knee" />}
+                </Dial>
+                <Dial
+                    dataMin={1}
+                    dataMax={60}
+                    stepSize={0.25}
+                    snapToSteps={true}
+                    value={props.effectData.ratio}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['ratio'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Ratio" />}
+                </Dial>
+                <Dial
+                    dataMin={0.001}
+                    dataMax={0.5}
+                    stepSize={0.001}
+                    snapToSteps={true}
+                    value={props.effectData.release}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['release'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Release" />}
+                </Dial>
+                <Dial
+                    dataMin={-96}
+                    dataMax={0}
+                    stepSize={0.25}
+                    snapToSteps={true}
+                    value={props.effectData.threshold}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['threshold'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Threshold" />}
+                </Dial>
+            </div>
         </div>
     </div>
 );

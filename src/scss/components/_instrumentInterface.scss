@@ -7,24 +7,35 @@
         display: flex;
         flex-wrap: wrap;
         border: solid 4px;
+        max-height: 650px;
+        overflow-y: auto;
         @include boxShadow($color--pink);
         &--small {
-            width: 600px;
+            width: 700px;
         }
+    }
+    &__main-section {
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__aside-section {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        background-color: $color--light-purple;
+        border-radius: 3px;
+        padding: 8px;
     }
     &__module-container {
         padding: 8px 16px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         align-items: flex-start;
         flex-grow: 1;
-        &.instrument-interface__module-container--horizontal {
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-        &.instrument-interface__module-container--dbl-col {
-            width: 50%;
-        }
+        width: 50%;
     }
     &__module-heading {
         font-family: $font--primary;
@@ -32,6 +43,8 @@
         width: 100%;
         color: $color--pink;
         @include textShadow($color--pink);
+        margin-top: 0;
+        margin-bottom: 8px;
     }
     &__header-container {
         display: flex;
@@ -47,7 +60,9 @@
         font-family: $font--primary;
         font-size: 36px;
         color: $color--pink;
-        @include textShadow($color--pink)
+        @include textShadow($color--pink);
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
     &__drum-module-container {
         display: flex;
@@ -69,4 +84,65 @@
         align-self: center;
         padding: 8px;
     }
+    &__dial-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        & + & {
+            margin-top: 16px;
+        }
+    }
+}
+
+
+.adsr-placeholder {
+    background-color: $color--light-purple;
+    width: 100%;
+    height: 120px;
+    border-radius: 3px;
+}
+
+.switch__radio-button {
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -9999px;
+}
+
+.switch__label {
+    font-family: $font--primary;
+    font-size: 16px;
+    color: $color--pink;
+    background: none;
+    flex-basis: 25%;
+    flex-grow: 1;
+    padding: 8px;
+    text-align: center;
+    transition: all ease-in-out 0.25s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .switch__radio-button:hover + & { 
+        background-color: $color--light-purple;
+    }
+    .switch__radio-button:checked + & {
+        background-color: $color--pink;
+        color: $color--deep-purple;
+    }
+}
+
+.switch__row {
+    color: $color--pink;
+    border: solid 2px;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.switch__row-description {
+    font-family: $font--primary;
+    font-size: 14px;
+    margin-bottom: 0;
 }

@@ -12,6 +12,7 @@ import SmallDial from '../SmallDial';
 const AMSynth = props => (
     <div className="instrument-interface__container">
         <HeaderModule instrumentTitle="AM Synth" />
+        <div className="instrument-interface__main-section">
         <EnvelopeModule 
             envelopeData={props.instrumentData.envelope}
             handleChange={props.handleChange}
@@ -26,13 +27,6 @@ const AMSynth = props => (
             additionalNesting={[]}
             dblCol
         />
-        <ModulationModule 
-            modulationData={props.instrumentData.modulation}
-            handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
-            additionalNesting={[]}
-            dblCol
-        />
         <ModulationEnvelopeModule 
             modulationEnvelopeData={props.instrumentData.modulationEnvelope}
             handleChange={props.handleChange}
@@ -40,15 +34,20 @@ const AMSynth = props => (
             additionalNesting={[]}
             dblCol
         />
-        <div className={`instrument-interface__module-container 
-                         instrument-interface__module-container--horizontal
-                         instrument-interface__module-container--dbl-col`
-        }>
+        <ModulationModule 
+            modulationData={props.instrumentData.modulation}
+            handleChange={props.handleChange}
+            instrumentId={props.instrumentId}
+            additionalNesting={[]}
+            dblCol
+        />
+        </div>
+        <div className="instrument-interface__aside-section">
             <Dial
                 dataMin={-100}
                 dataMax={100}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.detune}
                 dialStartOffset={225}
                 dialRange={270}
@@ -64,7 +63,7 @@ const AMSynth = props => (
                 dataMin={0.25}
                 dataMax={8}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.harmonicity}
                 dialStartOffset={225}
                 dialRange={270}
@@ -80,7 +79,7 @@ const AMSynth = props => (
                 dataMin={-80}
                 dataMax={20}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.volume}
                 dialStartOffset={225}
                 dialRange={270}

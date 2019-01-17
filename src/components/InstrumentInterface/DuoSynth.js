@@ -8,26 +8,21 @@ import FilterEnvelopeModule from './FilterEnvelopeModule';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import Dial from '../Dial';
 import SmallDial from '../SmallDial';
+import Switch from '../Switch';
 
 class DuoSynth extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isShowingVoiceA: true
+            currentVoice: 'voiceA'
         };
     }
 
-    showVoiceA = () => {
+    changeCurrentVoice = (newVoice) => {
         this.setState({
-            isShowingVoiceA: true
+            currentVoice: newVoice
         });
     }
-
-    showVoiceB = () => {
-        this.setState({
-            isShowingVoiceA: false
-        });
-    };
 
     renderVoiceAControls() {
         return (
@@ -40,23 +35,21 @@ class DuoSynth extends Component {
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
-                    dblCol
                 />
                 <OscillatorModule 
                     oscillatorData={this.props.instrumentData.voice0.oscillator}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
-                    dblCol
                 />
-                <FilterModule 
-                    filterData={this.props.instrumentData.voice0.filter}
+                <FilterEnvelopeModule 
+                    filterEnvelopeData={this.props.instrumentData.voice0.filterEnvelope}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
                 />
-                <FilterEnvelopeModule 
-                    filterEnvelopeData={this.props.instrumentData.voice0.filterEnvelope}
+                <FilterModule 
+                    filterData={this.props.instrumentData.voice0.filter}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice0']}
@@ -85,14 +78,14 @@ class DuoSynth extends Component {
                     additionalNesting={['voice1']}
                     dblCol
                 />
-                <FilterModule 
-                    filterData={this.props.instrumentData.voice1.filter}
+                <FilterEnvelopeModule 
+                    filterEnvelopeData={this.props.instrumentData.voice1.filterEnvelope}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice1']}
                 />
-                <FilterEnvelopeModule 
-                    filterEnvelopeData={this.props.instrumentData.voice1.filterEnvelope}
+                <FilterModule 
+                    filterData={this.props.instrumentData.voice1.filter}
                     handleChange={this.props.handleChange}
                     instrumentId={this.props.instrumentId}
                     additionalNesting={['voice1']}
@@ -106,16 +99,26 @@ class DuoSynth extends Component {
         return (
             <div className="instrument-interface__container">
                 <HeaderModule instrumentTitle="Duo Synth" />
-                <div className={
-                    `instrument-interface__module-container 
-                    instrument-interface__module-container--horizontal
-                    instrument-interface__module-container--dbl-col`
-                }>
+                <div className="instrument-interface__main-section">
+                    {this.state.currentVoice === 'voiceA' ? this.renderVoiceAControls() : this.renderVoiceBControls()}
+                </div>
+                <div className="instrument-interface__aside-section">
+                    <div>
+                        <Switch 
+                            value={this.state.currentVoice}
+                            handleChange={this.changeCurrentVoice}
+                            rowDescription="Select Voice"
+                            optionsData={[
+                                { id: 'voiceA', name: 'current-voice', value: 'voiceA', text: 'Voice A' },
+                                { id: 'voiceB', name: 'current-voice', value: 'voiceB', text: 'Voice B' }
+                            ]}
+                        />
+                    </div>
                     <Dial
                         dataMin={0.25}
                         dataMax={8}
                         stepSize={0.05}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.harmonicity}
                         dialStartOffset={225}
                         dialRange={270}
@@ -131,7 +134,7 @@ class DuoSynth extends Component {
                         dataMin={0}
                         dataMax={5}
                         stepSize={0.05}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.vibratoAmount}
                         dialStartOffset={225}
                         dialRange={270}
@@ -147,7 +150,7 @@ class DuoSynth extends Component {
                         dataMin={5}
                         dataMax={1000}
                         stepSize={5}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.vibratoRate}
                         dialStartOffset={225}
                         dialRange={270}
@@ -163,7 +166,7 @@ class DuoSynth extends Component {
                         dataMin={-80}
                         dataMax={20}
                         stepSize={0.25}
-                        snapToStep={true}
+                        snapToSteps={true}
                         value={this.props.instrumentData.volume}
                         dialStartOffset={225}
                         dialRange={270}
@@ -175,18 +178,7 @@ class DuoSynth extends Component {
                     >
                         {(props) => <SmallDial {...props} label="Volume" />}
                     </Dial>
-                </div>
-                <div>
-                    <button 
-                        className="button off-white"
-                        onClick={this.showVoiceA}
-                    >Show Voice A</button>
-                    <button 
-                        className="button off-white"
-                        onClick={this.showVoiceB}
-                    >Show Voice B</button>
-                </div>
-                {this.state.isShowingVoiceA ? this.renderVoiceAControls() : this.renderVoiceBControls()}
+                </div>  
             </div>
         )
     }

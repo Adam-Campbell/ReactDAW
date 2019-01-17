@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Fragment>
+  <p
+    className="switch__row-description"
+  >
+    Switch
+  </p>
+  <div
+    className="switch__row"
+  >
+    <input
+      checked={true}
+      className="switch__radio-button"
+      id="option-one"
+      name="options"
+      onChange={[Function]}
+      type="radio"
+      value="option-one"
+    />
+    <label
+      className="switch__label"
+      htmlFor="option-one"
+    >
+      Option One
+    </label>
+    <input
+      checked={false}
+      className="switch__radio-button"
+      id="option-two"
+      name="options"
+      onChange={[Function]}
+      type="radio"
+      value="option-two"
+    />
+    <label
+      className="switch__label"
+      htmlFor="option-two"
+    >
+      Option Two
+    </label>
+  </div>
+</Fragment>
+`;

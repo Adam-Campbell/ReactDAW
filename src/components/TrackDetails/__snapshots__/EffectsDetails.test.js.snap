@@ -83,12 +83,6 @@ exports[`renders correctly 1`] = `
       </option>
       <option
         className="track-details__effect-select-option"
-        value="lfo"
-      >
-        LFO
-      </option>
-      <option
-        className="track-details__effect-select-option"
         value="limiter"
       >
         Limiter

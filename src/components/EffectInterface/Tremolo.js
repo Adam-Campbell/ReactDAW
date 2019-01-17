@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
+import Switch from '../Switch';
 
 const Tremolo = props => (
     <div className="effect__container">
@@ -10,63 +13,88 @@ const Tremolo = props => (
             effectTitle={'Tremolo'}
         />
         <div className="effect__settings-container">
-            <EnhancedRangeInput 
-                inputId={'depth'}
-                label={'Depth'}
-                min={0}
-                max={1}
-                step={0.005}
-                value={props.effectData.depth}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['depth']}
-            />
-            <EnhancedRangeInput 
-                inputId={'frequency'}
-                label={'Frequency'}
-                min={0.1}
-                max={20}
-                step={0.1}
-                value={props.effectData.frequency}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['frequency']}
-            />
-            <EnhancedRangeInput 
-                inputId={'spread'}
-                label={'Spread'}
-                min={0}
-                max={180}
-                step={1}
-                value={props.effectData.spread}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['spread']}
-            />
-            <EnhancedSelectInput 
-                inputId={'type'}
-                label={'Type'}
+            <div className="effect__dial-row">
+                <Dial
+                    dataMin={0}
+                    dataMax={1}
+                    stepSize={0.005}
+                    snapToSteps={true}
+                    value={props.effectData.depth}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['depth'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Depth" />}
+                </Dial>
+                <Dial
+                    dataMin={0.1}
+                    dataMax={20}
+                    stepSize={0.05}
+                    snapToSteps={true}
+                    value={props.effectData.frequency}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['frequency'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Frequency" />}
+                </Dial>
+                <Dial
+                    dataMin={0}
+                    dataMax={180}
+                    stepSize={0.5}
+                    snapToSteps={true}
+                    value={props.effectData.spread}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['spread'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Spread" />}
+                </Dial>
+                <Dial
+                    dataMin={0}
+                    dataMax={1}
+                    stepSize={0.005}
+                    snapToSteps={true}
+                    value={props.effectData.wet}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['wet'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Wet" />}
+                </Dial>
+            </div>
+            <Switch 
                 value={props.effectData.type}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['type']}
-                options={[
-                    { value: 'sine', text: 'Sine'},
-                    { value: 'square', text: 'Square'},
-                    { value: 'sawtooth', text: 'Sawtooth'},
-                    { value: 'triangle', text: 'Triangle'}
+                handleChange={(newVal) => {
+                    props.handleChange(
+                        props.effectId,
+                        ['type'],
+                        newVal
+                    );
+                }}
+                rowDescription="Waveform"
+                optionsData={[
+                    { id: 'tremolo-type-sine', name: 'tremolo-wave-type', value: 'sine', text: 'Sine' },
+                    { id: 'tremolo-type-square', name: 'tremolo-wave-type', value: 'square', text: 'Square' },
+                    { id: 'tremolo-type-triangle', name: 'tremolo-wave-type', value: 'triangle', text: 'Triangle' },
+                    { id: 'tremolo-type-sawtooth', name: 'tremolo-wave-type', value: 'sawtooth', text: 'Sawtooth' },
                 ]}
-            />
-            <EnhancedRangeInput 
-                inputId={'wet'}
-                label={'Wet'}
-                min={0}
-                max={1}
-                step={0.005}
-                value={props.effectData.wet}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['wet']}
             />
         </div>
     </div>

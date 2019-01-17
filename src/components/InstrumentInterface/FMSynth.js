@@ -12,43 +12,38 @@ import SmallDial from '../SmallDial';
 const FMSynth = props => (
     <div className="instrument-interface__container">
         <HeaderModule instrumentTitle="FM Synth" />
-        <EnvelopeModule 
-            envelopeData={props.instrumentData.envelope}
-            handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
-            additionalNesting={[]}
-            dblCol
-        />
-        <OscillatorModule 
-            oscillatorData={props.instrumentData.oscillator}
-            handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
-            additionalNesting={[]}
-            dblCol
-        />
-        <ModulationModule 
-            modulationData={props.instrumentData.modulation}
-            handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
-            additionalNesting={[]}
-            dblCol
-        />
-        <ModulationEnvelopeModule 
-            modulationEnvelopeData={props.instrumentData.modulationEnvelope}
-            handleChange={props.handleChange}
-            instrumentId={props.instrumentId}
-            additionalNesting={[]}
-            dblCol
-        />
-        <div className={`instrument-interface__module-container 
-                         instrument-interface__module-container--horizontal
-                         instrument-interface__module-container--dbl-col`
-        }>
+        <div className="instrument-interface__main-section">
+            <EnvelopeModule 
+                envelopeData={props.instrumentData.envelope}
+                handleChange={props.handleChange}
+                instrumentId={props.instrumentId}
+                additionalNesting={[]}
+            />
+            <OscillatorModule 
+                oscillatorData={props.instrumentData.oscillator}
+                handleChange={props.handleChange}
+                instrumentId={props.instrumentId}
+                additionalNesting={[]}
+            />
+            <ModulationEnvelopeModule 
+                modulationEnvelopeData={props.instrumentData.modulationEnvelope}
+                handleChange={props.handleChange}
+                instrumentId={props.instrumentId}
+                additionalNesting={[]}
+            />
+            <ModulationModule 
+                modulationData={props.instrumentData.modulation}
+                handleChange={props.handleChange}
+                instrumentId={props.instrumentId}
+                additionalNesting={[]}
+            />
+        </div>
+        <div className="instrument-interface__aside-section">
             <Dial
                 dataMin={-100}
                 dataMax={100}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.detune}
                 dialStartOffset={225}
                 dialRange={270}
@@ -64,7 +59,7 @@ const FMSynth = props => (
                 dataMin={0.25}
                 dataMax={8}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.harmonicity}
                 dialStartOffset={225}
                 dialRange={270}
@@ -80,7 +75,7 @@ const FMSynth = props => (
                 dataMin={0}
                 dataMax={20}
                 stepSize={0.1}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.modulationIndex}
                 dialStartOffset={225}
                 dialRange={270}
@@ -96,7 +91,7 @@ const FMSynth = props => (
                 dataMin={-80}
                 dataMax={20}
                 stepSize={0.25}
-                snapToStep={true}
+                snapToSteps={true}
                 value={props.instrumentData.volume}
                 dialStartOffset={225}
                 dialRange={270}

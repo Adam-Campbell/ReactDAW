@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import EnhancedSelectInput from '../EnhancedSelectInput';
 import EnhancedRangeInput from '../EnhancedRangeInput';
 import EffectHeader from './EffectHeader';
+import Dial from '../Dial';
+import SmallDial from '../SmallDial';
+import Switch from '../Switch';
+
 
 const Distortion = props => (
     <div className="effect__container">
@@ -10,40 +14,55 @@ const Distortion = props => (
             effectTitle={'Distortion'}
         />
         <div className="effect__settings-container">
-            <EnhancedRangeInput 
-                inputId={'distortion'}
-                label={'Distortion'}
-                min={0}
-                max={1}
-                step={0.005}
-                value={props.effectData.distortion}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['distortion']}
-            />
-            <EnhancedSelectInput 
-                inputId={'oversample'}
-                label={'Oversample'}
+            <div className="effect__dial-row">
+                <Dial
+                    dataMin={0}
+                    dataMax={1}
+                    stepSize={0.005}
+                    snapToSteps={true}
+                    value={props.effectData.distortion}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['distortion'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Distortion" />}
+                </Dial>
+                <Dial
+                    dataMin={0}
+                    dataMax={1}
+                    stepSize={0.005}
+                    snapToSteps={true}
+                    value={props.effectData.wet}
+                    dialStartOffset={225}
+                    dialRange={270}
+                    updateValueCallback={(newVal) => props.handleChange(
+                        props.effectId,
+                        ['wet'],
+                        newVal
+                    )}
+                >
+                    {(props) => <SmallDial {...props} label="Wet" />}
+                </Dial>
+            </div>
+            <Switch 
                 value={props.effectData.oversample}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['oversample']}
-                options={[
-                    {value: 'none', text: 'None'},
-                    {value: '2x', text: '2x'},
-                    {value: '4x', text: '4x'}
+                handleChange={(newVal) => {
+                    props.handleChange(
+                        props.effectId,
+                        ['oversample'],
+                        newVal
+                    );
+                }}
+                rowDescription="Oversample"
+                optionsData={[
+                    { name: 'distortion-oversample', value: 'none', id: 'distortion-none', text: 'None' },
+                    { name: 'distortion-oversample', value: '2x', id: 'distortion-2x', text: '2x' },
+                    { name: 'distortion-oversample', value: '4x', id: 'distortion-4x', text: '4x' }
                 ]}
-            />
-            <EnhancedRangeInput 
-                inputId={'wet'}
-                label={'Wet'}
-                min={0}
-                max={1}
-                step={0.005}
-                value={props.effectData.wet}
-                handleChange={props.handleChange}
-                identifier={props.effectId}
-                propertyPathArray={['wet']}
             />
         </div>
     </div>

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import * as ActionCreators from '../../actions';
 import {
     calculateAngle,
     mapAngleToPointInDataRange,
@@ -152,13 +150,4 @@ class Dial extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    
-});
-
-export default connect(
-    mapStateToProps,
-    { 
-        updateDial: ActionCreators.updateDial
-    }
-)(Dial);
+export default Dial;
