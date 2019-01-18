@@ -20,6 +20,7 @@ import Modal from './components/Modal';
 //import Dial from './components/Dial';
 //import ExampleConsumer from './components/Dial/ExampleConsumer';
 import { throttle } from 'lodash';
+import DraggableWindow from './components/DraggableWindow';
 
 
 /*
@@ -54,29 +55,29 @@ class App extends Component {
           this.props.activeWindows.map((window) => {
             switch (window.type) {
               case 'section':
-                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
                           <PianoRoll id={window.id}/>
-                        </DragWrapper>
+                        </DraggableWindow>
 
               case 'synth':
-                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
                           <InstrumentInterface instrumentId={window.id} />
-                        </DragWrapper>
+                        </DraggableWindow>
 
               case 'instrumentSettings':
-                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
                           <TrackDetails trackId={window.id} />
-                        </DragWrapper>
+                        </DraggableWindow>
 
               case 'effect':
-                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
                           <EffectInterface effectId={window.id} />
-                        </DragWrapper>
+                        </DraggableWindow>
 
               case 'mixer':
-                return <DragWrapper windowId={window.id} key={window.id} windowType={window.type}>
+                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
                           <Mixer />
-                        </DragWrapper>
+                        </DraggableWindow>
 
               default:
                 return null;
