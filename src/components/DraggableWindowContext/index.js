@@ -3,33 +3,16 @@ import React, { Component } from 'react';
 const DraggableWindowContext = React.createContext();
 
 /*
-Needs to keep in state - 
-mouseIsDown - whether the mouse is currently down 
-mouseDownX - the x coord from the last mouseDown event
-mouseDownY - the y coord from the last mouseDown event
-updatePositionCallbacks - an array of objects, with an id property denoting which window the object belongs to,
-and a callback property which holds the callback function to call
-makeInactiveCallbacks - same as above, these are called when the mouseUp event occurs and mouseIsDown is set to 
-false, they ensure that every window is set to inactive. 
 
+Provides a central way to control the dragging of windows within the app. Maintains state covering whether the
+mouse is currently down, the x and y coords of the mouse at the start of the mouseDown event, and an array of 
+subscribed windows. 
 
-Actually, combine the two callbacks arrays into one array;
-[
-    {
-        windowId: id of window,
-        updatePositionCallback: callback to update window position,
-        makeInactiveCallback: callback to make window inactive
-    }
-]
+Provides methods for the windows themselves to subscribe and unsubscribe (all windows subscribe when mounted
+in the DOM and then unsubscribe when unmounting).
 
-On mouseMove, it will cycle through the array and call each callback with the current event object. Crucially, 
-these callbacks will do nothing if that window is not active, so calling all callbacks will still be cheap when
-only one window will ever be active at a time. 
-
-Will need subscribeWindow and unsubscribeWindow methods that will be made available via context to every window. 
-They are called by the window, subscribeWindow needs the window id, and a reference to the relevant functions,
-but unsubscribeWindow only needs the window id. These methods are responsible for adding and removing windows 
-from the callbacks arrays. 
+Provides methods for the top level of the app to track whether the mouse is down, the x and y coord of the 
+mouseDown event, and also a callback to fire whenever a mouseMove event occurs within the app.
 
 */
 
@@ -42,6 +25,14 @@ export class DraggableWindowContextProvider extends Component {
         windows: []
     }
 
+    /**
+     * A method made available to the rest of the app that allows windows within the app to subscribe themselves
+     * to the context, such that when relevant events occur a specified callback method from the window can be
+     * called.
+     * @param {String} windowId - the id of the window to subscribe
+     * @param {Function} updatePositionCallback - the callback to call to update a windows positions
+     * @param {Function} makeInactiveCallback - the callback to call to make a window inactive
+     */
     subscribeWindow = (windowId, updatePositionCallback, makeInactiveCallback) => {
         this.setState(prevState => {
             return {
@@ -50,13 +41,19 @@ export class DraggableWindowContextProvider extends Component {
                     {
                         windowId, 
                         updatePositionCallback,
-                        makeInactiveCallback
+                        makeInactiveCallback,
+                        zValue: prevState.windows.length
                     }
                 ]
             }
         });
     }
 
+    /**
+     * A method made available to the rest of the app that allows a window from within the app to unsubscribe 
+     * itself from this context, so that when events occur in future that particular window is no longer notified.
+     * @param {String} windowId - the id of the window to unsubscribe
+     */
     unsubscribeWindow = (windowId) => {
         this.setState(prevState => {
             return {
@@ -65,6 +62,11 @@ export class DraggableWindowContextProvider extends Component {
         });
     }
 
+    /**
+     * Makes the changes to state required to enter the mouseIsDown state
+     * @param {Number} clientX - the clientX property from an event object
+     * @param {Number} clientY - the clientY property from an event object
+     */
     enterMouseDownState = ({ clientX, clientY }) => {
         this.setState({
             mouseIsDown: true,
@@ -73,6 +75,9 @@ export class DraggableWindowContextProvider extends Component {
         });
     }
 
+    /**
+     * Makes the changes to state required to exit the mouseIsDown state.
+     */
     exitMouseDownState = () => {
         this.setState({
             mouseIsDown: false,
@@ -82,11 +87,36 @@ export class DraggableWindowContextProvider extends Component {
         this.makeWindowsInactive();
     }
 
+    pullWindowToFront = (windowId) => {
+        this.setState(prevState => {
+            const newWindowsArray = [
+                ...prevState.windows.filter(window => window.windowId !== windowId),
+                prevState.windows.find(window => window.windowId === windowId)
+            ].map((window, index) => ({
+                ...window,
+                zValue: index
+            }));
+            return {
+                windows: newWindowsArray
+            }
+        });
+    }
+
+    /**
+     * Iterates over all of the subscribed windows and calls updatePositionCallback with the event object. 
+     * Called for every mouseMove event in the app - however the callback functions it calls won't do anything
+     * unless that particular window is currently active, meaning that the majority of the function calls it 
+     * makes will just return straight away.
+     * @param {Object} e - the event object
+     */
     updateWindowPositions = (e) => {
         if (!this.state.mouseIsDown) return;
         this.state.windows.forEach(window => window.updatePositionCallback(e))
     }
 
+    /**
+     * Iterates over all subscribed windows and calls makeInactiveCallback.
+     */
     makeWindowsInactive = () => {
         this.state.windows.forEach(window => window.makeInactiveCallback());
     }
@@ -94,6 +124,7 @@ export class DraggableWindowContextProvider extends Component {
     render() {
         return (
             <DraggableWindowContext.Provider value={{
+                windows: this.state.windows,
                 mouseDownX: this.state.mouseDownX,
                 mouseDownY: this.state.mouseDownY,
                 mouseIsDown: this.state.mouseIsDown,
@@ -101,7 +132,8 @@ export class DraggableWindowContextProvider extends Component {
                 unsubscribeWindow: this.unsubscribeWindow,
                 enterMouseDownState: this.enterMouseDownState,
                 exitMouseDownState: this.exitMouseDownState,
-                updateWindowPositions: this.updateWindowPositions
+                updateWindowPositions: this.updateWindowPositions,
+                pullWindowToFront: this.pullWindowToFront
             }}>
                 { this.props.children }
             </DraggableWindowContext.Provider>

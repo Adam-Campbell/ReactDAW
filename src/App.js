@@ -14,47 +14,27 @@ import EffectInterface from './components/EffectInterface';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import CustomDragLayer from './components/CustomDragLayer';
-import DragWrapper from './components/DragWrapper';
 import Mixer from './components/Mixer';
 import Modal from './components/Modal';
-//import Dial from './components/Dial';
-//import ExampleConsumer from './components/Dial/ExampleConsumer';
-import { throttle } from 'lodash';
 import DraggableWindow from './components/DraggableWindow';
 import { DraggableWindowContextConsumer } from './components/DraggableWindowContext';
 
-/*
-<Dial
-          updateValueCallback={this.throttledUpdateDial}
-          dataMin={0}
-          dataMax={300}
-          stepSize={0.25}
-          dialStartOffset={225}
-          dialRange={270}
-          defaultValue={1.5}
-        >
-          {(props) => <ExampleConsumer {...props} label="Volume" />}
-        </Dial>
-        <CustomDragLayer />
-*/
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.throttledUpdateDial = throttle(this.props.updateDial, 16).bind(this);
-  }
 
   render() {
     return (
       <DraggableWindowContextConsumer>
         {({
+          windows,
           mouseDownX,
           mouseDownY,
           subscribeWindow,
           unsubscribeWindow,
           enterMouseDownState,
           exitMouseDownState,
-          updateWindowPositions
+          updateWindowPositions,
+          pullWindowToFront
         }) => (
           <div 
             className="main-container"
@@ -79,6 +59,8 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
+                        pullWindowToFront={pullWindowToFront}
+                        windows={windows}
                       >
                         <PianoRoll id={window.id}/>
                       </DraggableWindow>
@@ -93,7 +75,9 @@ class App extends Component {
                         subscribeWindow={subscribeWindow}
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
-                        mouseDownY={mouseDownY}  
+                        mouseDownY={mouseDownY} 
+                        pullWindowToFront={pullWindowToFront}
+                        windows={windows}
                       >
                         <InstrumentInterface instrumentId={window.id} />
                       </DraggableWindow>
@@ -109,6 +93,8 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
+                        pullWindowToFront={pullWindowToFront}
+                        windows={windows}
                       >
                         <TrackDetails trackId={window.id} />
                       </DraggableWindow>
@@ -124,6 +110,8 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
+                        pullWindowToFront={pullWindowToFront}
+                        windows={windows}
                       >
                         <EffectInterface effectId={window.id} />
                       </DraggableWindow>
@@ -139,6 +127,8 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
+                        pullWindowToFront={pullWindowToFront}
+                        windows={windows}
                       >
                         <Mixer />
                       </DraggableWindow>
@@ -159,14 +149,8 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   activeWindows: state.activeWindows,
-  dialValue: state.dial.value
 });
 
 const withDnD = DragDropContext(HTML5Backend)(App);
 
-export default connect(
-  mapStateToProps,
-  { 
-    updateDial: ActionCreators.updateDial
-  }
-)(withDnD);
+export default connect(mapStateToProps)(withDnD);
