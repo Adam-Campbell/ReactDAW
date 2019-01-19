@@ -4,10 +4,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
+import { DraggableWindowContextProvider } from './components/DraggableWindowContext';
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <DraggableWindowContextProvider>
+            <App />
+        </DraggableWindowContextProvider>
     </Provider>, 
     document.getElementById('root')
 );

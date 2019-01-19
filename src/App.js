@@ -21,7 +21,7 @@ import Modal from './components/Modal';
 //import ExampleConsumer from './components/Dial/ExampleConsumer';
 import { throttle } from 'lodash';
 import DraggableWindow from './components/DraggableWindow';
-
+import { DraggableWindowContextConsumer } from './components/DraggableWindowContext';
 
 /*
 <Dial
@@ -46,46 +46,113 @@ class App extends Component {
 
   render() {
     return (
-      <div className="main-container">
-        <AudioEngine />
-        <Transport />
-        <Composer />
-        <CustomDragLayer />
-        {
-          this.props.activeWindows.map((window) => {
-            switch (window.type) {
-              case 'section':
-                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
-                          <PianoRoll id={window.id}/>
-                        </DraggableWindow>
+      <DraggableWindowContextConsumer>
+        {({
+          mouseDownX,
+          mouseDownY,
+          subscribeWindow,
+          unsubscribeWindow,
+          enterMouseDownState,
+          exitMouseDownState,
+          updateWindowPositions
+        }) => (
+          <div 
+            className="main-container"
+            onMouseDown={enterMouseDownState}
+            onMouseUp={exitMouseDownState}
+            onMouseMove={updateWindowPositions}
+          >
+            <AudioEngine />
+            <Transport />
+            <Composer />
+            <CustomDragLayer />
+            {
+              this.props.activeWindows.map((window) => {
+                switch (window.type) {
+                  case 'section':
+                    return (
+                      <DraggableWindow 
+                        windowId={window.id} 
+                        key={window.id} 
+                        windowType={window.type}
+                        subscribeWindow={subscribeWindow}
+                        unsubscribeWindow={unsubscribeWindow}
+                        mouseDownX={mouseDownX}
+                        mouseDownY={mouseDownY}
+                      >
+                        <PianoRoll id={window.id}/>
+                      </DraggableWindow>
+                    )
+                    
+                  case 'synth':
+                    return (
+                      <DraggableWindow 
+                        windowId={window.id} 
+                        key={window.id} 
+                        windowType={window.type}
+                        subscribeWindow={subscribeWindow}
+                        unsubscribeWindow={unsubscribeWindow}
+                        mouseDownX={mouseDownX}
+                        mouseDownY={mouseDownY}  
+                      >
+                        <InstrumentInterface instrumentId={window.id} />
+                      </DraggableWindow>
+                    );
 
-              case 'synth':
-                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
-                          <InstrumentInterface instrumentId={window.id} />
-                        </DraggableWindow>
+                  case 'instrumentSettings':
+                    return (
+                      <DraggableWindow 
+                        windowId={window.id} 
+                        key={window.id} 
+                        windowType={window.type}
+                        subscribeWindow={subscribeWindow}
+                        unsubscribeWindow={unsubscribeWindow}
+                        mouseDownX={mouseDownX}
+                        mouseDownY={mouseDownY}
+                      >
+                        <TrackDetails trackId={window.id} />
+                      </DraggableWindow>
+                    );
 
-              case 'instrumentSettings':
-                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
-                          <TrackDetails trackId={window.id} />
-                        </DraggableWindow>
+                  case 'effect':
+                    return (
+                      <DraggableWindow 
+                        windowId={window.id} 
+                        key={window.id} 
+                        windowType={window.type}
+                        subscribeWindow={subscribeWindow}
+                        unsubscribeWindow={unsubscribeWindow}
+                        mouseDownX={mouseDownX}
+                        mouseDownY={mouseDownY}
+                      >
+                        <EffectInterface effectId={window.id} />
+                      </DraggableWindow>
+                    );
 
-              case 'effect':
-                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
-                          <EffectInterface effectId={window.id} />
-                        </DraggableWindow>
+                  case 'mixer':
+                    return (
+                      <DraggableWindow 
+                        windowId={window.id} 
+                        key={window.id} 
+                        windowType={window.type}
+                        subscribeWindow={subscribeWindow}
+                        unsubscribeWindow={unsubscribeWindow}
+                        mouseDownX={mouseDownX}
+                        mouseDownY={mouseDownY}
+                      >
+                        <Mixer />
+                      </DraggableWindow>
+                    );
 
-              case 'mixer':
-                return <DraggableWindow windowId={window.id} key={window.id} windowType={window.type}>
-                          <Mixer />
-                        </DraggableWindow>
-
-              default:
-                return null;
-            }
-          })
-        }  
-        <Modal />   
-      </div>
+                  default:
+                    return null;
+                }
+              })
+            }  
+            <Modal />   
+          </div>
+        )}
+      </DraggableWindowContextConsumer>
     );
   }
 }
