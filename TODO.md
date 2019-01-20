@@ -181,9 +181,9 @@ MISC
 - review the tools usage throughout the composer and piano roll components. Does the pencil tool need to be seperate or could it be integrated into the main tool?
 
 
-- begin to think about better components for the instrument and effects interfaces. A dial would probably be better than using range inputs. It should also have an accompanying text input where the user can manually type in the new value, and also shift clicking (or alt clicking) the dial should reset it to a default value. To calculate the value will probably involve determining the angle the dial is turned to, via the pythagorean theorem and trigonometric functions. 
+- DONE begin to think about better components for the instrument and effects interfaces. A dial would probably be better than using range inputs. It should also have an accompanying text input where the user can manually type in the new value, and also shift clicking (or alt clicking) the dial should reset it to a default value. To calculate the value will probably involve determining the angle the dial is turned to, via the pythagorean theorem and trigonometric functions. 
 
-- think about ways in which the controls used for the instruments and effects interfaces can be made highly reuseable. Ideally I'd like them to be completely composable, so for each instrument or effect they can be mixed and match depending on the control requirements for that particular instance, with a good degree of control over the layout. 
+- DONE think about ways in which the controls used for the instruments and effects interfaces can be made highly reuseable. Ideally I'd like them to be completely composable, so for each instrument or effect they can be mixed and match depending on the control requirements for that particular instance, with a good degree of control over the layout. 
 
 
 
@@ -206,6 +206,7 @@ VISIBLE SELECTION OVERLAY
 - I will need to add incorporate the selection overlay into the notes layer. So I should turn this into a class based component and move over the necessary logic from the selection overlay layer I was previously working on. 
 
 
+DONE
 
 
 
