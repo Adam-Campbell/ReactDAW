@@ -21,7 +21,7 @@ import {
     getNoteDurationFromPencilOperation,
     generateNoteObjectForPasting,
     getSortedNoteDataStructs,
-    getFirstAvailablePitchInChord
+    getFirstAvailablePitchInChord,
 } from './PianoRollUtils';
 
 import { 
@@ -31,7 +31,8 @@ import {
     transportPositionStringToSixteenths, 
     adjustForScroll,
     generateId,
-    createPitchesArray
+    createPitchesArray,
+    adjustForTranslate
 } from '../../sharedUtils';
 
 /*
@@ -199,11 +200,19 @@ export class PianoRollContainer extends Component {
         // grab the raw x and y position of the click event
         const rawXPos = e.evt.layerX;
         const rawYPos = e.evt.layerY;
-        const xPosWithScroll = adjustForScroll({ raw: rawXPos, scroll: this.gridLayerRef.current.attrs.x });
-        const yPosWithScroll = adjustForScroll({ raw: rawYPos, scroll: this.gridLayerRef.current.attrs.y });
+        const { 
+            xPosWithTranslate,
+            yPosWithTranslate
+        } = adjustForTranslate({ 
+            xPos: rawXPos, 
+            yPos: rawYPos, 
+            translateString: this.props.containerRef.current.style.transform 
+        });
+        const xPosWithScrollAndTranslate = adjustForScroll({ raw: xPosWithTranslate, scroll: this.gridLayerRef.current.attrs.x });
+        const yPosWithScrollAndTranslate = adjustForScroll({ raw: yPosWithTranslate, scroll: this.gridLayerRef.current.attrs.y });
         // if rawY is less than 40, then the click has occurred within the transport section of the canvas.
-        if (rawYPos < 40) {
-            this.handleTransportClick(xPosWithScroll);
+        if (yPosWithTranslate < 40) {
+            this.handleTransportClick(xPosWithScrollAndTranslate);
             return;
         }
         // if the pencil tool is active, or the shift key is pressed, then there is nothing that needs to be
@@ -213,8 +222,8 @@ export class PianoRollContainer extends Component {
         } 
 
         const noteObject = calculateNoteInfo({
-            x: xPosWithScroll, 
-            y: yPosWithScroll,
+            x: xPosWithScrollAndTranslate, 
+            y: yPosWithScrollAndTranslate,
             pitchesArray: this._pitchesArray,
             currentQuantizeValue: this.state.quantize,
             noteDuration: Tone.Time(this.state.duration).toBarsBeatsSixteenths()
@@ -249,9 +258,17 @@ export class PianoRollContainer extends Component {
         // mouseDownPosY with values derived from the event. If the event occurred on the transport section
         // of the canvas, null out the values in state. 
         if (e.evt.layerY >= 40) {
+            const {
+                xPosWithTranslate,
+                yPosWithTranslate
+            } = adjustForTranslate({
+                xPos: e.evt.layerX,
+                yPos: e.evt.layerY,
+                translateString: this.props.containerRef.current.style.transform
+            });
             this.setState({
-                mouseDownPosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
-                mouseDownPosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y })
+                mouseDownPosX: adjustForScroll({ raw: xPosWithTranslate, scroll: this.gridLayerRef.current.attrs.x }),
+                mouseDownPosY: adjustForScroll({ raw: yPosWithTranslate, scroll: this.gridLayerRef.current.attrs.y })
             });
         } else {
             this.setState({
@@ -445,11 +462,20 @@ export class PianoRollContainer extends Component {
         if (mouseDownPosY === null || targetIsNote) {
             return;
         }
-        
-        const mouseUpPosX = adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x });
+        const {
+            xPosWithTranslate
+        } = adjustForTranslate({
+            xPos: e.evt.layerX,
+            yPos: e.evt.layerY,
+            translateString: this.props.containerRef.current.style.transform
+        });
+        const adjustedMouseUpPosX = adjustForScroll({ 
+            raw: xPosWithTranslate, 
+            scroll: this.gridLayerRef.current.attrs.x 
+        });
         const noteDuration = getNoteDurationFromPencilOperation({
             downX: mouseDownPosX,
-            upX: mouseUpPosX,
+            upX: adjustedMouseUpPosX,
             currentQuantizeValue: this.state.quantize
         });
         const noteObject = calculateNoteInfo({
@@ -476,11 +502,19 @@ export class PianoRollContainer extends Component {
     handlePointerToolMultiSelect = (e) => {
         // use the x and y coordinates from the mouseDown and mouseUp events to determine the range
         // of rows and columns included in the selection.
+        const {
+            xPosWithTranslate,
+            yPosWithTranslate
+        } = adjustForTranslate({
+            xPos: e.evt.layerX,
+            yPos: e.evt.layerY,
+            translateString: this.props.containerRef.current.style.transform
+        });
         const selectedNoteIds = getNoteIdsForSelectionRange({
             verticalSelectionBound1: this.state.mouseDownPosY,
-            verticalSelectionBound2: adjustForScroll({raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y}),
+            verticalSelectionBound2: adjustForScroll({raw: yPosWithTranslate, scroll: this.gridLayerRef.current.attrs.y}),
             horizontalSelectionBound1: this.state.mouseDownPosX,
-            horizontalSelectionBound2: adjustForScroll({raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x}),
+            horizontalSelectionBound2: adjustForScroll({raw: xPosWithTranslate, scroll: this.gridLayerRef.current.attrs.x}),
             allNotes: this.section.notes
         });
 
@@ -665,8 +699,16 @@ export class PianoRollContainer extends Component {
         // Get the x position of the users click, adjust for scrolling and 'roll it back' to the 
         // last multiple of 8.
         const { layerX, layerY } = e.evt;
-        const xPosWithScroll = adjustForScroll({ raw: layerX, scroll: this.velocityLayerRef.current.attrs.x });
-        const xPosRolledBack = xPosWithScroll - (xPosWithScroll%8);
+        const {
+            xPosWithTranslate,
+            yPosWithTranslate
+        } = adjustForTranslate({
+            xPos: layerX,
+            yPos: layerY,
+            translateString: this.props.containerRef.current.style.transform
+        });
+        const xPosWithScrollAndTranslate = adjustForScroll({ raw: xPosWithTranslate, scroll: this.velocityLayerRef.current.attrs.x });
+        const xPosRolledBack = xPosWithScrollAndTranslate - (xPosWithScrollAndTranslate%8);
         // initialized velocity with a default value of 1
         let velocity = 1;
         
@@ -683,7 +725,7 @@ export class PianoRollContainer extends Component {
         if (!shiftKeyPressed) {
             // now we derive the desired velocity from the y position of the click event
             // first account for layer offsetting
-            const yAdjustedForLayer = layerY - (this.state.stageHeight - 134) - 10;
+            const yAdjustedForLayer = yPosWithTranslate - (this.state.stageHeight - 134) - 10;
             // clicks further down the page result in a lower velocity but a higher y value,
             // we have to get the 'reflection' of our y value
             const yAsVelocity = 100 - yAdjustedForLayer;
@@ -922,6 +964,7 @@ export class PianoRollContainer extends Component {
             verticalDragMove={this.verticalDragMove}
             handleScrollBarClickEvents={this.handleScrollBarClickEvents}
             shiftKeyPressed={this.state.shiftKeyPressed}
+            containerRef={this.props.containerRef}
         />
     }
 

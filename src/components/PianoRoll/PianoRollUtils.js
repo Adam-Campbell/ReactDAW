@@ -535,3 +535,4 @@ export const getFirstAvailablePitchInChord = (optionsObject) => {
     }
     return null;
 };
+

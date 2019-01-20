@@ -23,6 +23,16 @@ const activeWindows = (state=defaultState, action) => {
         case actionTypes.CLOSE_WINDOW:
             return state.filter(window => window.id !== action.payload.windowId);
 
+        case actionTypes.FOCUS_WINDOW: 
+            {
+                const windowIndex = state.findIndex(el => el.id === action.payload.windowId);
+                return [
+                    ...state.slice(0, windowIndex),
+                    ...state.slice(windowIndex+1),
+                    { ...state[windowIndex] }
+                ]
+            }
+
         case actionTypes.LOAD_STATE_SUCCESS:
             return defaultState;
 

@@ -87,21 +87,6 @@ export class DraggableWindowContextProvider extends Component {
         this.makeWindowsInactive();
     }
 
-    pullWindowToFront = (windowId) => {
-        this.setState(prevState => {
-            const newWindowsArray = [
-                ...prevState.windows.filter(window => window.windowId !== windowId),
-                prevState.windows.find(window => window.windowId === windowId)
-            ].map((window, index) => ({
-                ...window,
-                zValue: index
-            }));
-            return {
-                windows: newWindowsArray
-            }
-        });
-    }
-
     /**
      * Iterates over all of the subscribed windows and calls updatePositionCallback with the event object. 
      * Called for every mouseMove event in the app - however the callback functions it calls won't do anything
@@ -133,7 +118,6 @@ export class DraggableWindowContextProvider extends Component {
                 enterMouseDownState: this.enterMouseDownState,
                 exitMouseDownState: this.exitMouseDownState,
                 updateWindowPositions: this.updateWindowPositions,
-                pullWindowToFront: this.pullWindowToFront
             }}>
                 { this.props.children }
             </DraggableWindowContext.Provider>

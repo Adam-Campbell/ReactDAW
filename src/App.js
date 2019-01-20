@@ -11,9 +11,6 @@ import InstrumentInterface from './components/InstrumentInterface';
 import TrackDetails from './components/TrackDetails';
 import Transport from './components/Transport';
 import EffectInterface from './components/EffectInterface';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
-import CustomDragLayer from './components/CustomDragLayer';
 import Mixer from './components/Mixer';
 import Modal from './components/Modal';
 import DraggableWindow from './components/DraggableWindow';
@@ -34,7 +31,6 @@ class App extends Component {
           enterMouseDownState,
           exitMouseDownState,
           updateWindowPositions,
-          pullWindowToFront
         }) => (
           <div 
             className="main-container"
@@ -45,7 +41,6 @@ class App extends Component {
             <AudioEngine />
             <Transport />
             <Composer />
-            <CustomDragLayer />
             {
               this.props.activeWindows.map((window) => {
                 switch (window.type) {
@@ -59,10 +54,9 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
-                        pullWindowToFront={pullWindowToFront}
                         windows={windows}
                       >
-                        <PianoRoll id={window.id}/>
+                        {({ containerRef }) => <PianoRoll id={window.id} containerRef={containerRef}/>}
                       </DraggableWindow>
                     )
                     
@@ -76,10 +70,9 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY} 
-                        pullWindowToFront={pullWindowToFront}
                         windows={windows}
                       >
-                        <InstrumentInterface instrumentId={window.id} />
+                        {({ containerRef }) => <InstrumentInterface instrumentId={window.id} containerRef={containerRef} />}
                       </DraggableWindow>
                     );
 
@@ -93,10 +86,9 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
-                        pullWindowToFront={pullWindowToFront}
                         windows={windows}
                       >
-                        <TrackDetails trackId={window.id} />
+                        {({ containerRef }) => <TrackDetails trackId={window.id} containerRef={containerRef} />}
                       </DraggableWindow>
                     );
 
@@ -110,10 +102,9 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
-                        pullWindowToFront={pullWindowToFront}
                         windows={windows}
                       >
-                        <EffectInterface effectId={window.id} />
+                        {({ containerRef }) => <EffectInterface effectId={window.id} containerRef={containerRef} />}
                       </DraggableWindow>
                     );
 
@@ -127,10 +118,9 @@ class App extends Component {
                         unsubscribeWindow={unsubscribeWindow}
                         mouseDownX={mouseDownX}
                         mouseDownY={mouseDownY}
-                        pullWindowToFront={pullWindowToFront}
                         windows={windows}
                       >
-                        <Mixer />
+                        {({ containerRef }) => <Mixer containerRef={containerRef} />}
                       </DraggableWindow>
                     );
 
@@ -151,6 +141,4 @@ const mapStateToProps = state => ({
   activeWindows: state.activeWindows,
 });
 
-const withDnD = DragDropContext(HTML5Backend)(App);
-
-export default connect(mapStateToProps)(withDnD);
+export default connect(mapStateToProps)(App);

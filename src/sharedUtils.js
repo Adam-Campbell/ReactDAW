@@ -174,3 +174,37 @@ export const createPitchesArray = () => {
     }
     return pitchesArray;
 };
+
+
+/**
+ * Takes the x and y coords for a mouse event, as well as the inline style string for the current transform 
+ * translate of the container DOM node, and adjusts the x and y coords of the click for the translate values.
+ * @param {Object} optionsObject
+ * @param {Number} optionsObject.xPos - the x position of the click
+ * @param {Number} optionsObject.yPos - the y position of the click
+ * @param {String} optionsObject.translateString - the inline style string for the transform property on the
+ * container DOM node. 
+ * @returns {Object} - an object with xPosWithTranslate and yPosWithTranslate properties.
+ */
+export const adjustForTranslate = (optionsObject) => {
+    const { 
+        xPos,
+        yPos, 
+        translateString
+    } = optionsObject;
+
+    if (translateString) {
+        const translateValues = translateString.match(/\d+/g);
+        const xTranslate = parseFloat(translateValues[0]);
+        const yTranslate = parseFloat(translateValues[1]);
+        return {
+            xPosWithTranslate: xPos - xTranslate,
+            yPosWithTranslate: yPos - yTranslate
+        }
+    } else {
+        return {
+            xPosWithTranslate: xPos,
+            yPosWithTranslate: yPos
+        }
+    }
+}

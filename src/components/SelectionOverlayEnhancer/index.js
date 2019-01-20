@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { adjustForScroll } from '../../sharedUtils';
+import { adjustForScroll, adjustForTranslate } from '../../sharedUtils';
 import { getOverlayPosition } from './utils';
 
 /*
@@ -47,10 +47,23 @@ class SelectionOverlayEnhancer extends Component {
      * @param {object} e - the event object.
      */
     handleMouseDown = (e) => {
+        let { layerX, layerY } = e.evt;
+        if (this.props.requiresTranslateAdjustment && this.props.containerRef) {
+            const {
+                xPosWithTranslate,
+                yPosWithTranslate
+            } = adjustForTranslate({ 
+                xPos: layerX,
+                yPos: layerY,
+                translateString: this.props.containerRef.current.style.transform
+            });
+            layerX = xPosWithTranslate;
+            layerY = yPosWithTranslate;
+        }
         this.setState({
             mouseIsDown: true,
-            mouseDownPosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.props.childLayerRef.current.attrs.x }),
-            mouseDownPosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.props.childLayerRef.current.attrs.y })
+            mouseDownPosX: adjustForScroll({ raw: layerX, scroll: this.props.childLayerRef.current.attrs.x }),
+            mouseDownPosY: adjustForScroll({ raw: layerY, scroll: this.props.childLayerRef.current.attrs.y })
         });
     }
 
@@ -81,8 +94,21 @@ class SelectionOverlayEnhancer extends Component {
      */
     handleMouseMove = (e) => {
         if (this.state.mouseIsDown && this.props.shiftKeyPressed) {
-            const currentMousePosX = adjustForScroll({ raw: e.evt.layerX, scroll: this.props.childLayerRef.current.attrs.x });
-            const currentMousePosY = adjustForScroll({ raw: e.evt.layerY, scroll: this.props.childLayerRef.current.attrs.y });
+            let { layerX, layerY } = e.evt;
+            if (this.props.requiresTranslateAdjustment && this.props.containerRef) {
+                const {
+                    xPosWithTranslate,
+                    yPosWithTranslate
+                } = adjustForTranslate({ 
+                    xPos: layerX,
+                    yPos: layerY,
+                    translateString: this.props.containerRef.current.style.transform
+                });
+                layerX = xPosWithTranslate;
+                layerY = yPosWithTranslate;
+            }
+            const currentMousePosX = adjustForScroll({ raw: layerX, scroll: this.props.childLayerRef.current.attrs.x });
+            const currentMousePosY = adjustForScroll({ raw: layerY, scroll: this.props.childLayerRef.current.attrs.y });
             const { x, y, width, height } = getOverlayPosition({
                 mouseDownPosX: this.state.mouseDownPosX,
                 mouseDownPosY: this.state.mouseDownPosY,
@@ -117,7 +143,9 @@ class SelectionOverlayEnhancer extends Component {
 
 SelectionOverlayEnhancer.propTypes = {
     childLayerRef: PropTypes.object.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired
+    shiftKeyPressed: PropTypes.bool.isRequired,
+    requiresTranslateAdjustment: PropTypes.bool,
+    containerRef: PropTypes.object
 };
 
 export default SelectionOverlayEnhancer;
