@@ -108,10 +108,6 @@ const ActiveWindows = props => (
   </DraggableWindowContextConsumer>
 );
 
-ActiveWindows.propTypes = {
-
-}
-
 const mapStateToProps = state => ({
     activeWindows: state.activeWindows
 });
