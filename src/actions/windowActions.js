@@ -14,3 +14,10 @@ export const closeWindow = (windowId) => ({
         windowId
     }
 });
+
+export const focusWindow = (windowId) => ({
+    type: actionTypes.FOCUS_WINDOW,
+    payload: {
+        windowId
+    }
+});

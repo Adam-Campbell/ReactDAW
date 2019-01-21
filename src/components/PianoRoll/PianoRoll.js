@@ -56,6 +56,8 @@ const PianoRoll = props => (
                     handleNoteClick={props.handleNoteClick}
                     canvasWidth={props.canvasWidth}
                     canvasHeight={props.canvasHeight}
+                    containerRef={props.containerRef}
+                    requiresTranslateAdjustment={true}
                 >
                     {props => <NoteLayer {...props} />}
                 </SelectionOverlayEnhancer>
@@ -106,6 +108,7 @@ PianoRoll.propTypes = {
     transportLayerRef: PropTypes.object.isRequired,
     seekerLayerRef: PropTypes.object.isRequired,
     seekerLineRef: PropTypes.object.isRequired,
+    containerRef: PropTypes.object.isRequired,
     // canvas figures
     canvasWidth: PropTypes.number.isRequired,
     canvasHeight: PropTypes.number.isRequired,
