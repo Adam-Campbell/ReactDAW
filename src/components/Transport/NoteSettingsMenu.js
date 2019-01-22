@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectInput from '../SelectInput';
+import { ReactComponent as MusicalNoteIcon } from '../Icons/musicalNoteIcon.svg';
 
 const NoteSettingsMenu = props => (
     <div className="note-settings-menu">
         <SelectInput 
+            withBlockLabel
             value="16n"
             handleChange={() => {}}
             inputId="note-settings-quantize"
@@ -24,10 +26,11 @@ const NoteSettingsMenu = props => (
             ]}
         />
         <SelectInput 
+            withBlockLabel
             value="16n"
             handleChange={() => {}}
             inputId="note-settings-duration"
-            label="D"
+            label={<MusicalNoteIcon />}
             options={[
                 { value: '32t', text: '32t' },
                 { value: '32n', text: '32n' },
