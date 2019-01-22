@@ -1,0 +1,34 @@
+.tool-selection-menu {
+    border: solid 2px;
+    border-radius: 3px;
+    color: $color--pink;
+    margin-left: 32px;
+    display: flex;
+    &__radio-button {
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: -9999px;
+    }
+    &__label {
+        padding: 7px;
+        color: $color--pink;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        svg {
+            fill: $color--pink;
+        }
+        .tool-selection-menu__radio-button:hover + & {
+            background-color: $color--deep-purple;
+        }
+        .tool-selection-menu__radio-button:checked + & {
+            background-color: $color--pink;
+            color: $color--deep-purple;
+            svg {
+                fill: $color--deep-purple;
+            }
+        }
+
+    }
+}

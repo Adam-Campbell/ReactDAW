@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { 
-    PlayIcon,
-    PauseIcon,
-    StopIcon,
-    BackIcon,
     MixerIcon
 } from '../Icons';
+import { ReactComponent as PlayIcon } from '../Icons/playIcon.svg';
+import { ReactComponent as PauseIcon } from '../Icons/pauseIcon.svg';
+import { ReactComponent as StopIcon } from '../Icons/stopIcon.svg';
+import { ReactComponent as BackIcon } from '../Icons/backIcon.svg';
 import ToggleMenu from '../ToggleMenu';
 import FileMenu from './FileMenu';
 import EditMenu from './EditMenu';
 import ViewMenu from './ViewMenu';
+import ToolSelectionMenu from './ToolSelectionMenu';
+import NoteSettingsMenu from './NoteSettingsMenu';
 
 const Transport = props => (
     <div 
@@ -76,6 +78,8 @@ const Transport = props => (
         >
             <MixerIcon />
         </button>
+        <ToolSelectionMenu />
+        <NoteSettingsMenu />
     </div>
 );
 

@@ -11,10 +11,8 @@
         font-size: 16px;
         margin-top: 0;
         margin-bottom: 0;
-        border: solid 2px $color--pink;
         padding: 4px 8px;
         @include textShadow();
-        @include boxShadow();
         height: 100%;
         display: flex;
         align-items: center;
