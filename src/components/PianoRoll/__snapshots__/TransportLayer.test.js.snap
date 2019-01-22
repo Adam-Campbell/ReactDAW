@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   x={48}
 >
   <Rect
-    fill="#201826"
+    fill="#14161c"
     height={40}
     width={1588}
     x={-48}

@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="note-settings-menu"
+>
+  <SelectInput
+    handleChange={[Function]}
+    inputId="note-settings-quantize"
+    label="Q"
+    options={
+      Array [
+        Object {
+          "text": "32t",
+          "value": "32t",
+        },
+        Object {
+          "text": "32n",
+          "value": "32n",
+        },
+        Object {
+          "text": "16t",
+          "value": "16t",
+        },
+        Object {
+          "text": "16n",
+          "value": "16n",
+        },
+        Object {
+          "text": "8t",
+          "value": "8t",
+        },
+        Object {
+          "text": "8n",
+          "value": "8n",
+        },
+        Object {
+          "text": "4t",
+          "value": "4t",
+        },
+        Object {
+          "text": "4n",
+          "value": "4n",
+        },
+        Object {
+          "text": "2t",
+          "value": "2t",
+        },
+        Object {
+          "text": "2n",
+          "value": "2n",
+        },
+        Object {
+          "text": "1m",
+          "value": "1m",
+        },
+      ]
+    }
+    value="16n"
+    withBlockLabel={true}
+  />
+  <SelectInput
+    handleChange={[Function]}
+    inputId="note-settings-duration"
+    label={<ReactComponent />}
+    options={
+      Array [
+        Object {
+          "text": "32t",
+          "value": "32t",
+        },
+        Object {
+          "text": "32n",
+          "value": "32n",
+        },
+        Object {
+          "text": "16t",
+          "value": "16t",
+        },
+        Object {
+          "text": "16n",
+          "value": "16n",
+        },
+        Object {
+          "text": "8t",
+          "value": "8t",
+        },
+        Object {
+          "text": "8n",
+          "value": "8n",
+        },
+        Object {
+          "text": "4t",
+          "value": "4t",
+        },
+        Object {
+          "text": "4n",
+          "value": "4n",
+        },
+        Object {
+          "text": "2t",
+          "value": "2t",
+        },
+        Object {
+          "text": "2n",
+          "value": "2n",
+        },
+        Object {
+          "text": "1m",
+          "value": "1m",
+        },
+      ]
+    }
+    value="16n"
+    withBlockLabel={true}
+  />
+</div>
+`;

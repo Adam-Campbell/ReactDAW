@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <Fragment>
   <label
-    className="select-input__label pink"
+    className="select-input__label pink "
     htmlFor="test-select-input"
   >
     Just for testing

@@ -8,6 +8,7 @@ export * from './windowActions';
 export * from './persistenceActions';
 export * from './modalActions';
 export * from './compositionActions';
+export * from './settingsActions';
 
 export const updateDial = (newValue) => ({
     type: 'UPDATE_DIAL',

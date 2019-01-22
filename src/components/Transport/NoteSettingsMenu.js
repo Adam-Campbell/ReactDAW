@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as ActionCreators from '../../actions';
 import SelectInput from '../SelectInput';
 import { ReactComponent as MusicalNoteIcon } from '../Icons/musicalNoteIcon.svg';
 
-const NoteSettingsMenu = props => (
+export const NoteSettingsMenu = props => (
     <div className="note-settings-menu">
         <SelectInput 
             withBlockLabel
-            value="16n"
-            handleChange={() => {}}
+            value={props.snap}
+            handleChange={(e) => props.setSnap(e.target.value)}
             inputId="note-settings-quantize"
             label="Q"
             options={[
@@ -27,8 +28,8 @@ const NoteSettingsMenu = props => (
         />
         <SelectInput 
             withBlockLabel
-            value="16n"
-            handleChange={() => {}}
+            value={props.noteDuration}
+            handleChange={(e) => props.setNoteDuration(e.target.value)}
             inputId="note-settings-duration"
             label={<MusicalNoteIcon />}
             options={[
@@ -48,4 +49,15 @@ const NoteSettingsMenu = props => (
     </div>
 );
 
-export default NoteSettingsMenu;
+const mapStateToProps = state => ({
+    snap: state.settings.snap,
+    noteDuration: state.settings.noteDuration
+});
+
+export default connect(
+    mapStateToProps,
+    {
+        setSnap: ActionCreators.setSnap,
+        setNoteDuration: ActionCreators.setNoteDuration
+    }
+)(NoteSettingsMenu);

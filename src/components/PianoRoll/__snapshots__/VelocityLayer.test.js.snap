@@ -18,21 +18,21 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#d86597"
+    shadowColor="#aa9c9c"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#d86597"
+    stroke="#aa9c9c"
     strokeWidth={4}
   />
   <Rect
-    fill="#201826"
+    fill="#14161c"
     height={110}
     width={1536}
     x={0}
     y={0}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="9730238095311558"
     width={8}
@@ -40,7 +40,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="6565913234069669"
     width={8}
@@ -48,7 +48,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="6963004214787889"
     width={8}
@@ -56,7 +56,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="3960778105288814"
     width={8}
@@ -64,7 +64,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="5510520817714730"
     width={8}
@@ -72,7 +72,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="0820163710562363"
     width={8}
@@ -80,7 +80,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="7970239089395446"
     width={8}
@@ -88,7 +88,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="5322941918243851"
     width={8}
@@ -96,7 +96,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     key="3869152627264943"
     width={8}
@@ -104,7 +104,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#47426c"
+    fill="#252f48"
     height={100}
     key="5675315161385905"
     width={8}
@@ -112,7 +112,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#47426c"
+    fill="#252f48"
     height={100}
     key="0867355891830822"
     width={8}
@@ -120,7 +120,7 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#47426c"
+    fill="#252f48"
     height={100}
     key="4358545451844674"
     width={8}

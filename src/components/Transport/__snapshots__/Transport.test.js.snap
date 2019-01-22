@@ -40,25 +40,25 @@ exports[`presentational component renders correctly 1`] = `
     className="transport__button"
     onClick={[MockFunction]}
   >
-    <PlayIcon />
+    <ReactComponent />
   </button>
   <button
     className="transport__button"
     onClick={[MockFunction]}
   >
-    <PauseIcon />
+    <ReactComponent />
   </button>
   <button
     className="transport__button"
     onClick={[MockFunction]}
   >
-    <StopIcon />
+    <ReactComponent />
   </button>
   <button
     className="transport__button"
     onClick={[MockFunction]}
   >
-    <BackIcon />
+    <ReactComponent />
   </button>
   <div
     className="transport__track-position-container"
@@ -90,5 +90,7 @@ exports[`presentational component renders correctly 1`] = `
   >
     <MixerIcon />
   </button>
+  <Connect(ToolSelectionMenu) />
+  <Connect(NoteSettingsMenu) />
 </div>
 `;

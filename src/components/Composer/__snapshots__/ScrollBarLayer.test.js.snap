@@ -3,10 +3,10 @@
 exports[`renders correctly 1`] = `
 <Layer>
   <Rect
-    fill="#47426c"
+    fill="#252f48"
     height={300}
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
     width={24}
@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
   <Rect
     dragBoundFunc={[Function]}
     draggable={true}
-    fill="#d86597"
+    fill="#aa9c9c"
     height={100}
     onClick={[MockFunction]}
     onDragMove={[MockFunction]}
@@ -26,10 +26,10 @@ exports[`renders correctly 1`] = `
     y={10}
   />
   <Rect
-    fill="#47426c"
+    fill="#252f48"
     height={24}
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
     width={740}
@@ -39,7 +39,7 @@ exports[`renders correctly 1`] = `
   <Rect
     dragBoundFunc={[Function]}
     draggable={true}
-    fill="#d86597"
+    fill="#aa9c9c"
     height={14}
     onClick={[MockFunction]}
     onDragMove={[MockFunction]}

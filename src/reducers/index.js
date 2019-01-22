@@ -8,6 +8,7 @@ import instruments from './instrumentsReducer';
 import effects from './effectsReducer';
 import modals from './modalsReducer';
 import composition from './compositionReducer';
+import settings from './settingsReducer';
 import * as actionTypes from '../actionTypes';
 import undoable, {  
     excludeAction,
@@ -86,7 +87,10 @@ const main = undoable(
             actionTypes.PAUSE_TRACK,
             actionTypes.STOP_TRACK,
             actionTypes.OPEN_WINDOW,
-            actionTypes.CLOSE_WINDOW
+            actionTypes.CLOSE_WINDOW,
+            actionTypes.SET_TOOL_TYPE,
+            actionTypes.SET_SNAP,
+            actionTypes.SET_NOTE_DURATION
         ]),
         // groupBy: groupByActionTypes([
         //     actionTypes.UPDATE_CHANNEL_VOLUME,
@@ -103,8 +107,8 @@ const main = undoable(
 
 const combinedState = combineReducers({
     playerStatus,
+    settings,
     activeWindows, 
-    dial,
     main
 });
 

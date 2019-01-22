@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="tool-selection-menu"
+>
+  <input
+    checked={true}
+    className="tool-selection-menu__radio-button"
+    id="tool-select-cursor"
+    name="tool-select"
+    onChange={[Function]}
+    type="radio"
+    value="cursor"
+  />
+  <label
+    className="tool-selection-menu__label"
+    htmlFor="tool-select-cursor"
+  >
+    <ReactComponent />
+  </label>
+  <input
+    checked={false}
+    className="tool-selection-menu__radio-button"
+    id="tool-select-pencil"
+    name="tool-select"
+    onChange={[Function]}
+    type="radio"
+    value="pencil"
+  />
+  <label
+    className="tool-selection-menu__label"
+    htmlFor="tool-select-pencil"
+  >
+    <ReactComponent />
+  </label>
+  <input
+    checked={false}
+    className="tool-selection-menu__radio-button"
+    id="tool-select-selection"
+    name="tool-select"
+    onChange={[Function]}
+    type="radio"
+    value="selection"
+  />
+  <label
+    className="tool-selection-menu__label"
+    htmlFor="tool-select-selection"
+  >
+    <ReactComponent />
+  </label>
+</div>
+`;
