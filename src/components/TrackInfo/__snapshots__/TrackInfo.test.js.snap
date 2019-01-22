@@ -78,8 +78,8 @@ exports[`presentational component renders correctly 1`] = `
       onClick={[MockFunction]}
       style={
         Object {
-          "backgroundColor": "#d86597",
-          "color": "#d86597",
+          "backgroundColor": "#aa9c9c",
+          "color": "#aa9c9c",
         }
       }
     />

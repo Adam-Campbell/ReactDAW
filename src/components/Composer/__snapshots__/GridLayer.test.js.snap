@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <Layer>
   <Rect
-    fill="#201826"
+    fill="#14161c"
     height={320}
     width={9600}
     x={0}
@@ -21,10 +21,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -39,10 +39,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -57,10 +57,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -75,10 +75,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -93,10 +93,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -111,10 +111,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -129,10 +129,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -147,10 +147,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -165,10 +165,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -183,10 +183,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -201,10 +201,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -219,10 +219,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -237,10 +237,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -255,10 +255,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -273,10 +273,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -291,10 +291,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -309,10 +309,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -327,10 +327,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -345,10 +345,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -363,10 +363,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -381,10 +381,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -399,10 +399,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -417,10 +417,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -435,10 +435,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -453,10 +453,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -471,10 +471,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -489,10 +489,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -507,10 +507,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -525,10 +525,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -543,10 +543,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -561,10 +561,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -579,10 +579,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -597,10 +597,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -615,10 +615,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -633,10 +633,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -651,10 +651,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -669,10 +669,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -687,10 +687,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -705,10 +705,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -723,10 +723,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -741,10 +741,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -759,10 +759,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -777,10 +777,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -795,10 +795,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -813,10 +813,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -831,10 +831,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -849,10 +849,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -867,10 +867,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -885,10 +885,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -903,10 +903,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -921,10 +921,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -939,10 +939,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -957,10 +957,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -975,10 +975,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -993,10 +993,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1011,10 +1011,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1029,10 +1029,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1047,10 +1047,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1065,10 +1065,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1083,10 +1083,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1101,10 +1101,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1119,10 +1119,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1137,10 +1137,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1155,10 +1155,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1173,10 +1173,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1191,10 +1191,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1209,10 +1209,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1227,10 +1227,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1245,10 +1245,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1263,10 +1263,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1281,10 +1281,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1299,10 +1299,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1317,10 +1317,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1335,10 +1335,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1353,10 +1353,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1371,10 +1371,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1389,10 +1389,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1407,10 +1407,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1425,10 +1425,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1443,10 +1443,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1461,10 +1461,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1479,10 +1479,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1497,10 +1497,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1515,10 +1515,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1533,10 +1533,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1551,10 +1551,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1569,10 +1569,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1587,10 +1587,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1605,10 +1605,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1623,10 +1623,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1641,10 +1641,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1659,10 +1659,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1677,10 +1677,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1695,10 +1695,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1713,10 +1713,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1731,10 +1731,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1749,10 +1749,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1767,10 +1767,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1785,10 +1785,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1803,10 +1803,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1821,10 +1821,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1839,10 +1839,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1857,10 +1857,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1875,10 +1875,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1893,10 +1893,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1911,10 +1911,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1929,10 +1929,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1947,10 +1947,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1965,10 +1965,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -1983,10 +1983,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2001,10 +2001,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2019,10 +2019,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2037,10 +2037,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2055,10 +2055,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2073,10 +2073,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2091,10 +2091,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2109,10 +2109,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2127,10 +2127,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2145,10 +2145,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2163,10 +2163,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2181,10 +2181,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2199,10 +2199,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2217,10 +2217,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2235,10 +2235,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2253,10 +2253,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2271,10 +2271,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2289,10 +2289,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2307,10 +2307,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2325,10 +2325,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2343,10 +2343,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2361,10 +2361,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2379,10 +2379,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2397,10 +2397,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2415,10 +2415,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2433,10 +2433,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2451,10 +2451,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2469,10 +2469,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2487,10 +2487,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2505,10 +2505,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2523,10 +2523,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2541,10 +2541,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2559,10 +2559,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2577,10 +2577,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2595,10 +2595,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2613,10 +2613,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2631,10 +2631,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2649,10 +2649,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2667,10 +2667,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2685,10 +2685,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2703,10 +2703,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2721,10 +2721,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2739,10 +2739,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2757,10 +2757,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2775,10 +2775,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2793,10 +2793,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2811,10 +2811,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2829,10 +2829,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2847,10 +2847,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2865,10 +2865,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2883,10 +2883,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2901,10 +2901,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2919,10 +2919,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2937,10 +2937,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2955,10 +2955,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2973,10 +2973,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -2991,10 +2991,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3009,10 +3009,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3027,10 +3027,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3045,10 +3045,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3063,10 +3063,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3081,10 +3081,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3099,10 +3099,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3117,10 +3117,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3135,10 +3135,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3153,10 +3153,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3171,10 +3171,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3189,10 +3189,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3207,10 +3207,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3225,10 +3225,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3243,10 +3243,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3261,10 +3261,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3279,10 +3279,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3297,10 +3297,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3315,10 +3315,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3333,10 +3333,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3351,10 +3351,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3369,10 +3369,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3387,10 +3387,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3405,10 +3405,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3423,10 +3423,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3441,10 +3441,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3459,10 +3459,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3477,10 +3477,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3495,10 +3495,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3513,10 +3513,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3531,10 +3531,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3549,10 +3549,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3567,10 +3567,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3585,10 +3585,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3603,10 +3603,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3621,10 +3621,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3639,10 +3639,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3657,10 +3657,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3675,10 +3675,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3693,10 +3693,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
   <Line
@@ -3711,10 +3711,10 @@ exports[`renders correctly 1`] = `
       ]
     }
     shadowBlur={4}
-    shadowColor="#47426c"
+    shadowColor="#252f48"
     shadowOffsetX={0}
     shadowOffsetY={0}
-    stroke="#47426c"
+    stroke="#252f48"
     strokeWidth={2}
   />
 </Layer>

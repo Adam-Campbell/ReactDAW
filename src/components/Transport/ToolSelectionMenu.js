@@ -7,7 +7,7 @@ import { ReactComponent as PencilToolIcon } from '../Icons/pencilToolIcon.svg';
 import { ReactComponent as SelectionToolIcon } from '../Icons/selectionToolIcon.svg';
 import { ReactComponent as CursorToolIcon } from '../Icons/cursorToolIcon.svg';
 
-const ToolSelectionMenu = props => (
+export const ToolSelectionMenu = props => (
     <div className="tool-selection-menu">
         <input 
             className="tool-selection-menu__radio-button" 

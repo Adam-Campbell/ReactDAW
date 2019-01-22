@@ -4,7 +4,7 @@ import * as ActionCreators from '../../actions';
 import SelectInput from '../SelectInput';
 import { ReactComponent as MusicalNoteIcon } from '../Icons/musicalNoteIcon.svg';
 
-const NoteSettingsMenu = props => (
+export const NoteSettingsMenu = props => (
     <div className="note-settings-menu">
         <SelectInput 
             withBlockLabel
