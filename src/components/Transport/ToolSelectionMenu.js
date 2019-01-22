@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as ActionCreators from '../../actions';
+import { toolTypes } from '../../constants';
 import { ReactComponent as PencilToolIcon } from '../Icons/pencilToolIcon.svg';
 import { ReactComponent as SelectionToolIcon } from '../Icons/selectionToolIcon.svg';
 import { ReactComponent as CursorToolIcon } from '../Icons/cursorToolIcon.svg';
@@ -11,9 +14,9 @@ const ToolSelectionMenu = props => (
             type="radio" 
             id="tool-select-cursor"
             name="tool-select"
-            value="cursor"
-            onChange={() => {}} 
-            checked={true}
+            value={toolTypes.cursor}
+            onChange={(e) => props.setToolType(e.target.value)} 
+            checked={props.toolType === toolTypes.cursor}
         ></input>
         <label 
             className="tool-selection-menu__label" 
@@ -26,9 +29,9 @@ const ToolSelectionMenu = props => (
             type="radio" 
             id="tool-select-pencil"
             name="tool-select"
-            value="pencil"
-            onChange={() => {}} 
-            checked={false}
+            value={toolTypes.pencil}
+            onChange={(e) => props.setToolType(e.target.value)} 
+            checked={props.toolType === toolTypes.pencil}
         ></input>
         <label 
             className="tool-selection-menu__label" 
@@ -41,9 +44,9 @@ const ToolSelectionMenu = props => (
             type="radio" 
             id="tool-select-selection"
             name="tool-select"
-            value="selection"
-            onChange={() => {}} 
-            checked={false}
+            value={toolTypes.selection}
+            onChange={(e) => props.setToolType(e.target.value)} 
+            checked={props.toolType === toolTypes.selection}
         ></input>
         <label 
             className="tool-selection-menu__label" 
@@ -54,4 +57,13 @@ const ToolSelectionMenu = props => (
     </div>
 );
 
-export default ToolSelectionMenu;
+const mapStateToProps = state => ({
+    toolType: state.settings.toolType
+});
+
+export default connect(
+    mapStateToProps,
+    {
+        setToolType: ActionCreators.setToolType
+    }
+)(ToolSelectionMenu);
