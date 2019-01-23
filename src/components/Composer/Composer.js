@@ -81,6 +81,8 @@ const Composer = props => (
                     <TransportLayer 
                         transportLayerRef={props.transportLayerRef}
                         canvasWidth={props.canvasWidth}
+                        seekerLineRef={props.seekerLineRef}
+                        seekerLayerRef={props.seekerLayerRef}
                     />
                     <SeekerLayer 
                         seekerLayerRef={props.seekerLayerRef}
@@ -92,9 +94,15 @@ const Composer = props => (
                         stageHeight={props.stageHeight}
                         stageWidth={props.stageWidth}
                         scrollPadding={props.scrollPadding}
-                        verticalDragMove={props.verticalDragMove}
-                        horizontalDragMove={props.horizontalDragMove}
-                        handleScrollBarClickEvents={props.handleScrollBarClickEvents}
+                        enterScrollBarActiveState={props.enterScrollBarActiveState}
+                        canvasWidth={props.canvasWidth}
+                        canvasHeight={props.canvasHeight}
+                        gridLayerRef={props.gridLayerRef}
+                        sectionsLayerRef={props.sectionsLayerRef}
+                        transportLayerRef={props.transportLayerRef}
+                        seekerLayerRef={props.seekerLayerRef}
+                        stageRef={props.stageRef}
+                        updateTrackInfoMenuTopScroll={props.updateTrackInfoMenuTopScroll}
                     />
                 </Stage>
             </div>
@@ -133,10 +141,9 @@ Composer.propTypes = {
     handleStageMouseUp: PropTypes.func.isRequired,
     handleSectionClick: PropTypes.func.isRequired,
     handleSectionDoubleClick: PropTypes.func.isRequired,
-    verticalDragMove: PropTypes.func.isRequired,
-    horizontalDragMove: PropTypes.func.isRequired,
     updateSelectedChannel: PropTypes.func.isRequired,
-    handleScrollBarClickEvents: PropTypes.func.isRequired,
+    enterScrollBarActiveState: PropTypes.func.isRequired,
+    updateTrackInfoMenuTopScroll: PropTypes.func.isRequired,
     // other
     trackInfoMenuTopScroll: PropTypes.number.isRequired,
     channels: PropTypes.arrayOf(PropTypes.object).isRequired,

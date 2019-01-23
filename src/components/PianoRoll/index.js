@@ -101,8 +101,7 @@ export class PianoRollContainer extends Component {
             stageHeight: 600,
             scrollBarActive: false,
             currentlySelectedNotes: [],
-            currentlyCopiedNotes: null,
-            shiftKeyPressed: false,
+            currentlyCopiedNotes: null
         };
     }
 
@@ -276,14 +275,6 @@ export class PianoRollContainer extends Component {
         e.preventDefault();
         e.stopPropagation();
 
-        if (e.key === 'Shift') {
-            if (!this.state.shiftKeyPressed) {
-                this.setState({
-                    shiftKeyPressed: true
-                });
-            }
-        }
-
         // handle deletion
         if (e.key === 'Delete') {
             this.handleDeletion();
@@ -337,23 +328,6 @@ export class PianoRollContainer extends Component {
         }
 
 
-    }
-
-    /**
-     * Contains the logic to handle keyUp events.
-     * @param {Object} e - the event object
-     */
-    handleKeyUp = e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (e.key === 'Shift') {
-            if (this.state.shiftKeyPressed) {
-                this.setState({
-                    shiftKeyPressed: false
-                });
-            }
-        }
     }
 
     /**

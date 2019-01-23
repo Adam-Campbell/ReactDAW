@@ -40,8 +40,6 @@ export class ComposerContainer extends Component {
         this.seekerLayerRef = React.createRef();
         this.seekerLineRef = React.createRef();
         this.rAFRef = null;
-        this.horizontalDragMove = throttle(this.horizontalDragMove, 16);
-        this.verticalDragMove = throttle(this.verticalDragMove, 16);
         this.updateStageDimensions = debounce(this._updateStageDimensions, 50);
         this.state = {
             sectionDuration: 4,
@@ -120,61 +118,6 @@ export class ComposerContainer extends Component {
     }
 
     /**
-     * Handles vertical scrolling of the composer component, updating both the canvas and the track info
-     * elements.
-     * @param {object} e - the event object
-     */
-    verticalDragMove = (e) => {
-        if (this.stageHeight > this.canvasHeight) {
-            return;
-        }
-        // work out horizontal % delta
-        const currentSliderPos = e.target.attrs.y - this.scrollPadding;
-        const totalSliderRange = this.stageHeight - this.scrollPadding - 24 - 100;
-        const delta = currentSliderPos / totalSliderRange;
-        // update the layers
-        const totalCanvasRange = this.canvasHeight - this.stageHeight + this.scrollPadding + 24;
-        const scrollAmount = -(totalCanvasRange * delta);
-        this.setState({
-            trackInfoMenuTopScroll: scrollAmount
-        });
-        this.gridLayerRef.current.y(-(totalCanvasRange * delta));
-        this.sectionsLayerRef.current.y(-(totalCanvasRange * delta));
-        this.stageRef.current.batchDraw();
-    }
-
-    /**
-     * Handles horizontal scrolling of the canvas of the composer component. 
-     * @param {object} e - the event object
-     */
-    horizontalDragMove = (e) => {
-        // work out horizontal % delta
-        const currentSliderPos = e.target.attrs.x - this.scrollPadding;
-        const totalSliderRange = this.stageWidth - this.scrollPadding - 24 - 100;
-        const delta = currentSliderPos / totalSliderRange;
-        // update the layers
-        const totalCanvasRange = this.canvasWidth - this.stageWidth + this.scrollPadding + 24;
-        this.gridLayerRef.current.x(-(totalCanvasRange * delta));
-        this.sectionsLayerRef.current.x(-(totalCanvasRange * delta));
-        this.transportLayerRef.current.x(-(totalCanvasRange * delta));
-        this.seekerLayerRef.current.x(-(totalCanvasRange * delta));
-        this.stageRef.current.batchDraw();
-    }
-
-    /**
-     * Handles click and mouseDown events on the scrollbars - updating state to signify that a scrollbar is
-     * active, and preventing event bubbling so that none of the event listeners on the layers underneath 
-     * get triggered. 
-     * @param {object} e - the event object
-     */
-    handleScrollBarClickEvents = (e) => {
-        e.cancelBubble = true;
-        if (!this.state.scrollBarActive) {
-            this.setState({ scrollBarActive: true });
-        }
-    }
-
-    /**
      * Handles click events on the stage which have not been caught by event listeners on any of the layers above. 
      * Delegates to other functions as necessary. 
      * @param {object} e - the event object.
@@ -195,11 +138,7 @@ export class ComposerContainer extends Component {
         // adjust for scroll
         const xPosWithScroll = adjustForScroll({ raw: rawXPos, scroll: this.gridLayerRef.current.attrs.x });
         const yPosWithScroll = adjustForScroll({ raw: rawYPos, scroll: this.gridLayerRef.current.attrs.y });
-        // if yPos < 40 then we have clicked on the transport section of the canvas
-        if (rawYPos < 40) {
-            this.handleTransportClick(xPosWithScroll);
-            return;
-        }
+        
         // if pencil is active then we don't want to do anything in the click event, everything is
         // handled by mouseDown and mouseUp events. 
         if (!this.state.pencilActive) {
@@ -373,17 +312,6 @@ export class ComposerContainer extends Component {
         });
     }
 
-    /**
-     * Handle clicks that occur on the transport section of the canvas.
-     * @param {number} xPos - the x position of the click event, already adjused for any scrolling. 
-     */
-    handleTransportClick = (xPos) => {
-        const barClicked = `${Math.floor(xPos / 48)}:0:0`;
-        Tone.Transport.position = barClicked;
-        const newXPos = transportPositionStringToSixteenths(Tone.Transport.position) * 3;        
-        this.seekerLineRef.current.x(newXPos);
-        this.seekerLayerRef.current.batchDraw();
-    }
 
     /**
      * Handle click events that occur on a section rect within the canvas.
@@ -503,6 +431,12 @@ export class ComposerContainer extends Component {
         });
     }
 
+    updateTrackInfoMenuTopScroll = (newScrollAmount) => {
+        this.setState({
+            trackInfoMenuTopScroll: newScrollAmount
+        });
+    }
+
     /**
      * Handles the deletion of sections.
      */
@@ -600,6 +534,12 @@ export class ComposerContainer extends Component {
 
     }
 
+    enterScrollBarActiveState = () => {
+        this.setState({
+            scrollBarActive: true
+        });
+    }
+
     render() {
         const gridLinesArray = createGridLinesArray({
             canvasHeight: this.canvasHeight,
@@ -636,15 +576,14 @@ export class ComposerContainer extends Component {
             handleStageMouseUp={this.handleStageMouseUp}
             handleSectionClick={this.handleSectionClick}
             handleSectionDoubleClick={this.handleSectionDoubleClick}
-            verticalDragMove={this.verticalDragMove}
-            horizontalDragMove={this.horizontalDragMove}
             trackInfoMenuTopScroll={this.state.trackInfoMenuTopScroll}
             channels={this.props.channels}
             currentlySelectedSections={this.state.currentlySelectedSections}
             currentlySelectedChannel={this.state.currentlySelectedChannel}
             updateSelectedChannel={this.updateSelectedChannel}
-            handleScrollBarClickEvents={this.handleScrollBarClickEvents}
             shiftKeyPressed={this.state.shiftKeyPressed}
+            enterScrollBarActiveState={this.enterScrollBarActiveState}
+            updateTrackInfoMenuTopScroll={this.updateTrackInfoMenuTopScroll}
         />
     }
 }
@@ -653,7 +592,8 @@ const mapStateToProps = state => ({
     channels: state.main.present.channels,
     sections: state.main.present.sections,
     isPlaying: state.playerStatus.isPlaying,
-    isPaused: state.playerStatus.isPaused
+    isPaused: state.playerStatus.isPaused,
+    toolType: state.settings.toolType
 });
 
 export default connect(
