@@ -5,6 +5,7 @@ import * as ActionCreators from '../../actions';
 import Tone from 'tone';
 import { throttle } from 'lodash';
 import PianoRoll from './PianoRoll';
+import { toolTypes, snapSettings, noteDurationSettings } from '../../constants';
 import {
     createSelectedAndUnselectedNoteArrays,
     getTransportLineAttrs,
@@ -210,30 +211,22 @@ export class PianoRollContainer extends Component {
         });
         const xPosWithScrollAndTranslate = adjustForScroll({ raw: xPosWithTranslate, scroll: this.gridLayerRef.current.attrs.x });
         const yPosWithScrollAndTranslate = adjustForScroll({ raw: yPosWithTranslate, scroll: this.gridLayerRef.current.attrs.y });
-        // if rawY is less than 40, then the click has occurred within the transport section of the canvas.
-        if (yPosWithTranslate < 40) {
-            this.handleTransportClick(xPosWithScrollAndTranslate);
-            return;
-        }
-        // if the pencil tool is active, or the shift key is pressed, then there is nothing that needs to be
-        // done during a click event so just return early.
-        if (this.state.pencilActive || e.evt.shiftKey) {
-            return;
-        } 
 
-        const noteObject = calculateNoteInfo({
-            x: xPosWithScrollAndTranslate, 
-            y: yPosWithScrollAndTranslate,
-            pitchesArray: this._pitchesArray,
-            currentQuantizeValue: this.state.quantize,
-            noteDuration: Tone.Time(this.state.duration).toBarsBeatsSixteenths()
-        });
-        const noteIsValid = isValidNote({
-            noteToCheck: noteObject, 
-            allSectionNotes: this.section.notes
-        });
-        if (noteIsValid) {
-            this.props.addNote(this.section.id, noteObject);
+        if (this.props.toolType === toolTypes.cursor) {
+            const noteObject = calculateNoteInfo({
+                x: xPosWithScrollAndTranslate, 
+                y: yPosWithScrollAndTranslate,
+                pitchesArray: this._pitchesArray,
+                currentQuantizeValue: this.state.quantize,
+                noteDuration: Tone.Time(this.state.duration).toBarsBeatsSixteenths()
+            });
+            const noteIsValid = isValidNote({
+                noteToCheck: noteObject, 
+                allSectionNotes: this.section.notes
+            });
+            if (noteIsValid) {
+                this.props.addNote(this.section.id, noteObject);
+            }
         }
     }
 
@@ -294,15 +287,6 @@ export class PianoRollContainer extends Component {
             this.handlePencilToolNoteCreation(e);
         } else if (e.evt.shiftKey) {
             this.handlePointerToolMultiSelect(e);
-        }
-    }
-
-    handleMouseMove = e => {
-        if (this.state.mouseIsDown && this.state.shiftKeyPressed) {
-            this.setState({
-                currentMousePosX: adjustForScroll({ raw: e.evt.layerX, scroll: this.gridLayerRef.current.attrs.x }),
-                currentMousePosY: adjustForScroll({ raw: e.evt.layerY, scroll: this.gridLayerRef.current.attrs.y })
-            });
         }
     }
 
@@ -392,27 +376,6 @@ export class PianoRollContainer extends Component {
     }
 
     /**
-     * Handles a click that occurs within the Transport section of the canvas, delegating to other
-     * functions as needed. 
-     * @param {number} xPos - the x position of the click event that occurred. 
-     */
-    handleTransportClick = (xPosWithScroll) => {
-        // adjust the xPos to snap it to the current quantize value
-        const currQuantizeAdjustment = Tone.Time(this.state.quantize).toTicks() / 2;
-        const xPosAdjustedForQuantize = xPosWithScroll-(xPosWithScroll%currQuantizeAdjustment);
-        // calculate the new transport position based on the section start time and the current progression into
-        // the section.
-        const sectionStartAsTicks = Tone.Time(this.section.start).toTicks();
-        const sectionProgressAsTicks =  xPosAdjustedForQuantize * 2;
-        const newTransportPosition = Tone.Ticks(sectionStartAsTicks+sectionProgressAsTicks).toBarsBeatsSixteenths();
-        Tone.Transport.position = newTransportPosition;
-        // update the canvas element with new xPos and redraw the canvas layer. 
-        this.seekerLineRef.current.strokeWidth(2);
-        this.seekerLineRef.current.x(xPosAdjustedForQuantize);
-        this.seekerLayerRef.current.batchDraw();
-    }
-
-    /**
      * Handles the clicking of a note Rect on the canvas, also prevents event bubbling to stop any events
      * on sublayers from firing
      * @param {object} e - the event object
@@ -432,18 +395,6 @@ export class PianoRollContainer extends Component {
         });
     }
 
-    /**
-     * Handles the click of a piano key.
-     * @param {object} e - the event object
-     * @param {object} pitch - the pitch of the key that was clicked
-     */
-    handlePianoKeyClick = (e, pitch) => {
-        // Trigger a note to play on the instrument corresponding to this channel, but do it by directly 
-        // interacting with the instrument rather than going through Redux, since this is not state that
-        // should be persisted in any way. 
-        e.cancelBubble = true;
-        window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
-    }
 
     /**
      * Contains the logic for creating a new note using the pencil tool.
@@ -523,92 +474,7 @@ export class PianoRollContainer extends Component {
         });
     }
 
-    /**
-     * Updates the quantize value in state.
-     * @param {object} e - the event object supplied by the browser
-     */
-    updateQuantizeValue(e) {
-        this.setState({
-            quantize: e.target.value
-        });
-    }
-
-    /**
-     * Updates the duration value in state.
-     * @param {object} e - the event object supplied by the browser
-     */
-    updateDurationValue(e) {
-        this.setState({
-            duration: e.target.value
-        });
-    }
-
-    /**
-     * Updates the pencilActive boolean value in state.
-     * @param {object} e - the event object supplied by the browser 
-     */
-    updateCursorValue(e) {
-        this.setState({
-            pencilActive: e.target.value === 'pencil'
-        });
-    }
-
-    /**
-     * Handles making the necessary updates whenever the horizontal scroll bar is dragged.
-     * @param {object} e - the event object 
-     */
-    _horizontalDragMove(e) {
-        if (!this.state.scrollBarActive) {
-            this.setState({ scrollBarActive: true });
-        }
-
-        // work out horizontal % delta
-        const currentSliderPos = e.target.attrs.x - this.padding;
-        const { stageWidth } = this.state; 
-        const totalSliderRange = stageWidth - this.padding - 24 - 100;
-        const delta = currentSliderPos / totalSliderRange;
-
-        // update the layers
-
-        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 24 + 48;
-        
-        this.gridLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.seekerLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.velocityLayerRef.current.x(-(totalCanvasRange * delta) + 48);
-        this.stageRef.current.batchDraw();
-    }
-
-    /**
-     * Handles making the necessary updates whenever the vertical scroll bar is dragged.
-     * @param {object} e - the event object 
-     */
-    _verticalDragMove(e) {
-        // make necessary calculations
-        const currentSliderPos = e.target.attrs.y - this.padding;
-        const { stageHeight } = this.state;
-        const totalSliderRange = stageHeight - this.padding - 24 - 100;
-        const delta = currentSliderPos / totalSliderRange;
-
-        const canvasHeight = 1728;
-        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24 + 40 + 110;
-
-        // update the layers
-        this.gridLayerRef.current.y(-(totalCanvasRange * delta) + 40);
-        this.noteLayerRef.current.y(-(totalCanvasRange * delta) + 40);
-        this.pianoKeyLayerRef.current.y(-(totalCanvasRange * delta) + 40);
-        this.stageRef.current.batchDraw();
-    }
-
-    /**
-     * Ensures that the scrollBar active value in state is set to true when any mouse interactions with
-     * the scroll bar occur. Also stops the event from bubbling up so that nothing on the layers underneath
-     * the scroll bar layer gets triggered. 
-     * @param {object} e - the event object
-     */
-    handleScrollBarClickEvents = (e) => {
-        e.cancelBubble = true;
+    enterScrollBarActiveState = () => {
         if (!this.state.scrollBarActive) {
             this.setState({ scrollBarActive: true });
         }
@@ -906,6 +772,101 @@ export class PianoRollContainer extends Component {
         }
     }
 
+    /**
+     * Handles a click that occurs within the Transport section of the canvas, delegating to other
+     * functions as needed. 
+     * @param {number} xPos - the x position of the click event that occurred. 
+     */
+    __OLD__handleTransportClick = (xPosWithScroll) => {
+        // adjust the xPos to snap it to the current quantize value
+        const currQuantizeAdjustment = Tone.Time(this.state.quantize).toTicks() / 2;
+        const xPosAdjustedForQuantize = xPosWithScroll-(xPosWithScroll%currQuantizeAdjustment);
+        // calculate the new transport position based on the section start time and the current progression into
+        // the section.
+        const sectionStartAsTicks = Tone.Time(this.section.start).toTicks();
+        const sectionProgressAsTicks =  xPosAdjustedForQuantize * 2;
+        const newTransportPosition = Tone.Ticks(sectionStartAsTicks+sectionProgressAsTicks).toBarsBeatsSixteenths();
+        Tone.Transport.position = newTransportPosition;
+        // update the canvas element with new xPos and redraw the canvas layer. 
+        this.seekerLineRef.current.strokeWidth(2);
+        this.seekerLineRef.current.x(xPosAdjustedForQuantize);
+        this.seekerLayerRef.current.batchDraw();
+    }
+
+    /**
+     * Handles the click of a piano key.
+     * @param {object} e - the event object
+     * @param {object} pitch - the pitch of the key that was clicked
+     */
+    __OLD__handlePianoKeyClick = (e, pitch) => {
+        // Trigger a note to play on the instrument corresponding to this channel, but do it by directly 
+        // interacting with the instrument rather than going through Redux, since this is not state that
+        // should be persisted in any way. 
+        e.cancelBubble = true;
+        window.instrumentReferences[this.section.channelId].triggerAttackRelease(pitch, '8n');
+    }
+
+    /**
+     * Handles making the necessary updates whenever the horizontal scroll bar is dragged.
+     * @param {object} e - the event object 
+     */
+    __OLD__horizontalDragMove(e) {
+        if (!this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: true });
+        }
+
+        // work out horizontal % delta
+        const currentSliderPos = e.target.attrs.x - this.padding;
+        const { stageWidth } = this.state; 
+        const totalSliderRange = stageWidth - this.padding - 24 - 100;
+        const delta = currentSliderPos / totalSliderRange;
+
+        // update the layers
+
+        const totalCanvasRange = this.canvasWidth - stageWidth + this.padding + 24 + 48;
+        
+        this.gridLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.noteLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.transportLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.seekerLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.velocityLayerRef.current.x(-(totalCanvasRange * delta) + 48);
+        this.stageRef.current.batchDraw();
+    }
+
+    /**
+     * Handles making the necessary updates whenever the vertical scroll bar is dragged.
+     * @param {object} e - the event object 
+     */
+    __OLD__verticalDragMove(e) {
+        // make necessary calculations
+        const currentSliderPos = e.target.attrs.y - this.padding;
+        const { stageHeight } = this.state;
+        const totalSliderRange = stageHeight - this.padding - 24 - 100;
+        const delta = currentSliderPos / totalSliderRange;
+
+        const canvasHeight = 1728;
+        const totalCanvasRange = canvasHeight - stageHeight + this.padding + 24 + 40 + 110;
+
+        // update the layers
+        this.gridLayerRef.current.y(-(totalCanvasRange * delta) + 40);
+        this.noteLayerRef.current.y(-(totalCanvasRange * delta) + 40);
+        this.pianoKeyLayerRef.current.y(-(totalCanvasRange * delta) + 40);
+        this.stageRef.current.batchDraw();
+    }
+
+    /**
+     * Ensures that the scrollBar active value in state is set to true when any mouse interactions with
+     * the scroll bar occur. Also stops the event from bubbling up so that nothing on the layers underneath
+     * the scroll bar layer gets triggered. 
+     * @param {object} e - the event object
+     */
+    __OLD__handleScrollBarClickEvents = (e) => {
+        e.cancelBubble = true;
+        if (!this.state.scrollBarActive) {
+            this.setState({ scrollBarActive: true });
+        }
+    }
+
     render() {
 
         if (!this.section) {
@@ -928,11 +889,8 @@ export class PianoRollContainer extends Component {
             handleKeyUp={this.handleKeyUp}
             outerContainerRef={this.outerContainerRef}
             quantizeValue={this.state.quantize}
-            updateQuantizeValue={this.updateQuantizeValue.bind(this)}
             durationValue={this.state.duration}
-            updateDurationValue={this.updateDurationValue.bind(this)}
             cursorValue={this.state.pencilActive ? 'pencil' : 'pointer'}
-            updateCursorValue={this.updateCursorValue.bind(this)}
             stageRef={this.stageRef}
             handleStageClick={this.handleStageClick}
             handleMouseDown={this.handleMouseDown}
@@ -943,7 +901,7 @@ export class PianoRollContainer extends Component {
             canvasHeight={this.canvasHeight}
             gridLinesArray={gridLinesArray}
             noteLayerRef={this.noteLayerRef}
-            section={this.section}
+            section={this.props.section}
             currentlySelectedNotes={this.state.currentlySelectedNotes}
             handleNoteClick={this.handleNoteClick}
             stageHeight={this.state.stageHeight}
@@ -960,11 +918,11 @@ export class PianoRollContainer extends Component {
             seekerLayerRef={this.seekerLayerRef}
             seekerLineRef={this.seekerLineRef}
             padding={this.padding}
-            horizontalDragMove={this.horizontalDragMove}
-            verticalDragMove={this.verticalDragMove}
-            handleScrollBarClickEvents={this.handleScrollBarClickEvents}
             shiftKeyPressed={this.state.shiftKeyPressed}
             containerRef={this.props.containerRef}
+            snap={this.props.snap}
+            noteDuration={this.props.noteDuration}
+            enterScrollBarActiveState={this.enterScrollBarActiveState}
         />
     }
 
@@ -973,10 +931,14 @@ export class PianoRollContainer extends Component {
 
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
     sections: state.main.present.sections,
+    section: state.main.present.sections[ownProps.id],
     isPlaying: state.playerStatus.isPlaying,
-    isPaused: state.playerStatus.isPaused
+    isPaused: state.playerStatus.isPaused,
+    toolType: state.settings.toolType,
+    snap: state.settings.snap,
+    noteDuration: state.settings.noteDuration
 });
 
 

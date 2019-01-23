@@ -209,4 +209,87 @@ VISIBLE SELECTION OVERLAY
 DONE
 
 
+______________
+______________
+  TOOL USAGE
+______________
+______________
+
+
+3 tools - cursor, pencil and selection
+
+
+PIANO ROLL
+__________
+
+
+Main stage area:
+
+onClick
+  cursor - nothing
+  pencil - nothing
+  selection - nothing
+
+onMouseDown
+  cursor - nothing
+  pencil - record the cursor position
+  selection - record the cursor position
+
+onMouseUp
+  cursor - nothing
+  pencil - add note
+  selection - create selection
+
+
+Transport area:
+
+onClick
+  all tools - skip to clicked section
+
+
+Velocity area:
+
+onClick
+  cursor - update velocity
+  pencil - update velocity
+  selection - nothing
+
+
+
+COMPOSER
+________
+
+Main stage area:
+
+onClick
+  cursor - add note using noteDuration prop to determine length
+  pencil - nothing
+  selection - nothing
+
+onMouseDown 
+  cursor - nothing
+  pencil - record position
+  selection - record position
+
+onMouseUp
+  cursor - nothing
+  pencil - create section
+  selection - create selection
+
+
+Transport area:
+
+onClick
+  all tools - skip to that area of track.
+
+
+
+
+
+
+
+
+
+
+
 
