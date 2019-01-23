@@ -141,9 +141,6 @@ class ScrollBarLayer extends Component {
 }
 
 ScrollBarLayer.propTypes = {
-    horizontalDragMove: PropTypes.func.isRequired,
-    verticalDragMove: PropTypes.func.isRequired,
-    handleScrollBarClickEvents: PropTypes.func.isRequired,
     stageHeight: PropTypes.number.isRequired,
     stageWidth: PropTypes.number.isRequired,
     padding: PropTypes.number.isRequired,
@@ -154,7 +151,8 @@ ScrollBarLayer.propTypes = {
     transportLayerRef: PropTypes.object.isRequired,
     seekerLayerRef: PropTypes.object.isRequired,
     velocityLayerRef: PropTypes.object.isRequired,
-    stageRef: PropTypes.object.isRequired
+    stageRef: PropTypes.object.isRequired,
+    pianoKeyLayerRef: PropTypes.object.isRequired
 }
 
 export default ScrollBarLayer;  

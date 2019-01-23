@@ -261,17 +261,17 @@ ________
 
 Main stage area:
 
-onClick
+onClick DONE
   cursor - add note using noteDuration prop to determine length
   pencil - nothing
   selection - nothing
 
-onMouseDown 
+onMouseDown DONE
   cursor - nothing
   pencil - record position
   selection - record position
 
-onMouseUp
+onMouseUp DONE
   cursor - nothing
   pencil - create section
   selection - create selection

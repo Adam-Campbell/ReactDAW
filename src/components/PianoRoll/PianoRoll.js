@@ -38,25 +38,30 @@ const PianoRoll = props => (
                 
                 <SelectionOverlayEnhancer
                     childLayerRef={props.noteLayerRef}
-                    shiftKeyPressed={props.shiftKeyPressed}
+                    selectionToolActive={props.selectionToolActive}
                     noteLayerRef={props.noteLayerRef}
                     sectionNotes={props.section.notes}
                     currentlySelectedNotes={props.currentlySelectedNotes}
-                    handleNoteClick={props.handleNoteClick}
                     canvasWidth={props.canvasWidth}
                     canvasHeight={props.canvasHeight}
                     containerRef={props.containerRef}
                     requiresTranslateAdjustment={true}
+                    updateCurrentlySelectedNotes={props.updateCurrentlySelectedNotes}
                 >
                     {props => <NoteLayer {...props} />}
                 </SelectionOverlayEnhancer>
                 <VelocityLayer 
                     stageHeight={props.stageHeight}
                     velocityLayerRef={props.velocityLayerRef}
-                    handleVelocityLayerClick={props.handleVelocityLayerClick}
                     canvasWidth={props.canvasWidth}
                     unselectedNotes={props.unselectedNotes}
                     selectedNotes={props.selectedNotes}
+                    addNotes={props.addNotes}
+                    removeNotes={props.removeNotes}
+                    containerRef={props.containerRef}
+                    currentlySelectedNotes={props.currentlySelectedNotes}
+                    updateCurrentlySelectedNotes={props.updateCurrentlySelectedNotes}
+                    section={props.section}
                 />
                 <PianoKeyLayer 
                     pianoKeyLayerRef={props.pianoKeyLayerRef}
@@ -122,25 +127,22 @@ PianoRoll.propTypes = {
     unselectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     pitchesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     transportBarNumbersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // values from state
-    quantizeValue: PropTypes.string.isRequired,
-    durationValue: PropTypes.string.isRequired,
-    cursorValue: PropTypes.string.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired,
+    
+    selectionToolActive: PropTypes.bool.isRequired,
+
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
     handleKeyUp: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleMouseDown: PropTypes.func.isRequired,
     handleMouseUp: PropTypes.func.isRequired,
-    handleNoteClick: PropTypes.func.isRequired,
-    handleVelocityLayerClick: PropTypes.func.isRequired,
     enterScrollBarActiveState: PropTypes.func.isRequired,
+    addNotes: PropTypes.func.isRequired,
+    removeNotes: PropTypes.func.isRequired,
+    updateCurrentlySelectedNotes: PropTypes.func.isRequired,
     // reference to the section object from redux store
     section: PropTypes.object.isRequired,
-
     snap: PropTypes.string.isRequired,
-    noteDuration: PropTypes.string.isRequired
 
 };
 
