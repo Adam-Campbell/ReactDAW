@@ -56,26 +56,20 @@ test('renders correctly', () => {
             scrollPadding={10}
             gridLinesArray={gridLinesArray}
             sectionRectsArray={sectionRectsArray}
-            cursorValue={'pointer'}
-            durationValue={4}
             handleKeyDown={jest.fn()}
-            handleKeyUp={jest.fn()}
-            updateCursorValue={jest.fn()}
-            updateDurationValue={jest.fn()}
             handleStageClick={jest.fn()}
             handleStageMouseDown={jest.fn()}
             handleStageMouseUp={jest.fn()}
-            handleSectionClick={jest.fn()}
-            handleSectionDoubleClick={jest.fn()}
-            verticalDragMove={jest.fn()}
-            horizontalDragMove={jest.fn()}
             updateSelectedChannel={jest.fn()}
-            handleScrollBarClickEvents={jest.fn()}
+            enterScrollBarActiveState={jest.fn()}
+            updateCurrentlySelectedSections={jest.fn()}
+            openWindow={jest.fn()}
             trackInfoMenuTopScroll={0}
             channels={channelsState}
             currentlySelectedSections={[]}
             currentlySelectedChannel='6984087700822156'
-            shiftKeyPressed={false}
+            selectionToolActive={false}
+            updateTrackInfoMenuTopScroll={jest.fn()}
         />
     );
     expect(component).toMatchSnapshot();

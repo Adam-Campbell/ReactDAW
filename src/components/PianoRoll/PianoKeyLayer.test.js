@@ -10,23 +10,29 @@ test('renders correctly', () => {
     const component = shallow(
         <PianoKeyLayer 
             pianoKeyLayerRef={React.createRef()}
-            handlePianoKeyClick={mockedHandleClick}
             pitchesArray={createPitchesArray()}
+            channelId="9132467532619432"
         />
     );
     expect(component).toMatchSnapshot();
 });
 
 test('correctly identifies the key clicked and passes that information to the callback', () => {
+    const mockedTriggerAttackRelease = jest.fn()
+    global.instrumentReferences = {
+        '9132467532619432': {
+            triggerAttackRelease: mockedTriggerAttackRelease
+        }
+    };
     const component = shallow(
         <PianoKeyLayer 
             pianoKeyLayerRef={React.createRef()}
-            handlePianoKeyClick={mockedHandleClick}
             pitchesArray={createPitchesArray()}
+            channelId="9132467532619432"
         />
     );
     const C5Key = component.find(Rect).find({ pitch: 'C5' });
     C5Key.simulate('click', {});
-    expect(mockedHandleClick).toHaveBeenCalled();
-    expect(mockedHandleClick).toHaveBeenCalledWith({}, 'C5');
+    expect(mockedTriggerAttackRelease).toHaveBeenCalledTimes(1);
+    expect(mockedTriggerAttackRelease).toHaveBeenCalledWith('C5', '8n');
 });

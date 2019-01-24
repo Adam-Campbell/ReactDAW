@@ -76,8 +76,12 @@ test('renders correctly', () => {
     const containerComponent = shallow(
         <PianoRollContainer 
             id={mockedStore.activeWindows[0].id}
-            sections={mockedStore.sections}
+            section={mockedStore.sections[mockedStore.activeWindows[0].id]}
             isPlaying={mockedStore.playerInfo.isPlaying}
+            isPaused={false}
+            toolType="cursor"
+            snap="16n"
+            noteDuration="16n"
         />
     );
     const presentationalComponent = containerComponent.first().shallow();

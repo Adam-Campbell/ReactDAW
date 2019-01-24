@@ -702,7 +702,6 @@ export class PianoRollContainer extends Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-    sections: state.main.present.sections,
     section: state.main.present.sections[ownProps.id],
     isPlaying: state.playerStatus.isPlaying,
     isPaused: state.playerStatus.isPaused,

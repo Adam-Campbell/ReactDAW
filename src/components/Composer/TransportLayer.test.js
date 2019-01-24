@@ -7,6 +7,8 @@ test('renders correctly', () => {
         <TransportLayer 
             transportLayerRef={React.createRef()}
             canvasWidth={9600}
+            seekerLineRef={React.createRef()}
+            seekerLayerRef={React.createRef()}
         />
     );
     expect(component).toMatchSnapshot();

@@ -8,9 +8,15 @@ test('renders correctly', () => {
             stageHeight={600}
             stageWidth={800}
             padding={10}
-            handleScrollBarClickEvents={jest.fn()}
-            horizontalDragMove={jest.fn()}
-            verticalDragMove={jest.fn()}
+            canvasWidth={1536}
+            enterScrollBarActiveState={jest.fn()}
+            gridLayerRef={React.createRef()}
+            noteLayerRef={React.createRef()}
+            transportLayerRef={React.createRef()}
+            seekerLayerRef={React.createRef()}
+            velocityLayerRef={React.createRef()}
+            stageRef={React.createRef()}
+            pianoKeyLayerRef={React.createRef()}
         />
     );
     expect(component).toMatchSnapshot();

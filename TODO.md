@@ -262,16 +262,16 @@ ________
 Main stage area:
 
 onClick DONE
-  cursor - add note using noteDuration prop to determine length
+  cursor - add section with a length of 1 bar
   pencil - nothing
   selection - nothing
 
-onMouseDown DONE
+onMouseDown 
   cursor - nothing
   pencil - record position
   selection - record position
 
-onMouseUp DONE
+onMouseUp 
   cursor - nothing
   pencil - create section
   selection - create selection
@@ -281,8 +281,6 @@ Transport area:
 
 onClick
   all tools - skip to that area of track.
-
-
 
 
 

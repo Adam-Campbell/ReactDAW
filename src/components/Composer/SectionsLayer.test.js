@@ -8,7 +8,7 @@ const channelsState = [
     {
       id: '6984087700822156',
       name: 'Channel 1',
-      color: '#d86597',
+      color: UIColors.pink,
       instrumentId: '0374798538126734',
       effectIds: [],
       sectionIds: [
@@ -36,8 +36,7 @@ test('renders correctly', () => {
     const component = shallow(
         <SectionsLayer 
             sectionsLayerRef={React.createRef()}
-            handleSectionClick={jest.fn()}
-            handleSectionDoubleClick={jest.fn()}
+            updateCurrentlySelectedSections={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={[]}
             canvasHeight={320}
@@ -55,8 +54,7 @@ test('renders selected and unselected sections with different fill colors', () =
     const noSelection = shallow(
         <SectionsLayer 
             sectionsLayerRef={React.createRef()}
-            handleSectionClick={jest.fn()}
-            handleSectionDoubleClick={jest.fn()}
+            updateCurrentlySelectedSections={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={[]}
             canvasHeight={320}
@@ -70,8 +68,7 @@ test('renders selected and unselected sections with different fill colors', () =
     const withSelection = shallow(
         <SectionsLayer 
             sectionsLayerRef={React.createRef()}
-            handleSectionClick={jest.fn()}
-            handleSectionDoubleClick={jest.fn()}
+            updateCurrentlySelectedSections={jest.fn()}
             sectionRectsArray={sectionRectsArray}
             currentlySelectedSections={['7009247242625234']}
             canvasHeight={320}

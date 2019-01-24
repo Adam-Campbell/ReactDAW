@@ -5,8 +5,7 @@ exports[`renders correctly 1`] = `
   canvasHeight={1768}
   canvasWidth={1536}
   currentlySelectedNotes={Array []}
-  cursorValue="pointer"
-  durationValue="16n"
+  enterScrollBarActiveState={[Function]}
   gridLayerRef={
     Object {
       "current": null,
@@ -1583,16 +1582,9 @@ exports[`renders correctly 1`] = `
     ]
   }
   handleKeyDown={[Function]}
-  handleKeyUp={[Function]}
   handleMouseDown={[Function]}
-  handleMouseMove={[Function]}
   handleMouseUp={[Function]}
-  handleNoteClick={[Function]}
-  handlePianoKeyClick={[Function]}
-  handleScrollBarClickEvents={[Function]}
   handleStageClick={[Function]}
-  handleVelocityLayerClick={[Function]}
-  horizontalDragMove={[Function]}
   noteLayerRef={
     Object {
       "current": null,
@@ -1721,7 +1713,6 @@ exports[`renders correctly 1`] = `
       "C0",
     ]
   }
-  quantizeValue="16n"
   section={
     Object {
       "channelId": "0443540104839537",
@@ -1742,7 +1733,8 @@ exports[`renders correctly 1`] = `
     }
   }
   selectedNotes={Array []}
-  shiftKeyPressed={false}
+  selectionToolActive={false}
+  snap="16n"
   stageHeight={600}
   stageRef={
     Object {
@@ -1776,15 +1768,12 @@ exports[`renders correctly 1`] = `
     }
   }
   unselectedNotes={Array []}
-  updateCursorValue={[Function]}
-  updateDurationValue={[Function]}
-  updateQuantizeValue={[Function]}
+  updateCurrentlySelectedNotes={[Function]}
   velocityLayerRef={
     Object {
       "current": null,
     }
   }
-  verticalDragMove={[Function]}
 />
 `;
 
@@ -1792,7 +1781,6 @@ exports[`renders correctly 2`] = `
 <div
   className="piano-roll__container"
   onKeyDown={[Function]}
-  onKeyUp={[Function]}
   style={
     Object {
       "outline": "none",
@@ -1800,14 +1788,6 @@ exports[`renders correctly 2`] = `
   }
   tabIndex="-1"
 >
-  <PianoRollControls
-    cursorValue="pointer"
-    durationValue="16n"
-    quantizeValue="16n"
-    updateCursorValue={[Function]}
-    updateDurationValue={[Function]}
-    updateQuantizeValue={[Function]}
-  />
   <div
     className="piano-roll__canvas-container"
     id="piano-roll-canvas-container"
@@ -1817,7 +1797,6 @@ exports[`renders correctly 2`] = `
       height={600}
       onClick={[Function]}
       onMouseDown={[Function]}
-      onMouseMove={[Function]}
       onMouseUp={[Function]}
       width={800}
     >
@@ -3408,7 +3387,6 @@ exports[`renders correctly 2`] = `
           }
         }
         currentlySelectedNotes={Array []}
-        handleNoteClick={[Function]}
         noteLayerRef={
           Object {
             "current": null,
@@ -3416,16 +3394,27 @@ exports[`renders correctly 2`] = `
         }
         requiresTranslateAdjustment={true}
         sectionNotes={Array []}
-        shiftKeyPressed={false}
+        selectionToolActive={false}
+        updateCurrentlySelectedNotes={[Function]}
       >
         <Component />
       </SelectionOverlayEnhancer>
       <VelocityLayer
         canvasWidth={1536}
-        handleVelocityLayerClick={[Function]}
+        currentlySelectedNotes={Array []}
+        section={
+          Object {
+            "channelId": "0443540104839537",
+            "id": "7943665839704739",
+            "notes": Array [],
+            "numberOfBars": 4,
+            "start": "0:0:0",
+          }
+        }
         selectedNotes={Array []}
         stageHeight={600}
         unselectedNotes={Array []}
+        updateCurrentlySelectedNotes={[Function]}
         velocityLayerRef={
           Object {
             "current": null,
@@ -3433,7 +3422,7 @@ exports[`renders correctly 2`] = `
         }
       />
       <PianoKeyLayer
-        handlePianoKeyClick={[Function]}
+        channelId="0443540104839537"
         pianoKeyLayerRef={
           Object {
             "current": null,
@@ -3554,6 +3543,18 @@ exports[`renders correctly 2`] = `
       />
       <TransportLayer
         canvasWidth={1536}
+        sectionStart="0:0:0"
+        seekerLayerRef={
+          Object {
+            "current": null,
+          }
+        }
+        seekerLineRef={
+          Object {
+            "current": null,
+          }
+        }
+        snap="16n"
         transportBarNumbersArray={
           Array [
             Object {
@@ -3594,12 +3595,46 @@ exports[`renders correctly 2`] = `
         }
       />
       <ScrollBarLayer
-        handleScrollBarClickEvents={[Function]}
-        horizontalDragMove={[Function]}
+        canvasWidth={1536}
+        enterScrollBarActiveState={[Function]}
+        gridLayerRef={
+          Object {
+            "current": null,
+          }
+        }
+        noteLayerRef={
+          Object {
+            "current": null,
+          }
+        }
         padding={10}
+        pianoKeyLayerRef={
+          Object {
+            "current": null,
+          }
+        }
+        seekerLayerRef={
+          Object {
+            "current": null,
+          }
+        }
         stageHeight={600}
+        stageRef={
+          Object {
+            "current": null,
+          }
+        }
         stageWidth={800}
-        verticalDragMove={[Function]}
+        transportLayerRef={
+          Object {
+            "current": null,
+          }
+        }
+        velocityLayerRef={
+          Object {
+            "current": null,
+          }
+        }
       />
     </ForwardRef>
   </div>

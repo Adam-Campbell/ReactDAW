@@ -14,6 +14,11 @@ test('renders correctly', () => {
             transportLayerRef={React.createRef()}
             canvasWidth={1536}
             transportBarNumbersArray={transportBarNumbersArray}
+            seekerLineRef={React.createRef()}
+            seekerLayerRef={React.createRef()}
+            snap="16n"
+            sectionStart="0:0:0"
+            containerRef={React.createRef()}
         />
     );
     expect(component).toMatchSnapshot();
