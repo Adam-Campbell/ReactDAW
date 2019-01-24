@@ -5,7 +5,8 @@ import { Rect } from 'react-konva';
 import { createSelectedAndUnselectedNoteArrays } from './PianoRollUtils';
 import { UIColors } from '../../constants';
 
-const notesState = [
+const sectionState = {
+  notes: [
     {
       pitch: 'D4',
       time: '0:0:0',
@@ -126,13 +127,14 @@ const notesState = [
       y: 864,
       width: 240
     }
-];
+  ]
+};
 
 const currentlySelectedNotes = ['5675315161385905', '0867355891830822', '4358545451844674'];
 
 const { selectedNotes, unselectedNotes } = createSelectedAndUnselectedNoteArrays({
     currentlySelectedNotes,
-    allSectionNotes: notesState
+    allSectionNotes: sectionState.notes
 });
 
 
@@ -142,9 +144,14 @@ test('renders correctly', () => {
             stageHeight={600}
             canvasWidth={1536}
             velocityLayerRef={React.createRef()}
-            handleVelocityLayerClick={jest.fn()}
             selectedNotes={selectedNotes}
             unselectedNotes={unselectedNotes}
+            addNotes={jest.fn()}
+            removeNotes={jest.fn()}
+            containerRef={React.createRef()}
+            currentlySelectedNotes={currentlySelectedNotes}
+            updateCurrentlySelectedNotes={jest.fn()}
+            section={sectionState}
         />
     );
     expect(component).toMatchSnapshot();
@@ -156,9 +163,14 @@ test('renders selected and unselected velocity bars differently', () => {
             stageHeight={600}
             canvasWidth={1536}
             velocityLayerRef={React.createRef()}
-            handleVelocityLayerClick={jest.fn()}
             selectedNotes={selectedNotes}
             unselectedNotes={unselectedNotes}
+            addNotes={jest.fn()}
+            removeNotes={jest.fn()}
+            containerRef={React.createRef()}
+            currentlySelectedNotes={currentlySelectedNotes}
+            updateCurrentlySelectedNotes={jest.fn()}
+            section={sectionState}
         />
     );
     expect(component.find(Rect).filter({ fill: UIColors.pink })).toHaveLength(9);

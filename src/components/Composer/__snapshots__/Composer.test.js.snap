@@ -4,7 +4,6 @@ exports[`renders correctly 1`] = `
 <div
   className="composer__container"
   onKeyDown={[MockFunction]}
-  onKeyUp={[MockFunction]}
   style={
     Object {
       "outline": "none",
@@ -12,12 +11,6 @@ exports[`renders correctly 1`] = `
   }
   tabIndex="-1"
 >
-  <ComposerControls
-    cursorValue="pointer"
-    durationValue={4}
-    updateCursorValue={[MockFunction]}
-    updateDurationValue={[MockFunction]}
-  />
   <div
     className="composer__row"
   >
@@ -1319,8 +1312,7 @@ exports[`renders correctly 1`] = `
             }
           }
           currentlySelectedSections={Array []}
-          handleSectionClick={[MockFunction]}
-          handleSectionDoubleClick={[MockFunction]}
+          openWindow={[MockFunction]}
           sectionRectsArray={
             Array [
               Object {
@@ -1338,12 +1330,23 @@ exports[`renders correctly 1`] = `
               "current": null,
             }
           }
-          shiftKeyPressed={false}
+          selectionToolActive={false}
+          updateCurrentlySelectedSections={[MockFunction]}
         >
           <Component />
         </SelectionOverlayEnhancer>
         <TransportLayer
           canvasWidth={9600}
+          seekerLayerRef={
+            Object {
+              "current": null,
+            }
+          }
+          seekerLineRef={
+            Object {
+              "current": null,
+            }
+          }
           transportLayerRef={
             Object {
               "current": null,
@@ -1365,12 +1368,38 @@ exports[`renders correctly 1`] = `
           stageHeight={300}
         />
         <ScrollBarLayer
-          handleScrollBarClickEvents={[MockFunction]}
-          horizontalDragMove={[MockFunction]}
+          canvasHeight={320}
+          canvasWidth={9600}
+          enterScrollBarActiveState={[MockFunction]}
+          gridLayerRef={
+            Object {
+              "current": null,
+            }
+          }
           scrollPadding={10}
+          sectionsLayerRef={
+            Object {
+              "current": null,
+            }
+          }
+          seekerLayerRef={
+            Object {
+              "current": null,
+            }
+          }
           stageHeight={300}
+          stageRef={
+            Object {
+              "current": null,
+            }
+          }
           stageWidth={740}
-          verticalDragMove={[MockFunction]}
+          transportLayerRef={
+            Object {
+              "current": null,
+            }
+          }
+          updateTrackInfoMenuTopScroll={[MockFunction]}
         />
       </ForwardRef>
     </div>

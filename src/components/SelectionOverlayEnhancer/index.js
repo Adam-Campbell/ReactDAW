@@ -93,7 +93,7 @@ class SelectionOverlayEnhancer extends Component {
      * @param {object} e - the event object.
      */
     handleMouseMove = (e) => {
-        if (this.state.mouseIsDown && this.props.shiftKeyPressed) {
+        if (this.state.mouseIsDown && this.props.selectionToolActive) {
             let { layerX, layerY } = e.evt;
             if (this.props.requiresTranslateAdjustment && this.props.containerRef) {
                 const {
@@ -128,7 +128,7 @@ class SelectionOverlayEnhancer extends Component {
         const { 
             children, 
             childLayerRef,
-            shiftKeyPressed,
+            selectionToolActive,
             ...passedProps 
         } = this.props;
         return children({
@@ -143,7 +143,7 @@ class SelectionOverlayEnhancer extends Component {
 
 SelectionOverlayEnhancer.propTypes = {
     childLayerRef: PropTypes.object.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired,
+    selectionToolActive: PropTypes.bool.isRequired,
     requiresTranslateAdjustment: PropTypes.bool,
     containerRef: PropTypes.object
 };

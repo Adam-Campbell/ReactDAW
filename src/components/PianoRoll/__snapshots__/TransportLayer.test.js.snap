@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Layer
+  onClick={[Function]}
   x={48}
 >
   <Rect

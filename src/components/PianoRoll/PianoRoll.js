@@ -16,20 +16,9 @@ const PianoRoll = props => (
         className="piano-roll__container" 
         tabIndex="-1" 
         onKeyDown={props.handleKeyDown}
-        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
         ref={props.outerContainerRef}
     >
-        <PianoRollControls 
-            quantizeValue={props.quantizeValue}
-            updateQuantizeValue={props.updateQuantizeValue}
-            durationValue={props.durationValue}
-            updateDurationValue={props.updateDurationValue}
-            cursorValue={props.cursorValue}
-            updateCursorValue={props.updateCursorValue}
-            currentMousePosX={props.currentMousePosX}
-            currentMousePosY={props.currentMousePosY}
-        />
         <div className="piano-roll__canvas-container" id="piano-roll-canvas-container">
             <Stage 
                 container={'piano-roll-canvas-container'}
@@ -39,7 +28,6 @@ const PianoRoll = props => (
                 onClick={props.handleStageClick}
                 onMouseDown={props.handleMouseDown} 
                 onMouseUp={props.handleMouseUp}
-                onMouseMove={props.handleMouseMove}
             >
                 <GridLayer 
                     gridLayerRef={props.gridLayerRef}
@@ -49,35 +37,45 @@ const PianoRoll = props => (
                 
                 <SelectionOverlayEnhancer
                     childLayerRef={props.noteLayerRef}
-                    shiftKeyPressed={props.shiftKeyPressed}
+                    selectionToolActive={props.selectionToolActive}
                     noteLayerRef={props.noteLayerRef}
                     sectionNotes={props.section.notes}
                     currentlySelectedNotes={props.currentlySelectedNotes}
-                    handleNoteClick={props.handleNoteClick}
                     canvasWidth={props.canvasWidth}
                     canvasHeight={props.canvasHeight}
                     containerRef={props.containerRef}
                     requiresTranslateAdjustment={true}
+                    updateCurrentlySelectedNotes={props.updateCurrentlySelectedNotes}
                 >
                     {props => <NoteLayer {...props} />}
                 </SelectionOverlayEnhancer>
                 <VelocityLayer 
                     stageHeight={props.stageHeight}
                     velocityLayerRef={props.velocityLayerRef}
-                    handleVelocityLayerClick={props.handleVelocityLayerClick}
                     canvasWidth={props.canvasWidth}
                     unselectedNotes={props.unselectedNotes}
                     selectedNotes={props.selectedNotes}
+                    addNotes={props.addNotes}
+                    removeNotes={props.removeNotes}
+                    containerRef={props.containerRef}
+                    currentlySelectedNotes={props.currentlySelectedNotes}
+                    updateCurrentlySelectedNotes={props.updateCurrentlySelectedNotes}
+                    section={props.section}
                 />
                 <PianoKeyLayer 
                     pianoKeyLayerRef={props.pianoKeyLayerRef}
                     pitchesArray={props.pitchesArray}
-                    handlePianoKeyClick={props.handlePianoKeyClick}
+                    channelId={props.section.channelId}
                 />
                 <TransportLayer 
                     transportLayerRef={props.transportLayerRef}
                     canvasWidth={props.canvasWidth}
                     transportBarNumbersArray={props.transportBarNumbersArray}
+                    seekerLineRef={props.seekerLineRef}
+                    seekerLayerRef={props.seekerLayerRef}
+                    snap={props.snap}
+                    sectionStart={props.section.start}
+                    containerRef={props.containerRef}
                 />
                 <SeekerLayer 
                     seekerLayerRef={props.seekerLayerRef}
@@ -88,9 +86,15 @@ const PianoRoll = props => (
                     stageHeight={props.stageHeight}
                     stageWidth={props.stageWidth}
                     padding={props.padding}
-                    horizontalDragMove={props.horizontalDragMove}
-                    verticalDragMove={props.verticalDragMove}
-                    handleScrollBarClickEvents={props.handleScrollBarClickEvents}
+                    canvasWidth={props.canvasWidth}
+                    enterScrollBarActiveState={props.enterScrollBarActiveState}
+                    gridLayerRef={props.gridLayerRef}
+                    noteLayerRef={props.noteLayerRef}
+                    transportLayerRef={props.transportLayerRef}
+                    seekerLayerRef={props.seekerLayerRef}
+                    velocityLayerRef={props.velocityLayerRef}
+                    stageRef={props.stageRef}
+                    pianoKeyLayerRef={props.pianoKeyLayerRef}
                 />
             </Stage>
         </div>
@@ -122,29 +126,21 @@ PianoRoll.propTypes = {
     unselectedNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
     pitchesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     transportBarNumbersArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // values from state
-    quantizeValue: PropTypes.string.isRequired,
-    durationValue: PropTypes.string.isRequired,
-    cursorValue: PropTypes.string.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired,
+    
+    selectionToolActive: PropTypes.bool.isRequired,
+
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
-    handleKeyUp: PropTypes.func.isRequired,
-    updateQuantizeValue: PropTypes.func.isRequired,
-    updateDurationValue: PropTypes.func.isRequired,
-    updateCursorValue: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleMouseDown: PropTypes.func.isRequired,
     handleMouseUp: PropTypes.func.isRequired,
-    handleMouseMove: PropTypes.func.isRequired,
-    handleNoteClick: PropTypes.func.isRequired,
-    handleVelocityLayerClick: PropTypes.func.isRequired,
-    handlePianoKeyClick: PropTypes.func.isRequired,
-    horizontalDragMove: PropTypes.func.isRequired,
-    verticalDragMove: PropTypes.func.isRequired,
-    handleScrollBarClickEvents: PropTypes.func.isRequired,
+    enterScrollBarActiveState: PropTypes.func.isRequired,
+    addNotes: PropTypes.func.isRequired,
+    removeNotes: PropTypes.func.isRequired,
+    updateCurrentlySelectedNotes: PropTypes.func.isRequired,
     // reference to the section object from redux store
-    section: PropTypes.object.isRequired  
+    section: PropTypes.object.isRequired,
+    snap: PropTypes.string.isRequired,
 
 };
 

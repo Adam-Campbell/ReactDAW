@@ -33,7 +33,7 @@ test('passes props through correctly', () => {
             ]}
         />
     );
-    const labelOne = <label className="select-input__label pink" htmlFor="test-select-input">First option selected</label>;
+    const labelOne = <label className="select-input__label pink " htmlFor="test-select-input">First option selected</label>;
     expect(firstOption.contains(labelOne)).toEqual(true);
     expect(firstOption.find('select.select-input').props().value).toBe('optionOne');
 
@@ -49,7 +49,7 @@ test('passes props through correctly', () => {
             ]}
         />
     );
-    const labelTwo = <label className="select-input__label pink" htmlFor="test-select-input">Second option selected</label>;
+    const labelTwo = <label className="select-input__label pink " htmlFor="test-select-input">Second option selected</label>;
     expect(secondOption.contains(labelTwo)).toEqual(true);
     expect(secondOption.find('select.select-input').props().value).toBe('optionTwo');
 });

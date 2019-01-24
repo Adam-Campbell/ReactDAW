@@ -27,6 +27,11 @@ const sectionsState = {
 };
 
 test('renders correctly', () => {
+    document.querySelector = jest.fn(() => ({
+        getBoundingClientRect: () => ({
+            height: 50
+        })
+    }));
     const component = shallow(
         <ComposerContainer 
             channels={channelsState}

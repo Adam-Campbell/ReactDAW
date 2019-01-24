@@ -8,9 +8,14 @@ test('renders correctly', () => {
             stageHeight={300}
             stageWidth={740}
             scrollPadding={10}
-            verticalDragMove={jest.fn()}
-            horizontalDragMove={jest.fn()}
-            handleScrollBarClickEvents={jest.fn()}
+            canvasWidth={960}
+            enterScrollBarActiveState={jest.fn()}
+            gridLayerRef={React.createRef()}
+            sectionsLayerRef={React.createRef()}
+            transportLayerRef={React.createRef()}
+            seekerLayerRef={React.createRef()}
+            stageRef={React.createRef()}
+            updateTrackInfoMenuTopScroll={jest.fn()}
         />
     );
     expect(component).toMatchSnapshot();

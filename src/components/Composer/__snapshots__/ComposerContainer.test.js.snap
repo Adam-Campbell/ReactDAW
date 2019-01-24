@@ -20,8 +20,7 @@ exports[`renders correctly 1`] = `
   }
   currentlySelectedChannel={null}
   currentlySelectedSections={Array []}
-  cursorValue="pointer"
-  durationValue={4}
+  enterScrollBarActiveState={[Function]}
   gridLayerRef={
     Object {
       "current": null,
@@ -1268,14 +1267,10 @@ exports[`renders correctly 1`] = `
     ]
   }
   handleKeyDown={[Function]}
-  handleKeyUp={[Function]}
-  handleScrollBarClickEvents={[Function]}
-  handleSectionClick={[Function]}
-  handleSectionDoubleClick={[Function]}
   handleStageClick={[Function]}
   handleStageMouseDown={[Function]}
   handleStageMouseUp={[Function]}
-  horizontalDragMove={[Function]}
+  openWindow={[MockFunction]}
   scrollPadding={10}
   sectionRectsArray={
     Array [
@@ -1304,8 +1299,8 @@ exports[`renders correctly 1`] = `
       "current": null,
     }
   }
-  shiftKeyPressed={false}
-  stageHeight={-104}
+  selectionToolActive={false}
+  stageHeight={-50}
   stageRef={
     Object {
       "current": null,
@@ -1318,9 +1313,8 @@ exports[`renders correctly 1`] = `
       "current": null,
     }
   }
-  updateCursorValue={[Function]}
-  updateDurationValue={[Function]}
+  updateCurrentlySelectedSections={[Function]}
   updateSelectedChannel={[Function]}
-  verticalDragMove={[Function]}
+  updateTrackInfoMenuTopScroll={[Function]}
 />
 `;

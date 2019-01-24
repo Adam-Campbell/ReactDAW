@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
     y={0}
   />
   <Rect
-    fill="#d86597"
+    fill="#aa9c9c"
     height={70}
     key="0"
     onClick={[Function]}
