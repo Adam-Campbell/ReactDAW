@@ -63,8 +63,8 @@ class TransportLayer extends Component {
 TransportLayer.propTypes = {
     transportLayerRef: PropTypes.object.isRequired,
     canvasWidth: PropTypes.number.isRequired,
-    seekerLineRef: PropTypes.func.isRequired,
-    seekerLayerRef: PropTypes.func.isRequired
+    seekerLineRef: PropTypes.object.isRequired,
+    seekerLayerRef: PropTypes.object.isRequired
 };
 
 export default TransportLayer;

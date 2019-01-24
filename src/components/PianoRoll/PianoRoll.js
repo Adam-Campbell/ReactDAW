@@ -16,7 +16,6 @@ const PianoRoll = props => (
         className="piano-roll__container" 
         tabIndex="-1" 
         onKeyDown={props.handleKeyDown}
-        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
         ref={props.outerContainerRef}
     >
@@ -132,7 +131,6 @@ PianoRoll.propTypes = {
 
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
-    handleKeyUp: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleMouseDown: PropTypes.func.isRequired,
     handleMouseUp: PropTypes.func.isRequired,

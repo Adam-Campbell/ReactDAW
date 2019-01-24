@@ -11,7 +11,6 @@ import {
     createSectionRectsArray,
     createSectionObject
 } from './ComposerUtils';
-
 import { 
     findOverlapAlongAxis,
     addOrRemoveElementFromSelection,
@@ -20,6 +19,7 @@ import {
     transportPositionStringToSixteenths,
     generateId
 } from '../../sharedUtils';
+import { toolTypes } from '../../constants';
 
 export class ComposerContainer extends Component {
 
@@ -27,11 +27,6 @@ export class ComposerContainer extends Component {
         super(props);
         const windowWidth = document.documentElement.clientWidth;
         const windowHeight = document.documentElement.clientHeight;
-        console.log(windowWidth, windowHeight);
-        //this.stageWidth = 740;
-        this.stageWidth = windowWidth - 220;
-        //this.stageHeight = 300;
-        this.stageHeight = windowHeight - 104;
         this.scrollPadding = 10;
         this.stageRef = React.createRef();
         this.gridLayerRef = React.createRef();
@@ -42,24 +37,22 @@ export class ComposerContainer extends Component {
         this.rAFRef = null;
         this.updateStageDimensions = debounce(this._updateStageDimensions, 50);
         this.state = {
-            sectionDuration: 4,
             currentlySelectedChannel: null,
             currentlySelectedSections: [],
             currentlyCopiedSections: {},
             scrollBarActive: false,
             mouseDownPosX: 0,
             mouseDownPosY: 0,
-            pencilActive: false,
             trackInfoMenuTopScroll: 0,
             transportPosition: 0,
             stageWidth: windowWidth - 220,
-            stageHeight: windowHeight - 104,
-            shiftKeyPressed: false
+            stageHeight: windowHeight - 48,
         };
     }
 
     componentDidMount() {
         window.addEventListener('resize', this.updateStageDimensions);
+        this._updateStageDimensions();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -92,9 +85,11 @@ export class ComposerContainer extends Component {
     _updateStageDimensions = () => {
         const windowWidth = document.documentElement.clientWidth;
         const windowHeight = document.documentElement.clientHeight;
+        const transportContainerNode = document.querySelector('.transport__container');
+        const transportHeight = transportContainerNode.getBoundingClientRect().height;
         this.setState({
             stageWidth: windowWidth - 220,
-            stageHeight: windowHeight - 104
+            stageHeight: windowHeight - transportHeight
         });
     }
 
@@ -128,10 +123,6 @@ export class ComposerContainer extends Component {
             this.setState({ scrollBarActive: false });
             return;
         }
-        // if shift key is currently pressed, return.
-        if (e.evt.shiftKey) {
-            return;
-        }
         // grab x and y positions for click
         const rawXPos = e.evt.layerX;
         const rawYPos = e.evt.layerY;
@@ -141,12 +132,12 @@ export class ComposerContainer extends Component {
         
         // if pencil is active then we don't want to do anything in the click event, everything is
         // handled by mouseDown and mouseUp events. 
-        if (!this.state.pencilActive) {
+        if (this.props.toolType === toolTypes.cursor) {
             const newSectionObject = createSectionObject({
                 x: xPosWithScroll,
                 y: yPosWithScroll,
                 allChannels: this.props.channels,
-                numberOfBars: this.state.sectionDuration
+                numberOfBars: 1
             });
             if (newSectionObject) {
                 this.props.addSection(
@@ -169,6 +160,7 @@ export class ComposerContainer extends Component {
             this.setState({ scrollBarActive: false });
             return;
         }
+        if (this.props.toolType === toolTypes.cursor) return;
         // As long as the mouse down event occurred on the main part of the canvas, update mouseDownPosX and
         // mouseDownPosY with values derived from the event. If the event occurred on the transport section
         // of the canvas, null out the values in state. 
@@ -197,9 +189,9 @@ export class ComposerContainer extends Component {
             return;
         }
         const rawYPos = e.evt.layerY;
-        // if rawYPos is less than 40, then we have clicked on the transport section of the canvas, and this is
-        // dealt with elsewhere.
-        if (rawYPos < 40) { 
+        // return early if y coord of event is less than 40 (meaning the event occurred within the transport
+        // section of canvas) or the toolType is cursor (meaning nothing should happen on a mouseUp event).
+        if (rawYPos < 40 || this.props.toolType === toolTypes.cursor) { 
             return; 
         }
 
@@ -209,13 +201,13 @@ export class ComposerContainer extends Component {
         // delegate to handlePencilToolNoteCreation() if the pencil tool is active, the target of the mouseUp
         // event is not a section rectangle, and if the preceeding mouseDown event occurred within a 'legal' 
         // part of the canvas (if it didn't then mouseDownPosY will be null).
-        if (this.state.pencilActive && !targetIsSection && this.state.mouseDownPosY !== null) {
+        if (this.props.toolType === toolTypes.pencil && !targetIsSection && this.state.mouseDownPosY !== null) {
             this.handlePencilNoteCreation(mouseUpPosX);
             return;
         }
         // if the pointer tool is active and the shift key is currently held down, then delegate to
         // handlePointerToolMultiSelect().
-        if (!this.state.pencilActive && e.evt.shiftKey) {
+        if (this.props.toolType === toolTypes.selection) {
             this.handlePointerToolMultiSelect({
                 verticalSelectionBound1: this.state.mouseDownPosY,
                 verticalSelectionBound2: mouseUpPosY,
@@ -312,62 +304,9 @@ export class ComposerContainer extends Component {
         });
     }
 
-
-    /**
-     * Handle click events that occur on a section rect within the canvas.
-     * @param {object} e - the event object
-     * @param {string} sectionId - the id of the section that was clicked
-     */
-    handleSectionClick = (e, sectionId) => {
-        // this is Konvas method for stopping the event from bubbling up to the other canvas elements,
-        // we don't want to trigger their event listeners. 
-        e.cancelBubble = true;
-        // return early if shift key is currently suppressed, to prevent this function from interfering with
-        // the multi select logic.
-        if (e.evt.shiftKey) {
-            return;
-        }
+    updateCurrentlySelectedSections = (newSectionsArray) => {
         this.setState({
-            currentlySelectedSections: addOrRemoveElementFromSelection({
-                currentSelectionState: this.state.currentlySelectedSections,
-                element: sectionId,
-                shouldPreserveSelection: e.evt.ctrlKey
-            })
-        });
-    }
-
-    /**
-     * handles doubleClick events that occur on a section rect within the canvas.
-     * @param {object} e - the event object. 
-     * @param {string} sectionId - the id of the section that was clicked
-     */
-    handleSectionDoubleClick = (e, sectionId) => {
-        // this is Konvas method for stopping the event from bubbling up to the other canvas elements,
-        // we don't want to trigger their event listeners. 
-        e.cancelBubble = true;
-        this.setState({
-            currentlySelectedSections: []
-        });
-        this.props.openWindow(sectionId, 'section');
-    }
-
-    /**
-     * Updates the pencilActive property in state.
-     * @param {object} e - the event object
-     */
-    updateCursorValue = (e) => {
-        this.setState({
-            pencilActive: e.target.value === 'pencil'
-        });
-    }
-
-    /**
-     * Updates the sectionDuration property in state.
-     * @param {object} e- the event object
-     */
-    updateSectionDurationValue = (e) => {
-        this.setState({
-            sectionDuration: parseInt(e.target.value)
+            currentlySelectedSections: newSectionsArray
         });
     }
 
@@ -379,45 +318,32 @@ export class ComposerContainer extends Component {
     handleKeyDown = (e) => {
         //console.log('handleKeyDown on the Composer was called');
         //console.log(e);
-        e.stopPropagation();
-
-        if (e.key === 'Shift') {
-            if (!this.state.shiftKeyPressed) {
-                this.setState({
-                    shiftKeyPressed: true
-                });
-            }
-        }
-
+        
         // handle deletion
         if (e.key === 'Delete') {
+            e.stopPropagation();
             this.handleSectionDeletion();
         }
 
         // handle copying
         if (e.key === 'c' && e.ctrlKey === true) {
+            e.stopPropagation();
             this.handleCopying();
         }
 
         // handle pasting
         if (e.key === 'v' && e.ctrlKey === true) {
+            e.stopPropagation();
             this.handlePasting();
         }
 
         // handle clearing selection
         if (e.key === 'd' && e.ctrlKey) {
-            this.clearCurrentSelection();
-        }
-    }
-
-    handleKeyUp = e => {
-        e.stopPropagation();
-        if (e.key === 'Shift') {
-            if (this.state.shiftKeyPressed) {
-                this.setState({
-                    shiftKeyPressed: false
-                });
-            }
+            e.stopPropagation();
+            e.preventDefault();
+            this.setState({
+                currentlySelectedSections: []
+            });
         }
     }
 
@@ -431,6 +357,10 @@ export class ComposerContainer extends Component {
         });
     }
 
+    /**
+     * Updates the trackInfMenuTopScroll property in state, which is used to manipulate the scroll of the
+     * non canvas part of this component such that it stays in sync with the canvas.
+     */
     updateTrackInfoMenuTopScroll = (newScrollAmount) => {
         this.setState({
             trackInfoMenuTopScroll: newScrollAmount
@@ -444,7 +374,9 @@ export class ComposerContainer extends Component {
         for (let sectionId of this.state.currentlySelectedSections) {
             this.removeOneSection(sectionId);
         }
-        this.clearCurrentSectionSelection();   
+        this.setState({
+            currentlySelectedSections: []
+        });
     }
 
     /**
@@ -454,15 +386,6 @@ export class ComposerContainer extends Component {
     removeOneSection = (sectionId) => {
         const channelId = this.props.sections[sectionId].channelId;
         this.props.removeSection(sectionId, channelId);
-    }
-
-    /**
-     * Sets the currentlySelectedSections property in state back to an empty state.
-     */
-    clearCurrentSectionSelection = () => {
-        this.setState({
-            currentlySelectedSections: []
-        });
     }
 
     /**
@@ -565,12 +488,7 @@ export class ComposerContainer extends Component {
             scrollPadding={this.scrollPadding}
             gridLinesArray={gridLinesArray}
             sectionRectsArray={sectionRectsArray}
-            cursorValue={this.state.pencilActive ? 'pencil' : 'pointer'}
-            durationValue={this.state.sectionDuration}
             handleKeyDown={this.handleKeyDown}
-            handleKeyUp={this.handleKeyUp}
-            updateCursorValue={this.updateCursorValue}
-            updateDurationValue={this.updateSectionDurationValue}
             handleStageClick={this.handleStageClick}
             handleStageMouseDown={this.handleStageMouseDown}
             handleStageMouseUp={this.handleStageMouseUp}
@@ -581,9 +499,11 @@ export class ComposerContainer extends Component {
             currentlySelectedSections={this.state.currentlySelectedSections}
             currentlySelectedChannel={this.state.currentlySelectedChannel}
             updateSelectedChannel={this.updateSelectedChannel}
-            shiftKeyPressed={this.state.shiftKeyPressed}
             enterScrollBarActiveState={this.enterScrollBarActiveState}
             updateTrackInfoMenuTopScroll={this.updateTrackInfoMenuTopScroll}
+            updateCurrentlySelectedSections={this.updateCurrentlySelectedSections}
+            openWindow={this.props.openWindow}
+            selectionToolActive={this.props.toolType === toolTypes.selection}
         />
     }
 }

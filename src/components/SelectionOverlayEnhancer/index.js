@@ -143,7 +143,6 @@ class SelectionOverlayEnhancer extends Component {
 
 SelectionOverlayEnhancer.propTypes = {
     childLayerRef: PropTypes.object.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired,
     selectionToolActive: PropTypes.bool.isRequired,
     requiresTranslateAdjustment: PropTypes.bool,
     containerRef: PropTypes.object

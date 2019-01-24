@@ -16,15 +16,8 @@ const Composer = props => (
         className="composer__container"
         tabIndex="-1"
         onKeyDown={props.handleKeyDown}
-        onKeyUp={props.handleKeyUp}
         style={{outline: 'none'}}
     >
-        <ComposerControls 
-            cursorValue={props.cursorValue}
-            updateCursorValue={props.updateCursorValue}
-            durationValue={props.durationValue}
-            updateDurationValue={props.updateDurationValue}
-        />
         <div className="composer__row">
             <div 
                 className="composer__track-info-container-outer"
@@ -67,7 +60,6 @@ const Composer = props => (
                     />
                     <SelectionOverlayEnhancer
                         childLayerRef={props.sectionsLayerRef}
-                        shiftKeyPressed={props.shiftKeyPressed}
                         sectionsLayerRef={props.sectionsLayerRef}
                         sectionRectsArray={props.sectionRectsArray}
                         currentlySelectedSections={props.currentlySelectedSections}
@@ -75,6 +67,9 @@ const Composer = props => (
                         handleSectionDoubleClick={props.handleSectionDoubleClick}
                         canvasWidth={props.canvasWidth}
                         canvasHeight={props.canvasHeight}
+                        updateCurrentlySelectedSections={props.updateCurrentlySelectedSections}
+                        openWindow={props.openWindow}
+                        selectionToolActive={props.selectionToolActive}
                     >
                         {props => <SectionsLayer {...props} />}
                     </SelectionOverlayEnhancer>
@@ -127,28 +122,23 @@ Composer.propTypes = {
     // constructed arrays
     gridLinesArray: PropTypes.arrayOf(PropTypes.array).isRequired,
     sectionRectsArray: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // values from state
-    cursorValue: PropTypes.string.isRequired,
-    durationValue: PropTypes.number.isRequired,
-    shiftKeyPressed: PropTypes.bool.isRequired,
+    
     // callback functions
     handleKeyDown: PropTypes.func.isRequired,
-    handleKeyUp: PropTypes.func.isRequired,
-    updateCursorValue: PropTypes.func.isRequired,
-    updateDurationValue: PropTypes.func.isRequired,
     handleStageClick: PropTypes.func.isRequired,
     handleStageMouseDown: PropTypes.func.isRequired,
     handleStageMouseUp: PropTypes.func.isRequired,
-    handleSectionClick: PropTypes.func.isRequired,
-    handleSectionDoubleClick: PropTypes.func.isRequired,
     updateSelectedChannel: PropTypes.func.isRequired,
     enterScrollBarActiveState: PropTypes.func.isRequired,
     updateTrackInfoMenuTopScroll: PropTypes.func.isRequired,
+    updateCurrentlySelectedSections: PropTypes.func.isRequired,
+    openWindow: PropTypes.func.isRequired,
     // other
     trackInfoMenuTopScroll: PropTypes.number.isRequired,
     channels: PropTypes.arrayOf(PropTypes.object).isRequired,
     currentlySelectedSections: PropTypes.arrayOf(PropTypes.string).isRequired,
-    currentlySelectedChannel: PropTypes.any
+    currentlySelectedChannel: PropTypes.any,
+    selectionToolActive: PropTypes.bool.isRequired
 };
 
 export default Composer;

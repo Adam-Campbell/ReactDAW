@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as ActionCreators from '../../actions';
 import { ActionCreators as undoableActions } from 'redux-undo'; 
 
 export const EditMenu = props => {

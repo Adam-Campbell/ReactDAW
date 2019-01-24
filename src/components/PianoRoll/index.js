@@ -272,25 +272,27 @@ export class PianoRollContainer extends Component {
      * @param {object} e - the event object
      */
     handleKeyDown = e => {
-        e.preventDefault();
-        e.stopPropagation();
 
         // handle deletion
         if (e.key === 'Delete') {
+            e.stopPropagation();
             this.handleDeletion();
         }
         // handle copying
         if (e.key === 'c' && e.ctrlKey === true) {
+            e.stopPropagation();
             this.handleCopying();
         }
 
         // handle pasting
         if (e.key === 'v' && e.ctrlKey === true) {
+            e.stopPropagation();
             this.handlePasting();
         }
 
         // handle selection mutation
         if (e.key === 'ArrowUp') {
+            e.stopPropagation();
             if (this.state.currentlySelectedNotes.length) {
                 if (e.altKey) {
                     this.stepUpThroughInversions();
@@ -301,6 +303,7 @@ export class PianoRollContainer extends Component {
         }
 
         if (e.key === 'ArrowDown') {
+            e.stopPropagation();
             if (this.state.currentlySelectedNotes.length) {
                 if (e.altKey) {
                     this.stepDownThroughInversions();
@@ -311,12 +314,14 @@ export class PianoRollContainer extends Component {
         }
 
         if (e.key === 'ArrowLeft') {
+            e.stopPropagation();
             if (this.state.currentlySelectedNotes.length) {
                 this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeBackwards');
             }
         }
 
         if (e.key === 'ArrowRight') {
+            e.stopPropagation();
             if (this.state.currentlySelectedNotes.length) {
                 this.mutateSelection(this.state.currentlySelectedNotes, 'shiftTimeForwards');
             }
@@ -324,6 +329,8 @@ export class PianoRollContainer extends Component {
 
         // handle clearing selection
         if (e.key === 'd' && e.ctrlKey) {
+            e.stopPropagation();
+            e.preventDefault();
             this.clearCurrentSelection();
         }
 
