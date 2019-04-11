@@ -28,9 +28,9 @@ const PianoKeyLayer = props => (
                 y={index * 16}
                 width={48}
                 height={16}
-                stroke={UIColors.deepPurple}
+                stroke={UIColors.backgroundDark}
                 strokeWidth={2}
-                fill={pitch.includes('#') ? UIColors.lightPurple : UIColors.offWhite} 
+                fill={pitch.includes('#') ? UIColors.backgroundMedium : UIColors.offWhite} 
                 key={index} 
                 pitch={pitch}
                 type={'pianoKeyRect'}

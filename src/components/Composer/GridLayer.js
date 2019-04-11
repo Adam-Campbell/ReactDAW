@@ -10,16 +10,16 @@ const GridLayer = props => (
             y={0}
             width={props.canvasWidth}
             height={props.canvasHeight}
-            fill={UIColors.deepPurple}
+            fill={UIColors.backgroundDark}
         />
         {
             props.gridLinesArray.map((linePoints, index) => (
                 <Line
                     points={linePoints}
                     listening={false}
-                    stroke={UIColors.lightPurple}
+                    stroke={UIColors.backgroundMedium}
                     strokeWidth={2}
-                    shadowColor={UIColors.lightPurple}
+                    shadowColor={UIColors.backgroundMedium}
                     shadowBlur={4}
                     shadowOffsetX={0}
                     shadowOffsetY={0}

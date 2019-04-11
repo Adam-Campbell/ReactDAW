@@ -51,6 +51,12 @@ export const FileMenu = props => {
                 >
                     <p className="menu__item-text">Save As</p>
                 </li>
+                <li 
+                    className="menu__item"
+                    onClick={() => props.openModal(modalTypes.attribution)}
+                >
+                    <p className="menu__item-text">View Icon Attributions</p>
+                </li>
             </ul>
         </div>
     );

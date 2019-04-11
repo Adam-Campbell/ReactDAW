@@ -7,7 +7,7 @@ import DrumModule from './DrumModule';
 const DrumKit = props => (
     <div className="instrument-interface__container">
         <HeaderModule instrumentTitle="Drum Kit" />
-        <div className="instument-interface__module-container">
+        <div className="instrument-interface__drum-module-row">
             <DrumModule 
                 drumType="kick"
                 drumName="Kick"
@@ -56,8 +56,6 @@ const DrumKit = props => (
                     { value: drumSampleURLs.clap004, text: 'Clap 004' }
                 ]}
             />
-        </div>
-        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="closedHat"
                 drumName="Closed Hat"
@@ -73,6 +71,8 @@ const DrumKit = props => (
                     { value: drumSampleURLs.closedHat006, text: 'Closed Hat 006' }
                 ]}   
             />
+        </div>
+        <div className="instrument-interface__drum-module-row">
             <DrumModule 
                 drumType="openHat"
                 drumName="Open Hat"
@@ -100,8 +100,6 @@ const DrumKit = props => (
                     { value: drumSampleURLs.crash004, text: 'Crash 004' }
                 ]}   
             />
-        </div>
-        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="ride"
                 drumName="Ride"
@@ -114,6 +112,21 @@ const DrumKit = props => (
                     { value: drumSampleURLs.ride003, text: 'Ride 003' }
                 ]}   
             />
+            <DrumModule 
+                drumType="fx"
+                drumName="fx"
+                drumData={props.instrumentData.fx}
+                instrumentId={props.instrumentId}
+                handleChange={props.handleChange}
+                drumSampleOptions={[
+                    { value: drumSampleURLs.fx001, text: 'FX 001' },
+                    { value: drumSampleURLs.fx002, text: 'FX 002' },
+                    { value: drumSampleURLs.fx003, text: 'FX 003' },
+                    { value: drumSampleURLs.fx004, text: 'FX 004' }
+                ]}   
+            />
+        </div>
+        <div className="instrument-interface__drum-module-row">
             <DrumModule 
                 drumType="highTom"
                 drumName="High Tom"
@@ -138,8 +151,6 @@ const DrumKit = props => (
                     { value: drumSampleURLs.midTom003, text: 'Mid Tom 003' }
                 ]}   
             />
-        </div>
-        <div className="instrument-interface__module-container">
             <DrumModule 
                 drumType="lowTom"
                 drumName="Low Tom"
@@ -149,19 +160,6 @@ const DrumKit = props => (
                 drumSampleOptions={[
                     { value: drumSampleURLs.lowTom001, text: 'Low Tom 001' },
                     { value: drumSampleURLs.lowTom002, text: 'Low Tom 002' }
-                ]}   
-            />
-            <DrumModule 
-                drumType="fx"
-                drumName="fx"
-                drumData={props.instrumentData.fx}
-                instrumentId={props.instrumentId}
-                handleChange={props.handleChange}
-                drumSampleOptions={[
-                    { value: drumSampleURLs.fx001, text: 'FX 001' },
-                    { value: drumSampleURLs.fx002, text: 'FX 002' },
-                    { value: drumSampleURLs.fx003, text: 'FX 003' },
-                    { value: drumSampleURLs.fx004, text: 'FX 004' }
                 ]}   
             />
         </div>

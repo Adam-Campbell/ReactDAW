@@ -5,6 +5,7 @@ import ReactModal from 'react-modal';
 import { modalTypes } from '../../constants';
 import LoadModal from '../LoadModal';
 import SaveModal from '../SaveModal';
+import AttributionModal from '../AttributionModal';
 
 ReactModal.setAppElement('#root');
 
@@ -15,6 +16,9 @@ export const getModalContent = modalType => {
 
         case modalTypes.saveAs:
             return <SaveModal />;
+
+        case modalTypes.attribution:
+            return <AttributionModal />;
 
         case modalTypes.help:
             return null;

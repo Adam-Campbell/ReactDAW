@@ -1,8 +1,8 @@
 .effect {
     &__container {
         width: 350px;
-        background-color: $color--deep-purple;
-        color: $color--pink;
+        background-color: $color--background-dark;
+        color: $color--main;
         border: solid 4px;
         padding: 16px;
         @include boxShadow();
@@ -17,8 +17,8 @@
     &__title {
         font-family: $font--primary;
         font-size: 36px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
     }
     &__settings-container {
         display: flex;

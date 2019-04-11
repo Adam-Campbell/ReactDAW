@@ -1,7 +1,8 @@
 export const modalTypes = {
     open: 'Open',
     saveAs: 'Save As',
-    help: 'help'
+    help: 'help',
+    attribution: 'attribution'
 };
 
 export const toolTypes = {

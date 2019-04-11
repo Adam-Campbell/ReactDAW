@@ -47,7 +47,7 @@
         height: 16px;
         width: 32px;
         border-radius: 2px;
-        background: $color--pink;
+        background: $color--main;
         cursor: pointer;
         margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     }
@@ -55,20 +55,20 @@
         height: 16px;
         width: 16px;
         border-radius: 8px;
-        background: $color--pink;
+        background: $color--main;
         cursor: pointer;
     }
     &::-ms-thumb { 
         height: 16px;
         width: 16px;
         border-radius: 8px;
-        background: $color--pink;
+        background: $color--main;
         cursor: pointer;
     }
     &::-webkit-slider-runnable-track { 
         width: 100px;
         height: 6px;
-        background: $color--light-purple;
+        background: $color--background-medium;
         border-radius: 1px;
     }
     &__label {

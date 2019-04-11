@@ -68,7 +68,7 @@ class SectionsLayer extends Component {
                             width={section.width}
                             fill={
                                 this.props.currentlySelectedSections.includes(section.sectionId) ? 
-                                UIColors.darkGrey :
+                                UIColors.backgroundMedium :
                                 section.color
                             }
                             stroke={UIColors.offWhite}

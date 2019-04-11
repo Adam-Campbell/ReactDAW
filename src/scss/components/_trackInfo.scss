@@ -4,17 +4,17 @@
     padding-left: 8px;
     padding-right: 8px;
     height: 70px;
-    background-color: $color--deep-purple;
-    border: solid 4px $color--pink;
-    @include boxShadow($color--pink);
+    background-color: $color--background-dark;
+    border: solid 4px $color--main;
+    @include boxShadow($color--main);
     &.selected {
-        background-color: $color--light-purple;
+        background-color: $color--background-medium;
     }
     &__track-name {
         font-family: $font--primary;
         font-size: 18px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         margin-top: 0;
         margin-bottom: 4px;
     }
@@ -25,28 +25,28 @@
         display: block;
         font-family: $font--primary;
         font-size: 18px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         margin-top: 0;
         margin-bottom: 2px;
     }
     &__button {
         width: 18px;
         height: 18px;
-        background-color: $color--pink;
-        color: $color--deep-purple;
+        background-color: $color--main;
+        color: $color--background-dark;
         font-family: $font--primary;
         font-size: 16px;
         border: none;
         cursor: pointer;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
         & + & {
             margin-left: 8px;
         }
         &.active {
-            color: $color--pink;
-            background-color: $color--deep-purple;
-            @include boxShadow($color--deep-purple);
+            color: $color--main;
+            background-color: $color--background-dark;
+            @include boxShadow($color--background-dark);
         }
     }
     &__color-picker {

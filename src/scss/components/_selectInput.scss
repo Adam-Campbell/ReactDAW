@@ -17,17 +17,17 @@
             width: 32px;
             height: 32px;
             padding: 6px;
-            background-color: $color--pink;
-            color: $color--deep-purple;
+            background-color: $color--main;
+            color: $color--background-dark;
             text-align: center;
             border-radius: 3px 0 0 3px;
             svg {
-                fill: $color--deep-purple;
+                fill: $color--background-dark;
             }
         }
     }
     &__option {
         background-color: $color--off-white;
-        color: $color--deep-purple;
+        color: $color--background-dark;
     }
 }

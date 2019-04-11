@@ -92,8 +92,8 @@ class ScrollBarLayer extends Component {
                     y={this.props.stageHeight - 24}
                     width={this.props.stageWidth}
                     height={24}
-                    fill={UIColors.lightPurple}
-                    shadowColor={UIColors.lightPurple}
+                    fill={UIColors.backgroundLight}
+                    shadowColor={UIColors.backgroundLight}
                     shadowBlur={4}
                     shadowOffsetX={0}
                     shadowOffsetY={0}
@@ -101,7 +101,7 @@ class ScrollBarLayer extends Component {
                 <Rect 
                     width={100}
                     height={14}
-                    fill={UIColors.pink}
+                    fill={UIColors.main}
                     x={this.props.padding}
                     y={this.props.stageHeight - 19}
                     draggable={true}
@@ -116,8 +116,8 @@ class ScrollBarLayer extends Component {
                     y={0}
                     width={24}
                     height={this.props.stageHeight}
-                    fill={UIColors.lightPurple}
-                    shadowColor={UIColors.lightPurple}
+                    fill={UIColors.backgroundLight}
+                    shadowColor={UIColors.backgroundLight}
                     shadowBlur={4}
                     shadowOffsetX={0}
                     shadowOffsetY={0}
@@ -125,7 +125,7 @@ class ScrollBarLayer extends Component {
                 <Rect 
                     width={14}
                     height={100}
-                    fill={UIColors.pink}
+                    fill={UIColors.main}
                     y={this.props.padding}
                     x={this.props.stageWidth - 19}
                     draggable={true}

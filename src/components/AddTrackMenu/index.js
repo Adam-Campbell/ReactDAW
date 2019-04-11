@@ -29,7 +29,7 @@ export class AddTrackMenuContainer extends Component {
         this.props.addChannel(
             generateId(),
             `Channel ${this.props.numberOfChannels + 1}`,
-            UIColors.pink,
+            UIColors.main,
             generateId(),
             instrumentType
         );

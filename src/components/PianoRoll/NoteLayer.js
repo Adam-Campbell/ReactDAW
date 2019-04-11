@@ -49,13 +49,19 @@ class NoteLayer extends Component {
                         y={note.y}
                         width={note.width}
                         height={16}
-                        stroke={UIColors.pink}
+                        stroke={this.props.currentlySelectedNotes.includes(note._id) ? 
+                            UIColors.backgroundLight :
+                            UIColors.mainAlt
+                        }
                         strokeWidth={2}
                         fill={this.props.currentlySelectedNotes.includes(note._id) ? 
-                            UIColors.darkGrey :
-                            '#ed90b9'
+                            UIColors.backgroundMedium :
+                            UIColors.main
                         }
-                        shadowColor={UIColors.pink}
+                        shadowColor={this.props.currentlySelectedNotes.includes(note._id) ? 
+                            UIColors.backgroundDark :
+                            UIColors.mainAlt
+                        }
                         shadowBlur={4}
                         shadowOffsetX={0}
                         shadowOffsetY={0}

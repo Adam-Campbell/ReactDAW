@@ -7,7 +7,7 @@
     }
     &__label {
         font-family: $font--primary;
-        color: $color--pink;
+        color: $color--main;
         font-size: 16px;
         margin-top: 0;
         margin-bottom: 0;
@@ -34,12 +34,12 @@
         background-color: $color--off-white;
         transition: background 0.25s ease-in-out;
         &:hover {
-            background-color: #ccc9c9;
+            background-color: $color--off-white-alt;
         }
     }
     &__item-text {
         font-family: $font--primary;
-        color: $color--deep-purple;
+        color: $color--background-dark;
         font-size: 16px;
         margin-top: 0;
         margin-bottom: 0;
