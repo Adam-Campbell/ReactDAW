@@ -1,6 +1,6 @@
 import Tone from 'tone';
 import Drum from './Drum';
-import { drumSampleURLs } from '../../constants';
+import drumSampleURLs from '../../soundFiles';
 import { createPitchesArray } from '../../sharedUtils';
 
 class DrumKit {
