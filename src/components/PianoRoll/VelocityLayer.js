@@ -131,6 +131,7 @@ class VelocityLayer extends Component {
                 y={this.props.stageHeight - 134}
                 ref={this.props.velocityLayerRef}
                 onClick={this.handleVelocityLayerClick}
+                onMouseDown={e => e.cancelBubble = true}
                 onMouseUp={e => e.cancelBubble = true}
             >
                 <Line 
