@@ -22,7 +22,7 @@ export const FileMenu = props => {
             onClick={props.toggleMenu}
         >
             <p 
-                className="menu__label"
+                className={`menu__label ${props.isOpen ? 'menu__label--open' : ''}`}
             >File</p>
             <ul 
                 className={`menu__list ${props.isOpen ? 'menu__list--visible' : ''}`}

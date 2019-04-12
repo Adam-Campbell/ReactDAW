@@ -28,9 +28,6 @@
     &.range-input__vertical {
         transform: rotate(-90deg);
     }
-    &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-    }
     &:focus {
         outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
     }
@@ -50,6 +47,7 @@
         background: $color--main;
         cursor: pointer;
         margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+        @include boxShadow($color--main);
     }
     &::-moz-range-thumb {
         height: 16px;
@@ -57,6 +55,7 @@
         border-radius: 8px;
         background: $color--main;
         cursor: pointer;
+        @include boxShadow($color--main);
     }
     &::-ms-thumb { 
         height: 16px;
@@ -64,6 +63,7 @@
         border-radius: 8px;
         background: $color--main;
         cursor: pointer;
+        @include boxShadow($color--main);
     }
     &::-webkit-slider-runnable-track { 
         width: 100px;
@@ -74,5 +74,6 @@
     &__label {
         font-family: $font--primary;
         font-size: 16px;
+        @include textShadow();
     }
 }

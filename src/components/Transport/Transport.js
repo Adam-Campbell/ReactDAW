@@ -10,7 +10,8 @@ import { ReactComponent as BackIcon } from '../Icons/backIcon.svg';
 import ToggleMenu from '../ToggleMenu';
 import FileMenu from './FileMenu';
 import EditMenu from './EditMenu';
-import ViewMenu from './ViewMenu';
+import HelpMenu from './HelpMenu';
+import DemosMenu from './DemosMenu';
 import ToolSelectionMenu from './ToolSelectionMenu';
 import NoteSettingsMenu from './NoteSettingsMenu';
 
@@ -26,7 +27,10 @@ const Transport = props => (
             {(props) => <EditMenu {...props} />}
         </ToggleMenu>
         <ToggleMenu>
-            {(props) => <ViewMenu {...props} />}
+            {(props) => <HelpMenu {...props} />}
+        </ToggleMenu>
+        <ToggleMenu>
+            {(props) => <DemosMenu {...props} />}
         </ToggleMenu>
 
         <button 

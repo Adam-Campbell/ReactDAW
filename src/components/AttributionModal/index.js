@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
 
 const AttributionModal = (props) => (
-    <>
+    <div className="attribution-modal__container">
         <button
-            className="button pink"
+            className="button main-color"
             onClick={props.closeModal}
-        >Close</button>
+        >X</button>
         <div className="modal__text-container">
             <h1 className="modal__title">Icon Attributions</h1>
             <p className="modal__text">
@@ -16,7 +16,7 @@ const AttributionModal = (props) => (
                 the <a className="modal__link" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons license</a>.
             </p>
         </div>
-    </>
+    </div>
 );
 
 

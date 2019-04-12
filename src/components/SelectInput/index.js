@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 const SelectInput = props => (
     <React.Fragment>
         <label 
-            className={`select-input__label pink ${props.withBlockLabel ? 'select-input__label--block' : ''}`}
+            className={`select-input__label main-color ${props.withBlockLabel ? 'select-input__label--block' : ''}`}
             htmlFor={props.inputId}
         >{props.label}</label>
         <select
-            className="select-input pink"
+            className="select-input main-color"
             value={props.value}
             id={props.inputId}
             onChange={props.handleChange}

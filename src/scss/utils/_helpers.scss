@@ -5,9 +5,13 @@
 .light-purple {
     color: $color--background-medium;
 }
+
+.main-color {
+    color: $color--main;
+}
   
 .pink {
-    color: $color--main;
+    color: $color--pink;
 }
   
 .off-white {
@@ -26,6 +30,3 @@
     color: $color--bright-red;
 }
   
-.bright-green {
-    color: $color--pink;
-}
