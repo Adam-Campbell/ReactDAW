@@ -2,21 +2,21 @@
     &__container {
         height: 650px;
         width: 800px; 
-        border: solid 2px $color--pink;
+        border: solid 2px $color--main;
         box-sizing: content-box;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
     &__canvas-container {
         height: 600px;
         overflow: auto;
-        background-color: $color--deep-purple;
+        background-color: $color--background-dark;
     }
     &__controls-container {
         height: 50px;
-        background-color: $color--deep-purple;
-        border: solid 2px $color--pink;
+        background-color: $color--background-dark;
+        border: solid 2px $color--main;
         display: flex;
         align-items: center;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
 }

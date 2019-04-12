@@ -1,9 +1,13 @@
 .deep-purple {
-    color: $color--deep-purple;
+    color: $color--background-dark;
 }
   
 .light-purple {
-    color: $color--light-purple;
+    color: $color--background-medium;
+}
+
+.main-color {
+    color: $color--main;
 }
   
 .pink {
@@ -26,6 +30,3 @@
     color: $color--bright-red;
 }
   
-.bright-green {
-    color: $color--bright-green;
-}

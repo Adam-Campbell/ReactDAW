@@ -33,10 +33,10 @@ class TrackColorSwatch extends Component {
             >
                 <span 
                     className="track-info__color-swatch"
-                    onClick={() =>this.props.handleColorSwatchClick(UIColors.pink)}
+                    onClick={() =>this.props.handleColorSwatchClick(UIColors.main)}
                     style={{
-                        backgroundColor: UIColors.pink,
-                        color: UIColors.pink
+                        backgroundColor: UIColors.main,
+                        color: UIColors.main
                     }}
                 ></span>
                 <span 
@@ -65,10 +65,10 @@ class TrackColorSwatch extends Component {
                 ></span>
                 <span 
                     className="track-info__color-swatch"
-                    onClick={() =>this.props.handleColorSwatchClick(UIColors.brightGreen)}
+                    onClick={() =>this.props.handleColorSwatchClick(UIColors.pink)}
                     style={{
-                        backgroundColor: UIColors.brightGreen,
-                        color: UIColors.brightGreen
+                        backgroundColor: UIColors.pink,
+                        color: UIColors.pink
                     }}
                 ></span>
             </div>,

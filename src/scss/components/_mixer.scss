@@ -1,14 +1,14 @@
 .mixer {
     &__container {
-        background-color: $color--deep-purple;
-        border: solid 4px $color--pink;
+        background-color: $color--background-dark;
+        border: solid 4px $color--main;
         box-sizing: initial;
         min-height: 260px;
         width: 960px;
         display: flex;
         margin-left: auto;
         margin-right: auto;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
     &__channel-controls-container {
         padding: 16px;
@@ -60,13 +60,13 @@
     &__button {
         width: 18px;
         height: 18px;
-        background-color: $color--pink;
-        color: $color--deep-purple;
+        background-color: $color--main;
+        color: $color--background-dark;
         font-family: $font--primary;
         font-size: 16px;
         border: none;
         cursor: pointer;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
         margin-left: 16px;
         margin-right: 16px;
         &.mixer__button--active {
@@ -80,10 +80,10 @@
     &__volume-marker {
         margin-top: 0;
         margin-bottom: 0;
-        color: $color--pink;
+        color: $color--main;
         font-family: $font--primary;
         font-size: 14px;
-        @include textShadow($color--pink);
+        @include textShadow($color--main);
     }
     &__pan-label-container {
         display: flex;
@@ -92,15 +92,15 @@
     &__pan-label {
         font-family: $font--primary;
         font-size: 14px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         margin: 0 16px;
     }
     &__track-name {
         font-family: $font--primary;
         font-size: 16px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -109,8 +109,8 @@
     &__master-controls-container {
         width: 100px;
         margin-left: auto;
-        border-left: solid 4px $color--pink;
-        @include boxShadow($color--pink);
+        border-left: solid 4px $color--main;
+        @include boxShadow($color--main);
     }
     &__master-slider-container {
         display: flex;
@@ -131,10 +131,10 @@
     &__master-volume-marker {
         margin-top: 0;
         margin-bottom: 0;
-        color: $color--pink;
+        color: $color--main;
         font-family: $font--primary;
         font-size: 14px;
-        @include textShadow($color--pink);
+        @include textShadow($color--main);
     }
     &__master-meter-outer {
         display: inline-block;

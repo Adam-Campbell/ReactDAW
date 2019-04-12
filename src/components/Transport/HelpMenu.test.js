@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewMenu } from './ViewMenu';
+import { HelpMenu } from './HelpMenu';
 import { shallow } from 'enzyme';
 
 test('renders closed state correctly', () => {

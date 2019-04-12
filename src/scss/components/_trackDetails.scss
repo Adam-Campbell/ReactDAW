@@ -1,23 +1,23 @@
 .track-details {
     &__container {
         width: 600px;
-        background-color: $color--deep-purple;
-        color: $color--pink;
-        border: solid 4px $color--pink;
+        background-color: $color--background-dark;
+        color: $color--main;
+        border: solid 4px $color--main;
         padding: 16px;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
     &__heading {
         font-family: $font--primary;
         font-size: 36px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
     }
     &__instrument-select-label {
         font-family: $font--primary;
         font-size: 16px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         display: block;
     }
     &__instrument-select {
@@ -25,21 +25,21 @@
         font-size: 16px;
         padding: 4px 8px;
         background: none;
-        color: $color--pink;
+        color: $color--main;
         border: solid 2px;
-        @include textShadow($color--pink);
-        @include boxShadow($color--pink);
+        @include textShadow($color--main);
+        @include boxShadow($color--main);
     }
     &__instrument-select-option {
         background-color: $color--off-white;
-        color: $color--deep-purple;
+        color: $color--background-dark;
     }
     &__instrument-settings-button {
         margin-left: auto;
         background: none;
-        color: $color--pink;
-        @include textShadow($color--pink);
-        @include boxShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
+        @include boxShadow($color--main);
         border: solid 2px;
         font-family: $font--primary;
         font-size: 18px;
@@ -51,27 +51,27 @@
         font-size: 16px;
         padding: 4px 8px;
         background: none;
-        color: $color--pink;
+        color: $color--main;
         border: solid 2px;
-        @include textShadow($color--pink);
-        @include boxShadow($color--pink);
+        @include textShadow($color--main);
+        @include boxShadow($color--main);
     }
     &__effect-select-option {
         background-color: $color--off-white;
-        color: $color--deep-purple;
+        color: $color--background-dark;
     }
     &__effect-select-label {
         font-family: $font--primary;
         font-size: 16px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
         display: block;
     }
     &__effect-button {
         background: none;
-        color: $color--pink;
-        @include textShadow($color--pink);
-        @include boxShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
+        @include boxShadow($color--main);
         border: solid 2px;
         font-family: $font--primary;
         font-size: 18px;
@@ -81,7 +81,7 @@
     &__effect-text {
         font-family: $font--primary;
         font-size: 16px;
-        color: $color--pink;
-        @include textShadow($color--pink);
+        color: $color--main;
+        @include textShadow($color--main);
     }
 }

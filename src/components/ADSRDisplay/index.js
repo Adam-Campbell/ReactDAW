@@ -86,7 +86,7 @@ class ADSRDisplay extends Component {
                             y={0}
                             width={300}
                             height={120}
-                            fill={UIColors.lightPurple}
+                            fill={UIColors.backgroundMedium}
                         />
                     </Layer>
                     <Layer x={30} y={10}>

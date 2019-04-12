@@ -7,9 +7,9 @@
         top: 40px;
         left: 0;
         z-index: 2000;
-        background-color: $color--deep-purple;
-        border: solid 2px $color--pink;
-        @include boxShadow($color--pink);
+        background-color: $color--background-dark;
+        border: solid 2px $color--main;
+        @include boxShadow($color--main);
         &.show-menu {
             display: initial;
         }
@@ -24,22 +24,22 @@
         align-items: center;
         justify-content: center;
         height: 40px;
-        background-color: $color--deep-purple;
-        color: $color--pink;
+        background-color: $color--background-dark;
+        color: $color--main;
         font-family: $font--primary;
         font-size: 24px;
         cursor: pointer;
-        border: solid 2px $color--pink;
-        @include boxShadow($color--pink);
+        border: solid 2px $color--main;
+        @include boxShadow($color--main);
     }
     &__button {
         width: 220px;
         height: 40px;
-        background-color: $color--pink;
-        color: $color--deep-purple;
+        background-color: $color--main;
+        color: $color--background-dark;
         font-family: $font--primary;
         font-size: 24px;
         border: none;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
 }

@@ -22,7 +22,7 @@ export const FileMenu = props => {
             onClick={props.toggleMenu}
         >
             <p 
-                className="menu__label"
+                className={`menu__label ${props.isOpen ? 'menu__label--open' : ''}`}
             >File</p>
             <ul 
                 className={`menu__list ${props.isOpen ? 'menu__list--visible' : ''}`}
@@ -50,6 +50,12 @@ export const FileMenu = props => {
                     onClick={() => props.openModal(modalTypes.saveAs)}
                 >
                     <p className="menu__item-text">Save As</p>
+                </li>
+                <li 
+                    className="menu__item"
+                    onClick={() => props.openModal(modalTypes.attribution)}
+                >
+                    <p className="menu__item-text">View Icon Attributions</p>
                 </li>
             </ul>
         </div>

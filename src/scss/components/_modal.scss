@@ -11,24 +11,23 @@
         background-color: rgba(17,17,17,0.8);
     }
     &__content-container {
-        width: 320px;
         min-height: 220px;
-        background-color: $color--deep-purple;
-        color: $color--pink;
+        background-color: $color--background-dark;
+        color: $color--main;
         border: solid 2px;
         padding: 16px;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
     &__text-input {
         width: 100%;
-        background-color: $color--light-purple;
-        color: $color--pink;
+        background-color: $color--background-medium;
+        color: $color--main;
         padding: 8px 16px;
         border: solid 2px;
         font-family: $font--primary;
         font-size: 16px;
-        @include textShadow($color--pink);
-        @include boxShadow($color--pink);
+        @include textShadow($color--main);
+        @include boxShadow($color--main);
         &::placeholder {
             color: $color--bright-yellow;
         }
@@ -40,10 +39,96 @@
     &__list-item {
         font-family: $font--primary;
         font-size: 18px;
-        @include textShadow($color--pink);
+        @include textShadow($color--main);
         padding: 4px 8px;
         cursor: pointer;
         margin-top: 8px;
         margin-bottom: 8px;
+    }
+    &__title {
+        font-family: $font--primary;
+        font-size: 32px;
+        color: $color--main;
+        margin: 16px 0;
+        @include textShadow();
+    }
+    &__text {
+        font-family: $font--primary;
+        font-size: 18px;
+        color: $color--main;
+        @include textShadow();
+    }
+    &__link {
+        color: $color--off-white;
+        &:hover {
+            color: $color--off-white-alt;
+        }
+    }
+    &__text-container {
+        padding: 0 8px;
+    }
+}
+
+.save-modal__container {
+    width: 320px;
+    min-height: 220px;
+    padding: 8px;
+}
+
+.load-modal__container {
+    width: 260px;
+    min-height: 120px;
+    padding: 8px;
+}
+
+.attribution-modal__container {
+    width: 580px;
+    min-height: 220px;
+}
+
+.shortcuts-modal__container {
+    width: 580px;
+    min-height: 220px;
+}
+
+.shortcuts-table {
+    width: 100%;
+    table-layout: fixed;
+    font-family: $font--primary;
+    color: $color--main;
+    border-collapse: collapse;
+    border: solid 2px;
+    margin-top: 30px;
+    @include boxShadow();
+    @include textShadow();
+    &__caption {
+        margin-bottom: 10px;
+    }
+    &__head {
+        background: $color--main;
+    }
+    &__row {
+        &:nth-child(odd) {
+            background: $color--background-medium;
+        }
+        &:nth-child(even) {
+            background: $color--background-dark;
+        }
+    }
+    &__header-cell--left {
+        width: 30%;
+        font-size: 24px;
+        color: $color--background-dark;
+        padding: 8px;
+    }
+    &__header-cell--right {
+        width: 70%;
+        font-size: 24px;
+        color: $color--background-dark;
+        padding: 8px;
+    }
+    &__data-cell {
+        padding: 8px;
+        text-align: center;
     }
 }

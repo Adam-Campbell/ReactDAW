@@ -38,7 +38,7 @@ class TransportLayer extends Component {
                     y={0}
                     width={this.props.canvasWidth}
                     height={40}
-                    fill={UIColors.deepPurple}
+                    fill={UIColors.backgroundDark}
                 />
                 {
                     new Array(200).fill(0).map((el, index) => (

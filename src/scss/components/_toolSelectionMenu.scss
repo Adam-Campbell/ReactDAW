@@ -1,7 +1,7 @@
 .tool-selection-menu {
     border: solid 2px;
     border-radius: 3px;
-    color: $color--pink;
+    color: $color--main;
     margin-left: 32px;
     display: flex;
     &__radio-button {
@@ -12,21 +12,21 @@
     }
     &__label {
         padding: 7px;
-        color: $color--pink;
+        color: $color--main;
         width: 28px;
         height: 28px;
         cursor: pointer;
         svg {
-            fill: $color--pink;
+            fill: $color--main;
         }
         .tool-selection-menu__radio-button:hover + & {
-            background-color: $color--deep-purple;
+            background-color: $color--background-dark;
         }
         .tool-selection-menu__radio-button:checked + & {
-            background-color: $color--pink;
-            color: $color--deep-purple;
+            background-color: $color--main;
+            color: $color--background-dark;
             svg {
-                fill: $color--deep-purple;
+                fill: $color--background-dark;
             }
         }
 

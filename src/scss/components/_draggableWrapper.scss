@@ -4,24 +4,24 @@
     top: 0;
     left: 0;
     &__header {
-        background-color: $color--pink;
-        border: solid 4px $color--pink;
+        background-color: $color--main;
+        border: solid 4px $color--main;
         border-bottom: none;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         cursor: pointer;
-        @include boxShadow($color--pink);
+        @include boxShadow($color--main);
     }
     &__button {
-        background: $color--deep-purple;
-        color: $color--pink;
+        background: $color--background-dark;
+        color: $color--main;
         border: solid 2px;
         font-family: $font--primary;
         font-size: 18px;
         padding: 4px 8px;
         cursor: pointer;
-        @include boxShadow($color--pink);
-        @include textShadow($color--pink);
+        @include boxShadow($color--main);
+        @include textShadow($color--main);
     }
 }

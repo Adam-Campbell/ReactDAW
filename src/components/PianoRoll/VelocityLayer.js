@@ -137,9 +137,9 @@ class VelocityLayer extends Component {
                 <Line 
                     points={[0, 0, this.props.canvasWidth, 0]}
                     listening={false}
-                    stroke={UIColors.pink}
+                    stroke={UIColors.main}
                     strokeWidth={4}
-                    shadowColor={UIColors.pink}
+                    shadowColor={UIColors.main}
                     shadowBlur={4}
                     shadowOffsetX={0}
                     shadowOffsetY={0}
@@ -149,11 +149,11 @@ class VelocityLayer extends Component {
                     y={0}
                     height={110}
                     width={this.props.canvasWidth} 
-                    fill={UIColors.deepPurple}
+                    fill={UIColors.backgroundDark}
                 />
                 {this.props.unselectedNotes.map(note => (
                     <Rect 
-                        fill={UIColors.pink}
+                        fill={UIColors.main}
                         width={8}
                         height={note.velocity*100}
                         x={note.x}
@@ -163,7 +163,7 @@ class VelocityLayer extends Component {
                 ))}
                 {this.props.selectedNotes.map(note => (
                     <Rect 
-                        fill={UIColors.lightPurple}
+                        fill={UIColors.backgroundMedium}
                         width={8}
                         height={note.velocity*100}
                         x={note.x}

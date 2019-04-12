@@ -54,7 +54,7 @@ class TransportLayer extends Component {
                     y={0}
                     width={this.props.canvasWidth+52}
                     height={40}
-                    fill={UIColors.deepPurple}
+                    fill={UIColors.backgroundDark}
                 />
                 {this.props.transportBarNumbersArray.map((barObject, index) =>(
                     <Text 
