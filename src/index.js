@@ -5,6 +5,9 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
 import { DraggableWindowContextProvider } from './components/DraggableWindowContext';
+import Tone from 'tone';
+
+//Tone.context.latencyHint = 'playback';
 
 ReactDOM.render(
     <Provider store={store}>

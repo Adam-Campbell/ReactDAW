@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
+import { preludeData, divinityData } from '../../demoData';
 
 const DemosMenu = (props) => (
     <div 
@@ -17,12 +18,24 @@ const DemosMenu = (props) => (
         >
             <li 
                 className="menu__item"
+                onClick={() => props.loadDemo('Prelude_demo', preludeData)}
             >
-                <p className="menu__item-text">Demo goes here</p>
+                <p className="menu__item-text">Prelude</p>
+            </li>
+            <li 
+                className="menu__item"
+                onClick={() => props.loadDemo('Divinity_demo', divinityData)}
+            >
+                <p className="menu__item-text">Divinity</p>
             </li>
         </ul>
     </div>
 );
 
 // will need to be connected once all of the functionality exists.
-export default DemosMenu;
+export default connect(
+    undefined,
+    {
+        loadDemo: ActionCreators.loadStateSuccess
+    }
+)(DemosMenu);

@@ -45,7 +45,7 @@ const loadStateAttempt = (saveName) => ({
     }
 });
 
-const loadStateSuccess = (saveName, loadedState) => ({
+export const loadStateSuccess = (saveName, loadedState) => ({
     type: actionTypes.LOAD_STATE_SUCCESS,
     payload: {
         saveName, 

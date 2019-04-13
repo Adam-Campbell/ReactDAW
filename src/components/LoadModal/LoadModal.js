@@ -10,7 +10,7 @@ const LoadTrackModal = props => (
         <div className="load-modal__container">
             
             <ul className="modal__list">
-            {props.savedTracks.lenght ? props.savedTracks.map((trackName, index) => (
+            {props.savedTracks.length ? props.savedTracks.map((trackName, index) => (
                 <li
                     className="modal__list-item"
                     key={index}

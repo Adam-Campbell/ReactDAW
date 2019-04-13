@@ -54,7 +54,7 @@ class Bus {
             if (curr.isPaused) {
                 Tone.Transport.pause();
             } else if (curr.isPlaying) {
-                Tone.Transport.start();
+                Tone.Transport.start("+0.1");
             } else {
                 Tone.Transport.stop();
             }

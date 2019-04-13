@@ -454,7 +454,7 @@ export const generateNoteObjectForPasting = (optionsObject) => {
     // construct a new note object based on the note that was copied and the current transport time
     const newNoteObject = {
         pitch: noteToPaste.pitch,
-        time: Tone.Ticks(pasteAreaStartAsTicks).toBarsBeatsSixteenths(),
+        time: Tone.Ticks(pasteAreaStartAsTicks - sectionStartAsTicks).toBarsBeatsSixteenths(),
         duration: noteToPaste.duration,
         velocity: noteToPaste.velocity,
         _id: generateId(),

@@ -35,6 +35,8 @@ const PianoKeyLayer = props => (
                 pitch={pitch}
                 type={'pianoKeyRect'}
                 onClick={e => handlePianoKeyClick(e, pitch, props.channelId)}
+                onMouseDown={e => { e.cancelBubble = true; }}
+                onMouseUp={e => { e.cancelBubble = true; }}
             />
         ))}
     </Layer>
