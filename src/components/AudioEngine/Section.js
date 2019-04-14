@@ -1,5 +1,5 @@
 import Tone from 'tone';
-import { differenceWith, cloneDeep, isEqual } from 'lodash';
+import { differenceWith, isEqual } from 'lodash';
 
 window.t = Tone.Transport;
 
@@ -21,12 +21,12 @@ class Section {
 
     /**
      * Reconciles the notes for this section.
-     * @param {array} prevState - the previous state
-     * @param {array} currState - the current state
+     * @param {array} prev - the previous state
+     * @param {array} curr - the current state
      */
-    reconcile(prevState=[], currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcile(prev=[], curr) {
+        //const prev = cloneDeep(prevState);
+        //const curr = cloneDeep(currState);
         // return early if nothing has changed
         if (isEqual(prev, curr)) {
             return this;

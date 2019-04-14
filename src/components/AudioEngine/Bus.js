@@ -3,8 +3,7 @@ import Channel from './Channel';
 import { 
     isEqual, 
     differenceWith, 
-    intersectionWith, 
-    cloneDeep 
+    intersectionWith
 } from 'lodash';
 
 class Bus {
@@ -26,24 +25,20 @@ class Bus {
 
     /**
      * The main reconciliation method for this class, delegates to more specific reconciliation methods.
-     * @param {object} prevState - the previous state 
-     * @param {object} currState - the current state 
+     * @param {object} prev - the previous state 
+     * @param {object} curr - the current state 
      */
-    reconcile(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcile(prev, curr) {
         this.reconcilePlayer(prev.playerInfo, curr.playerInfo);
         this.reconcileChannels(prev.channels, curr.channels);
     }
 
     /**
      * Reconciles the playerInfo part of state.
-     * @param {object} prevState - the previous state
-     * @param {object} currState - the current state
+     * @param {object} prev - the previous state
+     * @param {object} curr - the current state
      */
-    reconcilePlayer(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcilePlayer(prev, curr) {
         // return early if nothing in this slice of state has changed.
         if (isEqual(prev, curr)) {
             return;
@@ -73,12 +68,10 @@ class Bus {
 
     /**
      * Reconciles the channels part of state
-     * @param {array} prevState - the previous state 
-     * @param {array} currState - the current state
+     * @param {array} prev - the previous state 
+     * @param {array} curr - the current state
      */
-    reconcileChannels(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcileChannels(prev, curr) {
         // return early if nothing has changed
         if (isEqual(prev, curr)) {
             return;

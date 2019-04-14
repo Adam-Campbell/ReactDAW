@@ -6,8 +6,7 @@ import {
     isEqual, 
     isEqualWith, 
     differenceWith, 
-    intersectionWith,
-    cloneDeep
+    intersectionWith
 } from 'lodash';
 
 const channelSkeletonData = {
@@ -62,13 +61,13 @@ class Channel {
 
     /**
      * The main reconciliation method for this class, delegates to more specific reconciliation methods.
-     * @param {object} prevState - the previous state
-     * @param {object} currState - the current state
+     * @param {object} prev - the previous state
+     * @param {object} curr - the current state
      * @returns {object} - a reference to this instance of the class, for the purposes of chaining.
      */
-    reconcile(prevState=channelSkeletonData, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcile(prev=channelSkeletonData, curr) {
+        //const prev = cloneDeep(prevState);
+        //const curr = cloneDeep(currState);
         this.reconcileInstrument(prev.instrument, curr.instrument);
         this.reconcileEffects(prev.effects, curr.effects);
         this.reconcileSections(prev.sections, curr.sections);
@@ -78,12 +77,10 @@ class Channel {
 
     /**
      * Reconciles the instrument for the channel
-     * @param {object} prevState - the previous state
-     * @param {object} currState - the current state
+     * @param {object} prev - the previous state
+     * @param {object} curr - the current state
      */
-    reconcileInstrument(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcileInstrument(prev, curr) {
         // return early if nothing has changed
         if (isEqual(prev, curr)) {
             return this;
@@ -101,12 +98,10 @@ class Channel {
 
     /**
      * Reconcile the effects for this class
-     * @param {array} prevState - the previous state
-     * @param {array} currState - the current state
+     * @param {array} prev - the previous state
+     * @param {array} curr - the current state
      */
-    reconcileEffects(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcileEffects(prev, curr) {
         // if absolutely nothing has changed, just return early.
         if (isEqual(prev, curr)) {
             return;
@@ -132,12 +127,10 @@ class Channel {
 
     /**
      * Reconcile this channels sections
-     * @param {array} prevState - the previous state
-     * @param {array} currState - the current state
+     * @param {array} prev - the previous state
+     * @param {array} curr - the current state
      */
-    reconcileSections(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcileSections(prev, curr) {
         if (isEqual(prev, curr)) {
             return;
         }
@@ -173,12 +166,10 @@ class Channel {
 
     /**
      * Reconciles this channels settings - volume, pan, isMuted and isSolo.
-     * @param {object} prevState - the previous state 
-     * @param {object} currState - the current state
+     * @param {object} prev - the previous state 
+     * @param {object} curr - the current state
      */
-    reconcileChannelSettings(prevState, currState) {
-        const prev = cloneDeep(prevState);
-        const curr = cloneDeep(currState);
+    reconcileChannelSettings(prev, curr) {
         if (prev.volume !== curr.volume) {
             this.setVolume(curr.volume);
         }
