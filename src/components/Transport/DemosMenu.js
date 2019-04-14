@@ -32,7 +32,12 @@ const DemosMenu = (props) => (
     </div>
 );
 
-// will need to be connected once all of the functionality exists.
+DemosMenu.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    toggleMenu: PropTypes.func.isRequired,
+    containerRef: PropTypes.object.isRequired
+};
+
 export default connect(
     undefined,
     {
