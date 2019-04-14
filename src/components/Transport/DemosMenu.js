@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { preludeData, divinityDataNew } from '../../demoData';
+import { preludeData, divinityData } from '../../demoData';
 
 const DemosMenu = (props) => (
     <div 
@@ -24,7 +24,7 @@ const DemosMenu = (props) => (
             </li>
             <li 
                 className="menu__item"
-                onClick={() => props.loadDemo('Divinity_demo', divinityDataNew)}
+                onClick={() => props.loadDemo('Divinity_demo', divinityData)}
             >
                 <p className="menu__item-text">Divinity</p>
             </li>
