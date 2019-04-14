@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ActionCreators from '../../actions';
-import { preludeData, divinityData } from '../../demoData';
+import { preludeData, divinityDataNew } from '../../demoData';
 
 const DemosMenu = (props) => (
     <div 
@@ -24,7 +24,7 @@ const DemosMenu = (props) => (
             </li>
             <li 
                 className="menu__item"
-                onClick={() => props.loadDemo('Divinity_demo', divinityData)}
+                onClick={() => props.loadDemo('Divinity_demo', divinityDataNew)}
             >
                 <p className="menu__item-text">Divinity</p>
             </li>
@@ -32,7 +32,12 @@ const DemosMenu = (props) => (
     </div>
 );
 
-// will need to be connected once all of the functionality exists.
+DemosMenu.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    toggleMenu: PropTypes.func.isRequired,
+    containerRef: PropTypes.object.isRequired
+};
+
 export default connect(
     undefined,
     {
